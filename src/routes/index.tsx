@@ -31,7 +31,8 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
-  const [lead, ...rest] = stories;
+  const lead = stories[0]!;
+  const rest = stories.slice(1);
   const secondary = rest.slice(0, 2);
   const grid = rest.slice(2, 6);
   const upcoming = events.slice(0, 3);

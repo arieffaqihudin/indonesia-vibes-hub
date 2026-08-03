@@ -1,6 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 
 import { StoryCard } from "@/components/editorial/StoryCard";
+import type { Story } from "@/types/content";
 import {
   formatDate,
   getForm,
@@ -11,7 +12,7 @@ import {
 } from "@/data/content";
 
 export const Route = createFileRoute("/stories/$slug")({
-  loader: ({ params }) => {
+  loader: ({ params }): { story: Story } => {
     const story = getStory(params.slug);
     if (!story) throw notFound();
     return { story };
