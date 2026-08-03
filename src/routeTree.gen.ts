@@ -10,8 +10,13 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as AroundTheWorldRouteImport } from './routes/around-the-world'
+import { Route as CollaborateRouteImport } from './routes/collaborate'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as ContemporaryRouteImport } from './routes/contemporary'
 import { Route as HeritageRouteImport } from './routes/heritage'
+import { Route as OpportunitiesRouteImport } from './routes/opportunities'
 import { Route as PlacesRouteImport } from './routes/places'
 import { Route as ResearchRouteImport } from './routes/research'
 import { Route as CollectionsIndexRouteImport } from './routes/collections.index'
@@ -26,6 +31,26 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AroundTheWorldRoute = AroundTheWorldRouteImport.update({
+  id: '/around-the-world',
+  path: '/around-the-world',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CollaborateRoute = CollaborateRouteImport.update({
+  id: '/collaborate',
+  path: '/collaborate',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContemporaryRoute = ContemporaryRouteImport.update({
   id: '/contemporary',
   path: '/contemporary',
@@ -34,6 +59,11 @@ const ContemporaryRoute = ContemporaryRouteImport.update({
 const HeritageRoute = HeritageRouteImport.update({
   id: '/heritage',
   path: '/heritage',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OpportunitiesRoute = OpportunitiesRouteImport.update({
+  id: '/opportunities',
+  path: '/opportunities',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PlacesRoute = PlacesRouteImport.update({
@@ -79,8 +109,13 @@ const StoriesSlugRoute = StoriesSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/around-the-world': typeof AroundTheWorldRoute
+  '/collaborate': typeof CollaborateRoute
+  '/contact': typeof ContactRoute
   '/contemporary': typeof ContemporaryRoute
   '/heritage': typeof HeritageRoute
+  '/opportunities': typeof OpportunitiesRoute
   '/places': typeof PlacesRoute
   '/research': typeof ResearchRoute
   '/collections/$slug': typeof CollectionsSlugRoute
@@ -92,8 +127,13 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/around-the-world': typeof AroundTheWorldRoute
+  '/collaborate': typeof CollaborateRoute
+  '/contact': typeof ContactRoute
   '/contemporary': typeof ContemporaryRoute
   '/heritage': typeof HeritageRoute
+  '/opportunities': typeof OpportunitiesRoute
   '/places': typeof PlacesRoute
   '/research': typeof ResearchRoute
   '/collections/$slug': typeof CollectionsSlugRoute
@@ -106,8 +146,13 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/around-the-world': typeof AroundTheWorldRoute
+  '/collaborate': typeof CollaborateRoute
+  '/contact': typeof ContactRoute
   '/contemporary': typeof ContemporaryRoute
   '/heritage': typeof HeritageRoute
+  '/opportunities': typeof OpportunitiesRoute
   '/places': typeof PlacesRoute
   '/research': typeof ResearchRoute
   '/collections/$slug': typeof CollectionsSlugRoute
@@ -121,8 +166,13 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/about'
+    | '/around-the-world'
+    | '/collaborate'
+    | '/contact'
     | '/contemporary'
     | '/heritage'
+    | '/opportunities'
     | '/places'
     | '/research'
     | '/collections/$slug'
@@ -134,8 +184,13 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/about'
+    | '/around-the-world'
+    | '/collaborate'
+    | '/contact'
     | '/contemporary'
     | '/heritage'
+    | '/opportunities'
     | '/places'
     | '/research'
     | '/collections/$slug'
@@ -147,8 +202,13 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/about'
+    | '/around-the-world'
+    | '/collaborate'
+    | '/contact'
     | '/contemporary'
     | '/heritage'
+    | '/opportunities'
     | '/places'
     | '/research'
     | '/collections/$slug'
@@ -161,8 +221,13 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  AroundTheWorldRoute: typeof AroundTheWorldRoute
+  CollaborateRoute: typeof CollaborateRoute
+  ContactRoute: typeof ContactRoute
   ContemporaryRoute: typeof ContemporaryRoute
   HeritageRoute: typeof HeritageRoute
+  OpportunitiesRoute: typeof OpportunitiesRoute
   PlacesRoute: typeof PlacesRoute
   ResearchRoute: typeof ResearchRoute
   CollectionsSlugRoute: typeof CollectionsSlugRoute
@@ -182,6 +247,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/around-the-world': {
+      id: '/around-the-world'
+      path: '/around-the-world'
+      fullPath: '/around-the-world'
+      preLoaderRoute: typeof AroundTheWorldRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/collaborate': {
+      id: '/collaborate'
+      path: '/collaborate'
+      fullPath: '/collaborate'
+      preLoaderRoute: typeof CollaborateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/contemporary': {
       id: '/contemporary'
       path: '/contemporary'
@@ -194,6 +287,13 @@ declare module '@tanstack/react-router' {
       path: '/heritage'
       fullPath: '/heritage'
       preLoaderRoute: typeof HeritageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/opportunities': {
+      id: '/opportunities'
+      path: '/opportunities'
+      fullPath: '/opportunities'
+      preLoaderRoute: typeof OpportunitiesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/places': {
@@ -257,8 +357,13 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  AroundTheWorldRoute: AroundTheWorldRoute,
+  CollaborateRoute: CollaborateRoute,
+  ContactRoute: ContactRoute,
   ContemporaryRoute: ContemporaryRoute,
   HeritageRoute: HeritageRoute,
+  OpportunitiesRoute: OpportunitiesRoute,
   PlacesRoute: PlacesRoute,
   ResearchRoute: ResearchRoute,
   CollectionsSlugRoute: CollectionsSlugRoute,
@@ -271,3 +376,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
