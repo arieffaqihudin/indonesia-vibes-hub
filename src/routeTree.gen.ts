@@ -10,12 +10,60 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ContemporaryRouteImport } from './routes/contemporary'
+import { Route as HeritageRouteImport } from './routes/heritage'
+import { Route as PlacesRouteImport } from './routes/places'
+import { Route as ResearchRouteImport } from './routes/research'
+import { Route as CollectionsIndexRouteImport } from './routes/collections.index'
+import { Route as CollectionsSlugRouteImport } from './routes/collections.$slug'
+import { Route as EventsIndexRouteImport } from './routes/events.index'
+import { Route as EventsSlugRouteImport } from './routes/events.$slug'
 import { Route as StoriesIndexRouteImport } from './routes/stories.index'
 import { Route as StoriesSlugRouteImport } from './routes/stories.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContemporaryRoute = ContemporaryRouteImport.update({
+  id: '/contemporary',
+  path: '/contemporary',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HeritageRoute = HeritageRouteImport.update({
+  id: '/heritage',
+  path: '/heritage',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlacesRoute = PlacesRouteImport.update({
+  id: '/places',
+  path: '/places',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResearchRoute = ResearchRouteImport.update({
+  id: '/research',
+  path: '/research',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CollectionsIndexRoute = CollectionsIndexRouteImport.update({
+  id: '/collections/',
+  path: '/collections/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CollectionsSlugRoute = CollectionsSlugRouteImport.update({
+  id: '/collections/$slug',
+  path: '/collections/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EventsIndexRoute = EventsIndexRouteImport.update({
+  id: '/events/',
+  path: '/events/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EventsSlugRoute = EventsSlugRouteImport.update({
+  id: '/events/$slug',
+  path: '/events/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const StoriesIndexRoute = StoriesIndexRouteImport.update({
@@ -31,31 +79,97 @@ const StoriesSlugRoute = StoriesSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/contemporary': typeof ContemporaryRoute
+  '/heritage': typeof HeritageRoute
+  '/places': typeof PlacesRoute
+  '/research': typeof ResearchRoute
+  '/collections/$slug': typeof CollectionsSlugRoute
+  '/events/$slug': typeof EventsSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
+  '/collections/': typeof CollectionsIndexRoute
+  '/events/': typeof EventsIndexRoute
   '/stories/': typeof StoriesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/contemporary': typeof ContemporaryRoute
+  '/heritage': typeof HeritageRoute
+  '/places': typeof PlacesRoute
+  '/research': typeof ResearchRoute
+  '/collections/$slug': typeof CollectionsSlugRoute
+  '/events/$slug': typeof EventsSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
+  '/collections': typeof CollectionsIndexRoute
+  '/events': typeof EventsIndexRoute
   '/stories': typeof StoriesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/contemporary': typeof ContemporaryRoute
+  '/heritage': typeof HeritageRoute
+  '/places': typeof PlacesRoute
+  '/research': typeof ResearchRoute
+  '/collections/$slug': typeof CollectionsSlugRoute
+  '/events/$slug': typeof EventsSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
+  '/collections/': typeof CollectionsIndexRoute
+  '/events/': typeof EventsIndexRoute
   '/stories/': typeof StoriesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/stories/$slug' | '/stories/'
+  fullPaths:
+    | '/'
+    | '/contemporary'
+    | '/heritage'
+    | '/places'
+    | '/research'
+    | '/collections/$slug'
+    | '/events/$slug'
+    | '/stories/$slug'
+    | '/collections/'
+    | '/events/'
+    | '/stories/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/stories/$slug' | '/stories'
-  id: '__root__' | '/' | '/stories/$slug' | '/stories/'
+  to:
+    | '/'
+    | '/contemporary'
+    | '/heritage'
+    | '/places'
+    | '/research'
+    | '/collections/$slug'
+    | '/events/$slug'
+    | '/stories/$slug'
+    | '/collections'
+    | '/events'
+    | '/stories'
+  id:
+    | '__root__'
+    | '/'
+    | '/contemporary'
+    | '/heritage'
+    | '/places'
+    | '/research'
+    | '/collections/$slug'
+    | '/events/$slug'
+    | '/stories/$slug'
+    | '/collections/'
+    | '/events/'
+    | '/stories/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ContemporaryRoute: typeof ContemporaryRoute
+  HeritageRoute: typeof HeritageRoute
+  PlacesRoute: typeof PlacesRoute
+  ResearchRoute: typeof ResearchRoute
+  CollectionsSlugRoute: typeof CollectionsSlugRoute
+  EventsSlugRoute: typeof EventsSlugRoute
   StoriesSlugRoute: typeof StoriesSlugRoute
+  CollectionsIndexRoute: typeof CollectionsIndexRoute
+  EventsIndexRoute: typeof EventsIndexRoute
   StoriesIndexRoute: typeof StoriesIndexRoute
 }
 
@@ -66,6 +180,62 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contemporary': {
+      id: '/contemporary'
+      path: '/contemporary'
+      fullPath: '/contemporary'
+      preLoaderRoute: typeof ContemporaryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/heritage': {
+      id: '/heritage'
+      path: '/heritage'
+      fullPath: '/heritage'
+      preLoaderRoute: typeof HeritageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/places': {
+      id: '/places'
+      path: '/places'
+      fullPath: '/places'
+      preLoaderRoute: typeof PlacesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/research': {
+      id: '/research'
+      path: '/research'
+      fullPath: '/research'
+      preLoaderRoute: typeof ResearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/collections/': {
+      id: '/collections/'
+      path: '/collections'
+      fullPath: '/collections/'
+      preLoaderRoute: typeof CollectionsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/collections/$slug': {
+      id: '/collections/$slug'
+      path: '/collections/$slug'
+      fullPath: '/collections/$slug'
+      preLoaderRoute: typeof CollectionsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/events/': {
+      id: '/events/'
+      path: '/events'
+      fullPath: '/events/'
+      preLoaderRoute: typeof EventsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/events/$slug': {
+      id: '/events/$slug'
+      path: '/events/$slug'
+      fullPath: '/events/$slug'
+      preLoaderRoute: typeof EventsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/stories/': {
@@ -87,7 +257,15 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ContemporaryRoute: ContemporaryRoute,
+  HeritageRoute: HeritageRoute,
+  PlacesRoute: PlacesRoute,
+  ResearchRoute: ResearchRoute,
+  CollectionsSlugRoute: CollectionsSlugRoute,
+  EventsSlugRoute: EventsSlugRoute,
   StoriesSlugRoute: StoriesSlugRoute,
+  CollectionsIndexRoute: CollectionsIndexRoute,
+  EventsIndexRoute: EventsIndexRoute,
   StoriesIndexRoute: StoriesIndexRoute,
 }
 export const routeTree = rootRouteImport
