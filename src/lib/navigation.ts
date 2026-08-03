@@ -1,6 +1,7 @@
 export interface NavLeaf {
   label: string;
   to: string;
+  hash?: string;
   description: string;
 }
 
@@ -21,7 +22,7 @@ export const navigation: NavGroup[] = [
     items: [
       { label: "Stories", to: "/stories", description: "Features, interviews and field notes from across the archipelago." },
       { label: "Collections", to: "/collections", description: "Editor-curated sets that connect stories, makers and places." },
-      { label: "NOW", to: "/#now", description: "What is open, on stage or closing this week." },
+      { label: "NOW", to: "/", hash: "now", description: "What is open, on stage or closing this week." },
     ],
   },
   {
