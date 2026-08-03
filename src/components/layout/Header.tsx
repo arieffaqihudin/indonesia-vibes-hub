@@ -66,7 +66,6 @@ export function Header() {
                   {isSimple ? (
                     <Link
                       to={group.to!}
-                      hash={undefined}
                       onMouseEnter={() => {
                         cancelClose();
                         setOpen(null);
@@ -154,7 +153,7 @@ export function Header() {
                   <li key={item.to}>
                     <Link
                       to={item.to}
-                      hash={item.hash}
+                      {...(item.hash ? { hash: item.hash } : {})}
                       className="block rounded-sm px-3 py-3 transition-colors hover:bg-blush"
                     >
                       <span className="display-3 block text-[1.05rem] font-medium text-ink">
@@ -199,7 +198,7 @@ export function Header() {
                     <li key={item.to}>
                       <Link
                         to={item.to}
-                        hash={item.hash}
+                        {...(item.hash ? { hash: item.hash } : {})}
                         className="flex min-h-11 items-center text-[1.05rem] font-medium text-ink"
                       >
                         {item.label}
