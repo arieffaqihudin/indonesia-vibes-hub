@@ -66,6 +66,7 @@ export function Header() {
                   {isSimple ? (
                     <Link
                       to={group.to!}
+                      hash={undefined}
                       onMouseEnter={() => {
                         cancelClose();
                         setOpen(null);
@@ -128,7 +129,6 @@ export function Header() {
             onClick={() => setMobileOpen((v) => !v)}
             className="inline-flex h-11 w-11 items-center justify-center rounded-full text-ink lg:hidden"
           >
-            {mobileOpen ? <Menu className="hidden" /> : null}
             {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
         </div>
@@ -137,10 +137,10 @@ export function Header() {
       {/* Mega menu */}
       {navigation.map((group) => {
         const isOpen = open === group.label && group.items.length > 1;
+        if (!isOpen) return null;
         return (
           <div
             key={group.label}
-            hidden={!isOpen}
             onMouseEnter={cancelClose}
             className="absolute inset-x-0 top-full hidden border-b border-border bg-background/98 backdrop-blur-xl lg:block"
           >
@@ -154,6 +154,7 @@ export function Header() {
                   <li key={item.to}>
                     <Link
                       to={item.to}
+                      hash={item.hash}
                       className="block rounded-sm px-3 py-3 transition-colors hover:bg-blush"
                     >
                       <span className="display-3 block text-[1.05rem] font-medium text-ink">
@@ -198,6 +199,7 @@ export function Header() {
                     <li key={item.to}>
                       <Link
                         to={item.to}
+                        hash={item.hash}
                         className="flex min-h-11 items-center text-[1.05rem] font-medium text-ink"
                       >
                         {item.label}
