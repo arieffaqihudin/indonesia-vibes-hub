@@ -162,6 +162,15 @@ export interface Person {
   members?: string;
 }
 
+/** A citation a reader can follow or verify. */
+export interface Reference {
+  title: string;
+  author?: string;
+  year?: string;
+  publisher?: string;
+  note?: string;
+}
+
 export interface CulturalForm {
   id: Id;
   slug: string;
@@ -175,6 +184,17 @@ export interface CulturalForm {
   themes?: ThemeId[];
   /** Alternate and local names, used by search. */
   aliases?: string[];
+  /** Editorial subject depth */
+  whatItIs?: string;
+  practisedIn?: string;
+  whoCarries?: string;
+  whyMatters?: string;
+  today?: string;
+  experienceIt?: string;
+  sensitivity?: string;
+  sources?: Reference[];
+  reviewedBy?: string;
+  lastReviewed?: string;
 }
 
 export interface Story {
@@ -192,6 +212,11 @@ export interface Story {
   peopleIds: Id[];
   placeIds: Id[];
   featured?: boolean;
+  author?: string;
+  authorRole?: string;
+  reviewedBy?: string;
+  updatedAt?: string;
+  sources?: Reference[];
 }
 
 export interface Collection {
@@ -218,6 +243,15 @@ export interface CulturalEvent {
   live?: boolean;
   institutionIds?: Id[];
   peopleIds?: Id[];
+  organiser?: string;
+  venue?: string;
+  localTime?: string;
+  timeZone?: string;
+  admission?: string;
+  audience?: string;
+  programme?: string[];
+  context?: string;
+  lastChecked?: string;
 }
 
 export interface Opportunity {
@@ -231,6 +265,13 @@ export interface Opportunity {
   amount?: string;
   institutionIds?: Id[];
   themes?: ThemeId[];
+  location?: string;
+  duration?: string;
+  support?: string[];
+  eligibility?: string[];
+  howToApply?: string;
+  offeredBy?: string;
+  lastChecked?: string;
 }
 
 export interface ResearchPaper {
