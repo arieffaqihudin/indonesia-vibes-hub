@@ -490,7 +490,7 @@ export const forms: CulturalForm[] = [
   },
 ];
 
-export const stories: Story[] = [
+const storiesSource: Story[] = [
   {
     id: "st-1",
     slug: "two-years-in-a-single-cloth",
@@ -703,7 +703,7 @@ export const collections: Collection[] = [
   { id: "co-3", slug: "who-holds-the-knowledge", title: "Who holds the knowledge", dek: "Attribution, restitution and the politics of credit across the archipelago.", image: forest, storyIds: ["st-5", "st-1", "st-8"], formIds: ["cf-forest", "cf-ikat", "cf-spice"] },
 ];
 
-export const events: CulturalEvent[] = [
+const eventsSource: CulturalEvent[] = [
   {
     id: "ev-1", slug: "warp-and-weft-london", title: "Warp & Weft: Two Years in a Cloth", type: "Exhibition",
     startDate: "2026-02-10", endDate: "2026-05-24", placeId: "pl-london", image: exhibition, formIds: ["cf-ikat"], live: true,
@@ -841,7 +841,7 @@ export const events: CulturalEvent[] = [
   },
 ];
 
-export const opportunities: Opportunity[] = [
+const opportunitiesSource: Opportunity[] = [
   {
     id: "op-1", slug: "weaving-apprenticeship-fund", title: "Weaving Apprenticeship Fund", type: "Grant",
     deadline: "2026-03-31", forWhom: "Master weavers and their apprentices in eastern Indonesia",
