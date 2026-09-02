@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import type { ReactNode } from "react";
 
 import { Pill } from "@/components/editorial/ui";
 import { cn } from "@/lib/utils";
@@ -213,17 +214,38 @@ export function SearchResultCard({ record }: { record: SearchRecord }) {
     </div>
   );
 
+  const slug = record.slug ?? "";
+  switch (record.type) {
+    case "Story":
+      return <RecordShell to="/stories/$slug" params={{ slug }}>{inner}</RecordShell>;
+    case "Culture":
+      return <RecordShell to="/culture/$slug" params={{ slug }}>{inner}</RecordShell>;
+    case "People & Communities":
+      return <RecordShell to="/people/$slug" params={{ slug }}>{inner}</RecordShell>;
+    case "Institutions":
+      return <RecordShell to="/institutions/$slug" params={{ slug }}>{inner}</RecordShell>;
+    case "Places":
+      return <RecordShell to="/places/$slug" params={{ slug }}>{inner}</RecordShell>;
+    case "Events":
+      return <RecordShell to="/events/$slug" params={{ slug }}>{inner}</RecordShell>;
+    case "Collaborations":
+      return <RecordShell to="/collaborations/$slug" params={{ slug }}>{inner}</RecordShell>;
+    default:
+      return <RecordShell to="/opportunities">{inner}</RecordShell>;
+  }
+}
+
+function RecordShell(props: {
+  children: ReactNode;
+  to: string;
+  params?: { slug: string };
+}) {
+  const { children, to, params } = props;
   return (
     <article className="group border-b border-border py-6 last:border-b-0">
-      {record.params ? (
-        <Link to={record.to} params={record.params} className="block">
-          {inner}
-        </Link>
-      ) : (
-        <Link to={record.to} className="block">
-          {inner}
-        </Link>
-      )}
+      <Link to={to as never} params={params as never} className="block">
+        {children}
+      </Link>
     </article>
   );
 }
