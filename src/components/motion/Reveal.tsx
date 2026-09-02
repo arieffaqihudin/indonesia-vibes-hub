@@ -60,14 +60,14 @@ export function Reveal({
   children,
   threshold,
 }: {
-  as?: ElementType;
-  variant?: RevealVariant;
+  as?: ElementType | undefined;
+  variant?: RevealVariant | undefined;
   /** Stagger offset in ms — keep groups within 60–100ms steps. */
-  delay?: number;
-  className?: string;
-  style?: CSSProperties;
+  delay?: number | undefined;
+  className?: string | undefined;
+  style?: CSSProperties | undefined;
   children: ReactNode;
-  threshold?: number;
+  threshold?: number | undefined;
 }) {
   const Tag = (as ?? "div") as ElementType;
   const { ref, shown } = useReveal<HTMLElement>(
@@ -95,9 +95,9 @@ export function RevealList({
   className,
 }: {
   children: ReactNode[];
-  step?: number;
-  variant?: RevealVariant;
-  className?: string;
+  step?: number | undefined;
+  variant?: RevealVariant | undefined;
+  className?: string | undefined;
 }) {
   return (
     <>
