@@ -18,13 +18,21 @@ const TYPES: SearchRecord["type"][] = [
   "Collaborations",
 ];
 
+interface SearchSearch {
+  q: string;
+  type?: SearchRecord["type"] | undefined;
+}
+
 export const Route = createFileRoute("/search")({
-  validateSearch: (search: Record<string, unknown>) => ({
-    q: typeof search.q === "string" ? search.q : "",
-    type: TYPES.includes(search.type as SearchRecord["type"])
-      ? (search.type as SearchRecord["type"])
-      : undefined,
-  }),
+  validateSearch: (search: Record<string, unknown>): SearchSearch => {
+    const parsed: SearchSearch = {
+      q: typeof search["q"] === "string" ? search["q"] : "",
+    };
+    if (TYPES.includes(search["type"] as SearchRecord["type"])) {
+      parsed.type = search["type"] as SearchRecord["type"];
+    }
+    return parsed;
+  },
   head: () => ({
     meta: [
       { title: "Search — Indonesia Vibes" },

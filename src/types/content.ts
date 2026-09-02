@@ -412,13 +412,13 @@ export interface SearchRecord {
     | "Collaborations";
   title: string;
   context: string;
-  location?: string;
-  meta?: string;
-  image?: string;
-  slug?: string;
+  location?: string | undefined;
+  meta?: string | undefined;
+  image?: string | undefined;
+  slug?: string | undefined;
   themes: ThemeId[];
   countries: string[];
-  date?: string;
-  status?: string;
+  date?: string | undefined;
+  status?: string | undefined;
   keywords: string[];
 }

@@ -4,14 +4,16 @@ import { useState } from "react";
 import { PageHeader } from "@/components/editorial/Section";
 import { brand } from "@/lib/brand";
 import { INQUIRY_TOPICS, STRUCTURED_TOPICS, isInquiryTopic } from "@/lib/inquiry";
-import type { InquiryTopic } from "@/lib/inquiry";
+import type { InquirySearch, InquiryTopic } from "@/lib/inquiry";
 
 export const Route = createFileRoute("/contact")({
-  validateSearch: (search: Record<string, unknown>) => ({
-    topic: isInquiryTopic(search.topic) ? search.topic : undefined,
-    subject: typeof search.subject === "string" ? search.subject : undefined,
-    ref: typeof search.ref === "string" ? search.ref : undefined,
-  }),
+  validateSearch: (search: Record<string, unknown>): InquirySearch => {
+    const parsed: InquirySearch = {};
+    if (isInquiryTopic(search["topic"])) parsed.topic = search["topic"];
+    if (typeof search["subject"] === "string") parsed.subject = search["subject"];
+    if (typeof search["ref"] === "string") parsed.ref = search["ref"];
+    return parsed;
+  },
   head: () => ({
     meta: [
       { title: "Contact & Introductions — Indonesia Vibes" },

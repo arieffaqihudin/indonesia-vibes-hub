@@ -39,9 +39,9 @@ export const STRUCTURED_TOPICS: InquiryTopic[] = [
 ];
 
 export interface InquirySearch {
-  topic?: InquiryTopic;
-  subject?: string;
-  ref?: string;
+  topic?: InquiryTopic | undefined;
+  subject?: string | undefined;
+  ref?: string | undefined;
 }
 
 export const inquiryLink = (search: InquirySearch) => ({
