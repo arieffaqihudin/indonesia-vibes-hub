@@ -103,11 +103,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
     ],
     scripts: [
-      {
-        // Motion is opt-in: everything stays visible unless this flag is set.
-        children:
-          "try{if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('motion-ready')}}catch(e){}",
-      },
+
       {
         type: "application/ld+json",
         children: JSON.stringify({
