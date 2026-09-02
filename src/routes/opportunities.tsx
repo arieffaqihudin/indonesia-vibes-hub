@@ -18,6 +18,12 @@ export const Route = createFileRoute("/opportunities")({
 });
 
 function OpportunitiesPage() {
+  const graded = opportunities
+    .map((o) => ({ o, status: deadlineStatus(o.deadline) }))
+    .sort((a, b) => a.status.days - b.status.days);
+  const open = graded.filter((g) => g.status.open).map((g) => g.o);
+  const closed = graded.filter((g) => !g.status.open).map((g) => g.o);
+
   return (
     <>
       <PageHeader
@@ -26,14 +32,14 @@ function OpportunitiesPage() {
         intro="Funding and open calls for artists, makers, translators and researchers. Applications are read in English or Indonesian, and we reply to every submission either way."
       />
       <div className="container-editorial py-16">
-        {opportunities.length === 0 ? (
+        {open.length === 0 ? (
           <p className="max-w-xl text-muted-foreground">
             Nothing is open at the moment. New calls are published here first — tell us what you work
             on and we will write when something fits.
           </p>
         ) : (
           <ul className="grid gap-8 md:grid-cols-2">
-            {opportunities.map((o) => {
+            {open.map((o) => {
               const status = deadlineStatus(o.deadline);
               return (
                 <li key={o.id} className="flex flex-col justify-between gap-6 border border-border p-7">
@@ -45,7 +51,7 @@ function OpportunitiesPage() {
                           status.open ? "bg-pale text-deep-red" : "bg-muted text-muted-foreground"
                         }`}
                       >
-                        {status.label}
+                        {status.state === "Open" ? status.label : `${status.state} · ${status.label}`}
                       </p>
                     </div>
                     <h2 className="display-3 mt-3 text-[1.4rem] text-ink">{o.title}</h2>
@@ -96,7 +102,7 @@ function OpportunitiesPage() {
                       search={{ topic: "Opportunity application", subject: o.title }}
                       className="press mt-5 inline-flex min-h-11 items-center rounded-full bg-primary px-5 text-sm font-medium text-primary-foreground transition-colors hover:bg-deep-red"
                     >
-                      {status.open ? "Start an application" : "Ask about the next round"}
+                      Start an application
                     </Link>
                     {o.lastChecked ? (
                       <p className="mt-4 text-xs text-muted-foreground">
