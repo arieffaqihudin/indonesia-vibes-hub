@@ -39,43 +39,53 @@ function Home() {
 
   return (
     <>
-      {/* Hero */}
+      {/* Hero — layered entrance: label, headline, standfirst, CTA */}
       <section className="wave-field border-b border-border" style={{ ["--wave-x" as string]: "78%", ["--wave-y" as string]: "24%" }}>
         <div className="container-editorial grid gap-12 py-14 md:py-20 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:items-end lg:gap-16">
-          <div className="rise-in">
-            <p className="eyebrow text-primary">{brand.journey.join(" · ")}</p>
-            <h1 className="display-1 mt-6 text-ink">
+          <div>
+            <p className="eyebrow stagger-item text-primary">{brand.journey.join(" · ")}</p>
+            <h1
+              className="display-1 stagger-item mt-6 text-ink"
+              style={{ ["--reveal-delay" as string]: "90ms" }}
+            >
               Culture in motion, from the archipelago to the world.
             </h1>
-            <p className="standfirst mt-7 max-w-xl">
+            <p
+              className="standfirst stagger-item mt-7 max-w-xl"
+              style={{ ["--reveal-delay" as string]: "180ms" }}
+            >
               {brand.name} is the front door to Indonesian cultural diplomacy in English: 17,000
               islands of practice, told by the people who hold it, and programmed into rooms on six
               continents.
             </p>
-            <div className="mt-9 flex flex-wrap items-center gap-3">
+            <div
+              className="stagger-item mt-9 flex flex-wrap items-center gap-3"
+              style={{ ["--reveal-delay" as string]: "270ms" }}
+            >
               <Link
                 to="/stories"
-                className="inline-flex min-h-11 items-center gap-2 rounded-full bg-primary px-6 text-sm font-medium text-primary-foreground transition-colors hover:bg-deep-red"
+                className="press group inline-flex min-h-11 items-center gap-2 rounded-full bg-primary px-6 text-sm font-medium text-primary-foreground hover:bg-deep-red"
               >
                 Start with the stories
-                <ArrowRight className="h-4 w-4" />
+                <ArrowRight className="h-4 w-4 transition-transform duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-1" />
               </Link>
               <Link
                 to="/around-the-world"
-                className="link-underline inline-flex min-h-11 items-center gap-2 px-1 text-sm font-medium text-ink"
+                className="link-underline group inline-flex min-h-11 items-center gap-2 px-1 text-sm font-medium text-ink"
               >
                 See where we are right now
-                <ArrowUpRight className="h-4 w-4 text-primary" />
+                <ArrowUpRight className="arrow-nudge h-4 w-4 text-primary" />
               </Link>
             </div>
           </div>
 
-          <figure className="media-zoom relative">
+          <Reveal as="figure" variant="mask" className="media-zoom relative">
             <img
               src={lead.image}
               alt={lead.imageAlt}
               width={1600}
               height={1104}
+              fetchPriority="high"
               className="aspect-[4/3] w-full object-cover"
             />
             <figcaption className="absolute right-0 bottom-0 left-0 bg-gradient-to-t from-ink-deep/90 to-transparent p-6 pt-16">
@@ -83,12 +93,12 @@ function Home() {
               <Link
                 to="/stories/$slug"
                 params={{ slug: lead.slug }}
-                className="mt-2 block text-xl leading-snug font-medium tracking-tight text-primary-foreground sm:text-2xl"
+                className="link-underline mt-2 block text-xl leading-snug font-medium tracking-tight text-primary-foreground sm:text-2xl"
               >
                 {lead.title}
               </Link>
             </figcaption>
-          </figure>
+          </Reveal>
         </div>
       </section>
 
@@ -96,24 +106,31 @@ function Home() {
 
       {/* Latest */}
       <section className="container-editorial py-16 md:py-24">
-        <SectionHeading
-          eyebrow="Discover"
-          title="Latest stories"
-          intro="Reporting, interviews and field notes — each one connected to the makers, forms and places it came from."
-          action="/stories"
-          actionLabel="All stories"
-        />
+        <Reveal>
+          <SectionHeading
+            eyebrow="Discover"
+            title="Latest stories"
+            intro="Reporting, interviews and field notes — each one connected to the makers, forms and places it came from."
+            action="/stories"
+            actionLabel="All stories"
+          />
+        </Reveal>
         <div className="mt-10 grid gap-x-8 gap-y-12 md:grid-cols-2">
-          {secondary.map((s) => (
-            <StoryCard key={s.id} story={s} size="lg" />
+          {secondary.map((s, i) => (
+            <Reveal key={s.id} delay={i * 80}>
+              <StoryCard story={s} size="lg" />
+            </Reveal>
           ))}
         </div>
         <div className="mt-14 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
-          {grid.map((s) => (
-            <StoryCard key={s.id} story={s} size="sm" />
+          {grid.map((s, i) => (
+            <Reveal key={s.id} delay={i * 70}>
+              <StoryCard story={s} size="sm" />
+            </Reveal>
           ))}
         </div>
       </section>
+
 
       {/* Pillars */}
       <section className="border-y border-border bg-sand">
