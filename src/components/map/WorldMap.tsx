@@ -149,7 +149,7 @@ export function WorldMap({
           {nodes.map((n) => {
             const p = project(n.lat, n.lng);
             const isActive = active === n.id;
-            const live = n.status === "Live" || n.status === "Now";
+            const live = n.status === "Active";
             return (
               <g
                 key={n.id}
