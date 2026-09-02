@@ -139,6 +139,7 @@ function CollaborationsPage() {
       </FilterPanel>
 
       <div className="container-editorial py-16">
+        <h2 className="sr-only">Collaborations</h2>
         {results.length ? (
           <ul className="grid gap-x-8 gap-y-14 md:grid-cols-2 xl:grid-cols-3">
             {results.map((c) => (

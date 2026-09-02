@@ -64,6 +64,7 @@ function StoriesPage() {
       </PageHeader>
 
       <div className="container-editorial py-16">
+        <h2 className="sr-only">Stories</h2>
         <div className="grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
           {list.map((s) => (
             <StoryCard key={s.id} story={s} />
