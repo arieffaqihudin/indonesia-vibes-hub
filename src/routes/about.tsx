@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 
+import { Link } from "@tanstack/react-router";
+
 import { PageHeader } from "@/components/editorial/Section";
 import { brand } from "@/lib/brand";
 import { people } from "@/data/content";
@@ -38,6 +40,22 @@ function AboutPage() {
             the world map. Connect and Collaborate are the doors out — funding, partnership and a
             real inbox.
           </p>
+          <h2>How we work</h2>
+          <p>
+            The platform is a knowledge network, not a magazine archive. Every story is linked to
+            the people who made the work, the cultural forms it belongs to, the places it comes
+            from and the institutions that steward it — so a reader who arrives at one page can
+            follow the relationships outward rather than hitting a dead end.
+          </p>
+          <p>
+            Directories of{" "}
+            <Link to="/people">people and communities</Link>,{" "}
+            <Link to="/institutions">institutions</Link>,{" "}
+            <Link to="/places">places</Link> and{" "}
+            <Link to="/collaborations">international collaborations</Link> are maintained as
+            connective infrastructure for curators, researchers, funders and festival programmers.
+            Introductions are facilitated by the team, never by publishing private contact details.
+          </p>
           <h2>Principles</h2>
           <ul>
             <li>Names travel with the work. Always the maker, not only the institution.</li>
@@ -45,6 +63,14 @@ function AboutPage() {
             <li>Research is open access, and communities are co-authors where they contributed.</li>
             <li>Provenance is published before an object is shown or lent.</li>
           </ul>
+          <h2>Standards and participation</h2>
+          <p>
+            Our{" "}
+            <Link to="/editorial-standards">editorial standards</Link> set out how we research,
+            verify, attribute and correct. Anyone can{" "}
+            <Link to="/contribute">contribute</Link>: suggest a story, nominate a practitioner or
+            community, add an institution, or propose open-access research.
+          </p>
         </div>
 
         <aside>
@@ -63,9 +89,14 @@ function AboutPage() {
 
       <section className="border-t border-border bg-sand">
         <div className="container-editorial py-16">
-          <h2 className="display-3 text-ink">Voices on the platform</h2>
+          <div className="flex flex-wrap items-end justify-between gap-6 border-b border-border pb-6">
+            <h2 className="display-3 text-ink">Voices on the platform</h2>
+            <Link to="/people" className="link-underline text-sm font-medium text-ink">
+              All people and communities
+            </Link>
+          </div>
           <ul className="mt-10 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
-            {people.map((p) => (
+            {people.slice(0, 4).map((p) => (
               <li key={p.id}>
                 <img src={p.image} alt={p.name} width={400} height={400} loading="lazy" className="aspect-square w-full object-cover" />
                 <h3 className="mt-4 text-lg font-medium text-ink">{p.name}</h3>
