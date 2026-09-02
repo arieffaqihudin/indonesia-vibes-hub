@@ -5,7 +5,6 @@ import { FilterChip } from "@/components/editorial/Filters";
 import { PageHeader } from "@/components/editorial/Section";
 import { events, eventStatus, formatRange, getPlace } from "@/data/content";
 import { cn } from "@/lib/utils";
-import type { CulturalEvent } from "@/types/content";
 
 export const Route = createFileRoute("/events/")({
   head: () => ({
@@ -45,8 +44,8 @@ function EventsPage() {
           const rank = { "On now": 0, Upcoming: 1, Past: 2 } as const;
           if (rank[a.status] !== rank[b.status]) return rank[a.status] - rank[b.status];
           return a.status === "Past"
-            ? b.startDate() - a.startDate()
-            : a.startDate() - b.startDate();
+            ? b.event.startDate.localeCompare(a.event.startDate)
+            : a.event.startDate.localeCompare(b.event.startDate);
         }),
     [],
   );
@@ -172,5 +171,3 @@ function EventsPage() {
     </>
   );
 }
-
-declare module "@/types/content" {}
