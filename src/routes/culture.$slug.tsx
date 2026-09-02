@@ -3,12 +3,8 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { InstitutionCard, PersonCard, PlaceCard } from "@/components/editorial/EntityCards";
 import { DetailSection, FactList, Pill } from "@/components/editorial/ui";
 import { events, forms, formatRange, stories } from "@/data/content";
-import {
-  collaborationsForForm,
-  getPlaceById,
-  institutions,
-  peopleForForm,
-} from "@/data/graph";
+import { collaborationsForForm, getPlaceById, peopleForForm } from "@/data/graph";
+import { institutions } from "@/data/institutions";
 
 export const Route = createFileRoute("/culture/$slug")({
   loader: ({ params }) => {

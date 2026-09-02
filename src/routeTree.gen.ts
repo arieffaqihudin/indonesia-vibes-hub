@@ -18,10 +18,12 @@ import { Route as ContemporaryRouteImport } from './routes/contemporary'
 import { Route as HeritageRouteImport } from './routes/heritage'
 import { Route as OpportunitiesRouteImport } from './routes/opportunities'
 import { Route as ResearchRouteImport } from './routes/research'
+import { Route as SearchRouteImport } from './routes/search'
 import { Route as CollaborationsIndexRouteImport } from './routes/collaborations.index'
 import { Route as CollaborationsSlugRouteImport } from './routes/collaborations.$slug'
 import { Route as CollectionsIndexRouteImport } from './routes/collections.index'
 import { Route as CollectionsSlugRouteImport } from './routes/collections.$slug'
+import { Route as CultureSlugRouteImport } from './routes/culture.$slug'
 import { Route as EventsIndexRouteImport } from './routes/events.index'
 import { Route as EventsSlugRouteImport } from './routes/events.$slug'
 import { Route as InstitutionsIndexRouteImport } from './routes/institutions.index'
@@ -78,6 +80,11 @@ const ResearchRoute = ResearchRouteImport.update({
   path: '/research',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SearchRoute = SearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CollaborationsIndexRoute = CollaborationsIndexRouteImport.update({
   id: '/collaborations/',
   path: '/collaborations/',
@@ -96,6 +103,11 @@ const CollectionsIndexRoute = CollectionsIndexRouteImport.update({
 const CollectionsSlugRoute = CollectionsSlugRouteImport.update({
   id: '/collections/$slug',
   path: '/collections/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CultureSlugRoute = CultureSlugRouteImport.update({
+  id: '/culture/$slug',
+  path: '/culture/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EventsIndexRoute = EventsIndexRouteImport.update({
@@ -159,8 +171,10 @@ export interface FileRoutesByFullPath {
   '/heritage': typeof HeritageRoute
   '/opportunities': typeof OpportunitiesRoute
   '/research': typeof ResearchRoute
+  '/search': typeof SearchRoute
   '/collaborations/$slug': typeof CollaborationsSlugRoute
   '/collections/$slug': typeof CollectionsSlugRoute
+  '/culture/$slug': typeof CultureSlugRoute
   '/events/$slug': typeof EventsSlugRoute
   '/institutions/$slug': typeof InstitutionsSlugRoute
   '/people/$slug': typeof PeopleSlugRoute
@@ -184,8 +198,10 @@ export interface FileRoutesByTo {
   '/heritage': typeof HeritageRoute
   '/opportunities': typeof OpportunitiesRoute
   '/research': typeof ResearchRoute
+  '/search': typeof SearchRoute
   '/collaborations/$slug': typeof CollaborationsSlugRoute
   '/collections/$slug': typeof CollectionsSlugRoute
+  '/culture/$slug': typeof CultureSlugRoute
   '/events/$slug': typeof EventsSlugRoute
   '/institutions/$slug': typeof InstitutionsSlugRoute
   '/people/$slug': typeof PeopleSlugRoute
@@ -210,8 +226,10 @@ export interface FileRoutesById {
   '/heritage': typeof HeritageRoute
   '/opportunities': typeof OpportunitiesRoute
   '/research': typeof ResearchRoute
+  '/search': typeof SearchRoute
   '/collaborations/$slug': typeof CollaborationsSlugRoute
   '/collections/$slug': typeof CollectionsSlugRoute
+  '/culture/$slug': typeof CultureSlugRoute
   '/events/$slug': typeof EventsSlugRoute
   '/institutions/$slug': typeof InstitutionsSlugRoute
   '/people/$slug': typeof PeopleSlugRoute
@@ -237,8 +255,10 @@ export interface FileRouteTypes {
     | '/heritage'
     | '/opportunities'
     | '/research'
+    | '/search'
     | '/collaborations/$slug'
     | '/collections/$slug'
+    | '/culture/$slug'
     | '/events/$slug'
     | '/institutions/$slug'
     | '/people/$slug'
@@ -262,8 +282,10 @@ export interface FileRouteTypes {
     | '/heritage'
     | '/opportunities'
     | '/research'
+    | '/search'
     | '/collaborations/$slug'
     | '/collections/$slug'
+    | '/culture/$slug'
     | '/events/$slug'
     | '/institutions/$slug'
     | '/people/$slug'
@@ -287,8 +309,10 @@ export interface FileRouteTypes {
     | '/heritage'
     | '/opportunities'
     | '/research'
+    | '/search'
     | '/collaborations/$slug'
     | '/collections/$slug'
+    | '/culture/$slug'
     | '/events/$slug'
     | '/institutions/$slug'
     | '/people/$slug'
@@ -313,8 +337,10 @@ export interface RootRouteChildren {
   HeritageRoute: typeof HeritageRoute
   OpportunitiesRoute: typeof OpportunitiesRoute
   ResearchRoute: typeof ResearchRoute
+  SearchRoute: typeof SearchRoute
   CollaborationsSlugRoute: typeof CollaborationsSlugRoute
   CollectionsSlugRoute: typeof CollectionsSlugRoute
+  CultureSlugRoute: typeof CultureSlugRoute
   EventsSlugRoute: typeof EventsSlugRoute
   InstitutionsSlugRoute: typeof InstitutionsSlugRoute
   PeopleSlugRoute: typeof PeopleSlugRoute
@@ -394,6 +420,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResearchRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/search': {
+      id: '/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/collaborations/': {
       id: '/collaborations/'
       path: '/collaborations'
@@ -420,6 +453,13 @@ declare module '@tanstack/react-router' {
       path: '/collections/$slug'
       fullPath: '/collections/$slug'
       preLoaderRoute: typeof CollectionsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/culture/$slug': {
+      id: '/culture/$slug'
+      path: '/culture/$slug'
+      fullPath: '/culture/$slug'
+      preLoaderRoute: typeof CultureSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/events/': {
@@ -505,8 +545,10 @@ const rootRouteChildren: RootRouteChildren = {
   HeritageRoute: HeritageRoute,
   OpportunitiesRoute: OpportunitiesRoute,
   ResearchRoute: ResearchRoute,
+  SearchRoute: SearchRoute,
   CollaborationsSlugRoute: CollaborationsSlugRoute,
   CollectionsSlugRoute: CollectionsSlugRoute,
+  CultureSlugRoute: CultureSlugRoute,
   EventsSlugRoute: EventsSlugRoute,
   InstitutionsSlugRoute: InstitutionsSlugRoute,
   PeopleSlugRoute: PeopleSlugRoute,
