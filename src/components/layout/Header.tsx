@@ -143,14 +143,14 @@ export function Header() {
             to="/search"
             search={{ q: "" }}
             aria-label="Search Indonesia Vibes"
-            className="hidden h-9 w-9 items-center justify-center rounded-full text-ink/70 transition-colors hover:bg-blush hover:text-primary sm:inline-flex"
+            className="press hidden h-9 w-9 items-center justify-center rounded-full text-ink/70 hover:bg-blush hover:text-primary sm:inline-flex"
           >
             <Search className="h-[1.05rem] w-[1.05rem]" />
           </Link>
 
           <Link
             to="/collaborate"
-            className="hidden h-9 items-center rounded-full bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-deep-red md:inline-flex"
+            className="press hidden h-9 items-center rounded-full bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-deep-red md:inline-flex"
           >
             Collaborate
           </Link>
@@ -159,7 +159,7 @@ export function Header() {
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
             aria-expanded={mobileOpen}
             onClick={() => setMobileOpen((v) => !v)}
-            className="inline-flex h-11 w-11 items-center justify-center rounded-full text-ink lg:hidden"
+            className="press inline-flex h-11 w-11 items-center justify-center rounded-full text-ink lg:hidden"
           >
             {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
@@ -174,22 +174,26 @@ export function Header() {
           <div
             key={group.label}
             onMouseEnter={cancelClose}
-            className="absolute inset-x-0 top-full hidden border-b border-border bg-background/98 backdrop-blur-xl lg:block"
+            className="menu-in absolute inset-x-0 top-full hidden border-b border-border bg-background/98 backdrop-blur-xl lg:block"
           >
             <div className="container-editorial grid gap-10 py-9 lg:grid-cols-[minmax(0,15rem)_minmax(0,1fr)_minmax(0,17rem)]">
-              <div>
+              <div className="stagger-item">
                 <p className="eyebrow text-primary">{group.stage}</p>
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{group.intro}</p>
               </div>
               <ul className="grid gap-x-8 gap-y-1 sm:grid-cols-2">
-                {group.items.map((item) => (
-                  <li key={item.to}>
+                {group.items.map((item, i) => (
+                  <li
+                    key={item.to}
+                    className="stagger-item"
+                    style={{ ["--reveal-delay" as string]: `${40 + i * 45}ms` }}
+                  >
                     <Link
                       to={item.to}
                       {...(item.hash ? { hash: item.hash } : {})}
-                      className="block rounded-sm px-3 py-3 transition-colors hover:bg-blush"
+                      className="group block rounded-sm px-3 py-3 transition-colors duration-200 hover:bg-blush"
                     >
-                      <span className="display-3 block text-[1.05rem] font-medium text-ink">
+                      <span className="display-3 block text-[1.05rem] font-medium text-ink transition-colors duration-200 group-hover:text-primary">
                         {item.label}
                       </span>
                       <span className="mt-1 block text-sm leading-relaxed text-muted-foreground">
@@ -199,13 +203,16 @@ export function Header() {
                   </li>
                 ))}
               </ul>
-              <div className="border-l border-border pl-8">
+              <div
+                className="stagger-item border-l border-border pl-8"
+                style={{ ["--reveal-delay" as string]: "140ms" }}
+              >
                 <p className="eyebrow text-muted-foreground">On now</p>
                 <ul className="mt-3 space-y-3">
                   {nowItems.slice(0, 2).map((n) => (
                     <li key={n.id}>
                       <a href={n.href} className="group block">
-                        <span className="block text-sm leading-snug font-medium text-ink group-hover:text-primary">
+                        <span className="block text-sm leading-snug font-medium text-ink transition-colors duration-200 group-hover:text-primary">
                           {n.headline}
                         </span>
                         <span className="mt-1 block text-xs text-muted-foreground">{n.meta}</span>
@@ -218,6 +225,7 @@ export function Header() {
           </div>
         );
       })}
+
 
       {/* Mobile drawer */}
       {mobileOpen ? (
