@@ -160,7 +160,7 @@ function SearchPage() {
             </p>
 
             {visible.length ? (
-              <ul className="mt-6 max-w-3xl">
+              <ul key={`${q}-${visible.length}`} className="list-swap mt-6 max-w-3xl">
                 {visible.map((hit) => (
                   <li key={`${hit.record.type}-${hit.record.id}`}>
                     <SearchResultCard record={hit.record} />

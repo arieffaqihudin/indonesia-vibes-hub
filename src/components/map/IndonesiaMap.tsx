@@ -97,6 +97,15 @@ export function IndonesiaMap({
                 <>
                   <circle cx={cluster.x} cy={cluster.y} r="34" fill="url(#idn-glow)" />
                   {/* brand wave rings */}
+                  <circle
+                    cx={cluster.x}
+                    cy={cluster.y}
+                    r="4"
+                    fill="none"
+                    stroke="var(--color-primary)"
+                    strokeWidth="1"
+                    className="ring-ping"
+                  />
                   {[10, 15, 20].map((r) => (
                     <circle
                       key={r}
@@ -118,6 +127,7 @@ export function IndonesiaMap({
                 fill={isActive ? "var(--color-primary)" : "var(--color-clay)"}
                 stroke="var(--color-background)"
                 strokeWidth="1.5"
+                style={{ transition: "r 200ms cubic-bezier(0.22, 1, 0.36, 1), fill 200ms ease" }}
               />
               {isCluster ? (
                 <text
@@ -137,7 +147,7 @@ export function IndonesiaMap({
       </svg>
 
       {hoveredPlace ? (
-        <p className="pointer-events-none absolute right-3 bottom-3 left-3 bg-background/95 px-3 py-2 text-xs text-ink shadow-sm sm:left-auto sm:max-w-xs">
+        <p className="menu-in pointer-events-none absolute right-3 bottom-3 left-3 bg-background/95 px-3 py-2 text-xs text-ink shadow-sm sm:left-auto sm:max-w-xs">
           <span className="font-medium">{hoveredPlace.name}</span>
           <span className="text-muted-foreground"> · {hoveredPlace.type ?? "Place"}</span>
         </p>
