@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 
+import { Reveal } from "@/components/motion/Reveal";
 import { NowSection } from "@/components/editorial/NowSection";
 import { SectionHeading } from "@/components/editorial/Section";
 import { StoryCard } from "@/components/editorial/StoryCard";
@@ -39,43 +40,53 @@ function Home() {
 
   return (
     <>
-      {/* Hero */}
+      {/* Hero — layered entrance: label, headline, standfirst, CTA */}
       <section className="wave-field border-b border-border" style={{ ["--wave-x" as string]: "78%", ["--wave-y" as string]: "24%" }}>
         <div className="container-editorial grid gap-12 py-14 md:py-20 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:items-end lg:gap-16">
-          <div className="rise-in">
-            <p className="eyebrow text-primary">{brand.journey.join(" · ")}</p>
-            <h1 className="display-1 mt-6 text-ink">
+          <div>
+            <p className="eyebrow stagger-item text-primary">{brand.journey.join(" · ")}</p>
+            <h1
+              className="display-1 stagger-item mt-6 text-ink"
+              style={{ ["--reveal-delay" as string]: "90ms" }}
+            >
               Culture in motion, from the archipelago to the world.
             </h1>
-            <p className="standfirst mt-7 max-w-xl">
+            <p
+              className="standfirst stagger-item mt-7 max-w-xl"
+              style={{ ["--reveal-delay" as string]: "180ms" }}
+            >
               {brand.name} is the front door to Indonesian cultural diplomacy in English: 17,000
               islands of practice, told by the people who hold it, and programmed into rooms on six
               continents.
             </p>
-            <div className="mt-9 flex flex-wrap items-center gap-3">
+            <div
+              className="stagger-item mt-9 flex flex-wrap items-center gap-3"
+              style={{ ["--reveal-delay" as string]: "270ms" }}
+            >
               <Link
                 to="/stories"
-                className="inline-flex min-h-11 items-center gap-2 rounded-full bg-primary px-6 text-sm font-medium text-primary-foreground transition-colors hover:bg-deep-red"
+                className="press group inline-flex min-h-11 items-center gap-2 rounded-full bg-primary px-6 text-sm font-medium text-primary-foreground hover:bg-deep-red"
               >
                 Start with the stories
-                <ArrowRight className="h-4 w-4" />
+                <ArrowRight className="h-4 w-4 transition-transform duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-1" />
               </Link>
               <Link
                 to="/around-the-world"
-                className="link-underline inline-flex min-h-11 items-center gap-2 px-1 text-sm font-medium text-ink"
+                className="link-underline group inline-flex min-h-11 items-center gap-2 px-1 text-sm font-medium text-ink"
               >
                 See where we are right now
-                <ArrowUpRight className="h-4 w-4 text-primary" />
+                <ArrowUpRight className="arrow-nudge h-4 w-4 text-primary" />
               </Link>
             </div>
           </div>
 
-          <figure className="media-zoom relative">
+          <Reveal as="figure" variant="mask" className="media-zoom relative">
             <img
               src={lead.image}
               alt={lead.imageAlt}
               width={1600}
               height={1104}
+              fetchPriority="high"
               className="aspect-[4/3] w-full object-cover"
             />
             <figcaption className="absolute right-0 bottom-0 left-0 bg-gradient-to-t from-ink-deep/90 to-transparent p-6 pt-16">
@@ -83,12 +94,12 @@ function Home() {
               <Link
                 to="/stories/$slug"
                 params={{ slug: lead.slug }}
-                className="mt-2 block text-xl leading-snug font-medium tracking-tight text-primary-foreground sm:text-2xl"
+                className="link-underline mt-2 block text-xl leading-snug font-medium tracking-tight text-primary-foreground sm:text-2xl"
               >
                 {lead.title}
               </Link>
             </figcaption>
-          </figure>
+          </Reveal>
         </div>
       </section>
 
@@ -96,39 +107,48 @@ function Home() {
 
       {/* Latest */}
       <section className="container-editorial py-16 md:py-24">
-        <SectionHeading
-          eyebrow="Discover"
-          title="Latest stories"
-          intro="Reporting, interviews and field notes — each one connected to the makers, forms and places it came from."
-          action="/stories"
-          actionLabel="All stories"
-        />
+        <Reveal>
+          <SectionHeading
+            eyebrow="Discover"
+            title="Latest stories"
+            intro="Reporting, interviews and field notes — each one connected to the makers, forms and places it came from."
+            action="/stories"
+            actionLabel="All stories"
+          />
+        </Reveal>
         <div className="mt-10 grid gap-x-8 gap-y-12 md:grid-cols-2">
-          {secondary.map((s) => (
-            <StoryCard key={s.id} story={s} size="lg" />
+          {secondary.map((s, i) => (
+            <Reveal key={s.id} delay={i * 80}>
+              <StoryCard story={s} size="lg" />
+            </Reveal>
           ))}
         </div>
         <div className="mt-14 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
-          {grid.map((s) => (
-            <StoryCard key={s.id} story={s} size="sm" />
+          {grid.map((s, i) => (
+            <Reveal key={s.id} delay={i * 70}>
+              <StoryCard story={s} size="sm" />
+            </Reveal>
           ))}
         </div>
       </section>
 
+
       {/* Pillars */}
       <section className="border-y border-border bg-sand">
         <div className="container-editorial py-16 md:py-24">
-          <SectionHeading
-            eyebrow="Understand"
-            title="Three ways in"
-            intro="Heritage, contemporary practice and research — held together rather than ranked."
-          />
+          <Reveal>
+            <SectionHeading
+              eyebrow="Understand"
+              title="Three ways in"
+              intro="Heritage, contemporary practice and research — held together rather than ranked."
+            />
+          </Reveal>
           <div className="mt-10 grid gap-px overflow-hidden border border-border bg-border md:grid-cols-3">
             {pillars.map((p, i) => (
+              <Reveal key={p.id} delay={i * 80} className="contents">
               <Link
-                key={p.id}
                 to={p.route}
-                className="group flex flex-col justify-between gap-10 bg-background p-8 transition-colors hover:bg-blush"
+                className="press group flex flex-col justify-between gap-10 bg-background p-8 hover:bg-blush"
               >
                 <span className="text-sm text-muted-foreground tabular-nums">
                   {String(i + 1).padStart(2, "0")}
@@ -144,6 +164,7 @@ function Home() {
                   </span>
                 </span>
               </Link>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -151,6 +172,7 @@ function Home() {
 
       {/* Around the world */}
       <section className="container-editorial py-16 md:py-24">
+        <Reveal>
         <SectionHeading
           eyebrow="Experience"
           title="Indonesia around the world"
@@ -158,13 +180,16 @@ function Home() {
           action="/around-the-world"
           actionLabel="Open the map"
         />
+        </Reveal>
         <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] lg:items-start">
-          <WorldMap />
+          <Reveal variant="fade">
+            <WorldMap />
+          </Reveal>
           <ul className="divide-y divide-border border-y border-border">
-            {upcoming.map((e) => {
+            {upcoming.map((e, i) => {
               const place = getPlace(e.placeId);
               return (
-                <li key={e.id}>
+                <Reveal as="li" key={e.id} delay={i * 70}>
                   <Link
                     to="/events/$slug"
                     params={{ slug: e.slug }}
@@ -181,9 +206,9 @@ function Home() {
                         {formatRange(e.startDate, e.endDate)}
                       </span>
                     </span>
-                    <ArrowUpRight className="h-5 w-5 shrink-0 text-primary transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    <ArrowUpRight className="arrow-nudge h-5 w-5 shrink-0 text-primary" />
                   </Link>
-                </li>
+                </Reveal>
               );
             })}
           </ul>
@@ -193,15 +218,18 @@ function Home() {
       {/* Collections */}
       <section className="border-t border-border bg-blush">
         <div className="container-editorial py-16 md:py-24">
+          <Reveal>
           <SectionHeading
             eyebrow="Curated"
             title="Collections"
             intro="Sets that read as arguments, not folders."
             action="/collections"
           />
+          </Reveal>
           <div className="mt-10 grid gap-8 md:grid-cols-3">
-            {collections.map((c) => (
-              <Link key={c.id} to="/collections/$slug" params={{ slug: c.slug }} className="group">
+            {collections.map((c, i) => (
+              <Reveal key={c.id} delay={i * 80}>
+              <Link to="/collections/$slug" params={{ slug: c.slug }} className="group block">
                 <div className="media-zoom bg-muted">
                   <img
                     src={c.image}
@@ -218,6 +246,7 @@ function Home() {
                 <p className="mt-2 text-[0.95rem] leading-relaxed text-muted-foreground">{c.dek}</p>
                 <p className="mt-3 text-xs text-muted-foreground">{c.storyIds.length} stories</p>
               </Link>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -225,7 +254,7 @@ function Home() {
 
       {/* Connect */}
       <section className="container-editorial py-16 md:py-24">
-        <div className="grid gap-10 border border-border bg-ink-deep p-8 text-[oklch(0.95_0.01_40)] md:p-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,20rem)] lg:items-end">
+        <Reveal className="grid gap-10 border border-border bg-ink-deep p-8 text-[oklch(0.95_0.01_40)] md:p-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,20rem)] lg:items-end">
           <div>
             <p className="eyebrow text-pink">Connect · Collaborate</p>
             <h2 className="display-2 mt-4 max-w-2xl">
@@ -239,18 +268,18 @@ function Home() {
           <div className="flex flex-wrap gap-3 lg:justify-end">
             <Link
               to="/collaborate"
-              className="inline-flex min-h-11 items-center rounded-full bg-primary px-6 text-sm font-medium text-primary-foreground transition-colors hover:bg-deep-red"
+              className="press inline-flex min-h-11 items-center rounded-full bg-primary px-6 text-sm font-medium text-primary-foreground hover:bg-deep-red"
             >
               Partner with us
             </Link>
             <Link
               to="/opportunities"
-              className="inline-flex min-h-11 items-center rounded-full border border-white/25 px-6 text-sm font-medium transition-colors hover:bg-white/10"
+              className="press inline-flex min-h-11 items-center rounded-full border border-white/25 px-6 text-sm font-medium hover:bg-white/10"
             >
               Open calls
             </Link>
           </div>
-        </div>
+        </Reveal>
       </section>
     </>
   );

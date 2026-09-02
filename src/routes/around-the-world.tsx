@@ -32,11 +32,11 @@ function AroundTheWorldPage() {
         intro="Every programme we run outside Indonesia, on one map. Select a city to see what is there and when."
       />
       <div className="container-editorial grid gap-10 py-16 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] lg:items-start">
-        <WorldMap selectedId={selected} onSelect={setSelected} />
+        <WorldMap selectedId={selected} onSelect={setSelected} focus />
 
         <div>
           {node ? (
-            <div className="border border-border bg-sand p-6">
+            <div key={node.id} className="list-swap border border-border bg-sand p-6">
               <p className="eyebrow text-primary">{node.status} · {node.continent}</p>
               <h2 className="display-3 mt-2 text-ink">{node.city}</h2>
               <p className="text-sm text-muted-foreground">{node.country}</p>
@@ -64,7 +64,7 @@ function AroundTheWorldPage() {
                   onClick={() => setSelected(n.id)}
                   aria-pressed={selected === n.id}
                   className={cn(
-                    "grid w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-4 py-3.5 text-left",
+                    "press grid w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-4 py-3.5 text-left",
                     selected === n.id ? "text-primary" : "text-ink hover:text-primary",
                   )}
                 >

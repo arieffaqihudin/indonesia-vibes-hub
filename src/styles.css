@@ -322,6 +322,247 @@
   animation: rise-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+/* ============================================================
+   MOTION SYSTEM
+   Durations, easings and reusable behaviours. Motion is opt-in:
+   nothing is hidden until `@media (prefers-reduced-motion: no-preference) {
+html` is set by the
+   head script, so no-JS and reduced-motion users see everything.
+   ============================================================ */
+
+:root {
+  --dur-micro: 150ms;
+  --dur-ui: 240ms;
+  --dur-reveal: 420ms;
+  --dur-section: 620ms;
+  --dur-immersive: 860ms;
+  --ease-editorial: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+}
+}
+
+/* ---------- Scroll reveals (once, restrained) ---------- */
+
+@media (prefers-reduced-motion: no-preference) {
+html [data-reveal] {
+  opacity: 0;
+  transition:
+    opacity var(--dur-reveal) var(--ease-editorial),
+    transform var(--dur-reveal) var(--ease-editorial),
+    clip-path var(--dur-section) var(--ease-editorial);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+}
+@media (prefers-reduced-motion: no-preference) {
+html [data-reveal="up"] {
+  transform: translate3d(0, 16px, 0);
+}
+}
+@media (prefers-reduced-motion: no-preference) {
+html [data-reveal="down"] {
+  transform: translate3d(0, -12px, 0);
+}
+}
+@media (prefers-reduced-motion: no-preference) {
+html [data-reveal="scale"] {
+  transform: scale(0.985);
+}
+}
+@media (prefers-reduced-motion: no-preference) {
+html [data-reveal="mask"] {
+  opacity: 1;
+  clip-path: inset(0 0 100% 0);
+}
+}
+@media (prefers-reduced-motion: no-preference) {
+html [data-reveal="mask-x"] {
+  opacity: 1;
+  clip-path: inset(0 100% 0 0);
+}
+}
+@media (prefers-reduced-motion: no-preference) {
+html [data-reveal][data-shown="true"] {
+  opacity: 1;
+  transform: none;
+  clip-path: inset(0 0 0 0);
+  will-change: auto;
+}
+}
+
+/* ---------- Page transition ---------- */
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+html .page-enter {
+  animation: page-in var(--dur-ui) var(--ease-editorial) both;
+}
+}
+
+/* ---------- Menus, drawers, panels ---------- */
+
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -8px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes sheet-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 24px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+html .menu-in {
+  animation: menu-in var(--dur-ui) var(--ease-editorial) both;
+}
+}
+@media (prefers-reduced-motion: no-preference) {
+html .sheet-up {
+  animation: sheet-up var(--dur-ui) var(--ease-editorial) both;
+}
+}
+@media (prefers-reduced-motion: no-preference) {
+html .stagger-item {
+  animation: menu-in var(--dur-reveal) var(--ease-editorial) both;
+  animation-delay: var(--reveal-delay, 0ms);
+}
+}
+
+/* ---------- List / filter crossfade ---------- */
+
+@keyframes list-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 8px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+html .list-swap {
+  animation: list-in var(--dur-ui) var(--ease-editorial) both;
+}
+}
+
+/* ---------- Waves ---------- */
+
+@keyframes wave-out {
+  from {
+    transform: scale(0.15);
+    opacity: 0.5;
+  }
+  to {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+@keyframes ring-ping {
+  0% {
+    r: 4;
+    opacity: 0.55;
+  }
+  100% {
+    r: 16;
+    opacity: 0;
+  }
+}
+
+@keyframes draw-line {
+  from {
+    stroke-dashoffset: var(--dash, 400);
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+html .wave-out {
+  transform-origin: center;
+  animation: wave-out 2.6s var(--ease-editorial) both;
+}
+}
+@media (prefers-reduced-motion: no-preference) {
+html .ring-ping {
+  animation: ring-ping 2.8s var(--ease-editorial) infinite;
+}
+}
+@media (prefers-reduced-motion: no-preference) {
+html .draw-line {
+  stroke-dasharray: var(--dash, 400);
+  animation: draw-line var(--dur-immersive) var(--ease-editorial) both;
+}
+}
+
+/* ---------- Micro-interactions ---------- */
+
+@utility press {
+  transition:
+    transform var(--dur-micro) var(--ease-standard),
+    background-color var(--dur-ui) var(--ease-standard),
+    color var(--dur-ui) var(--ease-standard),
+    border-color var(--dur-ui) var(--ease-standard);
+  &:active {
+    transform: scale(0.982);
+  }
+}
+
+@utility arrow-nudge {
+  transition: transform var(--dur-ui) var(--ease-editorial);
+  .group:hover & {
+    transform: translate(3px, -3px);
+  }
+}
+
+/* ---------- Loading ---------- */
+
+@keyframes shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@utility skeleton-wave {
+  background-image: linear-gradient(
+    90deg,
+    var(--color-muted) 0%,
+    color-mix(in oklab, var(--color-blush) 70%, var(--color-muted)) 50%,
+    var(--color-muted) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.6s linear infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -331,4 +572,10 @@
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
+  html [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+  }
 }
+

@@ -1,6 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 
 import { StoryCard } from "@/components/editorial/StoryCard";
+import { ReadingProgress } from "@/components/motion/ReadingProgress";
 import type { CulturalForm, Person, Place, Story } from "@/types/content";
 import {
   formatDate,
@@ -66,6 +67,7 @@ function StoryPage() {
 
   return (
     <article>
+      <ReadingProgress />
       <header className="container-editorial pt-14 pb-10 md:pt-20">
         <p className="eyebrow text-primary">
           {story.kind} · {story.readingMinutes} min read
