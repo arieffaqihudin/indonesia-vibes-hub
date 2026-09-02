@@ -41,7 +41,7 @@ function OpportunitiesPage() {
                 <p className="text-ink">{o.forWhom}</p>
                 {o.amount ? <p className="mt-1 text-muted-foreground">{o.amount}</p> : null}
                 <Link
-                  to="/contact"
+                  to="/contact" search={{}}
                   className="mt-5 inline-flex min-h-11 items-center rounded-full bg-primary px-5 text-sm font-medium text-primary-foreground transition-colors hover:bg-deep-red"
                 >
                   Apply or ask a question

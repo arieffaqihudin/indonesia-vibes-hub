@@ -10,25 +10,42 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SplatRouteImport } from './routes/$'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AroundTheWorldRouteImport } from './routes/around-the-world'
 import { Route as CollaborateRouteImport } from './routes/collaborate'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as ContemporaryRouteImport } from './routes/contemporary'
+import { Route as ContributeRouteImport } from './routes/contribute'
+import { Route as EditorialStandardsRouteImport } from './routes/editorial-standards'
 import { Route as HeritageRouteImport } from './routes/heritage'
 import { Route as OpportunitiesRouteImport } from './routes/opportunities'
-import { Route as PlacesRouteImport } from './routes/places'
 import { Route as ResearchRouteImport } from './routes/research'
+import { Route as SearchRouteImport } from './routes/search'
+import { Route as CollaborationsIndexRouteImport } from './routes/collaborations.index'
+import { Route as CollaborationsSlugRouteImport } from './routes/collaborations.$slug'
 import { Route as CollectionsIndexRouteImport } from './routes/collections.index'
 import { Route as CollectionsSlugRouteImport } from './routes/collections.$slug'
+import { Route as CultureSlugRouteImport } from './routes/culture.$slug'
 import { Route as EventsIndexRouteImport } from './routes/events.index'
 import { Route as EventsSlugRouteImport } from './routes/events.$slug'
+import { Route as InstitutionsIndexRouteImport } from './routes/institutions.index'
+import { Route as InstitutionsSlugRouteImport } from './routes/institutions.$slug'
+import { Route as PeopleIndexRouteImport } from './routes/people.index'
+import { Route as PeopleSlugRouteImport } from './routes/people.$slug'
+import { Route as PlacesIndexRouteImport } from './routes/places.index'
+import { Route as PlacesSlugRouteImport } from './routes/places.$slug'
 import { Route as StoriesIndexRouteImport } from './routes/stories.index'
 import { Route as StoriesSlugRouteImport } from './routes/stories.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SplatRoute = SplatRouteImport.update({
+  id: '/$',
+  path: '/$',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -56,6 +73,16 @@ const ContemporaryRoute = ContemporaryRouteImport.update({
   path: '/contemporary',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContributeRoute = ContributeRouteImport.update({
+  id: '/contribute',
+  path: '/contribute',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EditorialStandardsRoute = EditorialStandardsRouteImport.update({
+  id: '/editorial-standards',
+  path: '/editorial-standards',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const HeritageRoute = HeritageRouteImport.update({
   id: '/heritage',
   path: '/heritage',
@@ -66,14 +93,24 @@ const OpportunitiesRoute = OpportunitiesRouteImport.update({
   path: '/opportunities',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PlacesRoute = PlacesRouteImport.update({
-  id: '/places',
-  path: '/places',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ResearchRoute = ResearchRouteImport.update({
   id: '/research',
   path: '/research',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SearchRoute = SearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CollaborationsIndexRoute = CollaborationsIndexRouteImport.update({
+  id: '/collaborations/',
+  path: '/collaborations/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CollaborationsSlugRoute = CollaborationsSlugRouteImport.update({
+  id: '/collaborations/$slug',
+  path: '/collaborations/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CollectionsIndexRoute = CollectionsIndexRouteImport.update({
@@ -86,6 +123,11 @@ const CollectionsSlugRoute = CollectionsSlugRouteImport.update({
   path: '/collections/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CultureSlugRoute = CultureSlugRouteImport.update({
+  id: '/culture/$slug',
+  path: '/culture/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EventsIndexRoute = EventsIndexRouteImport.update({
   id: '/events/',
   path: '/events/',
@@ -94,6 +136,36 @@ const EventsIndexRoute = EventsIndexRouteImport.update({
 const EventsSlugRoute = EventsSlugRouteImport.update({
   id: '/events/$slug',
   path: '/events/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InstitutionsIndexRoute = InstitutionsIndexRouteImport.update({
+  id: '/institutions/',
+  path: '/institutions/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InstitutionsSlugRoute = InstitutionsSlugRouteImport.update({
+  id: '/institutions/$slug',
+  path: '/institutions/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PeopleIndexRoute = PeopleIndexRouteImport.update({
+  id: '/people/',
+  path: '/people/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PeopleSlugRoute = PeopleSlugRouteImport.update({
+  id: '/people/$slug',
+  path: '/people/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlacesIndexRoute = PlacesIndexRouteImport.update({
+  id: '/places/',
+  path: '/places/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlacesSlugRoute = PlacesSlugRouteImport.update({
+  id: '/places/$slug',
+  path: '/places/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const StoriesIndexRoute = StoriesIndexRouteImport.update({
@@ -109,132 +181,216 @@ const StoriesSlugRoute = StoriesSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/$': typeof SplatRoute
   '/about': typeof AboutRoute
   '/around-the-world': typeof AroundTheWorldRoute
   '/collaborate': typeof CollaborateRoute
   '/contact': typeof ContactRoute
   '/contemporary': typeof ContemporaryRoute
+  '/contribute': typeof ContributeRoute
+  '/editorial-standards': typeof EditorialStandardsRoute
   '/heritage': typeof HeritageRoute
   '/opportunities': typeof OpportunitiesRoute
-  '/places': typeof PlacesRoute
   '/research': typeof ResearchRoute
+  '/search': typeof SearchRoute
+  '/collaborations/$slug': typeof CollaborationsSlugRoute
   '/collections/$slug': typeof CollectionsSlugRoute
+  '/culture/$slug': typeof CultureSlugRoute
   '/events/$slug': typeof EventsSlugRoute
+  '/institutions/$slug': typeof InstitutionsSlugRoute
+  '/people/$slug': typeof PeopleSlugRoute
+  '/places/$slug': typeof PlacesSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
+  '/collaborations/': typeof CollaborationsIndexRoute
   '/collections/': typeof CollectionsIndexRoute
   '/events/': typeof EventsIndexRoute
+  '/institutions/': typeof InstitutionsIndexRoute
+  '/people/': typeof PeopleIndexRoute
+  '/places/': typeof PlacesIndexRoute
   '/stories/': typeof StoriesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/$': typeof SplatRoute
   '/about': typeof AboutRoute
   '/around-the-world': typeof AroundTheWorldRoute
   '/collaborate': typeof CollaborateRoute
   '/contact': typeof ContactRoute
   '/contemporary': typeof ContemporaryRoute
+  '/contribute': typeof ContributeRoute
+  '/editorial-standards': typeof EditorialStandardsRoute
   '/heritage': typeof HeritageRoute
   '/opportunities': typeof OpportunitiesRoute
-  '/places': typeof PlacesRoute
   '/research': typeof ResearchRoute
+  '/search': typeof SearchRoute
+  '/collaborations/$slug': typeof CollaborationsSlugRoute
   '/collections/$slug': typeof CollectionsSlugRoute
+  '/culture/$slug': typeof CultureSlugRoute
   '/events/$slug': typeof EventsSlugRoute
+  '/institutions/$slug': typeof InstitutionsSlugRoute
+  '/people/$slug': typeof PeopleSlugRoute
+  '/places/$slug': typeof PlacesSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
+  '/collaborations': typeof CollaborationsIndexRoute
   '/collections': typeof CollectionsIndexRoute
   '/events': typeof EventsIndexRoute
+  '/institutions': typeof InstitutionsIndexRoute
+  '/people': typeof PeopleIndexRoute
+  '/places': typeof PlacesIndexRoute
   '/stories': typeof StoriesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/$': typeof SplatRoute
   '/about': typeof AboutRoute
   '/around-the-world': typeof AroundTheWorldRoute
   '/collaborate': typeof CollaborateRoute
   '/contact': typeof ContactRoute
   '/contemporary': typeof ContemporaryRoute
+  '/contribute': typeof ContributeRoute
+  '/editorial-standards': typeof EditorialStandardsRoute
   '/heritage': typeof HeritageRoute
   '/opportunities': typeof OpportunitiesRoute
-  '/places': typeof PlacesRoute
   '/research': typeof ResearchRoute
+  '/search': typeof SearchRoute
+  '/collaborations/$slug': typeof CollaborationsSlugRoute
   '/collections/$slug': typeof CollectionsSlugRoute
+  '/culture/$slug': typeof CultureSlugRoute
   '/events/$slug': typeof EventsSlugRoute
+  '/institutions/$slug': typeof InstitutionsSlugRoute
+  '/people/$slug': typeof PeopleSlugRoute
+  '/places/$slug': typeof PlacesSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
+  '/collaborations/': typeof CollaborationsIndexRoute
   '/collections/': typeof CollectionsIndexRoute
   '/events/': typeof EventsIndexRoute
+  '/institutions/': typeof InstitutionsIndexRoute
+  '/people/': typeof PeopleIndexRoute
+  '/places/': typeof PlacesIndexRoute
   '/stories/': typeof StoriesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/$'
     | '/about'
     | '/around-the-world'
     | '/collaborate'
     | '/contact'
     | '/contemporary'
+    | '/contribute'
+    | '/editorial-standards'
     | '/heritage'
     | '/opportunities'
-    | '/places'
     | '/research'
+    | '/search'
+    | '/collaborations/$slug'
     | '/collections/$slug'
+    | '/culture/$slug'
     | '/events/$slug'
+    | '/institutions/$slug'
+    | '/people/$slug'
+    | '/places/$slug'
     | '/stories/$slug'
+    | '/collaborations/'
     | '/collections/'
     | '/events/'
+    | '/institutions/'
+    | '/people/'
+    | '/places/'
     | '/stories/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/$'
     | '/about'
     | '/around-the-world'
     | '/collaborate'
     | '/contact'
     | '/contemporary'
+    | '/contribute'
+    | '/editorial-standards'
     | '/heritage'
     | '/opportunities'
-    | '/places'
     | '/research'
+    | '/search'
+    | '/collaborations/$slug'
     | '/collections/$slug'
+    | '/culture/$slug'
     | '/events/$slug'
+    | '/institutions/$slug'
+    | '/people/$slug'
+    | '/places/$slug'
     | '/stories/$slug'
+    | '/collaborations'
     | '/collections'
     | '/events'
+    | '/institutions'
+    | '/people'
+    | '/places'
     | '/stories'
   id:
     | '__root__'
     | '/'
+    | '/$'
     | '/about'
     | '/around-the-world'
     | '/collaborate'
     | '/contact'
     | '/contemporary'
+    | '/contribute'
+    | '/editorial-standards'
     | '/heritage'
     | '/opportunities'
-    | '/places'
     | '/research'
+    | '/search'
+    | '/collaborations/$slug'
     | '/collections/$slug'
+    | '/culture/$slug'
     | '/events/$slug'
+    | '/institutions/$slug'
+    | '/people/$slug'
+    | '/places/$slug'
     | '/stories/$slug'
+    | '/collaborations/'
     | '/collections/'
     | '/events/'
+    | '/institutions/'
+    | '/people/'
+    | '/places/'
     | '/stories/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  SplatRoute: typeof SplatRoute
   AboutRoute: typeof AboutRoute
   AroundTheWorldRoute: typeof AroundTheWorldRoute
   CollaborateRoute: typeof CollaborateRoute
   ContactRoute: typeof ContactRoute
   ContemporaryRoute: typeof ContemporaryRoute
+  ContributeRoute: typeof ContributeRoute
+  EditorialStandardsRoute: typeof EditorialStandardsRoute
   HeritageRoute: typeof HeritageRoute
   OpportunitiesRoute: typeof OpportunitiesRoute
-  PlacesRoute: typeof PlacesRoute
   ResearchRoute: typeof ResearchRoute
+  SearchRoute: typeof SearchRoute
+  CollaborationsSlugRoute: typeof CollaborationsSlugRoute
   CollectionsSlugRoute: typeof CollectionsSlugRoute
+  CultureSlugRoute: typeof CultureSlugRoute
   EventsSlugRoute: typeof EventsSlugRoute
+  InstitutionsSlugRoute: typeof InstitutionsSlugRoute
+  PeopleSlugRoute: typeof PeopleSlugRoute
+  PlacesSlugRoute: typeof PlacesSlugRoute
   StoriesSlugRoute: typeof StoriesSlugRoute
+  CollaborationsIndexRoute: typeof CollaborationsIndexRoute
   CollectionsIndexRoute: typeof CollectionsIndexRoute
   EventsIndexRoute: typeof EventsIndexRoute
+  InstitutionsIndexRoute: typeof InstitutionsIndexRoute
+  PeopleIndexRoute: typeof PeopleIndexRoute
+  PlacesIndexRoute: typeof PlacesIndexRoute
   StoriesIndexRoute: typeof StoriesIndexRoute
 }
 
@@ -245,6 +401,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$': {
+      id: '/$'
+      path: '/$'
+      fullPath: '/$'
+      preLoaderRoute: typeof SplatRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -282,6 +445,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContemporaryRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contribute': {
+      id: '/contribute'
+      path: '/contribute'
+      fullPath: '/contribute'
+      preLoaderRoute: typeof ContributeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/editorial-standards': {
+      id: '/editorial-standards'
+      path: '/editorial-standards'
+      fullPath: '/editorial-standards'
+      preLoaderRoute: typeof EditorialStandardsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/heritage': {
       id: '/heritage'
       path: '/heritage'
@@ -296,18 +473,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OpportunitiesRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/places': {
-      id: '/places'
-      path: '/places'
-      fullPath: '/places'
-      preLoaderRoute: typeof PlacesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/research': {
       id: '/research'
       path: '/research'
       fullPath: '/research'
       preLoaderRoute: typeof ResearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/search': {
+      id: '/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/collaborations/': {
+      id: '/collaborations/'
+      path: '/collaborations'
+      fullPath: '/collaborations/'
+      preLoaderRoute: typeof CollaborationsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/collaborations/$slug': {
+      id: '/collaborations/$slug'
+      path: '/collaborations/$slug'
+      fullPath: '/collaborations/$slug'
+      preLoaderRoute: typeof CollaborationsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/collections/': {
@@ -324,6 +515,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CollectionsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/culture/$slug': {
+      id: '/culture/$slug'
+      path: '/culture/$slug'
+      fullPath: '/culture/$slug'
+      preLoaderRoute: typeof CultureSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/events/': {
       id: '/events/'
       path: '/events'
@@ -336,6 +534,48 @@ declare module '@tanstack/react-router' {
       path: '/events/$slug'
       fullPath: '/events/$slug'
       preLoaderRoute: typeof EventsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/institutions/': {
+      id: '/institutions/'
+      path: '/institutions'
+      fullPath: '/institutions/'
+      preLoaderRoute: typeof InstitutionsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/institutions/$slug': {
+      id: '/institutions/$slug'
+      path: '/institutions/$slug'
+      fullPath: '/institutions/$slug'
+      preLoaderRoute: typeof InstitutionsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/people/': {
+      id: '/people/'
+      path: '/people'
+      fullPath: '/people/'
+      preLoaderRoute: typeof PeopleIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/people/$slug': {
+      id: '/people/$slug'
+      path: '/people/$slug'
+      fullPath: '/people/$slug'
+      preLoaderRoute: typeof PeopleSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/places/': {
+      id: '/places/'
+      path: '/places'
+      fullPath: '/places/'
+      preLoaderRoute: typeof PlacesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/places/$slug': {
+      id: '/places/$slug'
+      path: '/places/$slug'
+      fullPath: '/places/$slug'
+      preLoaderRoute: typeof PlacesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/stories/': {
@@ -357,20 +597,32 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  SplatRoute: SplatRoute,
   AboutRoute: AboutRoute,
   AroundTheWorldRoute: AroundTheWorldRoute,
   CollaborateRoute: CollaborateRoute,
   ContactRoute: ContactRoute,
   ContemporaryRoute: ContemporaryRoute,
+  ContributeRoute: ContributeRoute,
+  EditorialStandardsRoute: EditorialStandardsRoute,
   HeritageRoute: HeritageRoute,
   OpportunitiesRoute: OpportunitiesRoute,
-  PlacesRoute: PlacesRoute,
   ResearchRoute: ResearchRoute,
+  SearchRoute: SearchRoute,
+  CollaborationsSlugRoute: CollaborationsSlugRoute,
   CollectionsSlugRoute: CollectionsSlugRoute,
+  CultureSlugRoute: CultureSlugRoute,
   EventsSlugRoute: EventsSlugRoute,
+  InstitutionsSlugRoute: InstitutionsSlugRoute,
+  PeopleSlugRoute: PeopleSlugRoute,
+  PlacesSlugRoute: PlacesSlugRoute,
   StoriesSlugRoute: StoriesSlugRoute,
+  CollaborationsIndexRoute: CollaborationsIndexRoute,
   CollectionsIndexRoute: CollectionsIndexRoute,
   EventsIndexRoute: EventsIndexRoute,
+  InstitutionsIndexRoute: InstitutionsIndexRoute,
+  PeopleIndexRoute: PeopleIndexRoute,
+  PlacesIndexRoute: PlacesIndexRoute,
   StoriesIndexRoute: StoriesIndexRoute,
 }
 export const routeTree = rootRouteImport

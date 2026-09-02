@@ -41,7 +41,7 @@ export const navigation: NavGroup[] = [
     intro: "In a room, on a stage, or on the ground.",
     items: [
       { label: "Events", to: "/events", description: "Exhibitions, performances, screenings, workshops, residencies." },
-      { label: "Places", to: "/places", description: "Origins and venues, from East Sumba to São Paulo." },
+      { label: "Places", to: "/places", description: "A map and directory of cultural places across the archipelago." },
       { label: "Indonesia Around the World", to: "/around-the-world", description: "The live map of every programme abroad." },
     ],
   },
@@ -50,9 +50,12 @@ export const navigation: NavGroup[] = [
     stage: "Connect",
     intro: "Funding, partnership and a way to reach a human.",
     items: [
+      { label: "People & Communities", to: "/people", description: "Artists, masters, researchers and custodian communities." },
+      { label: "Institutions", to: "/institutions", description: "Museums, universities, archives and cultural organisations." },
+      { label: "International Collaborations", to: "/collaborations", description: "Exchanges, joint exhibitions and research partnerships." },
       { label: "Opportunities", to: "/opportunities", description: "Grants, residencies, fellowships and open calls." },
       { label: "Collaborate", to: "/collaborate", description: "How institutions and festivals work with us." },
-      { label: "Contact", to: "/contact", description: "Send an inquiry to the programme team." },
+      { label: "Contact", to: "/contact", description: "Request an introduction or send an inquiry." },
     ],
   },
   {
@@ -61,7 +64,9 @@ export const navigation: NavGroup[] = [
     stage: "Collaborate",
     intro: "Who we are and the principles we work under.",
     items: [
-      { label: "About", to: "/about", description: "Mission, method and the people behind the platform." },
+      { label: "About Indonesia Vibes", to: "/about", description: "Mission, method and the people behind the platform." },
+      { label: "Editorial Standards", to: "/editorial-standards", description: "How we research, verify, attribute and correct." },
+      { label: "Contribute", to: "/contribute", description: "Suggest a story, nominate a maker, propose research." },
     ],
   },
 ];

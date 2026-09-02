@@ -86,7 +86,7 @@ function EventPage() {
             </ul>
           </div>
           <Link
-            to="/contact"
+            to="/contact" search={{}}
             className="inline-flex min-h-11 items-center rounded-full bg-primary px-5 text-sm font-medium text-primary-foreground transition-colors hover:bg-deep-red"
           >
             Enquire about this event
