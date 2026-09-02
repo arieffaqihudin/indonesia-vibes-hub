@@ -103,10 +103,10 @@ function FormPage() {
           ) : null}
 
           {form.sensitivity ? (
-            <aside className="max-w-2xl border-l-2 border-primary bg-pale/40 p-6">
+            <div className="max-w-2xl border-l-2 border-primary bg-pale/40 p-6">
               <p className="eyebrow text-deep-red">Respectful engagement</p>
               <p className="mt-3 text-[0.95rem] leading-relaxed text-ink">{form.sensitivity}</p>
-            </aside>
+            </div>
           ) : null}
 
           {makers.length ? (
@@ -224,7 +224,7 @@ function FormPage() {
           ) : null}
         </div>
 
-        <aside className="space-y-8 lg:sticky lg:top-28 lg:self-start">
+        <div className="space-y-8 lg:sticky lg:top-28 lg:self-start">
           <FactList
             items={[
               { label: "Discipline", value: form.discipline },
@@ -245,7 +245,7 @@ function FormPage() {
               .
             </p>
           ) : null}
-        </aside>
+        </div>
       </div>
     </article>
   );

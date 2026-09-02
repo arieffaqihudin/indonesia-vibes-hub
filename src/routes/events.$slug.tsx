@@ -139,7 +139,7 @@ function EventPage() {
           </section>
         </div>
 
-        <aside className="space-y-7 border-t border-border pt-8 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-10">
+        <div className="space-y-7 border-t border-border pt-8 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-10">
           <Fact label="Dates" value={formatRange(event.startDate, event.endDate)} />
           {event.localTime ? (
             <Fact label="Times" value={`${event.localTime}${event.timeZone ? ` (${event.timeZone})` : ""}`} />
@@ -161,7 +161,7 @@ function EventPage() {
               venue before travelling.
             </p>
           ) : null}
-        </aside>
+        </div>
       </div>
     </article>
   );

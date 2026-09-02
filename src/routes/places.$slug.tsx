@@ -229,7 +229,7 @@ function PlacePage() {
           ) : null}
         </div>
 
-        <aside className="space-y-8 lg:sticky lg:top-28 lg:self-start">
+        <div className="space-y-8 lg:sticky lg:top-28 lg:self-start">
           <IndonesiaMap places={[place]} selectedId={place.id} onSelect={() => {}} />
           {place.visiting ? (
             <>
@@ -261,7 +261,7 @@ function PlacePage() {
               through the communities and institutions listed on this page.
             </p>
           )}
-        </aside>
+        </div>
       </div>
 
       {nearby.length ? (

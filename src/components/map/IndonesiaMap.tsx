@@ -48,7 +48,7 @@ export function IndonesiaMap({
     <div className={cn("relative overflow-hidden border border-border bg-sand", className)}>
       <svg
         viewBox="0 60 1000 340"
-        role="img"
+        role="group"
         aria-label="Map of cultural places across Indonesia. A full list of the same places follows."
         className="block w-full"
       >

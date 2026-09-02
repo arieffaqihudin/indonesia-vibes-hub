@@ -127,7 +127,7 @@ function StoryPage() {
           ) : null}
         </div>
 
-        <aside className="space-y-10 border-t border-border pt-8 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-10">
+        <div className="space-y-10 border-t border-border pt-8 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-10">
           {forms.length ? (
             <div>
               <p className="eyebrow text-muted-foreground">Cultural forms</p>
@@ -190,7 +190,7 @@ function StoryPage() {
               </Link>
             </div>
           ) : null}
-        </aside>
+        </div>
       </div>
 
       {related.length ? (

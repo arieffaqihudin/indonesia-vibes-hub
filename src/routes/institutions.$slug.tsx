@@ -223,7 +223,7 @@ function InstitutionPage() {
           </DetailSection>
         </div>
 
-        <aside className="space-y-8 lg:sticky lg:top-28 lg:self-start">
+        <div className="space-y-8 lg:sticky lg:top-28 lg:self-start">
           <FactList
             items={[
               { label: "Type", value: institution.type },
@@ -257,7 +257,7 @@ function InstitutionPage() {
             ]}
           />
           <LastReviewed date={institution.lastReviewed} />
-        </aside>
+        </div>
       </div>
 
       {related.length ? (

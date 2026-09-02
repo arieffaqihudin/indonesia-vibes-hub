@@ -249,7 +249,7 @@ function CollaborationPage() {
           </DetailSection>
         </div>
 
-        <aside className="lg:sticky lg:top-28 lg:self-start">
+        <div className="lg:sticky lg:top-28 lg:self-start">
           <FactList
             items={[
               { label: "Type", value: c.type },
@@ -285,7 +285,7 @@ function CollaborationPage() {
                 : []),
             ]}
           />
-        </aside>
+        </div>
       </div>
 
       {related.length ? (
