@@ -17,7 +17,6 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as ContemporaryRouteImport } from './routes/contemporary'
 import { Route as HeritageRouteImport } from './routes/heritage'
 import { Route as OpportunitiesRouteImport } from './routes/opportunities'
-import { Route as PlacesRouteImport } from './routes/places'
 import { Route as ResearchRouteImport } from './routes/research'
 import { Route as CollectionsIndexRouteImport } from './routes/collections.index'
 import { Route as CollectionsSlugRouteImport } from './routes/collections.$slug'
@@ -27,6 +26,8 @@ import { Route as InstitutionsIndexRouteImport } from './routes/institutions.ind
 import { Route as InstitutionsSlugRouteImport } from './routes/institutions.$slug'
 import { Route as PeopleIndexRouteImport } from './routes/people.index'
 import { Route as PeopleSlugRouteImport } from './routes/people.$slug'
+import { Route as PlacesIndexRouteImport } from './routes/places.index'
+import { Route as PlacesSlugRouteImport } from './routes/places.$slug'
 import { Route as StoriesIndexRouteImport } from './routes/stories.index'
 import { Route as StoriesSlugRouteImport } from './routes/stories.$slug'
 
@@ -68,11 +69,6 @@ const HeritageRoute = HeritageRouteImport.update({
 const OpportunitiesRoute = OpportunitiesRouteImport.update({
   id: '/opportunities',
   path: '/opportunities',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PlacesRoute = PlacesRouteImport.update({
-  id: '/places',
-  path: '/places',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResearchRoute = ResearchRouteImport.update({
@@ -120,6 +116,16 @@ const PeopleSlugRoute = PeopleSlugRouteImport.update({
   path: '/people/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PlacesIndexRoute = PlacesIndexRouteImport.update({
+  id: '/places/',
+  path: '/places/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlacesSlugRoute = PlacesSlugRouteImport.update({
+  id: '/places/$slug',
+  path: '/places/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StoriesIndexRoute = StoriesIndexRouteImport.update({
   id: '/stories/',
   path: '/stories/',
@@ -140,17 +146,18 @@ export interface FileRoutesByFullPath {
   '/contemporary': typeof ContemporaryRoute
   '/heritage': typeof HeritageRoute
   '/opportunities': typeof OpportunitiesRoute
-  '/places': typeof PlacesRoute
   '/research': typeof ResearchRoute
   '/collections/$slug': typeof CollectionsSlugRoute
   '/events/$slug': typeof EventsSlugRoute
   '/institutions/$slug': typeof InstitutionsSlugRoute
   '/people/$slug': typeof PeopleSlugRoute
+  '/places/$slug': typeof PlacesSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
   '/collections/': typeof CollectionsIndexRoute
   '/events/': typeof EventsIndexRoute
   '/institutions/': typeof InstitutionsIndexRoute
   '/people/': typeof PeopleIndexRoute
+  '/places/': typeof PlacesIndexRoute
   '/stories/': typeof StoriesIndexRoute
 }
 export interface FileRoutesByTo {
@@ -162,17 +169,18 @@ export interface FileRoutesByTo {
   '/contemporary': typeof ContemporaryRoute
   '/heritage': typeof HeritageRoute
   '/opportunities': typeof OpportunitiesRoute
-  '/places': typeof PlacesRoute
   '/research': typeof ResearchRoute
   '/collections/$slug': typeof CollectionsSlugRoute
   '/events/$slug': typeof EventsSlugRoute
   '/institutions/$slug': typeof InstitutionsSlugRoute
   '/people/$slug': typeof PeopleSlugRoute
+  '/places/$slug': typeof PlacesSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
   '/collections': typeof CollectionsIndexRoute
   '/events': typeof EventsIndexRoute
   '/institutions': typeof InstitutionsIndexRoute
   '/people': typeof PeopleIndexRoute
+  '/places': typeof PlacesIndexRoute
   '/stories': typeof StoriesIndexRoute
 }
 export interface FileRoutesById {
@@ -185,17 +193,18 @@ export interface FileRoutesById {
   '/contemporary': typeof ContemporaryRoute
   '/heritage': typeof HeritageRoute
   '/opportunities': typeof OpportunitiesRoute
-  '/places': typeof PlacesRoute
   '/research': typeof ResearchRoute
   '/collections/$slug': typeof CollectionsSlugRoute
   '/events/$slug': typeof EventsSlugRoute
   '/institutions/$slug': typeof InstitutionsSlugRoute
   '/people/$slug': typeof PeopleSlugRoute
+  '/places/$slug': typeof PlacesSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
   '/collections/': typeof CollectionsIndexRoute
   '/events/': typeof EventsIndexRoute
   '/institutions/': typeof InstitutionsIndexRoute
   '/people/': typeof PeopleIndexRoute
+  '/places/': typeof PlacesIndexRoute
   '/stories/': typeof StoriesIndexRoute
 }
 export interface FileRouteTypes {
@@ -209,17 +218,18 @@ export interface FileRouteTypes {
     | '/contemporary'
     | '/heritage'
     | '/opportunities'
-    | '/places'
     | '/research'
     | '/collections/$slug'
     | '/events/$slug'
     | '/institutions/$slug'
     | '/people/$slug'
+    | '/places/$slug'
     | '/stories/$slug'
     | '/collections/'
     | '/events/'
     | '/institutions/'
     | '/people/'
+    | '/places/'
     | '/stories/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -231,17 +241,18 @@ export interface FileRouteTypes {
     | '/contemporary'
     | '/heritage'
     | '/opportunities'
-    | '/places'
     | '/research'
     | '/collections/$slug'
     | '/events/$slug'
     | '/institutions/$slug'
     | '/people/$slug'
+    | '/places/$slug'
     | '/stories/$slug'
     | '/collections'
     | '/events'
     | '/institutions'
     | '/people'
+    | '/places'
     | '/stories'
   id:
     | '__root__'
@@ -253,17 +264,18 @@ export interface FileRouteTypes {
     | '/contemporary'
     | '/heritage'
     | '/opportunities'
-    | '/places'
     | '/research'
     | '/collections/$slug'
     | '/events/$slug'
     | '/institutions/$slug'
     | '/people/$slug'
+    | '/places/$slug'
     | '/stories/$slug'
     | '/collections/'
     | '/events/'
     | '/institutions/'
     | '/people/'
+    | '/places/'
     | '/stories/'
   fileRoutesById: FileRoutesById
 }
@@ -276,17 +288,18 @@ export interface RootRouteChildren {
   ContemporaryRoute: typeof ContemporaryRoute
   HeritageRoute: typeof HeritageRoute
   OpportunitiesRoute: typeof OpportunitiesRoute
-  PlacesRoute: typeof PlacesRoute
   ResearchRoute: typeof ResearchRoute
   CollectionsSlugRoute: typeof CollectionsSlugRoute
   EventsSlugRoute: typeof EventsSlugRoute
   InstitutionsSlugRoute: typeof InstitutionsSlugRoute
   PeopleSlugRoute: typeof PeopleSlugRoute
+  PlacesSlugRoute: typeof PlacesSlugRoute
   StoriesSlugRoute: typeof StoriesSlugRoute
   CollectionsIndexRoute: typeof CollectionsIndexRoute
   EventsIndexRoute: typeof EventsIndexRoute
   InstitutionsIndexRoute: typeof InstitutionsIndexRoute
   PeopleIndexRoute: typeof PeopleIndexRoute
+  PlacesIndexRoute: typeof PlacesIndexRoute
   StoriesIndexRoute: typeof StoriesIndexRoute
 }
 
@@ -346,13 +359,6 @@ declare module '@tanstack/react-router' {
       path: '/opportunities'
       fullPath: '/opportunities'
       preLoaderRoute: typeof OpportunitiesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/places': {
-      id: '/places'
-      path: '/places'
-      fullPath: '/places'
-      preLoaderRoute: typeof PlacesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/research': {
@@ -418,6 +424,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PeopleSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/places/': {
+      id: '/places/'
+      path: '/places'
+      fullPath: '/places/'
+      preLoaderRoute: typeof PlacesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/places/$slug': {
+      id: '/places/$slug'
+      path: '/places/$slug'
+      fullPath: '/places/$slug'
+      preLoaderRoute: typeof PlacesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/stories/': {
       id: '/stories/'
       path: '/stories'
@@ -444,17 +464,18 @@ const rootRouteChildren: RootRouteChildren = {
   ContemporaryRoute: ContemporaryRoute,
   HeritageRoute: HeritageRoute,
   OpportunitiesRoute: OpportunitiesRoute,
-  PlacesRoute: PlacesRoute,
   ResearchRoute: ResearchRoute,
   CollectionsSlugRoute: CollectionsSlugRoute,
   EventsSlugRoute: EventsSlugRoute,
   InstitutionsSlugRoute: InstitutionsSlugRoute,
   PeopleSlugRoute: PeopleSlugRoute,
+  PlacesSlugRoute: PlacesSlugRoute,
   StoriesSlugRoute: StoriesSlugRoute,
   CollectionsIndexRoute: CollectionsIndexRoute,
   EventsIndexRoute: EventsIndexRoute,
   InstitutionsIndexRoute: InstitutionsIndexRoute,
   PeopleIndexRoute: PeopleIndexRoute,
+  PlacesIndexRoute: PlacesIndexRoute,
   StoriesIndexRoute: StoriesIndexRoute,
 }
 export const routeTree = rootRouteImport
