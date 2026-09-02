@@ -105,7 +105,7 @@ function CollaborationsPage() {
       {!active && featured ? (
         <section className="border-b border-border">
           <div className="container-editorial py-16">
-            <p className="eyebrow text-primary">Featured collaboration</p>
+            <h2 className="eyebrow text-primary">Featured collaboration</h2>
             <div className="mt-8">
               <CollaborationCard collaboration={featured} size="lg" />
             </div>

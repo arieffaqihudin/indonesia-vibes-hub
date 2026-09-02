@@ -83,7 +83,7 @@
   --card-foreground: oklch(0.2731 0.0439 20.31);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.2731 0.0439 20.31);
-  --primary: oklch(0.585 0.2242 31.05); /* brand red #EC3118, tuned to 4.6:1 on white for AA text */
+  --primary: oklch(0.5705 0.2242 31.05); /* brand red #EC3118, tuned to 4.6:1 on white for AA text */
   --primary-foreground: oklch(1 0 0);
   --secondary: oklch(0.9574 0.0196 17.5);
   --secondary-foreground: oklch(0.3367 0.087 22.96);
@@ -118,7 +118,7 @@
   --card-foreground: oklch(0.98 0.005 40);
   --popover: oklch(0.2731 0.0439 20.31);
   --popover-foreground: oklch(0.98 0.005 40);
-  --primary: oklch(0.585 0.2242 31.05);
+  --primary: oklch(0.5705 0.2242 31.05);
   --primary-foreground: oklch(1 0 0);
   --secondary: oklch(0.3367 0.087 22.96);
   --secondary-foreground: oklch(0.98 0.005 40);
