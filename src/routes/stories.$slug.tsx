@@ -74,7 +74,21 @@ function StoryPage() {
         </p>
         <h1 className="display-1 mt-5 max-w-4xl text-ink">{story.title}</h1>
         <p className="standfirst mt-6 max-w-2xl">{story.dek}</p>
-        <p className="mt-6 text-sm text-muted-foreground">{formatDate(story.publishedAt)}</p>
+        <div className="mt-7 flex flex-col gap-1 border-t border-border pt-5 text-sm text-muted-foreground sm:flex-row sm:flex-wrap sm:items-baseline sm:gap-x-4">
+          {story.author ? (
+            <p className="text-ink">
+              By {story.author}
+              {story.authorRole ? <span className="text-muted-foreground">, {story.authorRole}</span> : null}
+            </p>
+          ) : null}
+          <p>Published {formatDate(story.publishedAt)}</p>
+          {story.updatedAt ? <p>Updated {formatDate(story.updatedAt)}</p> : null}
+        </div>
+        {story.reviewedBy ? (
+          <p className="mt-2 text-sm text-muted-foreground">
+            Reviewed for accuracy with {story.reviewedBy}.
+          </p>
+        ) : null}
       </header>
 
       <figure className="container-editorial">
@@ -89,10 +103,28 @@ function StoryPage() {
       </figure>
 
       <div className="container-editorial grid gap-12 py-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,18rem)] lg:gap-20">
-        <div className="prose-editorial max-w-2xl text-ink">
-          {story.body.map((p: string, i: number) => (
-            <p key={i}>{p}</p>
-          ))}
+        <div className="max-w-2xl">
+          <div className="prose-editorial text-ink">
+            {story.body.map((p: string, i: number) => (
+              <p key={i}>{p}</p>
+            ))}
+          </div>
+          {story.sources?.length ? (
+            <section className="mt-12 border-t border-border pt-8">
+              <h2 className="eyebrow text-muted-foreground">References</h2>
+              <ul className="mt-4 space-y-3">
+                {story.sources.map((r, i: number) => (
+                  <li key={i} className="text-sm leading-relaxed text-ink">
+                    <span className="font-medium">{r.title}</span>
+                    {r.author ? <span className="text-muted-foreground"> — {r.author}</span> : null}
+                    {r.year ? <span className="text-muted-foreground">, {r.year}</span> : null}
+                    {r.publisher ? <span className="text-muted-foreground"> · {r.publisher}</span> : null}
+                    {r.note ? <span className="block text-muted-foreground">{r.note}</span> : null}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
         </div>
 
         <aside className="space-y-10 border-t border-border pt-8 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-10">
