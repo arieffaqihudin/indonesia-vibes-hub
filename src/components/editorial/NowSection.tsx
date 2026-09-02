@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { ArrowUpRight } from "lucide-react";
 import { useState } from "react";
 
@@ -28,7 +29,7 @@ const lenses: { id: string; label: string; match: (i: NowItem) => boolean }[] = 
 export function NowSection() {
   const [lens, setLens] = useState("all");
   const current = lenses.find((l) => l.id === lens) ?? lenses[0]!;
-  const items = nowItems.filter(current.match);
+  const items = nowItems.filter(current.match).slice(0, 8);
 
   return (
     <section
@@ -92,8 +93,8 @@ export function NowSection() {
               className="stagger-item bg-ink-deep"
               style={{ ["--reveal-delay" as string]: `${i * 60}ms` }}
             >
-              <a
-                href={item.href}
+              <Link
+                to={item.href}
                 className="group flex h-full min-h-11 flex-col justify-between gap-8 p-6 transition-colors duration-200 hover:bg-clay/60"
               >
                 <span className="flex items-center gap-2">
@@ -114,7 +115,7 @@ export function NowSection() {
                     <ArrowUpRight className="arrow-nudge h-3.5 w-3.5 text-pink" />
                   </span>
                 </span>
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
