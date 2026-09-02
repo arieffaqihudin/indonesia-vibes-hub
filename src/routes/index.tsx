@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 
+import { Reveal } from "@/components/motion/Reveal";
 import { NowSection } from "@/components/editorial/NowSection";
 import { SectionHeading } from "@/components/editorial/Section";
 import { StoryCard } from "@/components/editorial/StoryCard";
@@ -135,17 +136,19 @@ function Home() {
       {/* Pillars */}
       <section className="border-y border-border bg-sand">
         <div className="container-editorial py-16 md:py-24">
-          <SectionHeading
-            eyebrow="Understand"
-            title="Three ways in"
-            intro="Heritage, contemporary practice and research — held together rather than ranked."
-          />
+          <Reveal>
+            <SectionHeading
+              eyebrow="Understand"
+              title="Three ways in"
+              intro="Heritage, contemporary practice and research — held together rather than ranked."
+            />
+          </Reveal>
           <div className="mt-10 grid gap-px overflow-hidden border border-border bg-border md:grid-cols-3">
             {pillars.map((p, i) => (
+              <Reveal key={p.id} delay={i * 80} className="contents">
               <Link
-                key={p.id}
                 to={p.route}
-                className="group flex flex-col justify-between gap-10 bg-background p-8 transition-colors hover:bg-blush"
+                className="press group flex flex-col justify-between gap-10 bg-background p-8 hover:bg-blush"
               >
                 <span className="text-sm text-muted-foreground tabular-nums">
                   {String(i + 1).padStart(2, "0")}
@@ -161,6 +164,7 @@ function Home() {
                   </span>
                 </span>
               </Link>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -168,6 +172,7 @@ function Home() {
 
       {/* Around the world */}
       <section className="container-editorial py-16 md:py-24">
+        <Reveal>
         <SectionHeading
           eyebrow="Experience"
           title="Indonesia around the world"
@@ -175,13 +180,16 @@ function Home() {
           action="/around-the-world"
           actionLabel="Open the map"
         />
+        </Reveal>
         <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] lg:items-start">
-          <WorldMap />
+          <Reveal variant="fade">
+            <WorldMap />
+          </Reveal>
           <ul className="divide-y divide-border border-y border-border">
-            {upcoming.map((e) => {
+            {upcoming.map((e, i) => {
               const place = getPlace(e.placeId);
               return (
-                <li key={e.id}>
+                <Reveal as="li" key={e.id} delay={i * 70}>
                   <Link
                     to="/events/$slug"
                     params={{ slug: e.slug }}
@@ -198,9 +206,9 @@ function Home() {
                         {formatRange(e.startDate, e.endDate)}
                       </span>
                     </span>
-                    <ArrowUpRight className="h-5 w-5 shrink-0 text-primary transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    <ArrowUpRight className="arrow-nudge h-5 w-5 shrink-0 text-primary" />
                   </Link>
-                </li>
+                </Reveal>
               );
             })}
           </ul>
@@ -210,15 +218,18 @@ function Home() {
       {/* Collections */}
       <section className="border-t border-border bg-blush">
         <div className="container-editorial py-16 md:py-24">
+          <Reveal>
           <SectionHeading
             eyebrow="Curated"
             title="Collections"
             intro="Sets that read as arguments, not folders."
             action="/collections"
           />
+          </Reveal>
           <div className="mt-10 grid gap-8 md:grid-cols-3">
-            {collections.map((c) => (
-              <Link key={c.id} to="/collections/$slug" params={{ slug: c.slug }} className="group">
+            {collections.map((c, i) => (
+              <Reveal key={c.id} delay={i * 80}>
+              <Link to="/collections/$slug" params={{ slug: c.slug }} className="group block">
                 <div className="media-zoom bg-muted">
                   <img
                     src={c.image}
@@ -235,6 +246,7 @@ function Home() {
                 <p className="mt-2 text-[0.95rem] leading-relaxed text-muted-foreground">{c.dek}</p>
                 <p className="mt-3 text-xs text-muted-foreground">{c.storyIds.length} stories</p>
               </Link>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -242,7 +254,7 @@ function Home() {
 
       {/* Connect */}
       <section className="container-editorial py-16 md:py-24">
-        <div className="grid gap-10 border border-border bg-ink-deep p-8 text-[oklch(0.95_0.01_40)] md:p-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,20rem)] lg:items-end">
+        <Reveal className="grid gap-10 border border-border bg-ink-deep p-8 text-[oklch(0.95_0.01_40)] md:p-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,20rem)] lg:items-end">
           <div>
             <p className="eyebrow text-pink">Connect · Collaborate</p>
             <h2 className="display-2 mt-4 max-w-2xl">
@@ -256,18 +268,18 @@ function Home() {
           <div className="flex flex-wrap gap-3 lg:justify-end">
             <Link
               to="/collaborate"
-              className="inline-flex min-h-11 items-center rounded-full bg-primary px-6 text-sm font-medium text-primary-foreground transition-colors hover:bg-deep-red"
+              className="press inline-flex min-h-11 items-center rounded-full bg-primary px-6 text-sm font-medium text-primary-foreground hover:bg-deep-red"
             >
               Partner with us
             </Link>
             <Link
               to="/opportunities"
-              className="inline-flex min-h-11 items-center rounded-full border border-white/25 px-6 text-sm font-medium transition-colors hover:bg-white/10"
+              className="press inline-flex min-h-11 items-center rounded-full border border-white/25 px-6 text-sm font-medium hover:bg-white/10"
             >
               Open calls
             </Link>
           </div>
-        </div>
+        </Reveal>
       </section>
     </>
   );
