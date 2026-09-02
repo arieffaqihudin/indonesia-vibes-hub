@@ -42,7 +42,21 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-14 flex flex-col gap-4 border-t border-white/10 pt-8 text-xs text-[oklch(0.72_0.02_30)] sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-14 border-t border-white/10 pt-8">
+          <p className="max-w-3xl text-xs leading-relaxed text-[oklch(0.7_0.02_30)]">
+            Prototype: this is a demonstration platform. Stories, profiles, events and opportunities
+            are written as realistic editorial examples and are not live listings. Named people,
+            institutions and programmes are illustrative.
+          </p>
+          <p className="mt-3 max-w-3xl text-xs leading-relaxed text-[oklch(0.7_0.02_30)]">
+            Editorial policy:{" "}
+            <Link to="/editorial-standards" className="underline underline-offset-4 hover:text-pink">
+              how we source, review and credit
+            </Link>
+            .
+          </p>
+        </div>
+        <div className="mt-8 flex flex-col gap-4 border-t border-white/10 pt-8 text-xs text-[oklch(0.72_0.02_30)] sm:flex-row sm:items-center sm:justify-between">
           <p>
             © {new Date().getFullYear()} {brand.organisation}. Published in English for a global
             audience.
