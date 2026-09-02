@@ -415,8 +415,7 @@ export interface SearchRecord {
   location?: string;
   meta?: string;
   image?: string;
-  to: string;
-  params?: Record<string, string>;
+  slug?: string;
   themes: ThemeId[];
   countries: string[];
   date?: string;
