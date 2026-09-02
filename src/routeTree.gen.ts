@@ -23,6 +23,8 @@ import { Route as CollectionsIndexRouteImport } from './routes/collections.index
 import { Route as CollectionsSlugRouteImport } from './routes/collections.$slug'
 import { Route as EventsIndexRouteImport } from './routes/events.index'
 import { Route as EventsSlugRouteImport } from './routes/events.$slug'
+import { Route as InstitutionsIndexRouteImport } from './routes/institutions.index'
+import { Route as PeopleIndexRouteImport } from './routes/people.index'
 import { Route as StoriesIndexRouteImport } from './routes/stories.index'
 import { Route as StoriesSlugRouteImport } from './routes/stories.$slug'
 
@@ -96,6 +98,16 @@ const EventsSlugRoute = EventsSlugRouteImport.update({
   path: '/events/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const InstitutionsIndexRoute = InstitutionsIndexRouteImport.update({
+  id: '/institutions/',
+  path: '/institutions/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PeopleIndexRoute = PeopleIndexRouteImport.update({
+  id: '/people/',
+  path: '/people/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StoriesIndexRoute = StoriesIndexRouteImport.update({
   id: '/stories/',
   path: '/stories/',
@@ -123,6 +135,8 @@ export interface FileRoutesByFullPath {
   '/stories/$slug': typeof StoriesSlugRoute
   '/collections/': typeof CollectionsIndexRoute
   '/events/': typeof EventsIndexRoute
+  '/institutions/': typeof InstitutionsIndexRoute
+  '/people/': typeof PeopleIndexRoute
   '/stories/': typeof StoriesIndexRoute
 }
 export interface FileRoutesByTo {
@@ -141,6 +155,8 @@ export interface FileRoutesByTo {
   '/stories/$slug': typeof StoriesSlugRoute
   '/collections': typeof CollectionsIndexRoute
   '/events': typeof EventsIndexRoute
+  '/institutions': typeof InstitutionsIndexRoute
+  '/people': typeof PeopleIndexRoute
   '/stories': typeof StoriesIndexRoute
 }
 export interface FileRoutesById {
@@ -160,6 +176,8 @@ export interface FileRoutesById {
   '/stories/$slug': typeof StoriesSlugRoute
   '/collections/': typeof CollectionsIndexRoute
   '/events/': typeof EventsIndexRoute
+  '/institutions/': typeof InstitutionsIndexRoute
+  '/people/': typeof PeopleIndexRoute
   '/stories/': typeof StoriesIndexRoute
 }
 export interface FileRouteTypes {
@@ -180,6 +198,8 @@ export interface FileRouteTypes {
     | '/stories/$slug'
     | '/collections/'
     | '/events/'
+    | '/institutions/'
+    | '/people/'
     | '/stories/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -198,6 +218,8 @@ export interface FileRouteTypes {
     | '/stories/$slug'
     | '/collections'
     | '/events'
+    | '/institutions'
+    | '/people'
     | '/stories'
   id:
     | '__root__'
@@ -216,6 +238,8 @@ export interface FileRouteTypes {
     | '/stories/$slug'
     | '/collections/'
     | '/events/'
+    | '/institutions/'
+    | '/people/'
     | '/stories/'
   fileRoutesById: FileRoutesById
 }
@@ -235,6 +259,8 @@ export interface RootRouteChildren {
   StoriesSlugRoute: typeof StoriesSlugRoute
   CollectionsIndexRoute: typeof CollectionsIndexRoute
   EventsIndexRoute: typeof EventsIndexRoute
+  InstitutionsIndexRoute: typeof InstitutionsIndexRoute
+  PeopleIndexRoute: typeof PeopleIndexRoute
   StoriesIndexRoute: typeof StoriesIndexRoute
 }
 
@@ -338,6 +364,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EventsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/institutions/': {
+      id: '/institutions/'
+      path: '/institutions'
+      fullPath: '/institutions/'
+      preLoaderRoute: typeof InstitutionsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/people/': {
+      id: '/people/'
+      path: '/people'
+      fullPath: '/people/'
+      preLoaderRoute: typeof PeopleIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/stories/': {
       id: '/stories/'
       path: '/stories'
@@ -371,6 +411,8 @@ const rootRouteChildren: RootRouteChildren = {
   StoriesSlugRoute: StoriesSlugRoute,
   CollectionsIndexRoute: CollectionsIndexRoute,
   EventsIndexRoute: EventsIndexRoute,
+  InstitutionsIndexRoute: InstitutionsIndexRoute,
+  PeopleIndexRoute: PeopleIndexRoute,
   StoriesIndexRoute: StoriesIndexRoute,
 }
 export const routeTree = rootRouteImport
