@@ -324,7 +324,7 @@ export const forms: CulturalForm[] = [
     whoCarries: "Weaving households, usually organised by clan. Binding, dyeing and weaving are separate specialisms, and a single hinggi commonly passes through four pairs of hands.",
     whyMatters: "A hinggi is a legal and social document as much as a textile: motifs record clan affiliation and rank, and cloths are exchanged at marriage and funeral. Reading one correctly means knowing who is entitled to wear it.",
     today: "Demand from overseas buyers has raised prices and shortened deadlines at the same time. The communities that have held their ground did so by publishing timelines and weaver names alongside the cloth, so that a two-year piece is not priced against a six-week imitation.",
-    experienceIt: "Kaliuda's weaving house receives visitors by introduction through the community, not by drop-in. Internationally, thirty-one hinggi are on show in London until May 2026.",
+    experienceIt: "Kaliuda's weaving house receives visitors by introduction through the community, not by drop-in. Internationally, thirty-one hinggi travel as the Warp & Weft exhibition in London.",
     sensitivity: "Certain clan motifs may not be photographed, reproduced or worn outside their lineage. Ask before photographing work in progress, and credit the individual weaver rather than the village.",
     sources: [
       { title: "Morinda dye chemistry and the two-year hinggi", author: "R. A. Hàmu, S. Prameswari", year: "2025", note: "Fade data across 24 months of exposure." },
@@ -343,7 +343,7 @@ export const forms: CulturalForm[] = [
     whoCarries: "Court ensembles, village groups, campus karawitan programmes and independent ensembles. Tuning and instrument maintenance is a specialist trade in its own right.",
     whyMatters: "Gamelan is the reason a great deal of twentieth-century Western music sounds the way it does, and it remains a working civic practice in Java rather than a preserved one.",
     today: "Ensembles now move between court repertoire and new commissions with the same players. Touring costs are the constraint: the tuning cannot be substituted, so the instruments travel or the concert does not happen.",
-    experienceIt: "Open rehearsals in Yogyakarta are free and public. Bronze / Circuit plays three nights in Berlin in March 2026.",
+    experienceIt: "Open rehearsals in Yogyakarta are free and public. Bronze / Circuit plays three nights in Berlin.",
     sensitivity: "Some ritual pieces are tied to their occasion and are not performed for audiences. Instruments are stepped over, never on.",
     sources: [
       { title: "Beating frequencies and the perception of gamelan tuning", author: "D. Prayoga, K. Meurer", year: "2024", note: "On what is lost when paired instruments are sampled." },
@@ -362,7 +362,7 @@ export const forms: CulturalForm[] = [
     whoCarries: "Konjo master builders — panrita lopi — and their crews. Training passed through family lines until 2021, when the yards opened apprenticeships to outsiders.",
     whyMatters: "This is one of very few large wooden shipbuilding traditions still working commercially rather than as demonstration, and its knowledge has never been written down.",
     today: "Timber supply and the charter market shape what gets built. Since 2024 the builders have been co-authoring documentation of their own proportional rules instead of being documented by visiting researchers.",
-    experienceIt: "The Bira yards can be visited during the dry season by arrangement. A quarter-scale build runs with Japanese boatwrights in Tokyo in April 2026.",
+    experienceIt: "The Bira yards can be visited during the dry season by arrangement. A quarter-scale build runs with Japanese boatwrights in Tokyo.",
     sensitivity: "Keel-laying and launch rituals are held by the master builder and are not performed for visitors or filmed on request.",
     sources: [
       { title: "Proportional rule systems in Konjo hull construction", author: "B. Lestari, A. Ridwan", year: "2025", note: "Recorded across nine builds at Tanjung Bira." },
@@ -411,7 +411,7 @@ export const forms: CulturalForm[] = [
     whoCarries: "Independent producers, regional collectives, subtitlers and the film schools feeding both.",
     whyMatters: "Indonesian cinema now sells tickets at home in numbers that make foreign approval optional, which changes what gets made.",
     today: "Translation is the current bottleneck: pronouns and honorifics carry class and intimacy that flatten in subtitles, so the platform funds register-faithful translation rather than literal accuracy.",
-    experienceIt: "Eleven features and a shorts programme screen in New York in April 2026, all newly subtitled.",
+    experienceIt: "Eleven features and a shorts programme screen in New York, all newly subtitled.",
     sources: [
       { title: "Register loss in Indonesian screen translation", author: "N. Suryani", year: "2023", note: "Corpus study of 62 subtitled features." },
     ],
@@ -426,7 +426,7 @@ export const forms: CulturalForm[] = [
     whoCarries: "Choreographers who trained inside court or village traditions before leaving them, and the dancers who hold both techniques at once.",
     whyMatters: "The work argues that tradition is a technique to think with, not a costume to wear, and it is one of the most legible routes into Indonesian practice for foreign audiences.",
     today: "Commissioning is increasingly international while rehearsal stays at home, which raises questions about who is credited on a co-production and where the work premieres.",
-    experienceIt: "Body / Court runs in Melbourne in May 2026; Yogyakarta studios hold open showings through the year.",
+    experienceIt: "Body / Court runs in Melbourne; Yogyakarta studios hold open showings through the year.",
     sensitivity: "Some source material remains tied to ritual context and is credited to its teachers by name in the programme.",
     lastReviewed: "2026-01-15",
   },
@@ -439,7 +439,7 @@ export const forms: CulturalForm[] = [
     whoCarries: "Designers, and the weaving and stone workshops named alongside them on the label.",
     whyMatters: "For thirty years rattan mostly left the country raw and returned as someone else's furniture. Keeping the design step at home is the difference between a supply chain and an industry.",
     today: "Credit has become the commercial argument: buyers in Milan and Tokyo now ask for the workshop attribution as part of the product story.",
-    experienceIt: "Material Futures pairs Indonesian and Brazilian studios in São Paulo from June 2026.",
+    experienceIt: "Material Futures pairs Indonesian and Brazilian studios in São Paulo.",
     lastReviewed: "2025-11-14",
   },
   {
@@ -451,7 +451,7 @@ export const forms: CulturalForm[] = [
     whoCarries: "Composers, producers and the ensembles that lend them instruments and players.",
     whyMatters: "It is the clearest counter-argument to the idea that Indonesian music is a heritage category.",
     today: "Artists resist the fusion label: the interest is in tuning systems and cycles, not in decoration.",
-    experienceIt: "Bronze / Circuit in Berlin, March 2026, including a free open rehearsal.",
+    experienceIt: "Bronze / Circuit in Berlin, including a free open rehearsal.",
     lastReviewed: "2026-01-22",
   },
   {
@@ -1029,10 +1029,16 @@ export const eventStatus = (event: CulturalEvent, now: Date = new Date()): Event
 export const deadlineStatus = (iso: string, now: Date = new Date()) => {
   const due = new Date(iso + "T23:59:59Z").getTime();
   const days = Math.ceil((due - now.getTime()) / 86_400_000);
-  if (days < 0) return { label: "Closed", open: false, days };
-  if (days === 0) return { label: "Closes today", open: true, days };
-  if (days <= 21) return { label: `Closes in ${days} day${days === 1 ? "" : "s"}`, open: true, days };
-  return { label: `Open until ${formatDate(iso)}`, open: true, days };
+  if (days < 0) return { label: "Closed", state: "Closed" as const, open: false, days };
+  if (days === 0) return { label: "Closes today", state: "Closing soon" as const, open: true, days };
+  if (days <= 21)
+    return {
+      label: `Closes in ${days} day${days === 1 ? "" : "s"}`,
+      state: "Closing soon" as const,
+      open: true,
+      days,
+    };
+  return { label: `Open until ${formatDate(iso)}`, state: "Open" as const, open: true, days };
 };
 
 
