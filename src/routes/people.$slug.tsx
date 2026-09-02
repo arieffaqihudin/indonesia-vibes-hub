@@ -251,26 +251,6 @@ function PersonPage() {
                 ? [{ label: "Languages", value: person.languages.join(", ") }]
                 : []),
               ...(forms.length
-                ? {
-                    label: "Cultural forms",
-                    value: (
-                      <ul className="space-y-1.5">
-                        {forms.map((f) => (
-                          <li key={f.id}>
-                            <Link
-                              to="/culture/$slug"
-                              params={{ slug: f.slug }}
-                              className="link-underline text-primary"
-                            >
-                              {f.name}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    ),
-                  }
-                : []
-              ).valueOf() && forms.length
                 ? [
                     {
                       label: "Cultural forms",
