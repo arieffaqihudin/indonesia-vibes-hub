@@ -79,9 +79,42 @@ function FormPage() {
 
       <div className="container-editorial grid gap-14 py-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,20rem)] lg:gap-20">
         <div className="min-w-0 space-y-14">
+          {form.whatItIs || form.whyMatters ? (
+            <section className="max-w-2xl space-y-10">
+              {form.whatItIs ? (
+                <Subject title="What it is" body={form.whatItIs} />
+              ) : null}
+              {form.practisedIn ? (
+                <Subject title="Where it is practised" body={form.practisedIn} />
+              ) : null}
+              {form.whoCarries ? (
+                <Subject title="Who carries it" body={form.whoCarries} />
+              ) : null}
+              {form.whyMatters ? (
+                <Subject title="Why it matters" body={form.whyMatters} />
+              ) : null}
+              {form.today ? (
+                <Subject title="How it is changing" body={form.today} />
+              ) : null}
+              {form.experienceIt ? (
+                <Subject title="Where to experience it" body={form.experienceIt} />
+              ) : null}
+            </section>
+          ) : null}
+
+          {form.sensitivity ? (
+            <aside className="max-w-2xl border-l-2 border-primary bg-pale/40 p-6">
+              <p className="eyebrow text-deep-red">Respectful engagement</p>
+              <p className="mt-3 text-[0.95rem] leading-relaxed text-ink">{form.sensitivity}</p>
+            </aside>
+          ) : null}
+
           {makers.length ? (
             <section>
-              <h2 className="display-3 text-ink">Who carries this form</h2>
+              <h2 className="display-3 text-ink">Practitioners and communities</h2>
+              <p className="mt-3 max-w-2xl text-muted-foreground">
+                People and communities who hold this practice, with their own words on how they work.
+              </p>
               <ul className="mt-8 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
                 {makers.map((p) => (
                   <li key={p.id}>
