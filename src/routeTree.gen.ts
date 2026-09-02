@@ -25,6 +25,7 @@ import { Route as EventsIndexRouteImport } from './routes/events.index'
 import { Route as EventsSlugRouteImport } from './routes/events.$slug'
 import { Route as InstitutionsIndexRouteImport } from './routes/institutions.index'
 import { Route as PeopleIndexRouteImport } from './routes/people.index'
+import { Route as PeopleSlugRouteImport } from './routes/people.$slug'
 import { Route as StoriesIndexRouteImport } from './routes/stories.index'
 import { Route as StoriesSlugRouteImport } from './routes/stories.$slug'
 
@@ -108,6 +109,11 @@ const PeopleIndexRoute = PeopleIndexRouteImport.update({
   path: '/people/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PeopleSlugRoute = PeopleSlugRouteImport.update({
+  id: '/people/$slug',
+  path: '/people/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StoriesIndexRoute = StoriesIndexRouteImport.update({
   id: '/stories/',
   path: '/stories/',
@@ -132,6 +138,7 @@ export interface FileRoutesByFullPath {
   '/research': typeof ResearchRoute
   '/collections/$slug': typeof CollectionsSlugRoute
   '/events/$slug': typeof EventsSlugRoute
+  '/people/$slug': typeof PeopleSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
   '/collections/': typeof CollectionsIndexRoute
   '/events/': typeof EventsIndexRoute
@@ -152,6 +159,7 @@ export interface FileRoutesByTo {
   '/research': typeof ResearchRoute
   '/collections/$slug': typeof CollectionsSlugRoute
   '/events/$slug': typeof EventsSlugRoute
+  '/people/$slug': typeof PeopleSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
   '/collections': typeof CollectionsIndexRoute
   '/events': typeof EventsIndexRoute
@@ -173,6 +181,7 @@ export interface FileRoutesById {
   '/research': typeof ResearchRoute
   '/collections/$slug': typeof CollectionsSlugRoute
   '/events/$slug': typeof EventsSlugRoute
+  '/people/$slug': typeof PeopleSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
   '/collections/': typeof CollectionsIndexRoute
   '/events/': typeof EventsIndexRoute
@@ -195,6 +204,7 @@ export interface FileRouteTypes {
     | '/research'
     | '/collections/$slug'
     | '/events/$slug'
+    | '/people/$slug'
     | '/stories/$slug'
     | '/collections/'
     | '/events/'
@@ -215,6 +225,7 @@ export interface FileRouteTypes {
     | '/research'
     | '/collections/$slug'
     | '/events/$slug'
+    | '/people/$slug'
     | '/stories/$slug'
     | '/collections'
     | '/events'
@@ -235,6 +246,7 @@ export interface FileRouteTypes {
     | '/research'
     | '/collections/$slug'
     | '/events/$slug'
+    | '/people/$slug'
     | '/stories/$slug'
     | '/collections/'
     | '/events/'
@@ -256,6 +268,7 @@ export interface RootRouteChildren {
   ResearchRoute: typeof ResearchRoute
   CollectionsSlugRoute: typeof CollectionsSlugRoute
   EventsSlugRoute: typeof EventsSlugRoute
+  PeopleSlugRoute: typeof PeopleSlugRoute
   StoriesSlugRoute: typeof StoriesSlugRoute
   CollectionsIndexRoute: typeof CollectionsIndexRoute
   EventsIndexRoute: typeof EventsIndexRoute
@@ -378,6 +391,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PeopleIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/people/$slug': {
+      id: '/people/$slug'
+      path: '/people/$slug'
+      fullPath: '/people/$slug'
+      preLoaderRoute: typeof PeopleSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/stories/': {
       id: '/stories/'
       path: '/stories'
@@ -408,6 +428,7 @@ const rootRouteChildren: RootRouteChildren = {
   ResearchRoute: ResearchRoute,
   CollectionsSlugRoute: CollectionsSlugRoute,
   EventsSlugRoute: EventsSlugRoute,
+  PeopleSlugRoute: PeopleSlugRoute,
   StoriesSlugRoute: StoriesSlugRoute,
   CollectionsIndexRoute: CollectionsIndexRoute,
   EventsIndexRoute: EventsIndexRoute,
