@@ -494,6 +494,13 @@ export const stories: Story[] = [
   {
     id: "st-1",
     slug: "two-years-in-a-single-cloth",
+    author: "Sari Prameswari",
+    authorRole: "Contributing editor, textiles",
+    reviewedBy: "Kaliuda Weaving Community",
+    updatedAt: "2026-02-11",
+    sources: [
+      { title: "Morinda dye chemistry and the two-year hinggi", author: "R. A. Hàmu, S. Prameswari", year: "2025" },
+    ],
     title: "Two years in a single cloth",
     dek: "In East Sumba, a hinggi is measured in seasons. What happens when the world wants it in six weeks?",
     kind: "Feature",
@@ -515,6 +522,13 @@ export const stories: Story[] = [
   {
     id: "st-2",
     slug: "bronze-and-circuit",
+    author: "Daniel Prayoga",
+    authorRole: "Music editor",
+    reviewedBy: "Sekar Bronze Ensemble",
+    updatedAt: "2026-01-27",
+    sources: [
+      { title: "Beating frequencies and the perception of gamelan tuning", author: "D. Prayoga, K. Meurer", year: "2024" },
+    ],
     title: "Bronze and circuit",
     dek: "A Yogyakarta composer takes a full gamelan on tour with a modular synthesiser — and refuses to call it fusion.",
     kind: "Interview",
@@ -535,6 +549,13 @@ export const stories: Story[] = [
   {
     id: "st-3",
     slug: "built-by-eye",
+    author: "Andi Ridwan",
+    authorRole: "Maritime correspondent",
+    reviewedBy: "Bira Boatwrights",
+    updatedAt: "2026-01-06",
+    sources: [
+      { title: "Proportional rule systems in Konjo hull construction", author: "B. Lestari, A. Ridwan", year: "2025" },
+    ],
     title: "Built by eye",
     dek: "No plans, no CAD, no keel-first sequence. How Konjo shipwrights hold a phinisi in their heads.",
     kind: "Feature",
@@ -554,6 +575,12 @@ export const stories: Story[] = [
   {
     id: "st-4",
     slug: "a-country-that-shoots-in-the-rain",
+    author: "Nadia Suryani",
+    authorRole: "Screen editor",
+    updatedAt: "2025-12-18",
+    sources: [
+      { title: "Register loss in Indonesian screen translation", author: "N. Suryani", year: "2023" },
+    ],
     title: "A country that shoots in the rain",
     dek: "Indonesian cinema is having its loudest decade. Its directors are not interested in explaining themselves.",
     kind: "Dispatch",
@@ -573,6 +600,13 @@ export const stories: Story[] = [
   {
     id: "st-5",
     slug: "the-forest-is-a-legal-argument",
+    author: "Bella Lestari",
+    authorRole: "Research editor",
+    reviewedBy: "Upper Kapuas Forest Custodians",
+    updatedAt: "2025-12-02",
+    sources: [
+      { title: "Adat mapping as enforcement: evidence from Kalimantan", author: "B. Lestari, M. Iban", year: "2024" },
+    ],
     title: "The forest is a legal argument",
     dek: "In the Heart of Borneo, customary mapping is doing what satellite enforcement could not.",
     kind: "Field note",
@@ -592,6 +626,9 @@ export const stories: Story[] = [
   {
     id: "st-6",
     slug: "rattan-after-the-catalogue",
+    author: "Sari Prameswari",
+    authorRole: "Contributing editor, design",
+    updatedAt: "2025-11-20",
     title: "Rattan, after the catalogue",
     dek: "Jakarta studios are designing for export without letting origin get sanded off the object.",
     kind: "Feature",
@@ -611,6 +648,12 @@ export const stories: Story[] = [
   {
     id: "st-7",
     slug: "reading-a-wall-clockwise",
+    author: "Editorial team",
+    authorRole: "Dispatch",
+    updatedAt: "2025-11-04",
+    sources: [
+      { title: "Visitor load and stone wear at Borobudur", author: "Borobudur Conservation Office", year: "2024" },
+    ],
     title: "Reading a wall clockwise",
     dek: "Borobudur's reliefs were built to be walked. A new conservation programme is teaching visitors how.",
     kind: "Dispatch",
@@ -630,6 +673,12 @@ export const stories: Story[] = [
   {
     id: "st-8",
     slug: "spice-as-infrastructure",
+    author: "Hendra Wibowo",
+    authorRole: "Food writer",
+    updatedAt: "2025-10-14",
+    sources: [
+      { title: "Spice as infrastructure", author: "Hendra Wibowo", year: "2025" },
+    ],
     title: "Spice as infrastructure",
     dek: "Nutmeg redrew world maps. In Indonesian kitchens it never stopped being a daily tool.",
     kind: "Feature",
@@ -929,4 +978,24 @@ export const formatRange = (start: string, end: string) => {
       timeZone: "UTC",
     });
   return `${f(s, !sameYear)} – ${f(e, true)}`;
+};
+/** Derived from the dates, so the label never contradicts the calendar. */
+export type EventStatus = "Upcoming" | "On now" | "Past";
+
+export const eventStatus = (event: CulturalEvent, now: Date = new Date()): EventStatus => {
+  const start = new Date(event.startDate + "T00:00:00Z").getTime();
+  const end = new Date(event.endDate + "T23:59:59Z").getTime();
+  const t = now.getTime();
+  if (t < start) return "Upcoming";
+  if (t > end) return "Past";
+  return "On now";
+};
+
+export const deadlineStatus = (iso: string, now: Date = new Date()) => {
+  const due = new Date(iso + "T23:59:59Z").getTime();
+  const days = Math.ceil((due - now.getTime()) / 86_400_000);
+  if (days < 0) return { label: "Closed", open: false, days };
+  if (days === 0) return { label: "Closes today", open: true, days };
+  if (days <= 21) return { label: `Closes in ${days} day${days === 1 ? "" : "s"}`, open: true, days };
+  return { label: `Open until ${formatDate(iso)}`, open: true, days };
 };
