@@ -115,7 +115,41 @@ function OpportunitiesPage() {
             })}
           </ul>
         )}
+
+        {closed.length ? (
+          <section className="mt-20 border-t border-border pt-10">
+            <h2 className="display-3 text-ink">Closed calls</h2>
+            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+              Kept on the page so the pattern is visible: what we fund, on what terms, and how often
+              it comes round. Applications are no longer accepted for these.
+            </p>
+            <ul className="mt-8 divide-y divide-border border-y border-border">
+              {closed.map((o) => (
+                <li key={o.id} className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 py-5">
+                  <div className="min-w-0">
+                    <p className="eyebrow text-muted-foreground">{o.type}</p>
+                    <p className="mt-1.5 text-lg leading-snug font-medium text-ink">{o.title}</p>
+                    <p className="mt-1 text-sm text-muted-foreground">{o.forWhom}</p>
+                  </div>
+                  <div className="flex items-center gap-4 text-sm">
+                    <span className="rounded-full bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground">
+                      Closed {formatDate(o.deadline)}
+                    </span>
+                    <Link
+                      to="/contact"
+                      search={{ topic: "Opportunity application", subject: `Next round: ${o.title}` }}
+                      className="min-h-9 text-primary underline underline-offset-4"
+                    >
+                      Ask about the next round
+                    </Link>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ) : null}
       </div>
+
     </>
   );
 }
