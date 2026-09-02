@@ -381,6 +381,19 @@ const SYNONYMS: Record<string, string[]> = {
   forest: ["adat", "stewardship", "kalimantan"],
   indigenous: ["adat", "customary", "community"],
   museum: ["institution", "collection"],
+  craft: ["kriya", "weaving", "rattan", "carving", "design"],
+  maritime: ["phinisi", "boatbuilding", "sea", "shipyard"],
+  pottery: ["ceramic", "clay", "craft"],
+  batik: ["textile", "ikat", "cloth", "wax resist"],
+  gong: ["gamelan", "bronze"],
+  theatre: ["wayang", "performance", "dance"],
+  cooking: ["rempah", "bumbu", "spice", "culinary"],
+  translation: ["subtitle", "language", "translator"],
+  funding: ["grant", "fellowship", "residency", "open call"],
+  grant: ["funding", "fellowship", "open call"],
+  study: ["research", "fellowship", "paper"],
+  partnership: ["collaboration", "exchange", "programme"],
+  exhibition: ["show", "gallery", "museum", "event"],
 };
 
 export interface SearchHit {

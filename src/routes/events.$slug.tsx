@@ -1,7 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 
-import { formatRange, getEvent, getForm, getPlace } from "@/data/content";
-import type { CulturalEvent, CulturalForm } from "@/types/content";
+import { eventStatus, formatDate, formatRange, getEvent, getForm, getPerson, getPlace } from "@/data/content";
+import type { CulturalEvent, CulturalForm, Person } from "@/types/content";
 
 export const Route = createFileRoute("/events/$slug")({
   loader: ({ params }): { event: CulturalEvent } => {
@@ -41,6 +41,8 @@ function EventPage() {
   const { event } = Route.useLoaderData();
   const place = getPlace(event.placeId);
   const forms = event.formIds.map(getForm).filter(Boolean) as CulturalForm[];
+  const people = (event.peopleIds ?? []).map(getPerson).filter(Boolean) as Person[];
+  const status = eventStatus(event);
 
   return (
     <article>
@@ -50,49 +52,126 @@ function EventPage() {
         </p>
         <h1 className="display-1 mt-5 max-w-4xl text-ink">{event.title}</h1>
         <p className="standfirst mt-6 max-w-2xl">{event.summary}</p>
+        <div className="mt-7 flex flex-wrap items-center gap-3 text-sm">
+          <span
+            className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-medium ${
+              status === "On now"
+                ? "bg-primary text-primary-foreground"
+                : status === "Upcoming"
+                  ? "bg-pale text-deep-red"
+                  : "bg-muted text-muted-foreground"
+            }`}
+          >
+            {status === "On now" ? "On now" : status === "Upcoming" ? "Upcoming" : "Past programme"}
+          </span>
+          <span className="text-muted-foreground">{formatRange(event.startDate, event.endDate)}</span>
+        </div>
       </header>
       <figure className="container-editorial">
         <img src={event.image} alt={event.title} width={1600} height={1104} className="aspect-[16/9] w-full object-cover" />
       </figure>
       <div className="container-editorial grid gap-10 py-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,20rem)] lg:gap-20">
-        <div className="prose-editorial max-w-2xl text-ink">
-          <p>
-            {event.title} runs {formatRange(event.startDate, event.endDate)} at our partner venue in{" "}
-            {place?.name}. {place?.summary}
-          </p>
-          <p>
-            Every object, score and film in the programme is presented with its maker named and its
-            origin community credited. Where a work is on loan, provenance is published alongside it.
-          </p>
-          <h2>Getting involved</h2>
-          <p>
-            Press and institutional enquiries go through the programme team. Schools and university
-            groups can request a guided session at no cost.
-          </p>
+        <div className="min-w-0 max-w-2xl space-y-12">
+          {event.context ? (
+            <section className="prose-editorial text-ink">
+              <p>{event.context}</p>
+              {place?.summary ? <p>{place.summary}</p> : null}
+            </section>
+          ) : null}
+
+          {event.programme?.length ? (
+            <section>
+              <h2 className="display-3 text-ink">What is on the programme</h2>
+              <ul className="mt-6 divide-y divide-border border-y border-border">
+                {event.programme.map((line: string, i: number) => (
+                  <li key={i} className="py-4 text-[0.95rem] leading-relaxed text-ink">
+                    {line}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
+
+          {people.length ? (
+            <section>
+              <h2 className="display-3 text-ink">Who is taking part</h2>
+              <ul className="mt-6 space-y-4">
+                {people.map((p) => (
+                  <li key={p.id} className="flex min-w-0 items-center gap-4">
+                    <img src={p.image} alt="" width={96} height={96} loading="lazy" className="h-12 w-12 shrink-0 rounded-full object-cover" />
+                    <span className="min-w-0">
+                      <Link to="/people/$slug" params={{ slug: p.slug }} className="block truncate font-medium text-ink link-underline">
+                        {p.name}
+                      </Link>
+                      <span className="block truncate text-sm text-muted-foreground">
+                        {p.role} · {p.based}
+                      </span>
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
+
+          {forms.length ? (
+            <section>
+              <h2 className="display-3 text-ink">Cultural context</h2>
+              <ul className="mt-6 space-y-5">
+                {forms.map((f) => (
+                  <li key={f.id}>
+                    <Link to="/culture/$slug" params={{ slug: f.slug }} className="font-medium text-ink link-underline">
+                      {f.name}
+                    </Link>
+                    <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{f.summary}</p>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
+
+          <section>
+            <h2 className="display-3 text-ink">Attending and enquiries</h2>
+            <p className="mt-4 text-[0.95rem] leading-relaxed text-muted-foreground">
+              {event.audience ? `Made for ${event.audience.toLowerCase()}. ` : ""}
+              Press and institutional enquiries go through the programme team. Schools and university
+              groups can request a guided session at no cost.
+            </p>
+          </section>
         </div>
-        <aside className="space-y-8 border-t border-border pt-8 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-10">
-          <div>
-            <p className="eyebrow text-muted-foreground">Dates</p>
-            <p className="mt-2 text-sm text-ink">{formatRange(event.startDate, event.endDate)}</p>
-          </div>
-          <div>
-            <p className="eyebrow text-muted-foreground">Forms</p>
-            <ul className="mt-2 space-y-1.5">
-              {forms.map((f) => (
-                <li key={f.id} className="text-sm text-ink">
-                  {f.name}
-                </li>
-              ))}
-            </ul>
-          </div>
+
+        <aside className="space-y-7 border-t border-border pt-8 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-10">
+          <Fact label="Dates" value={formatRange(event.startDate, event.endDate)} />
+          {event.localTime ? (
+            <Fact label="Times" value={`${event.localTime}${event.timeZone ? ` (${event.timeZone})` : ""}`} />
+          ) : null}
+          {event.venue ? <Fact label="Venue" value={`${event.venue}, ${place?.name ?? ""}`} /> : null}
+          {event.admission ? <Fact label="Admission" value={event.admission} /> : null}
+          {event.organiser ? <Fact label="Organised by" value={event.organiser} /> : null}
+          {forms.length ? <Fact label="Forms" value={forms.map((f) => f.name).join(", ")} /> : null}
           <Link
-            to="/contact" search={{}}
-            className="inline-flex min-h-11 items-center rounded-full bg-primary px-5 text-sm font-medium text-primary-foreground transition-colors hover:bg-deep-red"
+            to="/contact"
+            search={{ topic: "Event enquiry", subject: event.title }}
+            className="press inline-flex min-h-11 items-center rounded-full bg-primary px-5 text-sm font-medium text-primary-foreground transition-colors hover:bg-deep-red"
           >
             Enquire about this event
           </Link>
+          {event.lastChecked ? (
+            <p className="text-xs text-muted-foreground">
+              Programme details last checked {formatDate(event.lastChecked)}. Confirm times with the
+              venue before travelling.
+            </p>
+          ) : null}
         </aside>
       </div>
     </article>
+  );
+}
+
+function Fact({ label, value }: { label: string; value: string }) {
+  return (
+    <div>
+      <p className="eyebrow text-muted-foreground">{label}</p>
+      <p className="mt-2 text-sm leading-relaxed text-ink">{value}</p>
+    </div>
   );
 }
