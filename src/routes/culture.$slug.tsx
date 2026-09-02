@@ -206,6 +206,22 @@ function FormPage() {
               </ul>
             </DetailSection>
           ) : null}
+
+          {form.sources?.length ? (
+            <DetailSection title="References">
+              <ul className="space-y-3">
+                {form.sources.map((r, i: number) => (
+                  <li key={i} className="text-sm leading-relaxed text-ink">
+                    <span className="font-medium">{r.title}</span>
+                    {r.author ? <span className="text-muted-foreground"> — {r.author}</span> : null}
+                    {r.year ? <span className="text-muted-foreground">, {r.year}</span> : null}
+                    {r.publisher ? <span className="text-muted-foreground"> · {r.publisher}</span> : null}
+                    {r.note ? <span className="block text-muted-foreground">{r.note}</span> : null}
+                  </li>
+                ))}
+              </ul>
+            </DetailSection>
+          ) : null}
         </div>
 
         <aside className="space-y-8 lg:sticky lg:top-28 lg:self-start">
@@ -216,11 +232,30 @@ function FormPage() {
                 ? [{ label: "Also known as", value: form.aliases.join(", ") }]
                 : []),
               ...(form.unesco ? [{ label: "Recognition", value: form.unesco }] : []),
+              ...(form.reviewedBy ? [{ label: "Reviewed with", value: form.reviewedBy }] : []),
             ]}
           />
           {origin ? <PlaceCard place={origin} /> : null}
+          {form.lastReviewed ? (
+            <p className="text-xs leading-relaxed text-muted-foreground">
+              This page was last reviewed on {formatDate(form.lastReviewed)}. Spotted something wrong?{" "}
+              <Link to="/contact" search={{ topic: "Correction", subject: form.name }} className="link-underline text-primary">
+                Send a correction
+              </Link>
+              .
+            </p>
+          ) : null}
         </aside>
       </div>
     </article>
+  );
+}
+
+function Subject({ title, body }: { title: string; body: string }) {
+  return (
+    <div>
+      <h2 className="display-3 text-[1.5rem] text-ink">{title}</h2>
+      <p className="mt-3 text-[1.02rem] leading-relaxed text-muted-foreground">{body}</p>
+    </div>
   );
 }
