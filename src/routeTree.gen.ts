@@ -10,11 +10,14 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SplatRouteImport } from './routes/$'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AroundTheWorldRouteImport } from './routes/around-the-world'
 import { Route as CollaborateRouteImport } from './routes/collaborate'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as ContemporaryRouteImport } from './routes/contemporary'
+import { Route as ContributeRouteImport } from './routes/contribute'
+import { Route as EditorialStandardsRouteImport } from './routes/editorial-standards'
 import { Route as HeritageRouteImport } from './routes/heritage'
 import { Route as OpportunitiesRouteImport } from './routes/opportunities'
 import { Route as ResearchRouteImport } from './routes/research'
@@ -40,6 +43,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SplatRoute = SplatRouteImport.update({
+  id: '/$',
+  path: '/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -63,6 +71,16 @@ const ContactRoute = ContactRouteImport.update({
 const ContemporaryRoute = ContemporaryRouteImport.update({
   id: '/contemporary',
   path: '/contemporary',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContributeRoute = ContributeRouteImport.update({
+  id: '/contribute',
+  path: '/contribute',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EditorialStandardsRoute = EditorialStandardsRouteImport.update({
+  id: '/editorial-standards',
+  path: '/editorial-standards',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HeritageRoute = HeritageRouteImport.update({
@@ -163,11 +181,14 @@ const StoriesSlugRoute = StoriesSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/$': typeof SplatRoute
   '/about': typeof AboutRoute
   '/around-the-world': typeof AroundTheWorldRoute
   '/collaborate': typeof CollaborateRoute
   '/contact': typeof ContactRoute
   '/contemporary': typeof ContemporaryRoute
+  '/contribute': typeof ContributeRoute
+  '/editorial-standards': typeof EditorialStandardsRoute
   '/heritage': typeof HeritageRoute
   '/opportunities': typeof OpportunitiesRoute
   '/research': typeof ResearchRoute
@@ -190,11 +211,14 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/$': typeof SplatRoute
   '/about': typeof AboutRoute
   '/around-the-world': typeof AroundTheWorldRoute
   '/collaborate': typeof CollaborateRoute
   '/contact': typeof ContactRoute
   '/contemporary': typeof ContemporaryRoute
+  '/contribute': typeof ContributeRoute
+  '/editorial-standards': typeof EditorialStandardsRoute
   '/heritage': typeof HeritageRoute
   '/opportunities': typeof OpportunitiesRoute
   '/research': typeof ResearchRoute
@@ -218,11 +242,14 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/$': typeof SplatRoute
   '/about': typeof AboutRoute
   '/around-the-world': typeof AroundTheWorldRoute
   '/collaborate': typeof CollaborateRoute
   '/contact': typeof ContactRoute
   '/contemporary': typeof ContemporaryRoute
+  '/contribute': typeof ContributeRoute
+  '/editorial-standards': typeof EditorialStandardsRoute
   '/heritage': typeof HeritageRoute
   '/opportunities': typeof OpportunitiesRoute
   '/research': typeof ResearchRoute
@@ -247,11 +274,14 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/$'
     | '/about'
     | '/around-the-world'
     | '/collaborate'
     | '/contact'
     | '/contemporary'
+    | '/contribute'
+    | '/editorial-standards'
     | '/heritage'
     | '/opportunities'
     | '/research'
@@ -274,11 +304,14 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/$'
     | '/about'
     | '/around-the-world'
     | '/collaborate'
     | '/contact'
     | '/contemporary'
+    | '/contribute'
+    | '/editorial-standards'
     | '/heritage'
     | '/opportunities'
     | '/research'
@@ -301,11 +334,14 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/$'
     | '/about'
     | '/around-the-world'
     | '/collaborate'
     | '/contact'
     | '/contemporary'
+    | '/contribute'
+    | '/editorial-standards'
     | '/heritage'
     | '/opportunities'
     | '/research'
@@ -329,11 +365,14 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  SplatRoute: typeof SplatRoute
   AboutRoute: typeof AboutRoute
   AroundTheWorldRoute: typeof AroundTheWorldRoute
   CollaborateRoute: typeof CollaborateRoute
   ContactRoute: typeof ContactRoute
   ContemporaryRoute: typeof ContemporaryRoute
+  ContributeRoute: typeof ContributeRoute
+  EditorialStandardsRoute: typeof EditorialStandardsRoute
   HeritageRoute: typeof HeritageRoute
   OpportunitiesRoute: typeof OpportunitiesRoute
   ResearchRoute: typeof ResearchRoute
@@ -362,6 +401,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$': {
+      id: '/$'
+      path: '/$'
+      fullPath: '/$'
+      preLoaderRoute: typeof SplatRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -397,6 +443,20 @@ declare module '@tanstack/react-router' {
       path: '/contemporary'
       fullPath: '/contemporary'
       preLoaderRoute: typeof ContemporaryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contribute': {
+      id: '/contribute'
+      path: '/contribute'
+      fullPath: '/contribute'
+      preLoaderRoute: typeof ContributeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/editorial-standards': {
+      id: '/editorial-standards'
+      path: '/editorial-standards'
+      fullPath: '/editorial-standards'
+      preLoaderRoute: typeof EditorialStandardsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/heritage': {
@@ -537,11 +597,14 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  SplatRoute: SplatRoute,
   AboutRoute: AboutRoute,
   AroundTheWorldRoute: AroundTheWorldRoute,
   CollaborateRoute: CollaborateRoute,
   ContactRoute: ContactRoute,
   ContemporaryRoute: ContemporaryRoute,
+  ContributeRoute: ContributeRoute,
+  EditorialStandardsRoute: EditorialStandardsRoute,
   HeritageRoute: HeritageRoute,
   OpportunitiesRoute: OpportunitiesRoute,
   ResearchRoute: ResearchRoute,
