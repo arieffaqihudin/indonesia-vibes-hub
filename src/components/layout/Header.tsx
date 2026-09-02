@@ -229,7 +229,8 @@ export function Header() {
 
       {/* Mobile drawer */}
       {mobileOpen ? (
-        <div className="max-h-[calc(100dvh-4rem)] overflow-y-auto border-t border-border bg-background lg:hidden">
+        <div className="menu-in max-h-[calc(100dvh-4rem)] overflow-y-auto border-t border-border bg-background lg:hidden">
+
           <nav aria-label="Mobile" className="container-editorial py-6">
             {navigation.map((group) => (
               <div key={group.label} className="border-b border-border py-5 last:border-b-0">
