@@ -896,6 +896,47 @@ export const papers: ResearchPaper[] = [
   { id: "rp-5", title: "Register loss in Indonesian screen translation", authors: "N. Suryani", year: 2023, discipline: "Translation studies", abstract: "A corpus study of 62 subtitled features, and a proposed style guide for pronoun and honorific handling." },
 ];
 
+/* ---------- rolling prototype calendar ----------
+ * Authored dates are relative to the anchor below. Every date in the demo
+ * dataset is shifted by the same whole number of days so the calendar, the
+ * statuses and the NOW strip stay truthful whenever the prototype is opened.
+ */
+const PROTOTYPE_ANCHOR = "2026-02-16";
+
+const dayShift = (() => {
+  const anchor = Date.UTC(2026, 1, 16);
+  const now = new Date();
+  const today = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
+  return Math.round((today - anchor) / 86_400_000);
+})();
+
+const roll = (iso: string): string => {
+  const [y, m, d] = iso.split("-").map(Number) as [number, number, number];
+  const shifted = new Date(Date.UTC(y, m - 1, d + dayShift));
+  return shifted.toISOString().slice(0, 10);
+};
+
+export const prototypeAnchor = PROTOTYPE_ANCHOR;
+
+export const stories: Story[] = storiesSource.map((s) => ({
+  ...s,
+  publishedAt: roll(s.publishedAt),
+  ...(s.updatedAt ? { updatedAt: roll(s.updatedAt) } : {}),
+}));
+
+export const events: CulturalEvent[] = eventsSource.map((e) => ({
+  ...e,
+  startDate: roll(e.startDate),
+  endDate: roll(e.endDate),
+  ...(e.lastChecked ? { lastChecked: roll(e.lastChecked) } : {}),
+}));
+
+export const opportunities: Opportunity[] = opportunitiesSource.map((o) => ({
+  ...o,
+  deadline: roll(o.deadline),
+  ...(o.lastChecked ? { lastChecked: roll(o.lastChecked) } : {}),
+}));
+
 export const worldNodes: WorldNode[] = [
   { id: "wn-1", city: "London", country: "United Kingdom", continent: "Europe", lat: 51.507, lng: -0.127, programme: "Warp & Weft exhibition and schools programme", eventIds: ["ev-1"], status: "Active" },
   { id: "wn-2", city: "Berlin", country: "Germany", continent: "Europe", lat: 52.52, lng: 13.405, programme: "Bronze / Circuit residency and concerts", eventIds: ["ev-2"], status: "Upcoming" },
@@ -911,12 +952,6 @@ export const worldNodes: WorldNode[] = [
   { id: "wn-12", city: "Mexico City", country: "Mexico", continent: "Americas", lat: 19.432, lng: -99.133, programme: "Textile and dye research visit", eventIds: [], status: "Archive" },
 ];
 
-export const nowItems: NowItem[] = [
-  { id: "nw-1", kind: "live", label: "On now", headline: "Warp & Weft opens in London", meta: "Until 24 May · 31 hinggi, 31 named weavers", href: "/events/warp-and-weft-london" },
-  { id: "nw-2", kind: "call", label: "Open call", headline: "Subtitle & Translation open call closes 28 Feb", meta: "Regional languages · per-project fee", href: "/opportunities" },
-  { id: "nw-3", kind: "opening", label: "Next", headline: "Bronze / Circuit, three nights in Berlin", meta: "6–8 March · open rehearsal Saturday", href: "/events/bronze-circuit-berlin" },
-  { id: "nw-4", kind: "release", label: "New", headline: "Field note: the forest is a legal argument", meta: "Research · 10 min read", href: "/stories/the-forest-is-a-legal-argument" },
-];
 
 /* ---------- graph helpers ---------- */
 
@@ -999,3 +1034,77 @@ export const deadlineStatus = (iso: string, now: Date = new Date()) => {
   if (days <= 21) return { label: `Closes in ${days} day${days === 1 ? "" : "s"}`, open: true, days };
   return { label: `Open until ${formatDate(iso)}`, open: true, days };
 };
+
+
+/* ---------- NOW ----------
+ * Derived from the calendar rather than hand-written, so the strip can never
+ * claim something is open when the dates say otherwise.
+ */
+const shortRange = (a: string, b: string) => formatRange(a, b);
+
+export const nowItems: NowItem[] = (() => {
+  const items: NowItem[] = [];
+
+  events
+    .filter((e) => eventStatus(e) === "On now")
+    .sort((a, b) => a.endDate.localeCompare(b.endDate))
+    .forEach((e) => {
+      const place = getPlace(e.placeId);
+      items.push({
+        id: `now-${e.id}`,
+        kind: "live",
+        label: "On now",
+        headline: `${e.title} — ${place?.city ?? place?.name ?? ""}`.trim(),
+        meta: `${e.type} · until ${formatDate(e.endDate)}`,
+        href: `/events/${e.slug}`,
+      });
+    });
+
+  events
+    .filter((e) => eventStatus(e) === "Upcoming")
+    .sort((a, b) => a.startDate.localeCompare(b.startDate))
+    .slice(0, 3)
+    .forEach((e) => {
+      const place = getPlace(e.placeId);
+      items.push({
+        id: `next-${e.id}`,
+        kind: "opening",
+        label: "Opening next",
+        headline: `${e.title} — ${place?.city ?? place?.name ?? ""}`.trim(),
+        meta: `${e.type} · ${shortRange(e.startDate, e.endDate)}`,
+        href: `/events/${e.slug}`,
+      });
+    });
+
+  opportunities
+    .map((o) => ({ o, s: deadlineStatus(o.deadline) }))
+    .filter(({ s }) => s.open)
+    .sort((a, b) => a.s.days - b.s.days)
+    .slice(0, 3)
+    .forEach(({ o, s }) => {
+      items.push({
+        id: `call-${o.id}`,
+        kind: "call",
+        label: "Open call",
+        headline: o.title,
+        meta: `${o.type} · ${s.label.toLowerCase()}`,
+        href: "/opportunities",
+      });
+    });
+
+  [...stories]
+    .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt))
+    .slice(0, 3)
+    .forEach((s) => {
+      items.push({
+        id: `new-${s.id}`,
+        kind: "release",
+        label: "Just published",
+        headline: s.title,
+        meta: `${s.kind} · ${s.readingMinutes} min read · ${formatDate(s.publishedAt)}`,
+        href: `/stories/${s.slug}`,
+      });
+    });
+
+  return items;
+})();
