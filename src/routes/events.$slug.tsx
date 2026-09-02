@@ -1,7 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 
-import { formatRange, getEvent, getForm, getPlace } from "@/data/content";
-import type { CulturalEvent, CulturalForm } from "@/types/content";
+import { eventStatus, formatDate, formatRange, getEvent, getForm, getPerson, getPlace } from "@/data/content";
+import type { CulturalEvent, CulturalForm, Person } from "@/types/content";
 
 export const Route = createFileRoute("/events/$slug")({
   loader: ({ params }): { event: CulturalEvent } => {
