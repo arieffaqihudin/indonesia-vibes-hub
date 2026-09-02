@@ -93,7 +93,7 @@ function OpportunitiesPage() {
                     ) : null}
                     <Link
                       to="/contact"
-                      search={{ topic: "Opportunity", subject: o.title }}
+                      search={{ topic: "Opportunity application", subject: o.title }}
                       className="press mt-5 inline-flex min-h-11 items-center rounded-full bg-primary px-5 text-sm font-medium text-primary-foreground transition-colors hover:bg-deep-red"
                     >
                       {status.open ? "Start an application" : "Ask about the next round"}
