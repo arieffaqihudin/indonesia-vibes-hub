@@ -110,7 +110,7 @@ export function Header() {
         <div className="ml-auto flex items-center gap-2 lg:ml-4">
           <Link
             to="/search"
-            search={{ q: "", type: undefined }}
+            search={{ q: "" }}
             aria-label="Search Indonesia Vibes"
             className="hidden h-9 w-9 items-center justify-center rounded-full text-ink/70 transition-colors hover:bg-blush hover:text-primary sm:inline-flex"
           >

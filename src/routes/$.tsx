@@ -40,7 +40,7 @@ function NotFoundPage() {
         <div className="mt-10 flex flex-wrap gap-3">
           <Link
             to="/search"
-            search={{ q: "", type: undefined }}
+            search={{ q: "" }}
             className="inline-flex min-h-11 items-center rounded-full bg-primary px-6 text-sm font-medium text-primary-foreground hover:bg-deep-red"
           >
             Search Indonesia Vibes
@@ -69,7 +69,7 @@ function NotFoundPage() {
             <Link
               key={s}
               to="/search"
-              search={{ q: s, type: undefined }}
+              search={{ q: s }}
               className="min-h-9 text-primary underline underline-offset-4"
             >
               {s}

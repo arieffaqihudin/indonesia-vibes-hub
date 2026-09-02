@@ -54,7 +54,7 @@ function CollaboratePage() {
             </p>
           </div>
           <Link
-            to="/contact"
+            to="/contact" search={{}}
             className="inline-flex min-h-11 items-center justify-center rounded-full bg-primary px-6 text-sm font-medium text-primary-foreground transition-colors hover:bg-deep-red"
           >
             Send an inquiry
