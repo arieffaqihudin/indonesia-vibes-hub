@@ -1,7 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 
 import { StoryCard } from "@/components/editorial/StoryCard";
-import type { Story } from "@/types/content";
+import type { CulturalForm, Person, Place, Story } from "@/types/content";
 import {
   formatDate,
   getForm,
@@ -60,9 +60,9 @@ export const Route = createFileRoute("/stories/$slug")({
 function StoryPage() {
   const { story } = Route.useLoaderData();
   const related = relatedStories(story);
-  const forms = story.formIds.map(getForm).filter(Boolean);
-  const people = story.peopleIds.map(getPerson).filter(Boolean);
-  const placesIn = story.placeIds.map(getPlace).filter(Boolean);
+  const forms = story.formIds.map(getForm).filter(Boolean) as CulturalForm[];
+  const people = story.peopleIds.map(getPerson).filter(Boolean) as Person[];
+  const placesIn = story.placeIds.map(getPlace).filter(Boolean) as Place[];
 
   return (
     <article>
@@ -88,7 +88,7 @@ function StoryPage() {
 
       <div className="container-editorial grid gap-12 py-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,18rem)] lg:gap-20">
         <div className="prose-editorial max-w-2xl text-ink">
-          {story.body.map((p, i) => (
+          {story.body.map((p: string, i: number) => (
             <p key={i}>{p}</p>
           ))}
         </div>
@@ -99,12 +99,12 @@ function StoryPage() {
               <p className="eyebrow text-muted-foreground">Cultural forms</p>
               <ul className="mt-3 space-y-2">
                 {forms.map((f) => (
-                  <li key={f!.id}>
+                  <li key={f.id}>
                     <Link
-                      to={f!.pillar === "heritage" ? "/heritage" : f!.pillar === "contemporary" ? "/contemporary" : "/research"}
+                      to={f.pillar === "heritage" ? "/heritage" : f.pillar === "contemporary" ? "/contemporary" : "/research"}
                       className="text-sm text-ink hover:text-primary"
                     >
-                      {f!.name} <span className="text-muted-foreground">· {f!.discipline}</span>
+                      {f.name} <span className="text-muted-foreground">· {f.discipline}</span>
                     </Link>
                   </li>
                 ))}
@@ -117,9 +117,9 @@ function StoryPage() {
               <p className="eyebrow text-muted-foreground">People</p>
               <ul className="mt-3 space-y-4">
                 {people.map((p) => (
-                  <li key={p!.id} className="flex min-w-0 items-center gap-3">
+                  <li key={p.id} className="flex min-w-0 items-center gap-3">
                     <img
-                      src={p!.image}
+                      src={p.image}
                       alt=""
                       width={96}
                       height={96}
@@ -127,9 +127,9 @@ function StoryPage() {
                       className="h-11 w-11 shrink-0 rounded-full object-cover"
                     />
                     <span className="min-w-0">
-                      <span className="block truncate text-sm font-medium text-ink">{p!.name}</span>
+                      <span className="block truncate text-sm font-medium text-ink">{p.name}</span>
                       <span className="block truncate text-xs text-muted-foreground">
-                        {p!.role}
+                        {p.role}
                       </span>
                     </span>
                   </li>
@@ -143,8 +143,8 @@ function StoryPage() {
               <p className="eyebrow text-muted-foreground">Places</p>
               <ul className="mt-3 space-y-2">
                 {placesIn.map((pl) => (
-                  <li key={pl!.id} className="text-sm text-ink">
-                    {pl!.name} <span className="text-muted-foreground">· {pl!.country}</span>
+                  <li key={pl.id} className="text-sm text-ink">
+                    {pl.name} <span className="text-muted-foreground">· {pl.country}</span>
                   </li>
                 ))}
               </ul>
