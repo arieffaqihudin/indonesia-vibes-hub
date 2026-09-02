@@ -325,9 +325,9 @@
 /* ============================================================
    MOTION SYSTEM
    Durations, easings and reusable behaviours. Motion is opt-in:
-   nothing is hidden until `@media (prefers-reduced-motion: no-preference) {
-html` is set by the
-   head script, so no-JS and reduced-motion users see everything.
+   every animated behaviour sits inside
+   @media (prefers-reduced-motion: no-preference), so reduced-motion
+   users see everything in its resting state.
    ============================================================ */
 
 :root {
@@ -340,7 +340,7 @@ html` is set by the
   --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
   --ease-exit: cubic-bezier(0.4, 0, 1, 1);
 }
-}
+
 
 /* ---------- Scroll reveals (once, restrained) ---------- */
 
