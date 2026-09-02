@@ -11,7 +11,9 @@ export function Header() {
   const [open, setOpen] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const lastY = useRef(0);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   useEffect(() => {
@@ -20,10 +22,27 @@ export function Header() {
   }, [pathname]);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
-    onScroll();
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const y = window.scrollY;
+      setScrolled(y > 12);
+      // Retreat on the way down, return immediately on the way up.
+      const delta = y - lastY.current;
+      if (y < 120) setHidden(false);
+      else if (delta > 6) setHidden(true);
+      else if (delta < -4) setHidden(false);
+      lastY.current = y;
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    update();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (frame) cancelAnimationFrame(frame);
+    };
   }, []);
 
   useEffect(() => {
@@ -45,16 +64,28 @@ export function Header() {
     if (closeTimer.current) clearTimeout(closeTimer.current);
   };
 
+  const retracted = hidden && !open && !mobileOpen;
+
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 border-b bg-background/85 backdrop-blur-xl transition-[box-shadow,border-color] duration-300",
-        scrolled ? "border-border shadow-[0_1px_0_0_var(--color-border)]" : "border-transparent",
+        "sticky top-0 z-50 border-b backdrop-blur-xl",
+        "transition-[transform,box-shadow,border-color,background-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
+        scrolled
+          ? "border-border bg-background/92 shadow-[0_1px_0_0_var(--color-border)]"
+          : "border-transparent bg-background/80",
+        retracted ? "-translate-y-full" : "translate-y-0",
       )}
       onMouseLeave={scheduleClose}
     >
-      <div className="container-editorial flex h-16 items-center gap-4 md:h-[4.5rem]">
+      <div
+        className={cn(
+          "container-editorial flex items-center gap-4 transition-[height] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
+          scrolled ? "h-14 md:h-16" : "h-16 md:h-[4.5rem]",
+        )}
+      >
         <Wordmark />
+
 
         <nav aria-label="Primary" className="ml-auto hidden lg:block">
           <ul className="flex items-center gap-1">
