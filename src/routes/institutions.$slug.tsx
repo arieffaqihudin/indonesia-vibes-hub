@@ -252,10 +252,7 @@ function InstitutionPage() {
                   : "Open to first international partnerships",
               },
               ...(forms.length
-                ? {
-                    label: "Cultural forms",
-                    value: forms.map((f) => f.name).join(", "),
-                  }
+                ? [{ label: "Cultural forms", value: forms.map((f) => f.name).join(", ") }]
                 : []),
             ]}
           />

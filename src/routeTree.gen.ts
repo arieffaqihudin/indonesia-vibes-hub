@@ -24,6 +24,7 @@ import { Route as CollectionsSlugRouteImport } from './routes/collections.$slug'
 import { Route as EventsIndexRouteImport } from './routes/events.index'
 import { Route as EventsSlugRouteImport } from './routes/events.$slug'
 import { Route as InstitutionsIndexRouteImport } from './routes/institutions.index'
+import { Route as InstitutionsSlugRouteImport } from './routes/institutions.$slug'
 import { Route as PeopleIndexRouteImport } from './routes/people.index'
 import { Route as PeopleSlugRouteImport } from './routes/people.$slug'
 import { Route as StoriesIndexRouteImport } from './routes/stories.index'
@@ -104,6 +105,11 @@ const InstitutionsIndexRoute = InstitutionsIndexRouteImport.update({
   path: '/institutions/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const InstitutionsSlugRoute = InstitutionsSlugRouteImport.update({
+  id: '/institutions/$slug',
+  path: '/institutions/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PeopleIndexRoute = PeopleIndexRouteImport.update({
   id: '/people/',
   path: '/people/',
@@ -138,6 +144,7 @@ export interface FileRoutesByFullPath {
   '/research': typeof ResearchRoute
   '/collections/$slug': typeof CollectionsSlugRoute
   '/events/$slug': typeof EventsSlugRoute
+  '/institutions/$slug': typeof InstitutionsSlugRoute
   '/people/$slug': typeof PeopleSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
   '/collections/': typeof CollectionsIndexRoute
@@ -159,6 +166,7 @@ export interface FileRoutesByTo {
   '/research': typeof ResearchRoute
   '/collections/$slug': typeof CollectionsSlugRoute
   '/events/$slug': typeof EventsSlugRoute
+  '/institutions/$slug': typeof InstitutionsSlugRoute
   '/people/$slug': typeof PeopleSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
   '/collections': typeof CollectionsIndexRoute
@@ -181,6 +189,7 @@ export interface FileRoutesById {
   '/research': typeof ResearchRoute
   '/collections/$slug': typeof CollectionsSlugRoute
   '/events/$slug': typeof EventsSlugRoute
+  '/institutions/$slug': typeof InstitutionsSlugRoute
   '/people/$slug': typeof PeopleSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
   '/collections/': typeof CollectionsIndexRoute
@@ -204,6 +213,7 @@ export interface FileRouteTypes {
     | '/research'
     | '/collections/$slug'
     | '/events/$slug'
+    | '/institutions/$slug'
     | '/people/$slug'
     | '/stories/$slug'
     | '/collections/'
@@ -225,6 +235,7 @@ export interface FileRouteTypes {
     | '/research'
     | '/collections/$slug'
     | '/events/$slug'
+    | '/institutions/$slug'
     | '/people/$slug'
     | '/stories/$slug'
     | '/collections'
@@ -246,6 +257,7 @@ export interface FileRouteTypes {
     | '/research'
     | '/collections/$slug'
     | '/events/$slug'
+    | '/institutions/$slug'
     | '/people/$slug'
     | '/stories/$slug'
     | '/collections/'
@@ -268,6 +280,7 @@ export interface RootRouteChildren {
   ResearchRoute: typeof ResearchRoute
   CollectionsSlugRoute: typeof CollectionsSlugRoute
   EventsSlugRoute: typeof EventsSlugRoute
+  InstitutionsSlugRoute: typeof InstitutionsSlugRoute
   PeopleSlugRoute: typeof PeopleSlugRoute
   StoriesSlugRoute: typeof StoriesSlugRoute
   CollectionsIndexRoute: typeof CollectionsIndexRoute
@@ -384,6 +397,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InstitutionsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/institutions/$slug': {
+      id: '/institutions/$slug'
+      path: '/institutions/$slug'
+      fullPath: '/institutions/$slug'
+      preLoaderRoute: typeof InstitutionsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/people/': {
       id: '/people/'
       path: '/people'
@@ -428,6 +448,7 @@ const rootRouteChildren: RootRouteChildren = {
   ResearchRoute: ResearchRoute,
   CollectionsSlugRoute: CollectionsSlugRoute,
   EventsSlugRoute: EventsSlugRoute,
+  InstitutionsSlugRoute: InstitutionsSlugRoute,
   PeopleSlugRoute: PeopleSlugRoute,
   StoriesSlugRoute: StoriesSlugRoute,
   CollectionsIndexRoute: CollectionsIndexRoute,
