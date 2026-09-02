@@ -324,7 +324,7 @@ export const forms: CulturalForm[] = [
     whoCarries: "Weaving households, usually organised by clan. Binding, dyeing and weaving are separate specialisms, and a single hinggi commonly passes through four pairs of hands.",
     whyMatters: "A hinggi is a legal and social document as much as a textile: motifs record clan affiliation and rank, and cloths are exchanged at marriage and funeral. Reading one correctly means knowing who is entitled to wear it.",
     today: "Demand from overseas buyers has raised prices and shortened deadlines at the same time. The communities that have held their ground did so by publishing timelines and weaver names alongside the cloth, so that a two-year piece is not priced against a six-week imitation.",
-    experienceIt: "Kaliuda's weaving house receives visitors by introduction through the community, not by drop-in. Internationally, thirty-one hinggi are on show in London until May 2026.",
+    experienceIt: "Kaliuda's weaving house receives visitors by introduction through the community, not by drop-in. Internationally, thirty-one hinggi travel as the Warp & Weft exhibition in London.",
     sensitivity: "Certain clan motifs may not be photographed, reproduced or worn outside their lineage. Ask before photographing work in progress, and credit the individual weaver rather than the village.",
     sources: [
       { title: "Morinda dye chemistry and the two-year hinggi", author: "R. A. Hàmu, S. Prameswari", year: "2025", note: "Fade data across 24 months of exposure." },
@@ -343,7 +343,7 @@ export const forms: CulturalForm[] = [
     whoCarries: "Court ensembles, village groups, campus karawitan programmes and independent ensembles. Tuning and instrument maintenance is a specialist trade in its own right.",
     whyMatters: "Gamelan is the reason a great deal of twentieth-century Western music sounds the way it does, and it remains a working civic practice in Java rather than a preserved one.",
     today: "Ensembles now move between court repertoire and new commissions with the same players. Touring costs are the constraint: the tuning cannot be substituted, so the instruments travel or the concert does not happen.",
-    experienceIt: "Open rehearsals in Yogyakarta are free and public. Bronze / Circuit plays three nights in Berlin in March 2026.",
+    experienceIt: "Open rehearsals in Yogyakarta are free and public. Bronze / Circuit plays three nights in Berlin.",
     sensitivity: "Some ritual pieces are tied to their occasion and are not performed for audiences. Instruments are stepped over, never on.",
     sources: [
       { title: "Beating frequencies and the perception of gamelan tuning", author: "D. Prayoga, K. Meurer", year: "2024", note: "On what is lost when paired instruments are sampled." },
@@ -362,7 +362,7 @@ export const forms: CulturalForm[] = [
     whoCarries: "Konjo master builders — panrita lopi — and their crews. Training passed through family lines until 2021, when the yards opened apprenticeships to outsiders.",
     whyMatters: "This is one of very few large wooden shipbuilding traditions still working commercially rather than as demonstration, and its knowledge has never been written down.",
     today: "Timber supply and the charter market shape what gets built. Since 2024 the builders have been co-authoring documentation of their own proportional rules instead of being documented by visiting researchers.",
-    experienceIt: "The Bira yards can be visited during the dry season by arrangement. A quarter-scale build runs with Japanese boatwrights in Tokyo in April 2026.",
+    experienceIt: "The Bira yards can be visited during the dry season by arrangement. A quarter-scale build runs with Japanese boatwrights in Tokyo.",
     sensitivity: "Keel-laying and launch rituals are held by the master builder and are not performed for visitors or filmed on request.",
     sources: [
       { title: "Proportional rule systems in Konjo hull construction", author: "B. Lestari, A. Ridwan", year: "2025", note: "Recorded across nine builds at Tanjung Bira." },
@@ -411,7 +411,7 @@ export const forms: CulturalForm[] = [
     whoCarries: "Independent producers, regional collectives, subtitlers and the film schools feeding both.",
     whyMatters: "Indonesian cinema now sells tickets at home in numbers that make foreign approval optional, which changes what gets made.",
     today: "Translation is the current bottleneck: pronouns and honorifics carry class and intimacy that flatten in subtitles, so the platform funds register-faithful translation rather than literal accuracy.",
-    experienceIt: "Eleven features and a shorts programme screen in New York in April 2026, all newly subtitled.",
+    experienceIt: "Eleven features and a shorts programme screen in New York, all newly subtitled.",
     sources: [
       { title: "Register loss in Indonesian screen translation", author: "N. Suryani", year: "2023", note: "Corpus study of 62 subtitled features." },
     ],
@@ -426,7 +426,7 @@ export const forms: CulturalForm[] = [
     whoCarries: "Choreographers who trained inside court or village traditions before leaving them, and the dancers who hold both techniques at once.",
     whyMatters: "The work argues that tradition is a technique to think with, not a costume to wear, and it is one of the most legible routes into Indonesian practice for foreign audiences.",
     today: "Commissioning is increasingly international while rehearsal stays at home, which raises questions about who is credited on a co-production and where the work premieres.",
-    experienceIt: "Body / Court runs in Melbourne in May 2026; Yogyakarta studios hold open showings through the year.",
+    experienceIt: "Body / Court runs in Melbourne; Yogyakarta studios hold open showings through the year.",
     sensitivity: "Some source material remains tied to ritual context and is credited to its teachers by name in the programme.",
     lastReviewed: "2026-01-15",
   },
@@ -439,7 +439,7 @@ export const forms: CulturalForm[] = [
     whoCarries: "Designers, and the weaving and stone workshops named alongside them on the label.",
     whyMatters: "For thirty years rattan mostly left the country raw and returned as someone else's furniture. Keeping the design step at home is the difference between a supply chain and an industry.",
     today: "Credit has become the commercial argument: buyers in Milan and Tokyo now ask for the workshop attribution as part of the product story.",
-    experienceIt: "Material Futures pairs Indonesian and Brazilian studios in São Paulo from June 2026.",
+    experienceIt: "Material Futures pairs Indonesian and Brazilian studios in São Paulo.",
     lastReviewed: "2025-11-14",
   },
   {
@@ -451,7 +451,7 @@ export const forms: CulturalForm[] = [
     whoCarries: "Composers, producers and the ensembles that lend them instruments and players.",
     whyMatters: "It is the clearest counter-argument to the idea that Indonesian music is a heritage category.",
     today: "Artists resist the fusion label: the interest is in tuning systems and cycles, not in decoration.",
-    experienceIt: "Bronze / Circuit in Berlin, March 2026, including a free open rehearsal.",
+    experienceIt: "Bronze / Circuit in Berlin, including a free open rehearsal.",
     lastReviewed: "2026-01-22",
   },
   {
@@ -490,7 +490,7 @@ export const forms: CulturalForm[] = [
   },
 ];
 
-export const stories: Story[] = [
+const storiesSource: Story[] = [
   {
     id: "st-1",
     slug: "two-years-in-a-single-cloth",
@@ -703,7 +703,7 @@ export const collections: Collection[] = [
   { id: "co-3", slug: "who-holds-the-knowledge", title: "Who holds the knowledge", dek: "Attribution, restitution and the politics of credit across the archipelago.", image: forest, storyIds: ["st-5", "st-1", "st-8"], formIds: ["cf-forest", "cf-ikat", "cf-spice"] },
 ];
 
-export const events: CulturalEvent[] = [
+const eventsSource: CulturalEvent[] = [
   {
     id: "ev-1", slug: "warp-and-weft-london", title: "Warp & Weft: Two Years in a Cloth", type: "Exhibition",
     startDate: "2026-02-10", endDate: "2026-05-24", placeId: "pl-london", image: exhibition, formIds: ["cf-ikat"], live: true,
@@ -841,7 +841,7 @@ export const events: CulturalEvent[] = [
   },
 ];
 
-export const opportunities: Opportunity[] = [
+const opportunitiesSource: Opportunity[] = [
   {
     id: "op-1", slug: "weaving-apprenticeship-fund", title: "Weaving Apprenticeship Fund", type: "Grant",
     deadline: "2026-03-31", forWhom: "Master weavers and their apprentices in eastern Indonesia",
@@ -896,6 +896,47 @@ export const papers: ResearchPaper[] = [
   { id: "rp-5", title: "Register loss in Indonesian screen translation", authors: "N. Suryani", year: 2023, discipline: "Translation studies", abstract: "A corpus study of 62 subtitled features, and a proposed style guide for pronoun and honorific handling." },
 ];
 
+/* ---------- rolling prototype calendar ----------
+ * Authored dates are relative to the anchor below. Every date in the demo
+ * dataset is shifted by the same whole number of days so the calendar, the
+ * statuses and the NOW strip stay truthful whenever the prototype is opened.
+ */
+const PROTOTYPE_ANCHOR = "2026-02-16";
+
+const dayShift = (() => {
+  const anchor = Date.UTC(2026, 1, 16);
+  const now = new Date();
+  const today = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
+  return Math.round((today - anchor) / 86_400_000);
+})();
+
+const roll = (iso: string): string => {
+  const [y, m, d] = iso.split("-").map(Number) as [number, number, number];
+  const shifted = new Date(Date.UTC(y, m - 1, d + dayShift));
+  return shifted.toISOString().slice(0, 10);
+};
+
+export const prototypeAnchor = PROTOTYPE_ANCHOR;
+
+export const stories: Story[] = storiesSource.map((s) => ({
+  ...s,
+  publishedAt: roll(s.publishedAt),
+  ...(s.updatedAt ? { updatedAt: roll(s.updatedAt) } : {}),
+}));
+
+export const events: CulturalEvent[] = eventsSource.map((e) => ({
+  ...e,
+  startDate: roll(e.startDate),
+  endDate: roll(e.endDate),
+  ...(e.lastChecked ? { lastChecked: roll(e.lastChecked) } : {}),
+}));
+
+export const opportunities: Opportunity[] = opportunitiesSource.map((o) => ({
+  ...o,
+  deadline: roll(o.deadline),
+  ...(o.lastChecked ? { lastChecked: roll(o.lastChecked) } : {}),
+}));
+
 export const worldNodes: WorldNode[] = [
   { id: "wn-1", city: "London", country: "United Kingdom", continent: "Europe", lat: 51.507, lng: -0.127, programme: "Warp & Weft exhibition and schools programme", eventIds: ["ev-1"], status: "Active" },
   { id: "wn-2", city: "Berlin", country: "Germany", continent: "Europe", lat: 52.52, lng: 13.405, programme: "Bronze / Circuit residency and concerts", eventIds: ["ev-2"], status: "Upcoming" },
@@ -911,12 +952,6 @@ export const worldNodes: WorldNode[] = [
   { id: "wn-12", city: "Mexico City", country: "Mexico", continent: "Americas", lat: 19.432, lng: -99.133, programme: "Textile and dye research visit", eventIds: [], status: "Archive" },
 ];
 
-export const nowItems: NowItem[] = [
-  { id: "nw-1", kind: "live", label: "On now", headline: "Warp & Weft opens in London", meta: "Until 24 May · 31 hinggi, 31 named weavers", href: "/events/warp-and-weft-london" },
-  { id: "nw-2", kind: "call", label: "Open call", headline: "Subtitle & Translation open call closes 28 Feb", meta: "Regional languages · per-project fee", href: "/opportunities" },
-  { id: "nw-3", kind: "opening", label: "Next", headline: "Bronze / Circuit, three nights in Berlin", meta: "6–8 March · open rehearsal Saturday", href: "/events/bronze-circuit-berlin" },
-  { id: "nw-4", kind: "release", label: "New", headline: "Field note: the forest is a legal argument", meta: "Research · 10 min read", href: "/stories/the-forest-is-a-legal-argument" },
-];
 
 /* ---------- graph helpers ---------- */
 
@@ -994,8 +1029,88 @@ export const eventStatus = (event: CulturalEvent, now: Date = new Date()): Event
 export const deadlineStatus = (iso: string, now: Date = new Date()) => {
   const due = new Date(iso + "T23:59:59Z").getTime();
   const days = Math.ceil((due - now.getTime()) / 86_400_000);
-  if (days < 0) return { label: "Closed", open: false, days };
-  if (days === 0) return { label: "Closes today", open: true, days };
-  if (days <= 21) return { label: `Closes in ${days} day${days === 1 ? "" : "s"}`, open: true, days };
-  return { label: `Open until ${formatDate(iso)}`, open: true, days };
+  if (days < 0) return { label: "Closed", state: "Closed" as const, open: false, days };
+  if (days === 0) return { label: "Closes today", state: "Closing soon" as const, open: true, days };
+  if (days <= 21)
+    return {
+      label: `Closes in ${days} day${days === 1 ? "" : "s"}`,
+      state: "Closing soon" as const,
+      open: true,
+      days,
+    };
+  return { label: `Open until ${formatDate(iso)}`, state: "Open" as const, open: true, days };
 };
+
+
+/* ---------- NOW ----------
+ * Derived from the calendar rather than hand-written, so the strip can never
+ * claim something is open when the dates say otherwise.
+ */
+const shortRange = (a: string, b: string) => formatRange(a, b);
+
+export const nowItems: NowItem[] = (() => {
+  const items: NowItem[] = [];
+
+  events
+    .filter((e) => eventStatus(e) === "On now")
+    .sort((a, b) => a.endDate.localeCompare(b.endDate))
+    .forEach((e) => {
+      const place = getPlace(e.placeId);
+      items.push({
+        id: `now-${e.id}`,
+        kind: "live",
+        label: "On now",
+        headline: `${e.title} — ${place?.city ?? place?.name ?? ""}`.trim(),
+        meta: `${e.type} · until ${formatDate(e.endDate)}`,
+        href: `/events/${e.slug}`,
+      });
+    });
+
+  events
+    .filter((e) => eventStatus(e) === "Upcoming")
+    .sort((a, b) => a.startDate.localeCompare(b.startDate))
+    .slice(0, 3)
+    .forEach((e) => {
+      const place = getPlace(e.placeId);
+      items.push({
+        id: `next-${e.id}`,
+        kind: "opening",
+        label: "Opening next",
+        headline: `${e.title} — ${place?.city ?? place?.name ?? ""}`.trim(),
+        meta: `${e.type} · ${shortRange(e.startDate, e.endDate)}`,
+        href: `/events/${e.slug}`,
+      });
+    });
+
+  opportunities
+    .map((o) => ({ o, s: deadlineStatus(o.deadline) }))
+    .filter(({ s }) => s.open)
+    .sort((a, b) => a.s.days - b.s.days)
+    .slice(0, 3)
+    .forEach(({ o, s }) => {
+      items.push({
+        id: `call-${o.id}`,
+        kind: "call",
+        label: "Open call",
+        headline: o.title,
+        meta: `${o.type} · ${s.label.toLowerCase()}`,
+        href: "/opportunities",
+      });
+    });
+
+  [...stories]
+    .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt))
+    .slice(0, 3)
+    .forEach((s) => {
+      items.push({
+        id: `new-${s.id}`,
+        kind: "release",
+        label: "Just published",
+        headline: s.title,
+        meta: `${s.kind} · ${s.readingMinutes} min read · ${formatDate(s.publishedAt)}`,
+        href: `/stories/${s.slug}`,
+      });
+    });
+
+  return items;
+})();

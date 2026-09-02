@@ -129,7 +129,7 @@ function PlacesPage() {
         ) : view === "map" ? (
           <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,22rem)]">
             <IndonesiaMap places={results} selectedId={selectedId} onSelect={setSelectedId} />
-            <aside className="border border-border p-6">
+            <div className="border border-border p-6">
               {selected ? (
                 <>
                   <p className="eyebrow text-primary">{selected.type ?? "Place"}</p>
@@ -173,7 +173,7 @@ function PlacesPage() {
                   </li>
                 ))}
               </ul>
-            </aside>
+            </div>
           </div>
         ) : (
           <ul className="mt-10 grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">

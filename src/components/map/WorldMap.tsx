@@ -74,7 +74,7 @@ export function WorldMap({
     <div ref={wrapRef} className="relative overflow-hidden border border-border bg-sand">
       <svg
         viewBox={`${VIEW.x} ${VIEW.y} ${VIEW.w} ${VIEW.h}`}
-        role="img"
+        role="group"
         aria-label="Map of Indonesia Vibes programmes around the world. The same programmes are listed as text below."
         className="block w-full"
       >

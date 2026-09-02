@@ -234,7 +234,7 @@ function PersonPage() {
           ) : null}
         </div>
 
-        <aside className="lg:sticky lg:top-28 lg:self-start">
+        <div className="lg:sticky lg:top-28 lg:self-start">
           <FactList
             items={[
               ...(isCommunity && person.custodianship
@@ -296,7 +296,7 @@ function PersonPage() {
                 : []),
             ]}
           />
-        </aside>
+        </div>
       </div>
 
       {similar.length ? (

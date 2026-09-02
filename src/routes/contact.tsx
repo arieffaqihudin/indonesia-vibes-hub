@@ -202,7 +202,7 @@ function ContactPage() {
           </p>
         </form>
 
-        <aside className="space-y-8 border-t border-border pt-8 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-10">
+        <div className="space-y-8 border-t border-border pt-8 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-10">
           <div>
             <p className="eyebrow text-muted-foreground">Email</p>
             <a
@@ -224,7 +224,7 @@ function ContactPage() {
               <li>3. If both sides agree, we introduce you directly.</li>
             </ol>
           </div>
-        </aside>
+        </div>
       </div>
     </>
   );

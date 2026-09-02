@@ -18,6 +18,12 @@ export const Route = createFileRoute("/opportunities")({
 });
 
 function OpportunitiesPage() {
+  const graded = opportunities
+    .map((o) => ({ o, status: deadlineStatus(o.deadline) }))
+    .sort((a, b) => a.status.days - b.status.days);
+  const open = graded.filter((g) => g.status.open).map((g) => g.o);
+  const closed = graded.filter((g) => !g.status.open).map((g) => g.o);
+
   return (
     <>
       <PageHeader
@@ -26,14 +32,14 @@ function OpportunitiesPage() {
         intro="Funding and open calls for artists, makers, translators and researchers. Applications are read in English or Indonesian, and we reply to every submission either way."
       />
       <div className="container-editorial py-16">
-        {opportunities.length === 0 ? (
+        {open.length === 0 ? (
           <p className="max-w-xl text-muted-foreground">
             Nothing is open at the moment. New calls are published here first — tell us what you work
             on and we will write when something fits.
           </p>
         ) : (
           <ul className="grid gap-8 md:grid-cols-2">
-            {opportunities.map((o) => {
+            {open.map((o) => {
               const status = deadlineStatus(o.deadline);
               return (
                 <li key={o.id} className="flex flex-col justify-between gap-6 border border-border p-7">
@@ -45,7 +51,7 @@ function OpportunitiesPage() {
                           status.open ? "bg-pale text-deep-red" : "bg-muted text-muted-foreground"
                         }`}
                       >
-                        {status.label}
+                        {status.state === "Open" ? status.label : `${status.state} · ${status.label}`}
                       </p>
                     </div>
                     <h2 className="display-3 mt-3 text-[1.4rem] text-ink">{o.title}</h2>
@@ -96,7 +102,7 @@ function OpportunitiesPage() {
                       search={{ topic: "Opportunity application", subject: o.title }}
                       className="press mt-5 inline-flex min-h-11 items-center rounded-full bg-primary px-5 text-sm font-medium text-primary-foreground transition-colors hover:bg-deep-red"
                     >
-                      {status.open ? "Start an application" : "Ask about the next round"}
+                      Start an application
                     </Link>
                     {o.lastChecked ? (
                       <p className="mt-4 text-xs text-muted-foreground">
@@ -109,7 +115,41 @@ function OpportunitiesPage() {
             })}
           </ul>
         )}
+
+        {closed.length ? (
+          <section className="mt-20 border-t border-border pt-10">
+            <h2 className="display-3 text-ink">Closed calls</h2>
+            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+              Kept on the page so the pattern is visible: what we fund, on what terms, and how often
+              it comes round. Applications are no longer accepted for these.
+            </p>
+            <ul className="mt-8 divide-y divide-border border-y border-border">
+              {closed.map((o) => (
+                <li key={o.id} className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 py-5">
+                  <div className="min-w-0">
+                    <p className="eyebrow text-muted-foreground">{o.type}</p>
+                    <p className="mt-1.5 text-lg leading-snug font-medium text-ink">{o.title}</p>
+                    <p className="mt-1 text-sm text-muted-foreground">{o.forWhom}</p>
+                  </div>
+                  <div className="flex items-center gap-4 text-sm">
+                    <span className="rounded-full bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground">
+                      Closed {formatDate(o.deadline)}
+                    </span>
+                    <Link
+                      to="/contact"
+                      search={{ topic: "Opportunity application", subject: `Next round: ${o.title}` }}
+                      className="min-h-9 text-primary underline underline-offset-4"
+                    >
+                      Ask about the next round
+                    </Link>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ) : null}
       </div>
+
     </>
   );
 }

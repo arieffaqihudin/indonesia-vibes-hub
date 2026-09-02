@@ -57,10 +57,13 @@ function CollectionPage() {
           <img src={collection.image} alt="" width={1600} height={1104} className="aspect-[4/3] w-full object-cover" />
         </div>
       </header>
-      <div className="container-editorial grid gap-x-8 gap-y-14 py-16 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="container-editorial py-16">
+        <h2 className="sr-only">Stories in this collection</h2>
+        <div className="grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
         {stories.map((s) => (
-          <StoryCard key={s.id} story={s} />
-        ))}
+            <StoryCard key={s.id} story={s} />
+          ))}
+        </div>
       </div>
     </>
   );
