@@ -2,7 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 
 import { StoryCard } from "@/components/editorial/StoryCard";
 import { getCollection, getForm, getStoryById } from "@/data/content";
-import type { Collection } from "@/types/content";
+import type { Collection, CulturalForm, Story } from "@/types/content";
 
 export const Route = createFileRoute("/collections/$slug")({
   loader: ({ params }): { collection: Collection } => {
@@ -39,8 +39,8 @@ export const Route = createFileRoute("/collections/$slug")({
 
 function CollectionPage() {
   const { collection } = Route.useLoaderData();
-  const stories = collection.storyIds.map(getStoryById).filter(Boolean);
-  const forms = collection.formIds.map(getForm).filter(Boolean);
+  const stories = collection.storyIds.map(getStoryById).filter(Boolean) as Story[];
+  const forms = collection.formIds.map(getForm).filter(Boolean) as CulturalForm[];
 
   return (
     <>
@@ -51,7 +51,7 @@ function CollectionPage() {
             <h1 className="display-1 mt-5 text-ink">{collection.title}</h1>
             <p className="standfirst mt-6 max-w-xl">{collection.dek}</p>
             <p className="mt-6 text-sm text-muted-foreground">
-              {forms.map((f) => f!.name).join(" · ")}
+              {forms.map((f) => f.name).join(" · ")}
             </p>
           </div>
           <img src={collection.image} alt="" width={1600} height={1104} className="aspect-[4/3] w-full object-cover" />
@@ -59,7 +59,7 @@ function CollectionPage() {
       </header>
       <div className="container-editorial grid gap-x-8 gap-y-14 py-16 sm:grid-cols-2 lg:grid-cols-3">
         {stories.map((s) => (
-          <StoryCard key={s!.id} story={s!} />
+          <StoryCard key={s.id} story={s} />
         ))}
       </div>
     </>

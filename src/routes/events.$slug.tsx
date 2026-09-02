@@ -1,7 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 
 import { formatRange, getEvent, getForm, getPlace } from "@/data/content";
-import type { CulturalEvent } from "@/types/content";
+import type { CulturalEvent, CulturalForm } from "@/types/content";
 
 export const Route = createFileRoute("/events/$slug")({
   loader: ({ params }): { event: CulturalEvent } => {
@@ -40,7 +40,7 @@ export const Route = createFileRoute("/events/$slug")({
 function EventPage() {
   const { event } = Route.useLoaderData();
   const place = getPlace(event.placeId);
-  const forms = event.formIds.map(getForm).filter(Boolean);
+  const forms = event.formIds.map(getForm).filter(Boolean) as CulturalForm[];
 
   return (
     <article>
@@ -79,8 +79,8 @@ function EventPage() {
             <p className="eyebrow text-muted-foreground">Forms</p>
             <ul className="mt-2 space-y-1.5">
               {forms.map((f) => (
-                <li key={f!.id} className="text-sm text-ink">
-                  {f!.name}
+                <li key={f.id} className="text-sm text-ink">
+                  {f.name}
                 </li>
               ))}
             </ul>
