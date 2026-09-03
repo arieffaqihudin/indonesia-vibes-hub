@@ -45,6 +45,7 @@ import { Route as PlacesIndexRouteImport } from './routes/places.index'
 import { Route as PlacesSlugRouteImport } from './routes/places.$slug'
 import { Route as StoriesIndexRouteImport } from './routes/stories.index'
 import { Route as StoriesSlugRouteImport } from './routes/stories.$slug'
+import { Route as ContributorSubmissionsIndexRouteImport } from './routes/contributor.submissions.index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -227,6 +228,12 @@ const StoriesSlugRoute = StoriesSlugRouteImport.update({
   path: '/stories/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContributorSubmissionsIndexRoute =
+  ContributorSubmissionsIndexRouteImport.update({
+    id: '/contributor/submissions/',
+    path: '/contributor/submissions/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -265,6 +272,7 @@ export interface FileRoutesByFullPath {
   '/people/': typeof PeopleIndexRoute
   '/places/': typeof PlacesIndexRoute
   '/stories/': typeof StoriesIndexRoute
+  '/contributor/submissions/': typeof ContributorSubmissionsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -303,6 +311,7 @@ export interface FileRoutesByTo {
   '/people': typeof PeopleIndexRoute
   '/places': typeof PlacesIndexRoute
   '/stories': typeof StoriesIndexRoute
+  '/contributor/submissions': typeof ContributorSubmissionsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -342,6 +351,7 @@ export interface FileRoutesById {
   '/people/': typeof PeopleIndexRoute
   '/places/': typeof PlacesIndexRoute
   '/stories/': typeof StoriesIndexRoute
+  '/contributor/submissions/': typeof ContributorSubmissionsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -382,6 +392,7 @@ export interface FileRouteTypes {
     | '/people/'
     | '/places/'
     | '/stories/'
+    | '/contributor/submissions/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -420,6 +431,7 @@ export interface FileRouteTypes {
     | '/people'
     | '/places'
     | '/stories'
+    | '/contributor/submissions'
   id:
     | '__root__'
     | '/'
@@ -458,6 +470,7 @@ export interface FileRouteTypes {
     | '/people/'
     | '/places/'
     | '/stories/'
+    | '/contributor/submissions/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -497,6 +510,7 @@ export interface RootRouteChildren {
   PeopleIndexRoute: typeof PeopleIndexRoute
   PlacesIndexRoute: typeof PlacesIndexRoute
   StoriesIndexRoute: typeof StoriesIndexRoute
+  ContributorSubmissionsIndexRoute: typeof ContributorSubmissionsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -753,6 +767,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StoriesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contributor/submissions/': {
+      id: '/contributor/submissions/'
+      path: '/contributor/submissions'
+      fullPath: '/contributor/submissions/'
+      preLoaderRoute: typeof ContributorSubmissionsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -793,6 +814,7 @@ const rootRouteChildren: RootRouteChildren = {
   PeopleIndexRoute: PeopleIndexRoute,
   PlacesIndexRoute: PlacesIndexRoute,
   StoriesIndexRoute: StoriesIndexRoute,
+  ContributorSubmissionsIndexRoute: ContributorSubmissionsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
