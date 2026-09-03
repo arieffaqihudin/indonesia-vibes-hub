@@ -2,19 +2,21 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 
 import { Reveal } from "@/components/motion/Reveal";
-import { NowSection } from "@/components/editorial/NowSection";
+import { InFocus } from "@/components/editorial/InFocus";
+import { CollaborationCard, PersonCard } from "@/components/editorial/EntityCards";
 import { SectionHeading } from "@/components/editorial/Section";
 import { StoryCard } from "@/components/editorial/StoryCard";
 import { WorldMap } from "@/components/map/WorldMap";
 import {
   collections,
-  events,
   formatRange,
   getPlace,
+  people,
   pillars,
   stories,
   worldNodes,
 } from "@/data/content";
+import { comingUpEvents, ongoingCollaborations, openOpportunities } from "@/lib/freshness";
 import { brand } from "@/lib/brand";
 
 export const Route = createFileRoute("/")({
@@ -36,7 +38,12 @@ function Home() {
   const rest = stories.slice(1);
   const secondary = rest.slice(0, 2);
   const grid = rest.slice(2, 6);
-  const upcoming = events.slice(0, 3);
+  const featuredCollection = collections[0]!;
+  const otherCollections = collections.slice(1);
+  const peopleToKnow = people.slice(0, 4);
+  const upcoming = comingUpEvents().slice(0, 3);
+  const collaborations = ongoingCollaborations().slice(0, 2);
+  const openCalls = openOpportunities().slice(0, 3);
 
   return (
     <>
@@ -71,10 +78,11 @@ function Home() {
                 <ArrowRight className="h-4 w-4 transition-transform duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-1" />
               </Link>
               <Link
-                to="/around-the-world"
+                to="/"
+                hash="in-focus"
                 className="link-underline group inline-flex min-h-11 items-center gap-2 px-1 text-sm font-medium text-ink"
               >
-                See where we are right now
+                Explore in focus
                 <ArrowUpRight className="arrow-nudge h-4 w-4 text-primary" />
               </Link>
             </div>
@@ -103,49 +111,97 @@ function Home() {
         </div>
       </section>
 
-      <NowSection />
+      <InFocus />
 
-      {/* Latest */}
+      {/* Around the world */}
       <section className="container-editorial py-16 md:py-24">
         <Reveal>
           <SectionHeading
-            eyebrow="Discover"
-            title="Latest stories"
-            intro="Reporting, interviews and field notes — each one connected to the makers, forms and places it came from."
-            action="/stories"
-            actionLabel="All stories"
+            eyebrow="Experience"
+            title="Indonesia around the world"
+            intro={`${worldNodes.filter((n) => n.status !== "Archive").length} programmes, partnerships and long-standing relationships, arcing out from Jakarta.`}
+            action="/around-the-world"
+            actionLabel="Open the map"
           />
         </Reveal>
-        <div className="mt-10 grid gap-x-8 gap-y-12 md:grid-cols-2">
-          {secondary.map((s, i) => (
-            <Reveal key={s.id} delay={i * 80}>
-              <StoryCard story={s} size="lg" />
-            </Reveal>
-          ))}
-        </div>
-        <div className="mt-14 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
-          {grid.map((s, i) => (
-            <Reveal key={s.id} delay={i * 70}>
-              <StoryCard story={s} size="sm" />
-            </Reveal>
-          ))}
-        </div>
+        <Reveal variant="fade" className="mt-10">
+          <WorldMap />
+        </Reveal>
       </section>
 
-
-      {/* Pillars */}
-      <section className="border-y border-border bg-sand">
+      {/* Featured collection */}
+      <section className="border-y border-border bg-blush">
         <div className="container-editorial py-16 md:py-24">
           <Reveal>
             <SectionHeading
-              eyebrow="Understand"
-              title="Three ways in"
-              intro="Heritage, contemporary practice and research — held together rather than ranked."
+              eyebrow="Curated"
+              title="Featured collection"
+              intro="Sets that read as arguments, not folders."
+              action="/collections"
+              actionLabel="All collections"
             />
           </Reveal>
-          <div className="mt-10 grid gap-px overflow-hidden border border-border bg-border md:grid-cols-3">
-            {pillars.map((p, i) => (
-              <Reveal key={p.id} delay={i * 80} className="contents">
+          <Reveal className="mt-10 grid gap-8 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] lg:items-center">
+            <Link
+              to="/collections/$slug"
+              params={{ slug: featuredCollection.slug }}
+              className="group block"
+            >
+              <div className="media-zoom bg-muted">
+                <img
+                  src={featuredCollection.image}
+                  alt=""
+                  width={1600}
+                  height={1000}
+                  loading="lazy"
+                  className="aspect-[16/9] w-full object-cover"
+                />
+              </div>
+              <h3 className="display-3 mt-5 text-ink">
+                <span className="link-underline">{featuredCollection.title}</span>
+              </h3>
+              <p className="mt-3 max-w-2xl text-[0.98rem] leading-relaxed text-muted-foreground">
+                {featuredCollection.dek}
+              </p>
+              <p className="mt-3 text-xs text-muted-foreground">
+                {featuredCollection.storyIds.length} stories
+              </p>
+            </Link>
+            <ul className="divide-y divide-border border-y border-border">
+              {otherCollections.map((c) => (
+                <li key={c.id}>
+                  <Link
+                    to="/collections/$slug"
+                    params={{ slug: c.slug }}
+                    className="group grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 py-5"
+                  >
+                    <span className="min-w-0">
+                      <span className="block text-lg leading-snug font-medium text-ink group-hover:text-primary">
+                        {c.title}
+                      </span>
+                      <span className="mt-1 block text-sm text-muted-foreground">{c.dek}</span>
+                    </span>
+                    <ArrowUpRight className="arrow-nudge h-5 w-5 shrink-0 text-primary" />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Explore culture */}
+      <section className="container-editorial py-16 md:py-24">
+        <Reveal>
+          <SectionHeading
+            eyebrow="Understand"
+            title="Explore culture"
+            intro="Heritage, contemporary practice and research — held together rather than ranked."
+          />
+        </Reveal>
+        <div className="mt-10 grid gap-px overflow-hidden border border-border bg-border md:grid-cols-3">
+          {pillars.map((p, i) => (
+            <Reveal key={p.id} delay={i * 80} className="contents">
               <Link
                 to={p.route}
                 className="press group flex flex-col justify-between gap-10 bg-background p-8 hover:bg-blush"
@@ -164,28 +220,46 @@ function Home() {
                   </span>
                 </span>
               </Link>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* People to know */}
+      <section className="border-y border-border bg-sand">
+        <div className="container-editorial py-16 md:py-24">
+          <Reveal>
+            <SectionHeading
+              eyebrow="Connect"
+              title="People to know"
+              intro="Makers, masters, researchers and the communities who hold the practice."
+              action="/people"
+              actionLabel="All people & communities"
+            />
+          </Reveal>
+          <div className="mt-10 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+            {peopleToKnow.map((p, i) => (
+              <Reveal key={p.id} delay={i * 70}>
+                <PersonCard person={p} size="sm" />
               </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Around the world */}
+      {/* Upcoming experiences */}
       <section className="container-editorial py-16 md:py-24">
         <Reveal>
-        <SectionHeading
-          eyebrow="Experience"
-          title="Indonesia around the world"
-          intro={`${worldNodes.filter((n) => n.status !== "Archive").length} live and upcoming programmes, arcing out from Jakarta.`}
-          action="/around-the-world"
-          actionLabel="Open the map"
-        />
+          <SectionHeading
+            eyebrow="Experience"
+            title="Coming up"
+            intro="Exhibitions, performances, screenings and workshops with dates already set."
+            action="/events"
+            actionLabel="All events"
+          />
         </Reveal>
-        <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] lg:items-start">
-          <Reveal variant="fade">
-            <WorldMap />
-          </Reveal>
-          <ul className="divide-y divide-border border-y border-border">
+        {upcoming.length ? (
+          <ul className="mt-10 divide-y divide-border border-y border-border">
             {upcoming.map((e, i) => {
               const place = getPlace(e.placeId);
               return (
@@ -212,71 +286,126 @@ function Home() {
               );
             })}
           </ul>
-        </div>
+        ) : (
+          <p className="mt-10 border-y border-border py-6 text-sm text-muted-foreground">
+            No upcoming dates are currently listed. Programmes in preparation appear under{" "}
+            <Link to="/collaborations" className="link-underline text-primary">
+              collaborations
+            </Link>
+            .
+          </p>
+        )}
       </section>
 
-      {/* Collections */}
-      <section className="border-t border-border bg-blush">
+      {/* Current collaborations */}
+      <section className="border-y border-border bg-blush">
         <div className="container-editorial py-16 md:py-24">
           <Reveal>
-          <SectionHeading
-            eyebrow="Curated"
-            title="Collections"
-            intro="Sets that read as arguments, not folders."
-            action="/collections"
-          />
+            <SectionHeading
+              eyebrow="Connect"
+              title="Ongoing collaborations"
+              intro="Long-running exchanges with museums, festivals, universities and independent spaces."
+              action="/collaborations"
+              actionLabel="All collaborations"
+            />
           </Reveal>
-          <div className="mt-10 grid gap-8 md:grid-cols-3">
-            {collections.map((c, i) => (
+          <div className="mt-10 grid gap-8 md:grid-cols-2">
+            {collaborations.map((c, i) => (
               <Reveal key={c.id} delay={i * 80}>
-              <Link to="/collections/$slug" params={{ slug: c.slug }} className="group block">
-                <div className="media-zoom bg-muted">
-                  <img
-                    src={c.image}
-                    alt=""
-                    width={1600}
-                    height={1104}
-                    loading="lazy"
-                    className="aspect-[5/4] w-full object-cover"
-                  />
-                </div>
-                <h3 className="mt-4 text-xl font-medium tracking-tight text-ink">
-                  <span className="link-underline">{c.title}</span>
-                </h3>
-                <p className="mt-2 text-[0.95rem] leading-relaxed text-muted-foreground">{c.dek}</p>
-                <p className="mt-3 text-xs text-muted-foreground">{c.storyIds.length} stories</p>
-              </Link>
+                <CollaborationCard collaboration={c} />
               </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Connect */}
+      {/* Opportunities */}
+      <section className="container-editorial py-16 md:py-24">
+        <Reveal>
+          <SectionHeading
+            eyebrow="Connect"
+            title="Open now"
+            intro="Grants, residencies and fellowships currently accepting applications."
+            action="/opportunities"
+            actionLabel="All opportunities"
+          />
+        </Reveal>
+        {openCalls.length ? (
+          <ul className="mt-10 grid gap-px overflow-hidden border border-border bg-border md:grid-cols-3">
+            {openCalls.map(({ o, s }, i) => (
+              <Reveal as="li" key={o.id} delay={i * 70} className="bg-background">
+                <Link to="/opportunities" className="flex h-full flex-col justify-between gap-8 p-6 hover:bg-blush">
+                  <span className="eyebrow text-primary">{o.type}</span>
+                  <span>
+                    <span className="block text-lg leading-snug font-medium text-ink">{o.title}</span>
+                    <span className="mt-2 block text-sm text-muted-foreground">{s.label}</span>
+                  </span>
+                </Link>
+              </Reveal>
+            ))}
+          </ul>
+        ) : (
+          <p className="mt-10 border-y border-border py-6 text-sm text-muted-foreground">
+            No open calls are currently listed for this selection. New rounds are announced through
+            the newsletter.
+          </p>
+        )}
+      </section>
+
+      {/* Latest stories */}
+      <section className="border-y border-border bg-sand">
+        <div className="container-editorial py-16 md:py-24">
+          <Reveal>
+            <SectionHeading
+              eyebrow="Discover"
+              title="Recently published"
+              intro="Reporting, interviews and field notes — each one connected to the makers, forms and places it came from."
+              action="/stories"
+              actionLabel="All stories"
+            />
+          </Reveal>
+          <div className="mt-10 grid gap-x-8 gap-y-12 md:grid-cols-2">
+            {secondary.map((s, i) => (
+              <Reveal key={s.id} delay={i * 80}>
+                <StoryCard story={s} size="lg" />
+              </Reveal>
+            ))}
+          </div>
+          <div className="mt-14 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+            {grid.map((s, i) => (
+              <Reveal key={s.id} delay={i * 70}>
+                <StoryCard story={s} size="sm" />
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Newsletter / connect */}
       <section className="container-editorial py-16 md:py-24">
         <Reveal className="grid gap-10 border border-border bg-ink-deep p-8 text-[oklch(0.95_0.01_40)] md:p-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,20rem)] lg:items-end">
           <div>
-            <p className="eyebrow text-pink">Connect · Collaborate</p>
+            <p className="eyebrow text-pink">Newsletter · Collaborate</p>
             <h2 className="display-2 mt-4 max-w-2xl">
-              Bring an Indonesian programme to your city — or apply to make one.
+              A monthly letter on what is being made, researched and programmed.
             </h2>
             <p className="mt-5 max-w-xl text-[0.98rem] leading-relaxed text-[oklch(0.82_0.02_30)]">
-              We work with museums, festivals, universities and independent spaces. Artists and
-              researchers apply directly through open calls.
+              One email a month: new stories, open calls and the programmes travelling abroad. We
+              also work directly with museums, festivals and universities.
             </p>
           </div>
           <div className="flex flex-wrap gap-3 lg:justify-end">
             <Link
-              to="/collaborate"
+              to="/contact"
               className="press inline-flex min-h-11 items-center rounded-full bg-primary px-6 text-sm font-medium text-primary-foreground hover:bg-deep-red"
             >
-              Partner with us
+              Subscribe
             </Link>
             <Link
-              to="/opportunities"
+              to="/collaborate"
               className="press inline-flex min-h-11 items-center rounded-full border border-white/25 px-6 text-sm font-medium hover:bg-white/10"
             >
-              Open calls
+              Partner with us
             </Link>
           </div>
         </Reveal>
