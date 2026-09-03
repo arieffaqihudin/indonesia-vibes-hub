@@ -20,6 +20,7 @@ import { Route as ContemporaryRouteImport } from './routes/contemporary'
 import { Route as ContributeRouteImport } from './routes/contribute'
 import { Route as EditorialStandardsRouteImport } from './routes/editorial-standards'
 import { Route as HeritageRouteImport } from './routes/heritage'
+import { Route as NowRouteImport } from './routes/now'
 import { Route as OpportunitiesRouteImport } from './routes/opportunities'
 import { Route as ResearchRouteImport } from './routes/research'
 import { Route as SearchRouteImport } from './routes/search'
@@ -143,6 +144,11 @@ const EditorialStandardsRoute = EditorialStandardsRouteImport.update({
 const HeritageRoute = HeritageRouteImport.update({
   id: '/heritage',
   path: '/heritage',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NowRoute = NowRouteImport.update({
+  id: '/now',
+  path: '/now',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OpportunitiesRoute = OpportunitiesRouteImport.update({
@@ -511,6 +517,7 @@ export interface FileRoutesByFullPath {
   '/contribute': typeof ContributeRoute
   '/editorial-standards': typeof EditorialStandardsRoute
   '/heritage': typeof HeritageRoute
+  '/now': typeof NowRoute
   '/opportunities': typeof OpportunitiesRoute
   '/research': typeof ResearchRoute
   '/search': typeof SearchRoute
@@ -592,6 +599,7 @@ export interface FileRoutesByTo {
   '/contribute': typeof ContributeRoute
   '/editorial-standards': typeof EditorialStandardsRoute
   '/heritage': typeof HeritageRoute
+  '/now': typeof NowRoute
   '/opportunities': typeof OpportunitiesRoute
   '/research': typeof ResearchRoute
   '/search': typeof SearchRoute
@@ -675,6 +683,7 @@ export interface FileRoutesById {
   '/contribute': typeof ContributeRoute
   '/editorial-standards': typeof EditorialStandardsRoute
   '/heritage': typeof HeritageRoute
+  '/now': typeof NowRoute
   '/opportunities': typeof OpportunitiesRoute
   '/research': typeof ResearchRoute
   '/search': typeof SearchRoute
@@ -759,6 +768,7 @@ export interface FileRouteTypes {
     | '/contribute'
     | '/editorial-standards'
     | '/heritage'
+    | '/now'
     | '/opportunities'
     | '/research'
     | '/search'
@@ -840,6 +850,7 @@ export interface FileRouteTypes {
     | '/contribute'
     | '/editorial-standards'
     | '/heritage'
+    | '/now'
     | '/opportunities'
     | '/research'
     | '/search'
@@ -922,6 +933,7 @@ export interface FileRouteTypes {
     | '/contribute'
     | '/editorial-standards'
     | '/heritage'
+    | '/now'
     | '/opportunities'
     | '/research'
     | '/search'
@@ -1005,6 +1017,7 @@ export interface RootRouteChildren {
   ContributeRoute: typeof ContributeRoute
   EditorialStandardsRoute: typeof EditorialStandardsRoute
   HeritageRoute: typeof HeritageRoute
+  NowRoute: typeof NowRoute
   OpportunitiesRoute: typeof OpportunitiesRoute
   ResearchRoute: typeof ResearchRoute
   SearchRoute: typeof SearchRoute
@@ -1119,6 +1132,13 @@ declare module '@tanstack/react-router' {
       path: '/heritage'
       fullPath: '/heritage'
       preLoaderRoute: typeof HeritageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/now': {
+      id: '/now'
+      path: '/now'
+      fullPath: '/now'
+      preLoaderRoute: typeof NowRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/opportunities': {
@@ -1705,6 +1725,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContributeRoute: ContributeRoute,
   EditorialStandardsRoute: EditorialStandardsRoute,
   HeritageRoute: HeritageRoute,
+  NowRoute: NowRoute,
   OpportunitiesRoute: OpportunitiesRoute,
   ResearchRoute: ResearchRoute,
   SearchRoute: SearchRoute,
