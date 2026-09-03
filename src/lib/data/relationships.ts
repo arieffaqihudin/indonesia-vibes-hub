@@ -5,7 +5,7 @@
  * directional relationship records with provenance, so every surface can ask
  * the same questions of the same graph instead of hand-listing related items.
  */
-import { collections, events, forms, opportunities, papers, people, stories } from "@/data/content";
+import { collections, events, forms, opportunities, papers, people, places, stories } from "@/data/content";
 import { collaborations } from "@/data/collaborations";
 import { institutions } from "@/data/institutions";
 import { canonicalId, getEntity, type CanonicalId, type EntityType } from "./entities";
@@ -130,7 +130,7 @@ for (const i of institutions) {
 }
 
 /* places */
-for (const pl of places()) link("place", pl.id, "in_country", "country", countryId(pl.country));
+for (const pl of places) link("place", pl.id, "in_country", "country", countryId(pl.country));
 
 /* stories */
 for (const s of stories) {
@@ -175,18 +175,6 @@ for (const c of collaborations) {
   for (const oid of c.opportunityIds ?? []) link("opportunity", oid, "offered_by", "collaboration", c.id);
   for (const country of c.countries) link("collaboration", c.id, "in_country", "country", countryId(country));
 }
-
-function places() {
-  // imported lazily to keep the module's import list flat
-  return require_places();
-}
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-function require_places() {
-  return placesRef;
-}
-
-import { places as placesRef } from "@/data/content";
 
 export const relationships: Relationship[] = rels.filter(
   (r) => Boolean(getEntity(r.from)) && Boolean(getEntity(r.to)),
