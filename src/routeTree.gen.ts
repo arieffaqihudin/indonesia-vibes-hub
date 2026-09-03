@@ -28,6 +28,7 @@ import { Route as CollectionsIndexRouteImport } from './routes/collections.index
 import { Route as CollectionsSlugRouteImport } from './routes/collections.$slug'
 import { Route as ContributorLoginRouteImport } from './routes/contributor.login'
 import { Route as ContributorRegisterRouteImport } from './routes/contributor.register'
+import { Route as ContributorVerifyEmailRouteImport } from './routes/contributor.verify-email'
 import { Route as CultureSlugRouteImport } from './routes/culture.$slug'
 import { Route as EventsIndexRouteImport } from './routes/events.index'
 import { Route as EventsSlugRouteImport } from './routes/events.$slug'
@@ -135,6 +136,11 @@ const ContributorRegisterRoute = ContributorRegisterRouteImport.update({
   path: '/contributor/register',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContributorVerifyEmailRoute = ContributorVerifyEmailRouteImport.update({
+  id: '/contributor/verify-email',
+  path: '/contributor/verify-email',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CultureSlugRoute = CultureSlugRouteImport.update({
   id: '/culture/$slug',
   path: '/culture/$slug',
@@ -209,6 +215,7 @@ export interface FileRoutesByFullPath {
   '/collections/$slug': typeof CollectionsSlugRoute
   '/contributor/login': typeof ContributorLoginRoute
   '/contributor/register': typeof ContributorRegisterRoute
+  '/contributor/verify-email': typeof ContributorVerifyEmailRoute
   '/culture/$slug': typeof CultureSlugRoute
   '/events/$slug': typeof EventsSlugRoute
   '/institutions/$slug': typeof InstitutionsSlugRoute
@@ -241,6 +248,7 @@ export interface FileRoutesByTo {
   '/collections/$slug': typeof CollectionsSlugRoute
   '/contributor/login': typeof ContributorLoginRoute
   '/contributor/register': typeof ContributorRegisterRoute
+  '/contributor/verify-email': typeof ContributorVerifyEmailRoute
   '/culture/$slug': typeof CultureSlugRoute
   '/events/$slug': typeof EventsSlugRoute
   '/institutions/$slug': typeof InstitutionsSlugRoute
@@ -274,6 +282,7 @@ export interface FileRoutesById {
   '/collections/$slug': typeof CollectionsSlugRoute
   '/contributor/login': typeof ContributorLoginRoute
   '/contributor/register': typeof ContributorRegisterRoute
+  '/contributor/verify-email': typeof ContributorVerifyEmailRoute
   '/culture/$slug': typeof CultureSlugRoute
   '/events/$slug': typeof EventsSlugRoute
   '/institutions/$slug': typeof InstitutionsSlugRoute
@@ -308,6 +317,7 @@ export interface FileRouteTypes {
     | '/collections/$slug'
     | '/contributor/login'
     | '/contributor/register'
+    | '/contributor/verify-email'
     | '/culture/$slug'
     | '/events/$slug'
     | '/institutions/$slug'
@@ -340,6 +350,7 @@ export interface FileRouteTypes {
     | '/collections/$slug'
     | '/contributor/login'
     | '/contributor/register'
+    | '/contributor/verify-email'
     | '/culture/$slug'
     | '/events/$slug'
     | '/institutions/$slug'
@@ -372,6 +383,7 @@ export interface FileRouteTypes {
     | '/collections/$slug'
     | '/contributor/login'
     | '/contributor/register'
+    | '/contributor/verify-email'
     | '/culture/$slug'
     | '/events/$slug'
     | '/institutions/$slug'
@@ -405,6 +417,7 @@ export interface RootRouteChildren {
   CollectionsSlugRoute: typeof CollectionsSlugRoute
   ContributorLoginRoute: typeof ContributorLoginRoute
   ContributorRegisterRoute: typeof ContributorRegisterRoute
+  ContributorVerifyEmailRoute: typeof ContributorVerifyEmailRoute
   CultureSlugRoute: typeof CultureSlugRoute
   EventsSlugRoute: typeof EventsSlugRoute
   InstitutionsSlugRoute: typeof InstitutionsSlugRoute
@@ -555,6 +568,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContributorRegisterRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contributor/verify-email': {
+      id: '/contributor/verify-email'
+      path: '/contributor/verify-email'
+      fullPath: '/contributor/verify-email'
+      preLoaderRoute: typeof ContributorVerifyEmailRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/culture/$slug': {
       id: '/culture/$slug'
       path: '/culture/$slug'
@@ -653,6 +673,7 @@ const rootRouteChildren: RootRouteChildren = {
   CollectionsSlugRoute: CollectionsSlugRoute,
   ContributorLoginRoute: ContributorLoginRoute,
   ContributorRegisterRoute: ContributorRegisterRoute,
+  ContributorVerifyEmailRoute: ContributorVerifyEmailRoute,
   CultureSlugRoute: CultureSlugRoute,
   EventsSlugRoute: EventsSlugRoute,
   InstitutionsSlugRoute: InstitutionsSlugRoute,
