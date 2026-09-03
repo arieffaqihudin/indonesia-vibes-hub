@@ -231,7 +231,7 @@ export function WorkspaceShell({
             <NavList />
             {needsAction > 0 ? (
               <p className="mt-6 rounded-md bg-blush px-3 py-2 text-xs text-clay">
-                {needsAction} submission{needsAction === 1 ? "" : "s"} need your attention.
+                {needsAction} submission{needsAction === 1 ? " needs" : "s need"} your attention.
               </p>
             ) : null}
             <button

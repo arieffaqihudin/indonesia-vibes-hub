@@ -190,6 +190,11 @@ function SubmissionDetail() {
       <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)]">
         <div className="space-y-6">
           <Panel title="Submission preview" description="A simplified view of what you sent us.">
+            {Object.keys(submission.data).length === 0 ? (
+              <p className="text-sm text-muted-foreground">
+                Nothing filled in yet. Open the form to start this submission.
+              </p>
+            ) : null}
             <div className="space-y-6">
               {steps
                 .filter((s) => s.id !== "review")
