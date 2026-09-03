@@ -55,7 +55,7 @@ function DataHealth() {
       />
 
       <div className="mt-4 space-y-4">
-        <Card title={active?.title ?? "Checks"} description={active?.hint}>
+        <Card title={active?.title ?? "Checks"} description={active?.hint ?? ""}>
           {active && active.findings.length ? (
             <ul className="space-y-2 text-sm">
               {active.findings.slice(0, 40).map((f) => (
