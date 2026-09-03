@@ -26,6 +26,7 @@ import { Route as CollaborationsIndexRouteImport } from './routes/collaborations
 import { Route as CollaborationsSlugRouteImport } from './routes/collaborations.$slug'
 import { Route as CollectionsIndexRouteImport } from './routes/collections.index'
 import { Route as CollectionsSlugRouteImport } from './routes/collections.$slug'
+import { Route as ContributorIndexRouteImport } from './routes/contributor.index'
 import { Route as ContributorForgotPasswordRouteImport } from './routes/contributor.forgot-password'
 import { Route as ContributorInvitationRouteImport } from './routes/contributor.invitation'
 import { Route as ContributorLoginRouteImport } from './routes/contributor.login'
@@ -127,6 +128,11 @@ const CollectionsIndexRoute = CollectionsIndexRouteImport.update({
 const CollectionsSlugRoute = CollectionsSlugRouteImport.update({
   id: '/collections/$slug',
   path: '/collections/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContributorIndexRoute = ContributorIndexRouteImport.update({
+  id: '/contributor/',
+  path: '/contributor/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContributorForgotPasswordRoute =
@@ -246,6 +252,7 @@ export interface FileRoutesByFullPath {
   '/stories/$slug': typeof StoriesSlugRoute
   '/collaborations/': typeof CollaborationsIndexRoute
   '/collections/': typeof CollectionsIndexRoute
+  '/contributor/': typeof ContributorIndexRoute
   '/events/': typeof EventsIndexRoute
   '/institutions/': typeof InstitutionsIndexRoute
   '/people/': typeof PeopleIndexRoute
@@ -282,6 +289,7 @@ export interface FileRoutesByTo {
   '/stories/$slug': typeof StoriesSlugRoute
   '/collaborations': typeof CollaborationsIndexRoute
   '/collections': typeof CollectionsIndexRoute
+  '/contributor': typeof ContributorIndexRoute
   '/events': typeof EventsIndexRoute
   '/institutions': typeof InstitutionsIndexRoute
   '/people': typeof PeopleIndexRoute
@@ -319,6 +327,7 @@ export interface FileRoutesById {
   '/stories/$slug': typeof StoriesSlugRoute
   '/collaborations/': typeof CollaborationsIndexRoute
   '/collections/': typeof CollectionsIndexRoute
+  '/contributor/': typeof ContributorIndexRoute
   '/events/': typeof EventsIndexRoute
   '/institutions/': typeof InstitutionsIndexRoute
   '/people/': typeof PeopleIndexRoute
@@ -357,6 +366,7 @@ export interface FileRouteTypes {
     | '/stories/$slug'
     | '/collaborations/'
     | '/collections/'
+    | '/contributor/'
     | '/events/'
     | '/institutions/'
     | '/people/'
@@ -393,6 +403,7 @@ export interface FileRouteTypes {
     | '/stories/$slug'
     | '/collaborations'
     | '/collections'
+    | '/contributor'
     | '/events'
     | '/institutions'
     | '/people'
@@ -429,6 +440,7 @@ export interface FileRouteTypes {
     | '/stories/$slug'
     | '/collaborations/'
     | '/collections/'
+    | '/contributor/'
     | '/events/'
     | '/institutions/'
     | '/people/'
@@ -466,6 +478,7 @@ export interface RootRouteChildren {
   StoriesSlugRoute: typeof StoriesSlugRoute
   CollaborationsIndexRoute: typeof CollaborationsIndexRoute
   CollectionsIndexRoute: typeof CollectionsIndexRoute
+  ContributorIndexRoute: typeof ContributorIndexRoute
   EventsIndexRoute: typeof EventsIndexRoute
   InstitutionsIndexRoute: typeof InstitutionsIndexRoute
   PeopleIndexRoute: typeof PeopleIndexRoute
@@ -592,6 +605,13 @@ declare module '@tanstack/react-router' {
       path: '/collections/$slug'
       fullPath: '/collections/$slug'
       preLoaderRoute: typeof CollectionsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contributor/': {
+      id: '/contributor/'
+      path: '/contributor'
+      fullPath: '/contributor/'
+      preLoaderRoute: typeof ContributorIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contributor/forgot-password': {
@@ -746,6 +766,7 @@ const rootRouteChildren: RootRouteChildren = {
   StoriesSlugRoute: StoriesSlugRoute,
   CollaborationsIndexRoute: CollaborationsIndexRoute,
   CollectionsIndexRoute: CollectionsIndexRoute,
+  ContributorIndexRoute: ContributorIndexRoute,
   EventsIndexRoute: EventsIndexRoute,
   InstitutionsIndexRoute: InstitutionsIndexRoute,
   PeopleIndexRoute: PeopleIndexRoute,
