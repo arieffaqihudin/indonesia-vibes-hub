@@ -32,6 +32,7 @@ import { Route as ContributorInvitationRouteImport } from './routes/contributor.
 import { Route as ContributorLoginRouteImport } from './routes/contributor.login'
 import { Route as ContributorNewRouteImport } from './routes/contributor.new'
 import { Route as ContributorOnboardingRouteImport } from './routes/contributor.onboarding'
+import { Route as ContributorOrganisationRouteImport } from './routes/contributor.organisation'
 import { Route as ContributorRegisterRouteImport } from './routes/contributor.register'
 import { Route as ContributorVerifyEmailRouteImport } from './routes/contributor.verify-email'
 import { Route as CultureSlugRouteImport } from './routes/culture.$slug'
@@ -166,6 +167,11 @@ const ContributorOnboardingRoute = ContributorOnboardingRouteImport.update({
   path: '/contributor/onboarding',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContributorOrganisationRoute = ContributorOrganisationRouteImport.update({
+  id: '/contributor/organisation',
+  path: '/contributor/organisation',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContributorRegisterRoute = ContributorRegisterRouteImport.update({
   id: '/contributor/register',
   path: '/contributor/register',
@@ -277,6 +283,7 @@ export interface FileRoutesByFullPath {
   '/contributor/login': typeof ContributorLoginRoute
   '/contributor/new': typeof ContributorNewRoute
   '/contributor/onboarding': typeof ContributorOnboardingRoute
+  '/contributor/organisation': typeof ContributorOrganisationRoute
   '/contributor/register': typeof ContributorRegisterRoute
   '/contributor/verify-email': typeof ContributorVerifyEmailRoute
   '/culture/$slug': typeof CultureSlugRoute
@@ -319,6 +326,7 @@ export interface FileRoutesByTo {
   '/contributor/login': typeof ContributorLoginRoute
   '/contributor/new': typeof ContributorNewRoute
   '/contributor/onboarding': typeof ContributorOnboardingRoute
+  '/contributor/organisation': typeof ContributorOrganisationRoute
   '/contributor/register': typeof ContributorRegisterRoute
   '/contributor/verify-email': typeof ContributorVerifyEmailRoute
   '/culture/$slug': typeof CultureSlugRoute
@@ -362,6 +370,7 @@ export interface FileRoutesById {
   '/contributor/login': typeof ContributorLoginRoute
   '/contributor/new': typeof ContributorNewRoute
   '/contributor/onboarding': typeof ContributorOnboardingRoute
+  '/contributor/organisation': typeof ContributorOrganisationRoute
   '/contributor/register': typeof ContributorRegisterRoute
   '/contributor/verify-email': typeof ContributorVerifyEmailRoute
   '/culture/$slug': typeof CultureSlugRoute
@@ -406,6 +415,7 @@ export interface FileRouteTypes {
     | '/contributor/login'
     | '/contributor/new'
     | '/contributor/onboarding'
+    | '/contributor/organisation'
     | '/contributor/register'
     | '/contributor/verify-email'
     | '/culture/$slug'
@@ -448,6 +458,7 @@ export interface FileRouteTypes {
     | '/contributor/login'
     | '/contributor/new'
     | '/contributor/onboarding'
+    | '/contributor/organisation'
     | '/contributor/register'
     | '/contributor/verify-email'
     | '/culture/$slug'
@@ -490,6 +501,7 @@ export interface FileRouteTypes {
     | '/contributor/login'
     | '/contributor/new'
     | '/contributor/onboarding'
+    | '/contributor/organisation'
     | '/contributor/register'
     | '/contributor/verify-email'
     | '/culture/$slug'
@@ -533,6 +545,7 @@ export interface RootRouteChildren {
   ContributorLoginRoute: typeof ContributorLoginRoute
   ContributorNewRoute: typeof ContributorNewRoute
   ContributorOnboardingRoute: typeof ContributorOnboardingRoute
+  ContributorOrganisationRoute: typeof ContributorOrganisationRoute
   ContributorRegisterRoute: typeof ContributorRegisterRoute
   ContributorVerifyEmailRoute: typeof ContributorVerifyEmailRoute
   CultureSlugRoute: typeof CultureSlugRoute
@@ -718,6 +731,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContributorOnboardingRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contributor/organisation': {
+      id: '/contributor/organisation'
+      path: '/contributor/organisation'
+      fullPath: '/contributor/organisation'
+      preLoaderRoute: typeof ContributorOrganisationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/contributor/register': {
       id: '/contributor/register'
       path: '/contributor/register'
@@ -861,6 +881,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContributorLoginRoute: ContributorLoginRoute,
   ContributorNewRoute: ContributorNewRoute,
   ContributorOnboardingRoute: ContributorOnboardingRoute,
+  ContributorOrganisationRoute: ContributorOrganisationRoute,
   ContributorRegisterRoute: ContributorRegisterRoute,
   ContributorVerifyEmailRoute: ContributorVerifyEmailRoute,
   CultureSlugRoute: CultureSlugRoute,
