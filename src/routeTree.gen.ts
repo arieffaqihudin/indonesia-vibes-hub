@@ -26,6 +26,7 @@ import { Route as CollaborationsIndexRouteImport } from './routes/collaborations
 import { Route as CollaborationsSlugRouteImport } from './routes/collaborations.$slug'
 import { Route as CollectionsIndexRouteImport } from './routes/collections.index'
 import { Route as CollectionsSlugRouteImport } from './routes/collections.$slug'
+import { Route as ContributorLoginRouteImport } from './routes/contributor.login'
 import { Route as CultureSlugRouteImport } from './routes/culture.$slug'
 import { Route as EventsIndexRouteImport } from './routes/events.index'
 import { Route as EventsSlugRouteImport } from './routes/events.$slug'
@@ -123,6 +124,11 @@ const CollectionsSlugRoute = CollectionsSlugRouteImport.update({
   path: '/collections/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContributorLoginRoute = ContributorLoginRouteImport.update({
+  id: '/contributor/login',
+  path: '/contributor/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CultureSlugRoute = CultureSlugRouteImport.update({
   id: '/culture/$slug',
   path: '/culture/$slug',
@@ -195,6 +201,7 @@ export interface FileRoutesByFullPath {
   '/search': typeof SearchRoute
   '/collaborations/$slug': typeof CollaborationsSlugRoute
   '/collections/$slug': typeof CollectionsSlugRoute
+  '/contributor/login': typeof ContributorLoginRoute
   '/culture/$slug': typeof CultureSlugRoute
   '/events/$slug': typeof EventsSlugRoute
   '/institutions/$slug': typeof InstitutionsSlugRoute
@@ -225,6 +232,7 @@ export interface FileRoutesByTo {
   '/search': typeof SearchRoute
   '/collaborations/$slug': typeof CollaborationsSlugRoute
   '/collections/$slug': typeof CollectionsSlugRoute
+  '/contributor/login': typeof ContributorLoginRoute
   '/culture/$slug': typeof CultureSlugRoute
   '/events/$slug': typeof EventsSlugRoute
   '/institutions/$slug': typeof InstitutionsSlugRoute
@@ -256,6 +264,7 @@ export interface FileRoutesById {
   '/search': typeof SearchRoute
   '/collaborations/$slug': typeof CollaborationsSlugRoute
   '/collections/$slug': typeof CollectionsSlugRoute
+  '/contributor/login': typeof ContributorLoginRoute
   '/culture/$slug': typeof CultureSlugRoute
   '/events/$slug': typeof EventsSlugRoute
   '/institutions/$slug': typeof InstitutionsSlugRoute
@@ -288,6 +297,7 @@ export interface FileRouteTypes {
     | '/search'
     | '/collaborations/$slug'
     | '/collections/$slug'
+    | '/contributor/login'
     | '/culture/$slug'
     | '/events/$slug'
     | '/institutions/$slug'
@@ -318,6 +328,7 @@ export interface FileRouteTypes {
     | '/search'
     | '/collaborations/$slug'
     | '/collections/$slug'
+    | '/contributor/login'
     | '/culture/$slug'
     | '/events/$slug'
     | '/institutions/$slug'
@@ -348,6 +359,7 @@ export interface FileRouteTypes {
     | '/search'
     | '/collaborations/$slug'
     | '/collections/$slug'
+    | '/contributor/login'
     | '/culture/$slug'
     | '/events/$slug'
     | '/institutions/$slug'
@@ -379,6 +391,7 @@ export interface RootRouteChildren {
   SearchRoute: typeof SearchRoute
   CollaborationsSlugRoute: typeof CollaborationsSlugRoute
   CollectionsSlugRoute: typeof CollectionsSlugRoute
+  ContributorLoginRoute: typeof ContributorLoginRoute
   CultureSlugRoute: typeof CultureSlugRoute
   EventsSlugRoute: typeof EventsSlugRoute
   InstitutionsSlugRoute: typeof InstitutionsSlugRoute
@@ -515,6 +528,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CollectionsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contributor/login': {
+      id: '/contributor/login'
+      path: '/contributor/login'
+      fullPath: '/contributor/login'
+      preLoaderRoute: typeof ContributorLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/culture/$slug': {
       id: '/culture/$slug'
       path: '/culture/$slug'
@@ -611,6 +631,7 @@ const rootRouteChildren: RootRouteChildren = {
   SearchRoute: SearchRoute,
   CollaborationsSlugRoute: CollaborationsSlugRoute,
   CollectionsSlugRoute: CollectionsSlugRoute,
+  ContributorLoginRoute: ContributorLoginRoute,
   CultureSlugRoute: CultureSlugRoute,
   EventsSlugRoute: EventsSlugRoute,
   InstitutionsSlugRoute: InstitutionsSlugRoute,
