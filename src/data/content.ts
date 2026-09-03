@@ -22,7 +22,6 @@ import type {
   Collection,
   CulturalEvent,
   CulturalForm,
-  NowItem,
   Opportunity,
   Person,
   Pillar,
@@ -1040,77 +1039,3 @@ export const deadlineStatus = (iso: string, now: Date = new Date()) => {
     };
   return { label: `Open until ${formatDate(iso)}`, state: "Open" as const, open: true, days };
 };
-
-
-/* ---------- NOW ----------
- * Derived from the calendar rather than hand-written, so the strip can never
- * claim something is open when the dates say otherwise.
- */
-const shortRange = (a: string, b: string) => formatRange(a, b);
-
-export const nowItems: NowItem[] = (() => {
-  const items: NowItem[] = [];
-
-  events
-    .filter((e) => eventStatus(e) === "On now")
-    .sort((a, b) => a.endDate.localeCompare(b.endDate))
-    .forEach((e) => {
-      const place = getPlace(e.placeId);
-      items.push({
-        id: `now-${e.id}`,
-        kind: "live",
-        label: "On now",
-        headline: `${e.title} — ${place?.city ?? place?.name ?? ""}`.trim(),
-        meta: `${e.type} · until ${formatDate(e.endDate)}`,
-        href: `/events/${e.slug}`,
-      });
-    });
-
-  events
-    .filter((e) => eventStatus(e) === "Upcoming")
-    .sort((a, b) => a.startDate.localeCompare(b.startDate))
-    .slice(0, 3)
-    .forEach((e) => {
-      const place = getPlace(e.placeId);
-      items.push({
-        id: `next-${e.id}`,
-        kind: "opening",
-        label: "Opening next",
-        headline: `${e.title} — ${place?.city ?? place?.name ?? ""}`.trim(),
-        meta: `${e.type} · ${shortRange(e.startDate, e.endDate)}`,
-        href: `/events/${e.slug}`,
-      });
-    });
-
-  opportunities
-    .map((o) => ({ o, s: deadlineStatus(o.deadline) }))
-    .filter(({ s }) => s.open)
-    .sort((a, b) => a.s.days - b.s.days)
-    .slice(0, 3)
-    .forEach(({ o, s }) => {
-      items.push({
-        id: `call-${o.id}`,
-        kind: "call",
-        label: "Open call",
-        headline: o.title,
-        meta: `${o.type} · ${s.label.toLowerCase()}`,
-        href: "/opportunities",
-      });
-    });
-
-  [...stories]
-    .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt))
-    .slice(0, 3)
-    .forEach((s) => {
-      items.push({
-        id: `new-${s.id}`,
-        kind: "release",
-        label: "Just published",
-        headline: s.title,
-        meta: `${s.kind} · ${s.readingMinutes} min read · ${formatDate(s.publishedAt)}`,
-        href: `/stories/${s.slug}`,
-      });
-    });
-
-  return items;
-})();
