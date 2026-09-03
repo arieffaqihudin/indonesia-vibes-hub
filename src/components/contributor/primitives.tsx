@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { STATUSES, type SubmissionStatus } from "@/lib/contributor/schema";
 
 export const inputClass =
-  "w-full rounded-md border border-border bg-background px-3 py-2.5 text-sm text-ink placeholder:text-warm-grey/70 shadow-none outline-none transition-colors focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/25 disabled:opacity-60";
+  "w-full rounded-md border border-border bg-background px-3 py-2.5 text-sm text-ink placeholder:text-muted-foreground/60 shadow-none outline-none transition-colors focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/25 disabled:opacity-60";
 
 export const buttonBase =
   "inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-5 text-sm font-medium transition-[background-color,color,border-color,transform] duration-200 active:translate-y-px focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:pointer-events-none disabled:opacity-50";
