@@ -30,6 +30,7 @@ import { Route as ContributorIndexRouteImport } from './routes/contributor.index
 import { Route as ContributorForgotPasswordRouteImport } from './routes/contributor.forgot-password'
 import { Route as ContributorInvitationRouteImport } from './routes/contributor.invitation'
 import { Route as ContributorLoginRouteImport } from './routes/contributor.login'
+import { Route as ContributorNewRouteImport } from './routes/contributor.new'
 import { Route as ContributorOnboardingRouteImport } from './routes/contributor.onboarding'
 import { Route as ContributorRegisterRouteImport } from './routes/contributor.register'
 import { Route as ContributorVerifyEmailRouteImport } from './routes/contributor.verify-email'
@@ -151,6 +152,11 @@ const ContributorLoginRoute = ContributorLoginRouteImport.update({
   path: '/contributor/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContributorNewRoute = ContributorNewRouteImport.update({
+  id: '/contributor/new',
+  path: '/contributor/new',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContributorOnboardingRoute = ContributorOnboardingRouteImport.update({
   id: '/contributor/onboarding',
   path: '/contributor/onboarding',
@@ -241,6 +247,7 @@ export interface FileRoutesByFullPath {
   '/contributor/forgot-password': typeof ContributorForgotPasswordRoute
   '/contributor/invitation': typeof ContributorInvitationRoute
   '/contributor/login': typeof ContributorLoginRoute
+  '/contributor/new': typeof ContributorNewRoute
   '/contributor/onboarding': typeof ContributorOnboardingRoute
   '/contributor/register': typeof ContributorRegisterRoute
   '/contributor/verify-email': typeof ContributorVerifyEmailRoute
@@ -278,6 +285,7 @@ export interface FileRoutesByTo {
   '/contributor/forgot-password': typeof ContributorForgotPasswordRoute
   '/contributor/invitation': typeof ContributorInvitationRoute
   '/contributor/login': typeof ContributorLoginRoute
+  '/contributor/new': typeof ContributorNewRoute
   '/contributor/onboarding': typeof ContributorOnboardingRoute
   '/contributor/register': typeof ContributorRegisterRoute
   '/contributor/verify-email': typeof ContributorVerifyEmailRoute
@@ -316,6 +324,7 @@ export interface FileRoutesById {
   '/contributor/forgot-password': typeof ContributorForgotPasswordRoute
   '/contributor/invitation': typeof ContributorInvitationRoute
   '/contributor/login': typeof ContributorLoginRoute
+  '/contributor/new': typeof ContributorNewRoute
   '/contributor/onboarding': typeof ContributorOnboardingRoute
   '/contributor/register': typeof ContributorRegisterRoute
   '/contributor/verify-email': typeof ContributorVerifyEmailRoute
@@ -355,6 +364,7 @@ export interface FileRouteTypes {
     | '/contributor/forgot-password'
     | '/contributor/invitation'
     | '/contributor/login'
+    | '/contributor/new'
     | '/contributor/onboarding'
     | '/contributor/register'
     | '/contributor/verify-email'
@@ -392,6 +402,7 @@ export interface FileRouteTypes {
     | '/contributor/forgot-password'
     | '/contributor/invitation'
     | '/contributor/login'
+    | '/contributor/new'
     | '/contributor/onboarding'
     | '/contributor/register'
     | '/contributor/verify-email'
@@ -429,6 +440,7 @@ export interface FileRouteTypes {
     | '/contributor/forgot-password'
     | '/contributor/invitation'
     | '/contributor/login'
+    | '/contributor/new'
     | '/contributor/onboarding'
     | '/contributor/register'
     | '/contributor/verify-email'
@@ -467,6 +479,7 @@ export interface RootRouteChildren {
   ContributorForgotPasswordRoute: typeof ContributorForgotPasswordRoute
   ContributorInvitationRoute: typeof ContributorInvitationRoute
   ContributorLoginRoute: typeof ContributorLoginRoute
+  ContributorNewRoute: typeof ContributorNewRoute
   ContributorOnboardingRoute: typeof ContributorOnboardingRoute
   ContributorRegisterRoute: typeof ContributorRegisterRoute
   ContributorVerifyEmailRoute: typeof ContributorVerifyEmailRoute
@@ -635,6 +648,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContributorLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contributor/new': {
+      id: '/contributor/new'
+      path: '/contributor/new'
+      fullPath: '/contributor/new'
+      preLoaderRoute: typeof ContributorNewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/contributor/onboarding': {
       id: '/contributor/onboarding'
       path: '/contributor/onboarding'
@@ -755,6 +775,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContributorForgotPasswordRoute: ContributorForgotPasswordRoute,
   ContributorInvitationRoute: ContributorInvitationRoute,
   ContributorLoginRoute: ContributorLoginRoute,
+  ContributorNewRoute: ContributorNewRoute,
   ContributorOnboardingRoute: ContributorOnboardingRoute,
   ContributorRegisterRoute: ContributorRegisterRoute,
   ContributorVerifyEmailRoute: ContributorVerifyEmailRoute,
