@@ -16,6 +16,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { brand } from "@/lib/brand";
+import { WorkspaceProvider } from "@/lib/contributor/store";
 
 function NotFoundComponent() {
   return (
@@ -140,21 +141,24 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const isWorkspace = pathname === "/contributor" || pathname.startsWith("/contributor/");
 
   return (
     <QueryClientProvider client={queryClient}>
-      <a
-        href="#main"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-[100] focus:rounded-full focus:bg-primary focus:px-4 focus:py-2 focus:text-sm focus:text-primary-foreground"
-      >
-        Skip to content
-      </a>
-      <Header />
-      <main id="main" key={pathname} className="page-enter">
-        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-        <Outlet />
-      </main>
-      <Footer />
+      <WorkspaceProvider>
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-[100] focus:rounded-full focus:bg-primary focus:px-4 focus:py-2 focus:text-sm focus:text-primary-foreground"
+        >
+          Skip to content
+        </a>
+        {isWorkspace ? null : <Header />}
+        <main id="main" key={pathname} className="page-enter">
+          {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+          <Outlet />
+        </main>
+        {isWorkspace ? null : <Footer />}
+      </WorkspaceProvider>
     </QueryClientProvider>
   );
 }

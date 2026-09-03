@@ -26,6 +26,19 @@ import { Route as CollaborationsIndexRouteImport } from './routes/collaborations
 import { Route as CollaborationsSlugRouteImport } from './routes/collaborations.$slug'
 import { Route as CollectionsIndexRouteImport } from './routes/collections.index'
 import { Route as CollectionsSlugRouteImport } from './routes/collections.$slug'
+import { Route as ContributorIndexRouteImport } from './routes/contributor.index'
+import { Route as ContributorAccountRouteImport } from './routes/contributor.account'
+import { Route as ContributorForgotPasswordRouteImport } from './routes/contributor.forgot-password'
+import { Route as ContributorHelpRouteImport } from './routes/contributor.help'
+import { Route as ContributorInvitationRouteImport } from './routes/contributor.invitation'
+import { Route as ContributorLoginRouteImport } from './routes/contributor.login'
+import { Route as ContributorNewRouteImport } from './routes/contributor.new'
+import { Route as ContributorNotificationsRouteImport } from './routes/contributor.notifications'
+import { Route as ContributorOnboardingRouteImport } from './routes/contributor.onboarding'
+import { Route as ContributorOrganisationRouteImport } from './routes/contributor.organisation'
+import { Route as ContributorRegisterRouteImport } from './routes/contributor.register'
+import { Route as ContributorTeamRouteImport } from './routes/contributor.team'
+import { Route as ContributorVerifyEmailRouteImport } from './routes/contributor.verify-email'
 import { Route as CultureSlugRouteImport } from './routes/culture.$slug'
 import { Route as EventsIndexRouteImport } from './routes/events.index'
 import { Route as EventsSlugRouteImport } from './routes/events.$slug'
@@ -37,6 +50,10 @@ import { Route as PlacesIndexRouteImport } from './routes/places.index'
 import { Route as PlacesSlugRouteImport } from './routes/places.$slug'
 import { Route as StoriesIndexRouteImport } from './routes/stories.index'
 import { Route as StoriesSlugRouteImport } from './routes/stories.$slug'
+import { Route as ContributorSubmissionsIndexRouteImport } from './routes/contributor.submissions.index'
+import { Route as ContributorSubmissionsIdIndexRouteImport } from './routes/contributor.submissions.$id.index'
+import { Route as ContributorSubmissionsIdReviseRouteImport } from './routes/contributor.submissions.$id.revise'
+import { Route as ContributorSubmissionsNewTypeRouteImport } from './routes/contributor.submissions.new.$type'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -123,6 +140,73 @@ const CollectionsSlugRoute = CollectionsSlugRouteImport.update({
   path: '/collections/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContributorIndexRoute = ContributorIndexRouteImport.update({
+  id: '/contributor/',
+  path: '/contributor/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContributorAccountRoute = ContributorAccountRouteImport.update({
+  id: '/contributor/account',
+  path: '/contributor/account',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContributorForgotPasswordRoute =
+  ContributorForgotPasswordRouteImport.update({
+    id: '/contributor/forgot-password',
+    path: '/contributor/forgot-password',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ContributorHelpRoute = ContributorHelpRouteImport.update({
+  id: '/contributor/help',
+  path: '/contributor/help',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContributorInvitationRoute = ContributorInvitationRouteImport.update({
+  id: '/contributor/invitation',
+  path: '/contributor/invitation',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContributorLoginRoute = ContributorLoginRouteImport.update({
+  id: '/contributor/login',
+  path: '/contributor/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContributorNewRoute = ContributorNewRouteImport.update({
+  id: '/contributor/new',
+  path: '/contributor/new',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContributorNotificationsRoute =
+  ContributorNotificationsRouteImport.update({
+    id: '/contributor/notifications',
+    path: '/contributor/notifications',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ContributorOnboardingRoute = ContributorOnboardingRouteImport.update({
+  id: '/contributor/onboarding',
+  path: '/contributor/onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContributorOrganisationRoute = ContributorOrganisationRouteImport.update({
+  id: '/contributor/organisation',
+  path: '/contributor/organisation',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContributorRegisterRoute = ContributorRegisterRouteImport.update({
+  id: '/contributor/register',
+  path: '/contributor/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContributorTeamRoute = ContributorTeamRouteImport.update({
+  id: '/contributor/team',
+  path: '/contributor/team',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContributorVerifyEmailRoute = ContributorVerifyEmailRouteImport.update({
+  id: '/contributor/verify-email',
+  path: '/contributor/verify-email',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CultureSlugRoute = CultureSlugRouteImport.update({
   id: '/culture/$slug',
   path: '/culture/$slug',
@@ -178,6 +262,30 @@ const StoriesSlugRoute = StoriesSlugRouteImport.update({
   path: '/stories/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContributorSubmissionsIndexRoute =
+  ContributorSubmissionsIndexRouteImport.update({
+    id: '/contributor/submissions/',
+    path: '/contributor/submissions/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ContributorSubmissionsIdIndexRoute =
+  ContributorSubmissionsIdIndexRouteImport.update({
+    id: '/contributor/submissions/$id/',
+    path: '/contributor/submissions/$id/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ContributorSubmissionsIdReviseRoute =
+  ContributorSubmissionsIdReviseRouteImport.update({
+    id: '/contributor/submissions/$id/revise',
+    path: '/contributor/submissions/$id/revise',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ContributorSubmissionsNewTypeRoute =
+  ContributorSubmissionsNewTypeRouteImport.update({
+    id: '/contributor/submissions/new/$type',
+    path: '/contributor/submissions/new/$type',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -195,6 +303,18 @@ export interface FileRoutesByFullPath {
   '/search': typeof SearchRoute
   '/collaborations/$slug': typeof CollaborationsSlugRoute
   '/collections/$slug': typeof CollectionsSlugRoute
+  '/contributor/account': typeof ContributorAccountRoute
+  '/contributor/forgot-password': typeof ContributorForgotPasswordRoute
+  '/contributor/help': typeof ContributorHelpRoute
+  '/contributor/invitation': typeof ContributorInvitationRoute
+  '/contributor/login': typeof ContributorLoginRoute
+  '/contributor/new': typeof ContributorNewRoute
+  '/contributor/notifications': typeof ContributorNotificationsRoute
+  '/contributor/onboarding': typeof ContributorOnboardingRoute
+  '/contributor/organisation': typeof ContributorOrganisationRoute
+  '/contributor/register': typeof ContributorRegisterRoute
+  '/contributor/team': typeof ContributorTeamRoute
+  '/contributor/verify-email': typeof ContributorVerifyEmailRoute
   '/culture/$slug': typeof CultureSlugRoute
   '/events/$slug': typeof EventsSlugRoute
   '/institutions/$slug': typeof InstitutionsSlugRoute
@@ -203,11 +323,16 @@ export interface FileRoutesByFullPath {
   '/stories/$slug': typeof StoriesSlugRoute
   '/collaborations/': typeof CollaborationsIndexRoute
   '/collections/': typeof CollectionsIndexRoute
+  '/contributor/': typeof ContributorIndexRoute
   '/events/': typeof EventsIndexRoute
   '/institutions/': typeof InstitutionsIndexRoute
   '/people/': typeof PeopleIndexRoute
   '/places/': typeof PlacesIndexRoute
   '/stories/': typeof StoriesIndexRoute
+  '/contributor/submissions/': typeof ContributorSubmissionsIndexRoute
+  '/contributor/submissions/$id/revise': typeof ContributorSubmissionsIdReviseRoute
+  '/contributor/submissions/new/$type': typeof ContributorSubmissionsNewTypeRoute
+  '/contributor/submissions/$id/': typeof ContributorSubmissionsIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -225,6 +350,18 @@ export interface FileRoutesByTo {
   '/search': typeof SearchRoute
   '/collaborations/$slug': typeof CollaborationsSlugRoute
   '/collections/$slug': typeof CollectionsSlugRoute
+  '/contributor/account': typeof ContributorAccountRoute
+  '/contributor/forgot-password': typeof ContributorForgotPasswordRoute
+  '/contributor/help': typeof ContributorHelpRoute
+  '/contributor/invitation': typeof ContributorInvitationRoute
+  '/contributor/login': typeof ContributorLoginRoute
+  '/contributor/new': typeof ContributorNewRoute
+  '/contributor/notifications': typeof ContributorNotificationsRoute
+  '/contributor/onboarding': typeof ContributorOnboardingRoute
+  '/contributor/organisation': typeof ContributorOrganisationRoute
+  '/contributor/register': typeof ContributorRegisterRoute
+  '/contributor/team': typeof ContributorTeamRoute
+  '/contributor/verify-email': typeof ContributorVerifyEmailRoute
   '/culture/$slug': typeof CultureSlugRoute
   '/events/$slug': typeof EventsSlugRoute
   '/institutions/$slug': typeof InstitutionsSlugRoute
@@ -233,11 +370,16 @@ export interface FileRoutesByTo {
   '/stories/$slug': typeof StoriesSlugRoute
   '/collaborations': typeof CollaborationsIndexRoute
   '/collections': typeof CollectionsIndexRoute
+  '/contributor': typeof ContributorIndexRoute
   '/events': typeof EventsIndexRoute
   '/institutions': typeof InstitutionsIndexRoute
   '/people': typeof PeopleIndexRoute
   '/places': typeof PlacesIndexRoute
   '/stories': typeof StoriesIndexRoute
+  '/contributor/submissions': typeof ContributorSubmissionsIndexRoute
+  '/contributor/submissions/$id/revise': typeof ContributorSubmissionsIdReviseRoute
+  '/contributor/submissions/new/$type': typeof ContributorSubmissionsNewTypeRoute
+  '/contributor/submissions/$id': typeof ContributorSubmissionsIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -256,6 +398,18 @@ export interface FileRoutesById {
   '/search': typeof SearchRoute
   '/collaborations/$slug': typeof CollaborationsSlugRoute
   '/collections/$slug': typeof CollectionsSlugRoute
+  '/contributor/account': typeof ContributorAccountRoute
+  '/contributor/forgot-password': typeof ContributorForgotPasswordRoute
+  '/contributor/help': typeof ContributorHelpRoute
+  '/contributor/invitation': typeof ContributorInvitationRoute
+  '/contributor/login': typeof ContributorLoginRoute
+  '/contributor/new': typeof ContributorNewRoute
+  '/contributor/notifications': typeof ContributorNotificationsRoute
+  '/contributor/onboarding': typeof ContributorOnboardingRoute
+  '/contributor/organisation': typeof ContributorOrganisationRoute
+  '/contributor/register': typeof ContributorRegisterRoute
+  '/contributor/team': typeof ContributorTeamRoute
+  '/contributor/verify-email': typeof ContributorVerifyEmailRoute
   '/culture/$slug': typeof CultureSlugRoute
   '/events/$slug': typeof EventsSlugRoute
   '/institutions/$slug': typeof InstitutionsSlugRoute
@@ -264,11 +418,16 @@ export interface FileRoutesById {
   '/stories/$slug': typeof StoriesSlugRoute
   '/collaborations/': typeof CollaborationsIndexRoute
   '/collections/': typeof CollectionsIndexRoute
+  '/contributor/': typeof ContributorIndexRoute
   '/events/': typeof EventsIndexRoute
   '/institutions/': typeof InstitutionsIndexRoute
   '/people/': typeof PeopleIndexRoute
   '/places/': typeof PlacesIndexRoute
   '/stories/': typeof StoriesIndexRoute
+  '/contributor/submissions/': typeof ContributorSubmissionsIndexRoute
+  '/contributor/submissions/$id/revise': typeof ContributorSubmissionsIdReviseRoute
+  '/contributor/submissions/new/$type': typeof ContributorSubmissionsNewTypeRoute
+  '/contributor/submissions/$id/': typeof ContributorSubmissionsIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -288,6 +447,18 @@ export interface FileRouteTypes {
     | '/search'
     | '/collaborations/$slug'
     | '/collections/$slug'
+    | '/contributor/account'
+    | '/contributor/forgot-password'
+    | '/contributor/help'
+    | '/contributor/invitation'
+    | '/contributor/login'
+    | '/contributor/new'
+    | '/contributor/notifications'
+    | '/contributor/onboarding'
+    | '/contributor/organisation'
+    | '/contributor/register'
+    | '/contributor/team'
+    | '/contributor/verify-email'
     | '/culture/$slug'
     | '/events/$slug'
     | '/institutions/$slug'
@@ -296,11 +467,16 @@ export interface FileRouteTypes {
     | '/stories/$slug'
     | '/collaborations/'
     | '/collections/'
+    | '/contributor/'
     | '/events/'
     | '/institutions/'
     | '/people/'
     | '/places/'
     | '/stories/'
+    | '/contributor/submissions/'
+    | '/contributor/submissions/$id/revise'
+    | '/contributor/submissions/new/$type'
+    | '/contributor/submissions/$id/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -318,6 +494,18 @@ export interface FileRouteTypes {
     | '/search'
     | '/collaborations/$slug'
     | '/collections/$slug'
+    | '/contributor/account'
+    | '/contributor/forgot-password'
+    | '/contributor/help'
+    | '/contributor/invitation'
+    | '/contributor/login'
+    | '/contributor/new'
+    | '/contributor/notifications'
+    | '/contributor/onboarding'
+    | '/contributor/organisation'
+    | '/contributor/register'
+    | '/contributor/team'
+    | '/contributor/verify-email'
     | '/culture/$slug'
     | '/events/$slug'
     | '/institutions/$slug'
@@ -326,11 +514,16 @@ export interface FileRouteTypes {
     | '/stories/$slug'
     | '/collaborations'
     | '/collections'
+    | '/contributor'
     | '/events'
     | '/institutions'
     | '/people'
     | '/places'
     | '/stories'
+    | '/contributor/submissions'
+    | '/contributor/submissions/$id/revise'
+    | '/contributor/submissions/new/$type'
+    | '/contributor/submissions/$id'
   id:
     | '__root__'
     | '/'
@@ -348,6 +541,18 @@ export interface FileRouteTypes {
     | '/search'
     | '/collaborations/$slug'
     | '/collections/$slug'
+    | '/contributor/account'
+    | '/contributor/forgot-password'
+    | '/contributor/help'
+    | '/contributor/invitation'
+    | '/contributor/login'
+    | '/contributor/new'
+    | '/contributor/notifications'
+    | '/contributor/onboarding'
+    | '/contributor/organisation'
+    | '/contributor/register'
+    | '/contributor/team'
+    | '/contributor/verify-email'
     | '/culture/$slug'
     | '/events/$slug'
     | '/institutions/$slug'
@@ -356,11 +561,16 @@ export interface FileRouteTypes {
     | '/stories/$slug'
     | '/collaborations/'
     | '/collections/'
+    | '/contributor/'
     | '/events/'
     | '/institutions/'
     | '/people/'
     | '/places/'
     | '/stories/'
+    | '/contributor/submissions/'
+    | '/contributor/submissions/$id/revise'
+    | '/contributor/submissions/new/$type'
+    | '/contributor/submissions/$id/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -379,6 +589,18 @@ export interface RootRouteChildren {
   SearchRoute: typeof SearchRoute
   CollaborationsSlugRoute: typeof CollaborationsSlugRoute
   CollectionsSlugRoute: typeof CollectionsSlugRoute
+  ContributorAccountRoute: typeof ContributorAccountRoute
+  ContributorForgotPasswordRoute: typeof ContributorForgotPasswordRoute
+  ContributorHelpRoute: typeof ContributorHelpRoute
+  ContributorInvitationRoute: typeof ContributorInvitationRoute
+  ContributorLoginRoute: typeof ContributorLoginRoute
+  ContributorNewRoute: typeof ContributorNewRoute
+  ContributorNotificationsRoute: typeof ContributorNotificationsRoute
+  ContributorOnboardingRoute: typeof ContributorOnboardingRoute
+  ContributorOrganisationRoute: typeof ContributorOrganisationRoute
+  ContributorRegisterRoute: typeof ContributorRegisterRoute
+  ContributorTeamRoute: typeof ContributorTeamRoute
+  ContributorVerifyEmailRoute: typeof ContributorVerifyEmailRoute
   CultureSlugRoute: typeof CultureSlugRoute
   EventsSlugRoute: typeof EventsSlugRoute
   InstitutionsSlugRoute: typeof InstitutionsSlugRoute
@@ -387,11 +609,16 @@ export interface RootRouteChildren {
   StoriesSlugRoute: typeof StoriesSlugRoute
   CollaborationsIndexRoute: typeof CollaborationsIndexRoute
   CollectionsIndexRoute: typeof CollectionsIndexRoute
+  ContributorIndexRoute: typeof ContributorIndexRoute
   EventsIndexRoute: typeof EventsIndexRoute
   InstitutionsIndexRoute: typeof InstitutionsIndexRoute
   PeopleIndexRoute: typeof PeopleIndexRoute
   PlacesIndexRoute: typeof PlacesIndexRoute
   StoriesIndexRoute: typeof StoriesIndexRoute
+  ContributorSubmissionsIndexRoute: typeof ContributorSubmissionsIndexRoute
+  ContributorSubmissionsIdReviseRoute: typeof ContributorSubmissionsIdReviseRoute
+  ContributorSubmissionsNewTypeRoute: typeof ContributorSubmissionsNewTypeRoute
+  ContributorSubmissionsIdIndexRoute: typeof ContributorSubmissionsIdIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -515,6 +742,97 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CollectionsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contributor/': {
+      id: '/contributor/'
+      path: '/contributor'
+      fullPath: '/contributor/'
+      preLoaderRoute: typeof ContributorIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contributor/account': {
+      id: '/contributor/account'
+      path: '/contributor/account'
+      fullPath: '/contributor/account'
+      preLoaderRoute: typeof ContributorAccountRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contributor/forgot-password': {
+      id: '/contributor/forgot-password'
+      path: '/contributor/forgot-password'
+      fullPath: '/contributor/forgot-password'
+      preLoaderRoute: typeof ContributorForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contributor/help': {
+      id: '/contributor/help'
+      path: '/contributor/help'
+      fullPath: '/contributor/help'
+      preLoaderRoute: typeof ContributorHelpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contributor/invitation': {
+      id: '/contributor/invitation'
+      path: '/contributor/invitation'
+      fullPath: '/contributor/invitation'
+      preLoaderRoute: typeof ContributorInvitationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contributor/login': {
+      id: '/contributor/login'
+      path: '/contributor/login'
+      fullPath: '/contributor/login'
+      preLoaderRoute: typeof ContributorLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contributor/new': {
+      id: '/contributor/new'
+      path: '/contributor/new'
+      fullPath: '/contributor/new'
+      preLoaderRoute: typeof ContributorNewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contributor/notifications': {
+      id: '/contributor/notifications'
+      path: '/contributor/notifications'
+      fullPath: '/contributor/notifications'
+      preLoaderRoute: typeof ContributorNotificationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contributor/onboarding': {
+      id: '/contributor/onboarding'
+      path: '/contributor/onboarding'
+      fullPath: '/contributor/onboarding'
+      preLoaderRoute: typeof ContributorOnboardingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contributor/organisation': {
+      id: '/contributor/organisation'
+      path: '/contributor/organisation'
+      fullPath: '/contributor/organisation'
+      preLoaderRoute: typeof ContributorOrganisationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contributor/register': {
+      id: '/contributor/register'
+      path: '/contributor/register'
+      fullPath: '/contributor/register'
+      preLoaderRoute: typeof ContributorRegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contributor/team': {
+      id: '/contributor/team'
+      path: '/contributor/team'
+      fullPath: '/contributor/team'
+      preLoaderRoute: typeof ContributorTeamRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contributor/verify-email': {
+      id: '/contributor/verify-email'
+      path: '/contributor/verify-email'
+      fullPath: '/contributor/verify-email'
+      preLoaderRoute: typeof ContributorVerifyEmailRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/culture/$slug': {
       id: '/culture/$slug'
       path: '/culture/$slug'
@@ -592,6 +910,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StoriesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contributor/submissions/': {
+      id: '/contributor/submissions/'
+      path: '/contributor/submissions'
+      fullPath: '/contributor/submissions/'
+      preLoaderRoute: typeof ContributorSubmissionsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contributor/submissions/$id/': {
+      id: '/contributor/submissions/$id/'
+      path: '/contributor/submissions/$id'
+      fullPath: '/contributor/submissions/$id/'
+      preLoaderRoute: typeof ContributorSubmissionsIdIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contributor/submissions/$id/revise': {
+      id: '/contributor/submissions/$id/revise'
+      path: '/contributor/submissions/$id/revise'
+      fullPath: '/contributor/submissions/$id/revise'
+      preLoaderRoute: typeof ContributorSubmissionsIdReviseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contributor/submissions/new/$type': {
+      id: '/contributor/submissions/new/$type'
+      path: '/contributor/submissions/new/$type'
+      fullPath: '/contributor/submissions/new/$type'
+      preLoaderRoute: typeof ContributorSubmissionsNewTypeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -611,6 +957,18 @@ const rootRouteChildren: RootRouteChildren = {
   SearchRoute: SearchRoute,
   CollaborationsSlugRoute: CollaborationsSlugRoute,
   CollectionsSlugRoute: CollectionsSlugRoute,
+  ContributorAccountRoute: ContributorAccountRoute,
+  ContributorForgotPasswordRoute: ContributorForgotPasswordRoute,
+  ContributorHelpRoute: ContributorHelpRoute,
+  ContributorInvitationRoute: ContributorInvitationRoute,
+  ContributorLoginRoute: ContributorLoginRoute,
+  ContributorNewRoute: ContributorNewRoute,
+  ContributorNotificationsRoute: ContributorNotificationsRoute,
+  ContributorOnboardingRoute: ContributorOnboardingRoute,
+  ContributorOrganisationRoute: ContributorOrganisationRoute,
+  ContributorRegisterRoute: ContributorRegisterRoute,
+  ContributorTeamRoute: ContributorTeamRoute,
+  ContributorVerifyEmailRoute: ContributorVerifyEmailRoute,
   CultureSlugRoute: CultureSlugRoute,
   EventsSlugRoute: EventsSlugRoute,
   InstitutionsSlugRoute: InstitutionsSlugRoute,
@@ -619,11 +977,16 @@ const rootRouteChildren: RootRouteChildren = {
   StoriesSlugRoute: StoriesSlugRoute,
   CollaborationsIndexRoute: CollaborationsIndexRoute,
   CollectionsIndexRoute: CollectionsIndexRoute,
+  ContributorIndexRoute: ContributorIndexRoute,
   EventsIndexRoute: EventsIndexRoute,
   InstitutionsIndexRoute: InstitutionsIndexRoute,
   PeopleIndexRoute: PeopleIndexRoute,
   PlacesIndexRoute: PlacesIndexRoute,
   StoriesIndexRoute: StoriesIndexRoute,
+  ContributorSubmissionsIndexRoute: ContributorSubmissionsIndexRoute,
+  ContributorSubmissionsIdReviseRoute: ContributorSubmissionsIdReviseRoute,
+  ContributorSubmissionsNewTypeRoute: ContributorSubmissionsNewTypeRoute,
+  ContributorSubmissionsIdIndexRoute: ContributorSubmissionsIdIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
