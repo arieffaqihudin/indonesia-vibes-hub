@@ -46,6 +46,7 @@ import { Route as PlacesSlugRouteImport } from './routes/places.$slug'
 import { Route as StoriesIndexRouteImport } from './routes/stories.index'
 import { Route as StoriesSlugRouteImport } from './routes/stories.$slug'
 import { Route as ContributorSubmissionsIndexRouteImport } from './routes/contributor.submissions.index'
+import { Route as ContributorSubmissionsIdReviseRouteImport } from './routes/contributor.submissions.$id.revise'
 import { Route as ContributorSubmissionsNewTypeRouteImport } from './routes/contributor.submissions.new.$type'
 
 const IndexRoute = IndexRouteImport.update({
@@ -235,6 +236,12 @@ const ContributorSubmissionsIndexRoute =
     path: '/contributor/submissions/',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ContributorSubmissionsIdReviseRoute =
+  ContributorSubmissionsIdReviseRouteImport.update({
+    id: '/contributor/submissions/$id/revise',
+    path: '/contributor/submissions/$id/revise',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ContributorSubmissionsNewTypeRoute =
   ContributorSubmissionsNewTypeRouteImport.update({
     id: '/contributor/submissions/new/$type',
@@ -280,6 +287,7 @@ export interface FileRoutesByFullPath {
   '/places/': typeof PlacesIndexRoute
   '/stories/': typeof StoriesIndexRoute
   '/contributor/submissions/': typeof ContributorSubmissionsIndexRoute
+  '/contributor/submissions/$id/revise': typeof ContributorSubmissionsIdReviseRoute
   '/contributor/submissions/new/$type': typeof ContributorSubmissionsNewTypeRoute
 }
 export interface FileRoutesByTo {
@@ -320,6 +328,7 @@ export interface FileRoutesByTo {
   '/places': typeof PlacesIndexRoute
   '/stories': typeof StoriesIndexRoute
   '/contributor/submissions': typeof ContributorSubmissionsIndexRoute
+  '/contributor/submissions/$id/revise': typeof ContributorSubmissionsIdReviseRoute
   '/contributor/submissions/new/$type': typeof ContributorSubmissionsNewTypeRoute
 }
 export interface FileRoutesById {
@@ -361,6 +370,7 @@ export interface FileRoutesById {
   '/places/': typeof PlacesIndexRoute
   '/stories/': typeof StoriesIndexRoute
   '/contributor/submissions/': typeof ContributorSubmissionsIndexRoute
+  '/contributor/submissions/$id/revise': typeof ContributorSubmissionsIdReviseRoute
   '/contributor/submissions/new/$type': typeof ContributorSubmissionsNewTypeRoute
 }
 export interface FileRouteTypes {
@@ -403,6 +413,7 @@ export interface FileRouteTypes {
     | '/places/'
     | '/stories/'
     | '/contributor/submissions/'
+    | '/contributor/submissions/$id/revise'
     | '/contributor/submissions/new/$type'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -443,6 +454,7 @@ export interface FileRouteTypes {
     | '/places'
     | '/stories'
     | '/contributor/submissions'
+    | '/contributor/submissions/$id/revise'
     | '/contributor/submissions/new/$type'
   id:
     | '__root__'
@@ -483,6 +495,7 @@ export interface FileRouteTypes {
     | '/places/'
     | '/stories/'
     | '/contributor/submissions/'
+    | '/contributor/submissions/$id/revise'
     | '/contributor/submissions/new/$type'
   fileRoutesById: FileRoutesById
 }
@@ -524,6 +537,7 @@ export interface RootRouteChildren {
   PlacesIndexRoute: typeof PlacesIndexRoute
   StoriesIndexRoute: typeof StoriesIndexRoute
   ContributorSubmissionsIndexRoute: typeof ContributorSubmissionsIndexRoute
+  ContributorSubmissionsIdReviseRoute: typeof ContributorSubmissionsIdReviseRoute
   ContributorSubmissionsNewTypeRoute: typeof ContributorSubmissionsNewTypeRoute
 }
 
@@ -788,6 +802,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContributorSubmissionsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contributor/submissions/$id/revise': {
+      id: '/contributor/submissions/$id/revise'
+      path: '/contributor/submissions/$id/revise'
+      fullPath: '/contributor/submissions/$id/revise'
+      preLoaderRoute: typeof ContributorSubmissionsIdReviseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/contributor/submissions/new/$type': {
       id: '/contributor/submissions/new/$type'
       path: '/contributor/submissions/new/$type'
@@ -836,6 +857,7 @@ const rootRouteChildren: RootRouteChildren = {
   PlacesIndexRoute: PlacesIndexRoute,
   StoriesIndexRoute: StoriesIndexRoute,
   ContributorSubmissionsIndexRoute: ContributorSubmissionsIndexRoute,
+  ContributorSubmissionsIdReviseRoute: ContributorSubmissionsIdReviseRoute,
   ContributorSubmissionsNewTypeRoute: ContributorSubmissionsNewTypeRoute,
 }
 export const routeTree = rootRouteImport
