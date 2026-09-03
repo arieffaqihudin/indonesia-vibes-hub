@@ -31,6 +31,7 @@ import { Route as ContributorForgotPasswordRouteImport } from './routes/contribu
 import { Route as ContributorInvitationRouteImport } from './routes/contributor.invitation'
 import { Route as ContributorLoginRouteImport } from './routes/contributor.login'
 import { Route as ContributorNewRouteImport } from './routes/contributor.new'
+import { Route as ContributorNotificationsRouteImport } from './routes/contributor.notifications'
 import { Route as ContributorOnboardingRouteImport } from './routes/contributor.onboarding'
 import { Route as ContributorOrganisationRouteImport } from './routes/contributor.organisation'
 import { Route as ContributorRegisterRouteImport } from './routes/contributor.register'
@@ -163,6 +164,12 @@ const ContributorNewRoute = ContributorNewRouteImport.update({
   path: '/contributor/new',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContributorNotificationsRoute =
+  ContributorNotificationsRouteImport.update({
+    id: '/contributor/notifications',
+    path: '/contributor/notifications',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ContributorOnboardingRoute = ContributorOnboardingRouteImport.update({
   id: '/contributor/onboarding',
   path: '/contributor/onboarding',
@@ -288,6 +295,7 @@ export interface FileRoutesByFullPath {
   '/contributor/invitation': typeof ContributorInvitationRoute
   '/contributor/login': typeof ContributorLoginRoute
   '/contributor/new': typeof ContributorNewRoute
+  '/contributor/notifications': typeof ContributorNotificationsRoute
   '/contributor/onboarding': typeof ContributorOnboardingRoute
   '/contributor/organisation': typeof ContributorOrganisationRoute
   '/contributor/register': typeof ContributorRegisterRoute
@@ -332,6 +340,7 @@ export interface FileRoutesByTo {
   '/contributor/invitation': typeof ContributorInvitationRoute
   '/contributor/login': typeof ContributorLoginRoute
   '/contributor/new': typeof ContributorNewRoute
+  '/contributor/notifications': typeof ContributorNotificationsRoute
   '/contributor/onboarding': typeof ContributorOnboardingRoute
   '/contributor/organisation': typeof ContributorOrganisationRoute
   '/contributor/register': typeof ContributorRegisterRoute
@@ -377,6 +386,7 @@ export interface FileRoutesById {
   '/contributor/invitation': typeof ContributorInvitationRoute
   '/contributor/login': typeof ContributorLoginRoute
   '/contributor/new': typeof ContributorNewRoute
+  '/contributor/notifications': typeof ContributorNotificationsRoute
   '/contributor/onboarding': typeof ContributorOnboardingRoute
   '/contributor/organisation': typeof ContributorOrganisationRoute
   '/contributor/register': typeof ContributorRegisterRoute
@@ -423,6 +433,7 @@ export interface FileRouteTypes {
     | '/contributor/invitation'
     | '/contributor/login'
     | '/contributor/new'
+    | '/contributor/notifications'
     | '/contributor/onboarding'
     | '/contributor/organisation'
     | '/contributor/register'
@@ -467,6 +478,7 @@ export interface FileRouteTypes {
     | '/contributor/invitation'
     | '/contributor/login'
     | '/contributor/new'
+    | '/contributor/notifications'
     | '/contributor/onboarding'
     | '/contributor/organisation'
     | '/contributor/register'
@@ -511,6 +523,7 @@ export interface FileRouteTypes {
     | '/contributor/invitation'
     | '/contributor/login'
     | '/contributor/new'
+    | '/contributor/notifications'
     | '/contributor/onboarding'
     | '/contributor/organisation'
     | '/contributor/register'
@@ -556,6 +569,7 @@ export interface RootRouteChildren {
   ContributorInvitationRoute: typeof ContributorInvitationRoute
   ContributorLoginRoute: typeof ContributorLoginRoute
   ContributorNewRoute: typeof ContributorNewRoute
+  ContributorNotificationsRoute: typeof ContributorNotificationsRoute
   ContributorOnboardingRoute: typeof ContributorOnboardingRoute
   ContributorOrganisationRoute: typeof ContributorOrganisationRoute
   ContributorRegisterRoute: typeof ContributorRegisterRoute
@@ -737,6 +751,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContributorNewRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contributor/notifications': {
+      id: '/contributor/notifications'
+      path: '/contributor/notifications'
+      fullPath: '/contributor/notifications'
+      preLoaderRoute: typeof ContributorNotificationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/contributor/onboarding': {
       id: '/contributor/onboarding'
       path: '/contributor/onboarding'
@@ -900,6 +921,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContributorInvitationRoute: ContributorInvitationRoute,
   ContributorLoginRoute: ContributorLoginRoute,
   ContributorNewRoute: ContributorNewRoute,
+  ContributorNotificationsRoute: ContributorNotificationsRoute,
   ContributorOnboardingRoute: ContributorOnboardingRoute,
   ContributorOrganisationRoute: ContributorOrganisationRoute,
   ContributorRegisterRoute: ContributorRegisterRoute,
