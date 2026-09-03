@@ -27,6 +27,7 @@ import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminActivityRouteImport } from './routes/admin.activity'
 import { Route as AdminCalendarRouteImport } from './routes/admin.calendar'
 import { Route as AdminCollectionsRouteImport } from './routes/admin.collections'
+import { Route as AdminDataHealthRouteImport } from './routes/admin.data-health'
 import { Route as AdminEventsRouteImport } from './routes/admin.events'
 import { Route as AdminFollowUpsRouteImport } from './routes/admin.follow-ups'
 import { Route as AdminGlobalAgendaRouteImport } from './routes/admin.global-agenda'
@@ -177,6 +178,11 @@ const AdminCalendarRoute = AdminCalendarRouteImport.update({
 const AdminCollectionsRoute = AdminCollectionsRouteImport.update({
   id: '/collections',
   path: '/collections',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminDataHealthRoute = AdminDataHealthRouteImport.update({
+  id: '/data-health',
+  path: '/data-health',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminEventsRoute = AdminEventsRouteImport.update({
@@ -511,6 +517,7 @@ export interface FileRoutesByFullPath {
   '/admin/activity': typeof AdminActivityRoute
   '/admin/calendar': typeof AdminCalendarRoute
   '/admin/collections': typeof AdminCollectionsRoute
+  '/admin/data-health': typeof AdminDataHealthRoute
   '/admin/events': typeof AdminEventsRoute
   '/admin/follow-ups': typeof AdminFollowUpsRoute
   '/admin/global-agenda': typeof AdminGlobalAgendaRoute
@@ -591,6 +598,7 @@ export interface FileRoutesByTo {
   '/admin/activity': typeof AdminActivityRoute
   '/admin/calendar': typeof AdminCalendarRoute
   '/admin/collections': typeof AdminCollectionsRoute
+  '/admin/data-health': typeof AdminDataHealthRoute
   '/admin/events': typeof AdminEventsRoute
   '/admin/follow-ups': typeof AdminFollowUpsRoute
   '/admin/global-agenda': typeof AdminGlobalAgendaRoute
@@ -673,6 +681,7 @@ export interface FileRoutesById {
   '/admin/activity': typeof AdminActivityRoute
   '/admin/calendar': typeof AdminCalendarRoute
   '/admin/collections': typeof AdminCollectionsRoute
+  '/admin/data-health': typeof AdminDataHealthRoute
   '/admin/events': typeof AdminEventsRoute
   '/admin/follow-ups': typeof AdminFollowUpsRoute
   '/admin/global-agenda': typeof AdminGlobalAgendaRoute
@@ -756,6 +765,7 @@ export interface FileRouteTypes {
     | '/admin/activity'
     | '/admin/calendar'
     | '/admin/collections'
+    | '/admin/data-health'
     | '/admin/events'
     | '/admin/follow-ups'
     | '/admin/global-agenda'
@@ -836,6 +846,7 @@ export interface FileRouteTypes {
     | '/admin/activity'
     | '/admin/calendar'
     | '/admin/collections'
+    | '/admin/data-health'
     | '/admin/events'
     | '/admin/follow-ups'
     | '/admin/global-agenda'
@@ -917,6 +928,7 @@ export interface FileRouteTypes {
     | '/admin/activity'
     | '/admin/calendar'
     | '/admin/collections'
+    | '/admin/data-health'
     | '/admin/events'
     | '/admin/follow-ups'
     | '/admin/global-agenda'
@@ -1156,6 +1168,13 @@ declare module '@tanstack/react-router' {
       path: '/collections'
       fullPath: '/admin/collections'
       preLoaderRoute: typeof AdminCollectionsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/data-health': {
+      id: '/admin/data-health'
+      path: '/data-health'
+      fullPath: '/admin/data-health'
+      preLoaderRoute: typeof AdminDataHealthRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/events': {
@@ -1604,6 +1623,7 @@ interface AdminRouteChildren {
   AdminActivityRoute: typeof AdminActivityRoute
   AdminCalendarRoute: typeof AdminCalendarRoute
   AdminCollectionsRoute: typeof AdminCollectionsRoute
+  AdminDataHealthRoute: typeof AdminDataHealthRoute
   AdminEventsRoute: typeof AdminEventsRoute
   AdminFollowUpsRoute: typeof AdminFollowUpsRoute
   AdminGlobalAgendaRoute: typeof AdminGlobalAgendaRoute
@@ -1639,6 +1659,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminActivityRoute: AdminActivityRoute,
   AdminCalendarRoute: AdminCalendarRoute,
   AdminCollectionsRoute: AdminCollectionsRoute,
+  AdminDataHealthRoute: AdminDataHealthRoute,
   AdminEventsRoute: AdminEventsRoute,
   AdminFollowUpsRoute: AdminFollowUpsRoute,
   AdminGlobalAgendaRoute: AdminGlobalAgendaRoute,

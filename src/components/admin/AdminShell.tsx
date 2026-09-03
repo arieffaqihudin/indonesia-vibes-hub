@@ -92,6 +92,7 @@ export function useNavGroups(): NavGroup[] {
       visibleTo: (r: AdminRole) => can(r, "configure") || r === "Managing Editor",
       items: [
         { to: "/admin/users", label: "Users & roles" },
+        { to: "/admin/data-health", label: "Data health" },
         { to: "/admin/settings", label: "Settings" },
         { to: "/admin/activity", label: "Activity log" },
       ],
