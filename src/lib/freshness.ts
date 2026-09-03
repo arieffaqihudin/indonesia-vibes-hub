@@ -81,7 +81,7 @@ export interface FocusOverride {
 }
 
 export const focusOverrides: FocusOverride[] = [
-  { ref: "col-1", featured: true, priority: 100 },
+  { ref: "co-1", featured: true, priority: 100, label: "Featured" },
 ];
 
 const overrideFor = (ref: string) => focusOverrides.find((o) => o.ref === ref);
