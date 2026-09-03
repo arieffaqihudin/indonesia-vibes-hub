@@ -26,6 +26,7 @@ import { Route as CollaborationsIndexRouteImport } from './routes/collaborations
 import { Route as CollaborationsSlugRouteImport } from './routes/collaborations.$slug'
 import { Route as CollectionsIndexRouteImport } from './routes/collections.index'
 import { Route as CollectionsSlugRouteImport } from './routes/collections.$slug'
+import { Route as ContributorForgotPasswordRouteImport } from './routes/contributor.forgot-password'
 import { Route as ContributorLoginRouteImport } from './routes/contributor.login'
 import { Route as ContributorRegisterRouteImport } from './routes/contributor.register'
 import { Route as ContributorVerifyEmailRouteImport } from './routes/contributor.verify-email'
@@ -126,6 +127,12 @@ const CollectionsSlugRoute = CollectionsSlugRouteImport.update({
   path: '/collections/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContributorForgotPasswordRoute =
+  ContributorForgotPasswordRouteImport.update({
+    id: '/contributor/forgot-password',
+    path: '/contributor/forgot-password',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ContributorLoginRoute = ContributorLoginRouteImport.update({
   id: '/contributor/login',
   path: '/contributor/login',
@@ -213,6 +220,7 @@ export interface FileRoutesByFullPath {
   '/search': typeof SearchRoute
   '/collaborations/$slug': typeof CollaborationsSlugRoute
   '/collections/$slug': typeof CollectionsSlugRoute
+  '/contributor/forgot-password': typeof ContributorForgotPasswordRoute
   '/contributor/login': typeof ContributorLoginRoute
   '/contributor/register': typeof ContributorRegisterRoute
   '/contributor/verify-email': typeof ContributorVerifyEmailRoute
@@ -246,6 +254,7 @@ export interface FileRoutesByTo {
   '/search': typeof SearchRoute
   '/collaborations/$slug': typeof CollaborationsSlugRoute
   '/collections/$slug': typeof CollectionsSlugRoute
+  '/contributor/forgot-password': typeof ContributorForgotPasswordRoute
   '/contributor/login': typeof ContributorLoginRoute
   '/contributor/register': typeof ContributorRegisterRoute
   '/contributor/verify-email': typeof ContributorVerifyEmailRoute
@@ -280,6 +289,7 @@ export interface FileRoutesById {
   '/search': typeof SearchRoute
   '/collaborations/$slug': typeof CollaborationsSlugRoute
   '/collections/$slug': typeof CollectionsSlugRoute
+  '/contributor/forgot-password': typeof ContributorForgotPasswordRoute
   '/contributor/login': typeof ContributorLoginRoute
   '/contributor/register': typeof ContributorRegisterRoute
   '/contributor/verify-email': typeof ContributorVerifyEmailRoute
@@ -315,6 +325,7 @@ export interface FileRouteTypes {
     | '/search'
     | '/collaborations/$slug'
     | '/collections/$slug'
+    | '/contributor/forgot-password'
     | '/contributor/login'
     | '/contributor/register'
     | '/contributor/verify-email'
@@ -348,6 +359,7 @@ export interface FileRouteTypes {
     | '/search'
     | '/collaborations/$slug'
     | '/collections/$slug'
+    | '/contributor/forgot-password'
     | '/contributor/login'
     | '/contributor/register'
     | '/contributor/verify-email'
@@ -381,6 +393,7 @@ export interface FileRouteTypes {
     | '/search'
     | '/collaborations/$slug'
     | '/collections/$slug'
+    | '/contributor/forgot-password'
     | '/contributor/login'
     | '/contributor/register'
     | '/contributor/verify-email'
@@ -415,6 +428,7 @@ export interface RootRouteChildren {
   SearchRoute: typeof SearchRoute
   CollaborationsSlugRoute: typeof CollaborationsSlugRoute
   CollectionsSlugRoute: typeof CollectionsSlugRoute
+  ContributorForgotPasswordRoute: typeof ContributorForgotPasswordRoute
   ContributorLoginRoute: typeof ContributorLoginRoute
   ContributorRegisterRoute: typeof ContributorRegisterRoute
   ContributorVerifyEmailRoute: typeof ContributorVerifyEmailRoute
@@ -554,6 +568,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CollectionsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contributor/forgot-password': {
+      id: '/contributor/forgot-password'
+      path: '/contributor/forgot-password'
+      fullPath: '/contributor/forgot-password'
+      preLoaderRoute: typeof ContributorForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/contributor/login': {
       id: '/contributor/login'
       path: '/contributor/login'
@@ -671,6 +692,7 @@ const rootRouteChildren: RootRouteChildren = {
   SearchRoute: SearchRoute,
   CollaborationsSlugRoute: CollaborationsSlugRoute,
   CollectionsSlugRoute: CollectionsSlugRoute,
+  ContributorForgotPasswordRoute: ContributorForgotPasswordRoute,
   ContributorLoginRoute: ContributorLoginRoute,
   ContributorRegisterRoute: ContributorRegisterRoute,
   ContributorVerifyEmailRoute: ContributorVerifyEmailRoute,
