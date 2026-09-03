@@ -84,7 +84,7 @@ export function useNavGroups(): NavGroup[] {
       visibleTo: (r: AdminRole) => can(r, "publish"),
       items: [
         { to: "/admin/curation/homepage", label: "Homepage" },
-        { to: "/admin/curation/now", label: "NOW" },
+        { to: "/admin/curation/in-focus", label: "In Focus" },
       ],
     },
     {

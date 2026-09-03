@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 
 import { Wordmark } from "@/components/brand/Wordmark";
 import { navigation } from "@/lib/navigation";
-import { nowItems } from "@/data/content";
+import { getFreshContent } from "@/lib/freshness";
 import { cn } from "@/lib/utils";
 
 export function Header() {
@@ -15,6 +15,7 @@ export function Header() {
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const lastY = useRef(0);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const focus = getFreshContent({ limit: 2, maxPerFamily: 1 });
 
   useEffect(() => {
     setOpen(null);
@@ -207,16 +208,17 @@ export function Header() {
                 className="stagger-item border-l border-border pl-8"
                 style={{ ["--reveal-delay" as string]: "140ms" }}
               >
-                <p className="eyebrow text-muted-foreground">On now</p>
+                <p className="eyebrow text-muted-foreground">In focus</p>
                 <ul className="mt-3 space-y-3">
-                  {nowItems.slice(0, 2).map((n) => (
+                  {focus.map((n) => (
                     <li key={n.id}>
-                      <a href={n.href} className="group block">
-                        <span className="block text-sm leading-snug font-medium text-ink transition-colors duration-200 group-hover:text-primary">
+                      <Link to={n.href} className="group block">
+                        <span className="eyebrow block text-primary">{n.label}</span>
+                        <span className="mt-1 block text-sm leading-snug font-medium text-ink transition-colors duration-200 group-hover:text-primary">
                           {n.headline}
                         </span>
                         <span className="mt-1 block text-xs text-muted-foreground">{n.meta}</span>
-                      </a>
+                      </Link>
                     </li>
                   ))}
                 </ul>

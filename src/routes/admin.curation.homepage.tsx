@@ -8,7 +8,7 @@ import { Card, EmptyState, PageHeading, PrototypeNote, abtn, dateFmt, field } fr
 
 const SECTIONS: CurationSlot["section"][] = [
   "Hero",
-  "NOW Featured",
+  "In Focus",
   "Featured Collection",
   "People to Know",
   "Upcoming Experiences",

@@ -430,15 +430,6 @@ export interface WorldNode {
   collaborationIds?: Id[];
 }
 
-export interface NowItem {
-  id: Id;
-  label: string;
-  headline: string;
-  meta: string;
-  href: string;
-  kind: "live" | "opening" | "call" | "release";
-}
-
 /** Normalised, type-tagged record used by global search. */
 export interface SearchRecord {
   id: Id;

@@ -25,7 +25,7 @@ import {
   seedInteractions,
   seedMedia,
   seedNotifications,
-  seedNowOverrides,
+  seedFocusOverrides,
   seedPartners,
   seedPipeline,
   seedSources,
@@ -48,7 +48,7 @@ import {
   type Interaction,
   type InternalNote,
   type MediaAsset,
-  type NowOverride,
+  type FocusOverride,
   type Partner,
   type PipelineCollaboration,
   type SourceRecord,
@@ -70,7 +70,7 @@ interface AdminState {
   interactions: Interaction[];
   taxonomy: TaxonomyTerm[];
   curation: CurationSlot[];
-  nowOverrides: NowOverride[];
+  focusOverrides: FocusOverride[];
   activity: ActivityEntry[];
   notifications: AdminNotification[];
   users: AdminUser[];
@@ -89,7 +89,7 @@ const initialState = (): AdminState => ({
   interactions: seedInteractions,
   taxonomy: seedTaxonomy,
   curation: seedCuration,
-  nowOverrides: seedNowOverrides,
+  focusOverrides: seedFocusOverrides,
   activity: seedActivity,
   notifications: seedNotifications,
   users: seedUsers,
@@ -134,7 +134,7 @@ interface AdminContextValue extends AdminState {
   addTaxonomy: (term: Omit<TaxonomyTerm, "id" | "usage">) => void;
   mergeTaxonomy: (fromId: string, intoId: string) => void;
   setCuration: (slots: CurationSlot[]) => void;
-  setNowOverrides: (overrides: NowOverride[]) => void;
+  setFocusOverrides: (overrides: FocusOverride[]) => void;
   updateUser: (id: string, patch: Partial<AdminUser>) => void;
   /* notifications */
   markNotificationsRead: () => void;
@@ -427,7 +427,7 @@ export function AdminProvider({ children }: { children: ReactNode }) {
         }),
 
       setCuration: (slots) => setState((s) => ({ ...s, curation: slots })),
-      setNowOverrides: (overrides) => setState((s) => ({ ...s, nowOverrides: overrides })),
+      setFocusOverrides: (overrides) => setState((s) => ({ ...s, focusOverrides: overrides })),
       updateUser: (id, patch) =>
         setState((s) => ({ ...s, users: s.users.map((u) => (u.id === id ? { ...u, ...patch } : u)) })),
 
