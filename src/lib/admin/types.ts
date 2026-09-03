@@ -628,7 +628,7 @@ export interface ContentItem {
   feedback: EditorialFeedback[];
   notes: InternalNote[];
   versions: Version[];
-  featured?: ("Homepage" | "NOW" | "Featured story" | "Collection")[];
+  featured?: ("Homepage" | "In Focus" | "Featured story" | "Collection")[];
   prototype?: boolean;
 }
 
@@ -1102,14 +1102,14 @@ export interface TaxonomyTerm {
 
 export interface CurationSlot {
   id: string;
-  section: "Hero" | "NOW Featured" | "Featured Collection" | "People to Know" | "Upcoming Experiences" | "Current Collaborations" | "Opportunities";
+  section: "Hero" | "In Focus" | "Featured Collection" | "People to Know" | "Upcoming Experiences" | "Current Collaborations" | "Opportunities";
   contentId: string;
   label: string;
   order: number;
   scheduledUntil?: string;
 }
 
-export interface NowOverride {
+export interface FocusOverride {
   contentId: string;
   label: string;
   mode: "Featured happening" | "Editorial priority" | "Pinned" | "Hidden";

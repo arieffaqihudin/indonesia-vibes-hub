@@ -3,39 +3,39 @@ import { useState } from "react";
 
 import { adminHead } from "@/lib/admin/head";
 import { useAdmin } from "@/lib/admin/store";
-import { can, type NowOverride } from "@/lib/admin/types";
+import { can, type FocusOverride } from "@/lib/admin/types";
 import { Card, EmptyState, PageHeading, PrototypeNote, Tag, abtn, dateFmt, field } from "@/components/admin/primitives";
 
-const MODES: NowOverride["mode"][] = ["Featured happening", "Editorial priority", "Pinned", "Hidden"];
+const MODES: FocusOverride["mode"][] = ["Featured happening", "Editorial priority", "Pinned", "Hidden"];
 
-export const Route = createFileRoute("/admin/curation/now")({
-  head: adminHead("NOW curation", "Decide what the NOW section highlights this week."),
-  component: NowCuration,
+export const Route = createFileRoute("/admin/curation/in-focus")({
+  head: adminHead("In Focus curation", "Decide what the In Focus composition highlights."),
+  component: FocusCuration,
 });
 
-function NowCuration() {
+function FocusCuration() {
   const admin = useAdmin();
   const editable = can(admin.role, "editorial");
   const published = admin.content.filter((c) => c.status === "published");
   const [contentId, setContentId] = useState("");
-  const [mode, setMode] = useState<NowOverride["mode"]>("Featured happening");
+  const [mode, setMode] = useState<FocusOverride["mode"]>("Featured happening");
   const [until, setUntil] = useState("");
 
-  const set = (next: NowOverride[]) => admin.setNowOverrides(next);
+  const set = (next: FocusOverride[]) => admin.setFocusOverrides(next);
 
   return (
     <>
       <PageHeading
         eyebrow="Curation"
-        title="NOW"
-        description="NOW is the platform's promise that something is happening today. By default it fills itself from live events; overrides are for editorial judgement."
+        title="In Focus"
+        description="In Focus is assembled automatically from current events, open calls, active collaborations and recent publishing. Overrides are for editorial judgement, not for filling gaps."
       />
 
       <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_20rem]">
         <Card title="Current overrides">
-          {admin.nowOverrides.length ? (
+          {admin.focusOverrides.length ? (
             <ul className="space-y-2 text-sm">
-              {admin.nowOverrides.map((o) => {
+              {admin.focusOverrides.map((o) => {
                 const item = admin.getContent(o.contentId);
                 return (
                   <li key={o.contentId} className="flex flex-wrap items-center justify-between gap-2 border-b border-border pb-2 last:border-0 last:pb-0">
@@ -55,7 +55,7 @@ function NowCuration() {
                         <button
                           type="button"
                           className={abtn.quiet}
-                          onClick={() => set(admin.nowOverrides.filter((x) => x.contentId !== o.contentId))}
+                          onClick={() => set(admin.focusOverrides.filter((x) => x.contentId !== o.contentId))}
                         >
                           Remove<span className="sr-only">: {o.label}</span>
                         </button>
@@ -66,7 +66,7 @@ function NowCuration() {
               })}
             </ul>
           ) : (
-            <EmptyState title="No overrides." hint="NOW is currently assembled automatically from live and upcoming records." />
+            <EmptyState title="No overrides." hint="In Focus is currently assembled automatically from current and recent records." />
           )}
         </Card>
 
@@ -86,7 +86,7 @@ function NowCuration() {
               </label>
               <label className="mt-3 block text-xs text-muted-foreground">
                 <span className="mb-1 block">Treatment</span>
-                <select className={field} value={mode} onChange={(e) => setMode(e.target.value as NowOverride["mode"])}>
+                <select className={field} value={mode} onChange={(e) => setMode(e.target.value as FocusOverride["mode"])}>
                   {MODES.map((m) => (
                     <option key={m}>{m}</option>
                   ))}
@@ -104,7 +104,7 @@ function NowCuration() {
                   const item = admin.getContent(contentId);
                   if (!item) return;
                   set([
-                    ...admin.nowOverrides.filter((o) => o.contentId !== contentId),
+                    ...admin.focusOverrides.filter((o) => o.contentId !== contentId),
                     { contentId, label: item.title, mode, ...(until ? { until: new Date(until).toISOString() } : {}) },
                   ]);
                   setContentId("");
@@ -116,7 +116,7 @@ function NowCuration() {
             </Card>
           ) : (
             <Card title="Read-only">
-              <p className="text-sm text-muted-foreground">Your role can view NOW curation but not change it.</p>
+              <p className="text-sm text-muted-foreground">Your role can view In Focus curation but not change it.</p>
             </Card>
           )}
           <PrototypeNote>Overrides are stored in this prototype only.</PrototypeNote>

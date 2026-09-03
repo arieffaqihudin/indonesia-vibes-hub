@@ -1046,7 +1046,7 @@ function ScheduleForm({ id, onDone }: { id: string; onDone: () => void }) {
       <fieldset>
         <legend className="text-xs font-medium text-ink">Featured placement</legend>
         <div className="mt-1.5 flex flex-wrap gap-3 text-xs">
-          {["Homepage", "NOW", "Featured story", "Collection"].map((p) => (
+          {["Homepage", "In Focus", "Featured story", "Collection"].map((p) => (
             <label key={p} className="flex items-center gap-1.5">
               <input type="checkbox" checked={placements.includes(p)} onChange={() => toggle(p)} />
               {p}

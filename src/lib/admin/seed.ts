@@ -31,7 +31,7 @@ import {
   type Inquiry,
   type Interaction,
   type MediaAsset,
-  type NowOverride,
+  type FocusOverride,
   type Partner,
   type PipelineCollaboration,
   type Relationships,
@@ -688,7 +688,7 @@ const inFlight: ContentItem[] = [
     feedback: [],
     notes: [],
     versions: [],
-    featured: ["NOW"],
+    featured: ["In Focus"],
     prototype: true,
   },
 ];
@@ -1304,8 +1304,8 @@ export const seedTaxonomy: TaxonomyTerm[] = [
 
 export const seedCuration: CurationSlot[] = [
   { id: "cu-1", section: "Hero", contentId: "c-st-1", label: "Two years in a single cloth", order: 0 },
-  { id: "cu-2", section: "NOW Featured", contentId: "c-ev-1", label: "Warp & Weft: Two Years in a Cloth", order: 0 },
-  { id: "cu-3", section: "NOW Featured", contentId: "c-sub-sumba-scheduled", label: "Sumba Weaving Week open studios", order: 1 },
+  { id: "cu-2", section: "In Focus", contentId: "c-ev-1", label: "Warp & Weft: Two Years in a Cloth", order: 0 },
+  { id: "cu-3", section: "In Focus", contentId: "c-sub-sumba-scheduled", label: "Sumba Weaving Week open studios", order: 1 },
   { id: "cu-4", section: "Featured Collection", contentId: "c-co-1", label: "Made slowly", order: 0 },
   { id: "cu-5", section: "People to Know", contentId: "c-pe-1", label: "Rambu Ana Hàmu", order: 0 },
   { id: "cu-6", section: "People to Know", contentId: "c-pe-2", label: "Dimas Prayoga", order: 1 },
@@ -1314,7 +1314,7 @@ export const seedCuration: CurationSlot[] = [
   { id: "cu-9", section: "Opportunities", contentId: "c-op-1", label: "Weaving Apprenticeship Fund", order: 0 },
 ];
 
-export const seedNowOverrides: NowOverride[] = [
+export const seedFocusOverrides: NowOverride[] = [
   { contentId: "c-sub-sumba-scheduled", label: "Sumba Weaving Week open studios", mode: "Featured happening", until: at(20) },
   { contentId: "c-ev-6", label: "Material Futures", mode: "Editorial priority" },
 ];
