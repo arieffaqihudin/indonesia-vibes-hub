@@ -34,6 +34,7 @@ import { Route as ContributorNewRouteImport } from './routes/contributor.new'
 import { Route as ContributorOnboardingRouteImport } from './routes/contributor.onboarding'
 import { Route as ContributorOrganisationRouteImport } from './routes/contributor.organisation'
 import { Route as ContributorRegisterRouteImport } from './routes/contributor.register'
+import { Route as ContributorTeamRouteImport } from './routes/contributor.team'
 import { Route as ContributorVerifyEmailRouteImport } from './routes/contributor.verify-email'
 import { Route as CultureSlugRouteImport } from './routes/culture.$slug'
 import { Route as EventsIndexRouteImport } from './routes/events.index'
@@ -177,6 +178,11 @@ const ContributorRegisterRoute = ContributorRegisterRouteImport.update({
   path: '/contributor/register',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContributorTeamRoute = ContributorTeamRouteImport.update({
+  id: '/contributor/team',
+  path: '/contributor/team',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContributorVerifyEmailRoute = ContributorVerifyEmailRouteImport.update({
   id: '/contributor/verify-email',
   path: '/contributor/verify-email',
@@ -285,6 +291,7 @@ export interface FileRoutesByFullPath {
   '/contributor/onboarding': typeof ContributorOnboardingRoute
   '/contributor/organisation': typeof ContributorOrganisationRoute
   '/contributor/register': typeof ContributorRegisterRoute
+  '/contributor/team': typeof ContributorTeamRoute
   '/contributor/verify-email': typeof ContributorVerifyEmailRoute
   '/culture/$slug': typeof CultureSlugRoute
   '/events/$slug': typeof EventsSlugRoute
@@ -328,6 +335,7 @@ export interface FileRoutesByTo {
   '/contributor/onboarding': typeof ContributorOnboardingRoute
   '/contributor/organisation': typeof ContributorOrganisationRoute
   '/contributor/register': typeof ContributorRegisterRoute
+  '/contributor/team': typeof ContributorTeamRoute
   '/contributor/verify-email': typeof ContributorVerifyEmailRoute
   '/culture/$slug': typeof CultureSlugRoute
   '/events/$slug': typeof EventsSlugRoute
@@ -372,6 +380,7 @@ export interface FileRoutesById {
   '/contributor/onboarding': typeof ContributorOnboardingRoute
   '/contributor/organisation': typeof ContributorOrganisationRoute
   '/contributor/register': typeof ContributorRegisterRoute
+  '/contributor/team': typeof ContributorTeamRoute
   '/contributor/verify-email': typeof ContributorVerifyEmailRoute
   '/culture/$slug': typeof CultureSlugRoute
   '/events/$slug': typeof EventsSlugRoute
@@ -417,6 +426,7 @@ export interface FileRouteTypes {
     | '/contributor/onboarding'
     | '/contributor/organisation'
     | '/contributor/register'
+    | '/contributor/team'
     | '/contributor/verify-email'
     | '/culture/$slug'
     | '/events/$slug'
@@ -460,6 +470,7 @@ export interface FileRouteTypes {
     | '/contributor/onboarding'
     | '/contributor/organisation'
     | '/contributor/register'
+    | '/contributor/team'
     | '/contributor/verify-email'
     | '/culture/$slug'
     | '/events/$slug'
@@ -503,6 +514,7 @@ export interface FileRouteTypes {
     | '/contributor/onboarding'
     | '/contributor/organisation'
     | '/contributor/register'
+    | '/contributor/team'
     | '/contributor/verify-email'
     | '/culture/$slug'
     | '/events/$slug'
@@ -547,6 +559,7 @@ export interface RootRouteChildren {
   ContributorOnboardingRoute: typeof ContributorOnboardingRoute
   ContributorOrganisationRoute: typeof ContributorOrganisationRoute
   ContributorRegisterRoute: typeof ContributorRegisterRoute
+  ContributorTeamRoute: typeof ContributorTeamRoute
   ContributorVerifyEmailRoute: typeof ContributorVerifyEmailRoute
   CultureSlugRoute: typeof CultureSlugRoute
   EventsSlugRoute: typeof EventsSlugRoute
@@ -745,6 +758,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContributorRegisterRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contributor/team': {
+      id: '/contributor/team'
+      path: '/contributor/team'
+      fullPath: '/contributor/team'
+      preLoaderRoute: typeof ContributorTeamRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/contributor/verify-email': {
       id: '/contributor/verify-email'
       path: '/contributor/verify-email'
@@ -883,6 +903,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContributorOnboardingRoute: ContributorOnboardingRoute,
   ContributorOrganisationRoute: ContributorOrganisationRoute,
   ContributorRegisterRoute: ContributorRegisterRoute,
+  ContributorTeamRoute: ContributorTeamRoute,
   ContributorVerifyEmailRoute: ContributorVerifyEmailRoute,
   CultureSlugRoute: CultureSlugRoute,
   EventsSlugRoute: EventsSlugRoute,
