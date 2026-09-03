@@ -1314,7 +1314,7 @@ export const seedCuration: CurationSlot[] = [
   { id: "cu-9", section: "Opportunities", contentId: "c-op-1", label: "Weaving Apprenticeship Fund", order: 0 },
 ];
 
-export const seedFocusOverrides: NowOverride[] = [
+export const seedFocusOverrides: FocusOverride[] = [
   { contentId: "c-sub-sumba-scheduled", label: "Sumba Weaving Week open studios", mode: "Featured happening", until: at(20) },
   { contentId: "c-ev-6", label: "Material Futures", mode: "Editorial priority" },
 ];

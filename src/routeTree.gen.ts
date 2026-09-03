@@ -75,7 +75,7 @@ import { Route as AdminContentIndexRouteImport } from './routes/admin.content.in
 import { Route as AdminContentIdRouteImport } from './routes/admin.content.$id'
 import { Route as AdminContentNewRouteImport } from './routes/admin.content.new'
 import { Route as AdminCurationHomepageRouteImport } from './routes/admin.curation.homepage'
-import { Route as AdminCurationNowRouteImport } from './routes/admin.curation.now'
+import { Route as AdminCurationInFocusRouteImport } from './routes/admin.curation.in-focus'
 import { Route as AdminInquiriesIndexRouteImport } from './routes/admin.inquiries.index'
 import { Route as AdminInquiriesIdRouteImport } from './routes/admin.inquiries.$id'
 import { Route as AdminInsightsIndexRouteImport } from './routes/admin.insights.index'
@@ -424,9 +424,9 @@ const AdminCurationHomepageRoute = AdminCurationHomepageRouteImport.update({
   path: '/curation/homepage',
   getParentRoute: () => AdminRoute,
 } as any)
-const AdminCurationNowRoute = AdminCurationNowRouteImport.update({
-  id: '/curation/now',
-  path: '/curation/now',
+const AdminCurationInFocusRoute = AdminCurationInFocusRouteImport.update({
+  id: '/curation/in-focus',
+  path: '/curation/in-focus',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminInquiriesIndexRoute = AdminInquiriesIndexRouteImport.update({
@@ -570,7 +570,7 @@ export interface FileRoutesByFullPath {
   '/admin/content/$id': typeof AdminContentIdRouteWithChildren
   '/admin/content/new': typeof AdminContentNewRoute
   '/admin/curation/homepage': typeof AdminCurationHomepageRoute
-  '/admin/curation/now': typeof AdminCurationNowRoute
+  '/admin/curation/in-focus': typeof AdminCurationInFocusRoute
   '/admin/inquiries/$id': typeof AdminInquiriesIdRoute
   '/admin/insights/editorial': typeof AdminInsightsEditorialRoute
   '/admin/insights/partnerships': typeof AdminInsightsPartnershipsRoute
@@ -652,7 +652,7 @@ export interface FileRoutesByTo {
   '/admin/content/$id': typeof AdminContentIdRouteWithChildren
   '/admin/content/new': typeof AdminContentNewRoute
   '/admin/curation/homepage': typeof AdminCurationHomepageRoute
-  '/admin/curation/now': typeof AdminCurationNowRoute
+  '/admin/curation/in-focus': typeof AdminCurationInFocusRoute
   '/admin/inquiries/$id': typeof AdminInquiriesIdRoute
   '/admin/insights/editorial': typeof AdminInsightsEditorialRoute
   '/admin/insights/partnerships': typeof AdminInsightsPartnershipsRoute
@@ -736,7 +736,7 @@ export interface FileRoutesById {
   '/admin/content/$id': typeof AdminContentIdRouteWithChildren
   '/admin/content/new': typeof AdminContentNewRoute
   '/admin/curation/homepage': typeof AdminCurationHomepageRoute
-  '/admin/curation/now': typeof AdminCurationNowRoute
+  '/admin/curation/in-focus': typeof AdminCurationInFocusRoute
   '/admin/inquiries/$id': typeof AdminInquiriesIdRoute
   '/admin/insights/editorial': typeof AdminInsightsEditorialRoute
   '/admin/insights/partnerships': typeof AdminInsightsPartnershipsRoute
@@ -821,7 +821,7 @@ export interface FileRouteTypes {
     | '/admin/content/$id'
     | '/admin/content/new'
     | '/admin/curation/homepage'
-    | '/admin/curation/now'
+    | '/admin/curation/in-focus'
     | '/admin/inquiries/$id'
     | '/admin/insights/editorial'
     | '/admin/insights/partnerships'
@@ -903,7 +903,7 @@ export interface FileRouteTypes {
     | '/admin/content/$id'
     | '/admin/content/new'
     | '/admin/curation/homepage'
-    | '/admin/curation/now'
+    | '/admin/curation/in-focus'
     | '/admin/inquiries/$id'
     | '/admin/insights/editorial'
     | '/admin/insights/partnerships'
@@ -986,7 +986,7 @@ export interface FileRouteTypes {
     | '/admin/content/$id'
     | '/admin/content/new'
     | '/admin/curation/homepage'
-    | '/admin/curation/now'
+    | '/admin/curation/in-focus'
     | '/admin/inquiries/$id'
     | '/admin/insights/editorial'
     | '/admin/insights/partnerships'
@@ -1519,11 +1519,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminCurationHomepageRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/admin/curation/now': {
-      id: '/admin/curation/now'
-      path: '/curation/now'
-      fullPath: '/admin/curation/now'
-      preLoaderRoute: typeof AdminCurationNowRouteImport
+    '/admin/curation/in-focus': {
+      id: '/admin/curation/in-focus'
+      path: '/curation/in-focus'
+      fullPath: '/admin/curation/in-focus'
+      preLoaderRoute: typeof AdminCurationInFocusRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/inquiries/': {
@@ -1661,7 +1661,7 @@ interface AdminRouteChildren {
   AdminContentIdRoute: typeof AdminContentIdRouteWithChildren
   AdminContentNewRoute: typeof AdminContentNewRoute
   AdminCurationHomepageRoute: typeof AdminCurationHomepageRoute
-  AdminCurationNowRoute: typeof AdminCurationNowRoute
+  AdminCurationInFocusRoute: typeof AdminCurationInFocusRoute
   AdminInquiriesIdRoute: typeof AdminInquiriesIdRoute
   AdminInsightsEditorialRoute: typeof AdminInsightsEditorialRoute
   AdminInsightsPartnershipsRoute: typeof AdminInsightsPartnershipsRoute
@@ -1697,7 +1697,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminContentIdRoute: AdminContentIdRouteWithChildren,
   AdminContentNewRoute: AdminContentNewRoute,
   AdminCurationHomepageRoute: AdminCurationHomepageRoute,
-  AdminCurationNowRoute: AdminCurationNowRoute,
+  AdminCurationInFocusRoute: AdminCurationInFocusRoute,
   AdminInquiriesIdRoute: AdminInquiriesIdRoute,
   AdminInsightsEditorialRoute: AdminInsightsEditorialRoute,
   AdminInsightsPartnershipsRoute: AdminInsightsPartnershipsRoute,

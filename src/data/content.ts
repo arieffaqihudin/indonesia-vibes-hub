@@ -898,7 +898,7 @@ export const papers: ResearchPaper[] = [
 /* ---------- rolling prototype calendar ----------
  * Authored dates are relative to the anchor below. Every date in the demo
  * dataset is shifted by the same whole number of days so the calendar, the
- * statuses and the NOW strip stay truthful whenever the prototype is opened.
+ * statuses and the freshness model stays truthful whenever the prototype is opened.
  */
 const PROTOTYPE_ANCHOR = "2026-02-16";
 
