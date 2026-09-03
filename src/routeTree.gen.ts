@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SplatRouteImport } from './routes/$'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AroundTheWorldRouteImport } from './routes/around-the-world'
 import { Route as CollaborateRouteImport } from './routes/collaborate'
 import { Route as ContactRouteImport } from './routes/contact'
@@ -22,6 +23,22 @@ import { Route as HeritageRouteImport } from './routes/heritage'
 import { Route as OpportunitiesRouteImport } from './routes/opportunities'
 import { Route as ResearchRouteImport } from './routes/research'
 import { Route as SearchRouteImport } from './routes/search'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminActivityRouteImport } from './routes/admin.activity'
+import { Route as AdminCalendarRouteImport } from './routes/admin.calendar'
+import { Route as AdminCollectionsRouteImport } from './routes/admin.collections'
+import { Route as AdminEventsRouteImport } from './routes/admin.events'
+import { Route as AdminFollowUpsRouteImport } from './routes/admin.follow-ups'
+import { Route as AdminGlobalAgendaRouteImport } from './routes/admin.global-agenda'
+import { Route as AdminMediaRouteImport } from './routes/admin.media'
+import { Route as AdminNetworkRouteImport } from './routes/admin.network'
+import { Route as AdminNotificationsRouteImport } from './routes/admin.notifications'
+import { Route as AdminOpportunitiesRouteImport } from './routes/admin.opportunities'
+import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
+import { Route as AdminSourcesRouteImport } from './routes/admin.sources'
+import { Route as AdminSubmissionsRouteImport } from './routes/admin.submissions'
+import { Route as AdminTaxonomyRouteImport } from './routes/admin.taxonomy'
+import { Route as AdminUsersRouteImport } from './routes/admin.users'
 import { Route as CollaborationsIndexRouteImport } from './routes/collaborations.index'
 import { Route as CollaborationsSlugRouteImport } from './routes/collaborations.$slug'
 import { Route as CollectionsIndexRouteImport } from './routes/collections.index'
@@ -50,7 +67,24 @@ import { Route as PlacesIndexRouteImport } from './routes/places.index'
 import { Route as PlacesSlugRouteImport } from './routes/places.$slug'
 import { Route as StoriesIndexRouteImport } from './routes/stories.index'
 import { Route as StoriesSlugRouteImport } from './routes/stories.$slug'
+import { Route as AdminCollaborationsIndexRouteImport } from './routes/admin.collaborations.index'
+import { Route as AdminCollaborationsIdRouteImport } from './routes/admin.collaborations.$id'
+import { Route as AdminContentIndexRouteImport } from './routes/admin.content.index'
+import { Route as AdminContentIdRouteImport } from './routes/admin.content.$id'
+import { Route as AdminContentNewRouteImport } from './routes/admin.content.new'
+import { Route as AdminCurationHomepageRouteImport } from './routes/admin.curation.homepage'
+import { Route as AdminCurationNowRouteImport } from './routes/admin.curation.now'
+import { Route as AdminInquiriesIndexRouteImport } from './routes/admin.inquiries.index'
+import { Route as AdminInquiriesIdRouteImport } from './routes/admin.inquiries.$id'
+import { Route as AdminInsightsIndexRouteImport } from './routes/admin.insights.index'
+import { Route as AdminInsightsEditorialRouteImport } from './routes/admin.insights.editorial'
+import { Route as AdminInsightsPartnershipsRouteImport } from './routes/admin.insights.partnerships'
+import { Route as AdminPartnersIndexRouteImport } from './routes/admin.partners.index'
+import { Route as AdminPartnersIdRouteImport } from './routes/admin.partners.$id'
+import { Route as AdminReviewIndexRouteImport } from './routes/admin.review.index'
+import { Route as AdminReviewSubjectRouteImport } from './routes/admin.review.subject'
 import { Route as ContributorSubmissionsIndexRouteImport } from './routes/contributor.submissions.index'
+import { Route as AdminContentIdPreviewRouteImport } from './routes/admin.content.$id.preview'
 import { Route as ContributorSubmissionsIdIndexRouteImport } from './routes/contributor.submissions.$id.index'
 import { Route as ContributorSubmissionsIdReviseRouteImport } from './routes/contributor.submissions.$id.revise'
 import { Route as ContributorSubmissionsNewTypeRouteImport } from './routes/contributor.submissions.new.$type'
@@ -68,6 +102,11 @@ const SplatRoute = SplatRouteImport.update({
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AroundTheWorldRoute = AroundTheWorldRouteImport.update({
@@ -119,6 +158,86 @@ const SearchRoute = SearchRouteImport.update({
   id: '/search',
   path: '/search',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminActivityRoute = AdminActivityRouteImport.update({
+  id: '/activity',
+  path: '/activity',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminCalendarRoute = AdminCalendarRouteImport.update({
+  id: '/calendar',
+  path: '/calendar',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminCollectionsRoute = AdminCollectionsRouteImport.update({
+  id: '/collections',
+  path: '/collections',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminEventsRoute = AdminEventsRouteImport.update({
+  id: '/events',
+  path: '/events',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminFollowUpsRoute = AdminFollowUpsRouteImport.update({
+  id: '/follow-ups',
+  path: '/follow-ups',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminGlobalAgendaRoute = AdminGlobalAgendaRouteImport.update({
+  id: '/global-agenda',
+  path: '/global-agenda',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminMediaRoute = AdminMediaRouteImport.update({
+  id: '/media',
+  path: '/media',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminNetworkRoute = AdminNetworkRouteImport.update({
+  id: '/network',
+  path: '/network',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminNotificationsRoute = AdminNotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminOpportunitiesRoute = AdminOpportunitiesRouteImport.update({
+  id: '/opportunities',
+  path: '/opportunities',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSettingsRoute = AdminSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSourcesRoute = AdminSourcesRouteImport.update({
+  id: '/sources',
+  path: '/sources',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSubmissionsRoute = AdminSubmissionsRouteImport.update({
+  id: '/submissions',
+  path: '/submissions',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminTaxonomyRoute = AdminTaxonomyRouteImport.update({
+  id: '/taxonomy',
+  path: '/taxonomy',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminUsersRoute = AdminUsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => AdminRoute,
 } as any)
 const CollaborationsIndexRoute = CollaborationsIndexRouteImport.update({
   id: '/collaborations/',
@@ -262,12 +381,99 @@ const StoriesSlugRoute = StoriesSlugRouteImport.update({
   path: '/stories/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminCollaborationsIndexRoute =
+  AdminCollaborationsIndexRouteImport.update({
+    id: '/collaborations/',
+    path: '/collaborations/',
+    getParentRoute: () => AdminRoute,
+  } as any)
+const AdminCollaborationsIdRoute = AdminCollaborationsIdRouteImport.update({
+  id: '/collaborations/$id',
+  path: '/collaborations/$id',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminContentIndexRoute = AdminContentIndexRouteImport.update({
+  id: '/content/',
+  path: '/content/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminContentIdRoute = AdminContentIdRouteImport.update({
+  id: '/content/$id',
+  path: '/content/$id',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminContentNewRoute = AdminContentNewRouteImport.update({
+  id: '/content/new',
+  path: '/content/new',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminCurationHomepageRoute = AdminCurationHomepageRouteImport.update({
+  id: '/curation/homepage',
+  path: '/curation/homepage',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminCurationNowRoute = AdminCurationNowRouteImport.update({
+  id: '/curation/now',
+  path: '/curation/now',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminInquiriesIndexRoute = AdminInquiriesIndexRouteImport.update({
+  id: '/inquiries/',
+  path: '/inquiries/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminInquiriesIdRoute = AdminInquiriesIdRouteImport.update({
+  id: '/inquiries/$id',
+  path: '/inquiries/$id',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminInsightsIndexRoute = AdminInsightsIndexRouteImport.update({
+  id: '/insights/',
+  path: '/insights/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminInsightsEditorialRoute = AdminInsightsEditorialRouteImport.update({
+  id: '/insights/editorial',
+  path: '/insights/editorial',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminInsightsPartnershipsRoute =
+  AdminInsightsPartnershipsRouteImport.update({
+    id: '/insights/partnerships',
+    path: '/insights/partnerships',
+    getParentRoute: () => AdminRoute,
+  } as any)
+const AdminPartnersIndexRoute = AdminPartnersIndexRouteImport.update({
+  id: '/partners/',
+  path: '/partners/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminPartnersIdRoute = AdminPartnersIdRouteImport.update({
+  id: '/partners/$id',
+  path: '/partners/$id',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminReviewIndexRoute = AdminReviewIndexRouteImport.update({
+  id: '/review/',
+  path: '/review/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminReviewSubjectRoute = AdminReviewSubjectRouteImport.update({
+  id: '/review/subject',
+  path: '/review/subject',
+  getParentRoute: () => AdminRoute,
+} as any)
 const ContributorSubmissionsIndexRoute =
   ContributorSubmissionsIndexRouteImport.update({
     id: '/contributor/submissions/',
     path: '/contributor/submissions/',
     getParentRoute: () => rootRouteImport,
   } as any)
+const AdminContentIdPreviewRoute = AdminContentIdPreviewRouteImport.update({
+  id: '/preview',
+  path: '/preview',
+  getParentRoute: () => AdminContentIdRoute,
+} as any)
 const ContributorSubmissionsIdIndexRoute =
   ContributorSubmissionsIdIndexRouteImport.update({
     id: '/contributor/submissions/$id/',
@@ -291,6 +497,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
   '/around-the-world': typeof AroundTheWorldRoute
   '/collaborate': typeof CollaborateRoute
   '/contact': typeof ContactRoute
@@ -301,6 +508,21 @@ export interface FileRoutesByFullPath {
   '/opportunities': typeof OpportunitiesRoute
   '/research': typeof ResearchRoute
   '/search': typeof SearchRoute
+  '/admin/activity': typeof AdminActivityRoute
+  '/admin/calendar': typeof AdminCalendarRoute
+  '/admin/collections': typeof AdminCollectionsRoute
+  '/admin/events': typeof AdminEventsRoute
+  '/admin/follow-ups': typeof AdminFollowUpsRoute
+  '/admin/global-agenda': typeof AdminGlobalAgendaRoute
+  '/admin/media': typeof AdminMediaRoute
+  '/admin/network': typeof AdminNetworkRoute
+  '/admin/notifications': typeof AdminNotificationsRoute
+  '/admin/opportunities': typeof AdminOpportunitiesRoute
+  '/admin/settings': typeof AdminSettingsRoute
+  '/admin/sources': typeof AdminSourcesRoute
+  '/admin/submissions': typeof AdminSubmissionsRoute
+  '/admin/taxonomy': typeof AdminTaxonomyRoute
+  '/admin/users': typeof AdminUsersRoute
   '/collaborations/$slug': typeof CollaborationsSlugRoute
   '/collections/$slug': typeof CollectionsSlugRoute
   '/contributor/account': typeof ContributorAccountRoute
@@ -321,6 +543,7 @@ export interface FileRoutesByFullPath {
   '/people/$slug': typeof PeopleSlugRoute
   '/places/$slug': typeof PlacesSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
+  '/admin/': typeof AdminIndexRoute
   '/collaborations/': typeof CollaborationsIndexRoute
   '/collections/': typeof CollectionsIndexRoute
   '/contributor/': typeof ContributorIndexRoute
@@ -329,7 +552,24 @@ export interface FileRoutesByFullPath {
   '/people/': typeof PeopleIndexRoute
   '/places/': typeof PlacesIndexRoute
   '/stories/': typeof StoriesIndexRoute
+  '/admin/collaborations/$id': typeof AdminCollaborationsIdRoute
+  '/admin/content/$id': typeof AdminContentIdRouteWithChildren
+  '/admin/content/new': typeof AdminContentNewRoute
+  '/admin/curation/homepage': typeof AdminCurationHomepageRoute
+  '/admin/curation/now': typeof AdminCurationNowRoute
+  '/admin/inquiries/$id': typeof AdminInquiriesIdRoute
+  '/admin/insights/editorial': typeof AdminInsightsEditorialRoute
+  '/admin/insights/partnerships': typeof AdminInsightsPartnershipsRoute
+  '/admin/partners/$id': typeof AdminPartnersIdRoute
+  '/admin/review/subject': typeof AdminReviewSubjectRoute
+  '/admin/collaborations/': typeof AdminCollaborationsIndexRoute
+  '/admin/content/': typeof AdminContentIndexRoute
+  '/admin/inquiries/': typeof AdminInquiriesIndexRoute
+  '/admin/insights/': typeof AdminInsightsIndexRoute
+  '/admin/partners/': typeof AdminPartnersIndexRoute
+  '/admin/review/': typeof AdminReviewIndexRoute
   '/contributor/submissions/': typeof ContributorSubmissionsIndexRoute
+  '/admin/content/$id/preview': typeof AdminContentIdPreviewRoute
   '/contributor/submissions/$id/revise': typeof ContributorSubmissionsIdReviseRoute
   '/contributor/submissions/new/$type': typeof ContributorSubmissionsNewTypeRoute
   '/contributor/submissions/$id/': typeof ContributorSubmissionsIdIndexRoute
@@ -348,6 +588,21 @@ export interface FileRoutesByTo {
   '/opportunities': typeof OpportunitiesRoute
   '/research': typeof ResearchRoute
   '/search': typeof SearchRoute
+  '/admin/activity': typeof AdminActivityRoute
+  '/admin/calendar': typeof AdminCalendarRoute
+  '/admin/collections': typeof AdminCollectionsRoute
+  '/admin/events': typeof AdminEventsRoute
+  '/admin/follow-ups': typeof AdminFollowUpsRoute
+  '/admin/global-agenda': typeof AdminGlobalAgendaRoute
+  '/admin/media': typeof AdminMediaRoute
+  '/admin/network': typeof AdminNetworkRoute
+  '/admin/notifications': typeof AdminNotificationsRoute
+  '/admin/opportunities': typeof AdminOpportunitiesRoute
+  '/admin/settings': typeof AdminSettingsRoute
+  '/admin/sources': typeof AdminSourcesRoute
+  '/admin/submissions': typeof AdminSubmissionsRoute
+  '/admin/taxonomy': typeof AdminTaxonomyRoute
+  '/admin/users': typeof AdminUsersRoute
   '/collaborations/$slug': typeof CollaborationsSlugRoute
   '/collections/$slug': typeof CollectionsSlugRoute
   '/contributor/account': typeof ContributorAccountRoute
@@ -368,6 +623,7 @@ export interface FileRoutesByTo {
   '/people/$slug': typeof PeopleSlugRoute
   '/places/$slug': typeof PlacesSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
+  '/admin': typeof AdminIndexRoute
   '/collaborations': typeof CollaborationsIndexRoute
   '/collections': typeof CollectionsIndexRoute
   '/contributor': typeof ContributorIndexRoute
@@ -376,7 +632,24 @@ export interface FileRoutesByTo {
   '/people': typeof PeopleIndexRoute
   '/places': typeof PlacesIndexRoute
   '/stories': typeof StoriesIndexRoute
+  '/admin/collaborations/$id': typeof AdminCollaborationsIdRoute
+  '/admin/content/$id': typeof AdminContentIdRouteWithChildren
+  '/admin/content/new': typeof AdminContentNewRoute
+  '/admin/curation/homepage': typeof AdminCurationHomepageRoute
+  '/admin/curation/now': typeof AdminCurationNowRoute
+  '/admin/inquiries/$id': typeof AdminInquiriesIdRoute
+  '/admin/insights/editorial': typeof AdminInsightsEditorialRoute
+  '/admin/insights/partnerships': typeof AdminInsightsPartnershipsRoute
+  '/admin/partners/$id': typeof AdminPartnersIdRoute
+  '/admin/review/subject': typeof AdminReviewSubjectRoute
+  '/admin/collaborations': typeof AdminCollaborationsIndexRoute
+  '/admin/content': typeof AdminContentIndexRoute
+  '/admin/inquiries': typeof AdminInquiriesIndexRoute
+  '/admin/insights': typeof AdminInsightsIndexRoute
+  '/admin/partners': typeof AdminPartnersIndexRoute
+  '/admin/review': typeof AdminReviewIndexRoute
   '/contributor/submissions': typeof ContributorSubmissionsIndexRoute
+  '/admin/content/$id/preview': typeof AdminContentIdPreviewRoute
   '/contributor/submissions/$id/revise': typeof ContributorSubmissionsIdReviseRoute
   '/contributor/submissions/new/$type': typeof ContributorSubmissionsNewTypeRoute
   '/contributor/submissions/$id': typeof ContributorSubmissionsIdIndexRoute
@@ -386,6 +659,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
   '/around-the-world': typeof AroundTheWorldRoute
   '/collaborate': typeof CollaborateRoute
   '/contact': typeof ContactRoute
@@ -396,6 +670,21 @@ export interface FileRoutesById {
   '/opportunities': typeof OpportunitiesRoute
   '/research': typeof ResearchRoute
   '/search': typeof SearchRoute
+  '/admin/activity': typeof AdminActivityRoute
+  '/admin/calendar': typeof AdminCalendarRoute
+  '/admin/collections': typeof AdminCollectionsRoute
+  '/admin/events': typeof AdminEventsRoute
+  '/admin/follow-ups': typeof AdminFollowUpsRoute
+  '/admin/global-agenda': typeof AdminGlobalAgendaRoute
+  '/admin/media': typeof AdminMediaRoute
+  '/admin/network': typeof AdminNetworkRoute
+  '/admin/notifications': typeof AdminNotificationsRoute
+  '/admin/opportunities': typeof AdminOpportunitiesRoute
+  '/admin/settings': typeof AdminSettingsRoute
+  '/admin/sources': typeof AdminSourcesRoute
+  '/admin/submissions': typeof AdminSubmissionsRoute
+  '/admin/taxonomy': typeof AdminTaxonomyRoute
+  '/admin/users': typeof AdminUsersRoute
   '/collaborations/$slug': typeof CollaborationsSlugRoute
   '/collections/$slug': typeof CollectionsSlugRoute
   '/contributor/account': typeof ContributorAccountRoute
@@ -416,6 +705,7 @@ export interface FileRoutesById {
   '/people/$slug': typeof PeopleSlugRoute
   '/places/$slug': typeof PlacesSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
+  '/admin/': typeof AdminIndexRoute
   '/collaborations/': typeof CollaborationsIndexRoute
   '/collections/': typeof CollectionsIndexRoute
   '/contributor/': typeof ContributorIndexRoute
@@ -424,7 +714,24 @@ export interface FileRoutesById {
   '/people/': typeof PeopleIndexRoute
   '/places/': typeof PlacesIndexRoute
   '/stories/': typeof StoriesIndexRoute
+  '/admin/collaborations/$id': typeof AdminCollaborationsIdRoute
+  '/admin/content/$id': typeof AdminContentIdRouteWithChildren
+  '/admin/content/new': typeof AdminContentNewRoute
+  '/admin/curation/homepage': typeof AdminCurationHomepageRoute
+  '/admin/curation/now': typeof AdminCurationNowRoute
+  '/admin/inquiries/$id': typeof AdminInquiriesIdRoute
+  '/admin/insights/editorial': typeof AdminInsightsEditorialRoute
+  '/admin/insights/partnerships': typeof AdminInsightsPartnershipsRoute
+  '/admin/partners/$id': typeof AdminPartnersIdRoute
+  '/admin/review/subject': typeof AdminReviewSubjectRoute
+  '/admin/collaborations/': typeof AdminCollaborationsIndexRoute
+  '/admin/content/': typeof AdminContentIndexRoute
+  '/admin/inquiries/': typeof AdminInquiriesIndexRoute
+  '/admin/insights/': typeof AdminInsightsIndexRoute
+  '/admin/partners/': typeof AdminPartnersIndexRoute
+  '/admin/review/': typeof AdminReviewIndexRoute
   '/contributor/submissions/': typeof ContributorSubmissionsIndexRoute
+  '/admin/content/$id/preview': typeof AdminContentIdPreviewRoute
   '/contributor/submissions/$id/revise': typeof ContributorSubmissionsIdReviseRoute
   '/contributor/submissions/new/$type': typeof ContributorSubmissionsNewTypeRoute
   '/contributor/submissions/$id/': typeof ContributorSubmissionsIdIndexRoute
@@ -435,6 +742,7 @@ export interface FileRouteTypes {
     | '/'
     | '/$'
     | '/about'
+    | '/admin'
     | '/around-the-world'
     | '/collaborate'
     | '/contact'
@@ -445,6 +753,21 @@ export interface FileRouteTypes {
     | '/opportunities'
     | '/research'
     | '/search'
+    | '/admin/activity'
+    | '/admin/calendar'
+    | '/admin/collections'
+    | '/admin/events'
+    | '/admin/follow-ups'
+    | '/admin/global-agenda'
+    | '/admin/media'
+    | '/admin/network'
+    | '/admin/notifications'
+    | '/admin/opportunities'
+    | '/admin/settings'
+    | '/admin/sources'
+    | '/admin/submissions'
+    | '/admin/taxonomy'
+    | '/admin/users'
     | '/collaborations/$slug'
     | '/collections/$slug'
     | '/contributor/account'
@@ -465,6 +788,7 @@ export interface FileRouteTypes {
     | '/people/$slug'
     | '/places/$slug'
     | '/stories/$slug'
+    | '/admin/'
     | '/collaborations/'
     | '/collections/'
     | '/contributor/'
@@ -473,7 +797,24 @@ export interface FileRouteTypes {
     | '/people/'
     | '/places/'
     | '/stories/'
+    | '/admin/collaborations/$id'
+    | '/admin/content/$id'
+    | '/admin/content/new'
+    | '/admin/curation/homepage'
+    | '/admin/curation/now'
+    | '/admin/inquiries/$id'
+    | '/admin/insights/editorial'
+    | '/admin/insights/partnerships'
+    | '/admin/partners/$id'
+    | '/admin/review/subject'
+    | '/admin/collaborations/'
+    | '/admin/content/'
+    | '/admin/inquiries/'
+    | '/admin/insights/'
+    | '/admin/partners/'
+    | '/admin/review/'
     | '/contributor/submissions/'
+    | '/admin/content/$id/preview'
     | '/contributor/submissions/$id/revise'
     | '/contributor/submissions/new/$type'
     | '/contributor/submissions/$id/'
@@ -492,6 +833,21 @@ export interface FileRouteTypes {
     | '/opportunities'
     | '/research'
     | '/search'
+    | '/admin/activity'
+    | '/admin/calendar'
+    | '/admin/collections'
+    | '/admin/events'
+    | '/admin/follow-ups'
+    | '/admin/global-agenda'
+    | '/admin/media'
+    | '/admin/network'
+    | '/admin/notifications'
+    | '/admin/opportunities'
+    | '/admin/settings'
+    | '/admin/sources'
+    | '/admin/submissions'
+    | '/admin/taxonomy'
+    | '/admin/users'
     | '/collaborations/$slug'
     | '/collections/$slug'
     | '/contributor/account'
@@ -512,6 +868,7 @@ export interface FileRouteTypes {
     | '/people/$slug'
     | '/places/$slug'
     | '/stories/$slug'
+    | '/admin'
     | '/collaborations'
     | '/collections'
     | '/contributor'
@@ -520,7 +877,24 @@ export interface FileRouteTypes {
     | '/people'
     | '/places'
     | '/stories'
+    | '/admin/collaborations/$id'
+    | '/admin/content/$id'
+    | '/admin/content/new'
+    | '/admin/curation/homepage'
+    | '/admin/curation/now'
+    | '/admin/inquiries/$id'
+    | '/admin/insights/editorial'
+    | '/admin/insights/partnerships'
+    | '/admin/partners/$id'
+    | '/admin/review/subject'
+    | '/admin/collaborations'
+    | '/admin/content'
+    | '/admin/inquiries'
+    | '/admin/insights'
+    | '/admin/partners'
+    | '/admin/review'
     | '/contributor/submissions'
+    | '/admin/content/$id/preview'
     | '/contributor/submissions/$id/revise'
     | '/contributor/submissions/new/$type'
     | '/contributor/submissions/$id'
@@ -529,6 +903,7 @@ export interface FileRouteTypes {
     | '/'
     | '/$'
     | '/about'
+    | '/admin'
     | '/around-the-world'
     | '/collaborate'
     | '/contact'
@@ -539,6 +914,21 @@ export interface FileRouteTypes {
     | '/opportunities'
     | '/research'
     | '/search'
+    | '/admin/activity'
+    | '/admin/calendar'
+    | '/admin/collections'
+    | '/admin/events'
+    | '/admin/follow-ups'
+    | '/admin/global-agenda'
+    | '/admin/media'
+    | '/admin/network'
+    | '/admin/notifications'
+    | '/admin/opportunities'
+    | '/admin/settings'
+    | '/admin/sources'
+    | '/admin/submissions'
+    | '/admin/taxonomy'
+    | '/admin/users'
     | '/collaborations/$slug'
     | '/collections/$slug'
     | '/contributor/account'
@@ -559,6 +949,7 @@ export interface FileRouteTypes {
     | '/people/$slug'
     | '/places/$slug'
     | '/stories/$slug'
+    | '/admin/'
     | '/collaborations/'
     | '/collections/'
     | '/contributor/'
@@ -567,7 +958,24 @@ export interface FileRouteTypes {
     | '/people/'
     | '/places/'
     | '/stories/'
+    | '/admin/collaborations/$id'
+    | '/admin/content/$id'
+    | '/admin/content/new'
+    | '/admin/curation/homepage'
+    | '/admin/curation/now'
+    | '/admin/inquiries/$id'
+    | '/admin/insights/editorial'
+    | '/admin/insights/partnerships'
+    | '/admin/partners/$id'
+    | '/admin/review/subject'
+    | '/admin/collaborations/'
+    | '/admin/content/'
+    | '/admin/inquiries/'
+    | '/admin/insights/'
+    | '/admin/partners/'
+    | '/admin/review/'
     | '/contributor/submissions/'
+    | '/admin/content/$id/preview'
     | '/contributor/submissions/$id/revise'
     | '/contributor/submissions/new/$type'
     | '/contributor/submissions/$id/'
@@ -577,6 +985,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   SplatRoute: typeof SplatRoute
   AboutRoute: typeof AboutRoute
+  AdminRoute: typeof AdminRouteWithChildren
   AroundTheWorldRoute: typeof AroundTheWorldRoute
   CollaborateRoute: typeof CollaborateRoute
   ContactRoute: typeof ContactRoute
@@ -642,6 +1051,13 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/around-the-world': {
@@ -713,6 +1129,118 @@ declare module '@tanstack/react-router' {
       fullPath: '/search'
       preLoaderRoute: typeof SearchRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/activity': {
+      id: '/admin/activity'
+      path: '/activity'
+      fullPath: '/admin/activity'
+      preLoaderRoute: typeof AdminActivityRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/calendar': {
+      id: '/admin/calendar'
+      path: '/calendar'
+      fullPath: '/admin/calendar'
+      preLoaderRoute: typeof AdminCalendarRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/collections': {
+      id: '/admin/collections'
+      path: '/collections'
+      fullPath: '/admin/collections'
+      preLoaderRoute: typeof AdminCollectionsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/events': {
+      id: '/admin/events'
+      path: '/events'
+      fullPath: '/admin/events'
+      preLoaderRoute: typeof AdminEventsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/follow-ups': {
+      id: '/admin/follow-ups'
+      path: '/follow-ups'
+      fullPath: '/admin/follow-ups'
+      preLoaderRoute: typeof AdminFollowUpsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/global-agenda': {
+      id: '/admin/global-agenda'
+      path: '/global-agenda'
+      fullPath: '/admin/global-agenda'
+      preLoaderRoute: typeof AdminGlobalAgendaRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/media': {
+      id: '/admin/media'
+      path: '/media'
+      fullPath: '/admin/media'
+      preLoaderRoute: typeof AdminMediaRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/network': {
+      id: '/admin/network'
+      path: '/network'
+      fullPath: '/admin/network'
+      preLoaderRoute: typeof AdminNetworkRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/notifications': {
+      id: '/admin/notifications'
+      path: '/notifications'
+      fullPath: '/admin/notifications'
+      preLoaderRoute: typeof AdminNotificationsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/opportunities': {
+      id: '/admin/opportunities'
+      path: '/opportunities'
+      fullPath: '/admin/opportunities'
+      preLoaderRoute: typeof AdminOpportunitiesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/settings': {
+      id: '/admin/settings'
+      path: '/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AdminSettingsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/sources': {
+      id: '/admin/sources'
+      path: '/sources'
+      fullPath: '/admin/sources'
+      preLoaderRoute: typeof AdminSourcesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/submissions': {
+      id: '/admin/submissions'
+      path: '/submissions'
+      fullPath: '/admin/submissions'
+      preLoaderRoute: typeof AdminSubmissionsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/taxonomy': {
+      id: '/admin/taxonomy'
+      path: '/taxonomy'
+      fullPath: '/admin/taxonomy'
+      preLoaderRoute: typeof AdminTaxonomyRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/users': {
+      id: '/admin/users'
+      path: '/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AdminUsersRouteImport
+      parentRoute: typeof AdminRoute
     }
     '/collaborations/': {
       id: '/collaborations/'
@@ -910,12 +1438,131 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StoriesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/collaborations/': {
+      id: '/admin/collaborations/'
+      path: '/collaborations'
+      fullPath: '/admin/collaborations/'
+      preLoaderRoute: typeof AdminCollaborationsIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/collaborations/$id': {
+      id: '/admin/collaborations/$id'
+      path: '/collaborations/$id'
+      fullPath: '/admin/collaborations/$id'
+      preLoaderRoute: typeof AdminCollaborationsIdRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/content/': {
+      id: '/admin/content/'
+      path: '/content'
+      fullPath: '/admin/content/'
+      preLoaderRoute: typeof AdminContentIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/content/$id': {
+      id: '/admin/content/$id'
+      path: '/content/$id'
+      fullPath: '/admin/content/$id'
+      preLoaderRoute: typeof AdminContentIdRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/content/new': {
+      id: '/admin/content/new'
+      path: '/content/new'
+      fullPath: '/admin/content/new'
+      preLoaderRoute: typeof AdminContentNewRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/curation/homepage': {
+      id: '/admin/curation/homepage'
+      path: '/curation/homepage'
+      fullPath: '/admin/curation/homepage'
+      preLoaderRoute: typeof AdminCurationHomepageRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/curation/now': {
+      id: '/admin/curation/now'
+      path: '/curation/now'
+      fullPath: '/admin/curation/now'
+      preLoaderRoute: typeof AdminCurationNowRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/inquiries/': {
+      id: '/admin/inquiries/'
+      path: '/inquiries'
+      fullPath: '/admin/inquiries/'
+      preLoaderRoute: typeof AdminInquiriesIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/inquiries/$id': {
+      id: '/admin/inquiries/$id'
+      path: '/inquiries/$id'
+      fullPath: '/admin/inquiries/$id'
+      preLoaderRoute: typeof AdminInquiriesIdRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/insights/': {
+      id: '/admin/insights/'
+      path: '/insights'
+      fullPath: '/admin/insights/'
+      preLoaderRoute: typeof AdminInsightsIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/insights/editorial': {
+      id: '/admin/insights/editorial'
+      path: '/insights/editorial'
+      fullPath: '/admin/insights/editorial'
+      preLoaderRoute: typeof AdminInsightsEditorialRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/insights/partnerships': {
+      id: '/admin/insights/partnerships'
+      path: '/insights/partnerships'
+      fullPath: '/admin/insights/partnerships'
+      preLoaderRoute: typeof AdminInsightsPartnershipsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/partners/': {
+      id: '/admin/partners/'
+      path: '/partners'
+      fullPath: '/admin/partners/'
+      preLoaderRoute: typeof AdminPartnersIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/partners/$id': {
+      id: '/admin/partners/$id'
+      path: '/partners/$id'
+      fullPath: '/admin/partners/$id'
+      preLoaderRoute: typeof AdminPartnersIdRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/review/': {
+      id: '/admin/review/'
+      path: '/review'
+      fullPath: '/admin/review/'
+      preLoaderRoute: typeof AdminReviewIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/review/subject': {
+      id: '/admin/review/subject'
+      path: '/review/subject'
+      fullPath: '/admin/review/subject'
+      preLoaderRoute: typeof AdminReviewSubjectRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/contributor/submissions/': {
       id: '/contributor/submissions/'
       path: '/contributor/submissions'
       fullPath: '/contributor/submissions/'
       preLoaderRoute: typeof ContributorSubmissionsIndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/admin/content/$id/preview': {
+      id: '/admin/content/$id/preview'
+      path: '/preview'
+      fullPath: '/admin/content/$id/preview'
+      preLoaderRoute: typeof AdminContentIdPreviewRouteImport
+      parentRoute: typeof AdminContentIdRoute
     }
     '/contributor/submissions/$id/': {
       id: '/contributor/submissions/$id/'
@@ -941,10 +1588,95 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AdminContentIdRouteChildren {
+  AdminContentIdPreviewRoute: typeof AdminContentIdPreviewRoute
+}
+
+const AdminContentIdRouteChildren: AdminContentIdRouteChildren = {
+  AdminContentIdPreviewRoute: AdminContentIdPreviewRoute,
+}
+
+const AdminContentIdRouteWithChildren = AdminContentIdRoute._addFileChildren(
+  AdminContentIdRouteChildren,
+)
+
+interface AdminRouteChildren {
+  AdminActivityRoute: typeof AdminActivityRoute
+  AdminCalendarRoute: typeof AdminCalendarRoute
+  AdminCollectionsRoute: typeof AdminCollectionsRoute
+  AdminEventsRoute: typeof AdminEventsRoute
+  AdminFollowUpsRoute: typeof AdminFollowUpsRoute
+  AdminGlobalAgendaRoute: typeof AdminGlobalAgendaRoute
+  AdminMediaRoute: typeof AdminMediaRoute
+  AdminNetworkRoute: typeof AdminNetworkRoute
+  AdminNotificationsRoute: typeof AdminNotificationsRoute
+  AdminOpportunitiesRoute: typeof AdminOpportunitiesRoute
+  AdminSettingsRoute: typeof AdminSettingsRoute
+  AdminSourcesRoute: typeof AdminSourcesRoute
+  AdminSubmissionsRoute: typeof AdminSubmissionsRoute
+  AdminTaxonomyRoute: typeof AdminTaxonomyRoute
+  AdminUsersRoute: typeof AdminUsersRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+  AdminCollaborationsIdRoute: typeof AdminCollaborationsIdRoute
+  AdminContentIdRoute: typeof AdminContentIdRouteWithChildren
+  AdminContentNewRoute: typeof AdminContentNewRoute
+  AdminCurationHomepageRoute: typeof AdminCurationHomepageRoute
+  AdminCurationNowRoute: typeof AdminCurationNowRoute
+  AdminInquiriesIdRoute: typeof AdminInquiriesIdRoute
+  AdminInsightsEditorialRoute: typeof AdminInsightsEditorialRoute
+  AdminInsightsPartnershipsRoute: typeof AdminInsightsPartnershipsRoute
+  AdminPartnersIdRoute: typeof AdminPartnersIdRoute
+  AdminReviewSubjectRoute: typeof AdminReviewSubjectRoute
+  AdminCollaborationsIndexRoute: typeof AdminCollaborationsIndexRoute
+  AdminContentIndexRoute: typeof AdminContentIndexRoute
+  AdminInquiriesIndexRoute: typeof AdminInquiriesIndexRoute
+  AdminInsightsIndexRoute: typeof AdminInsightsIndexRoute
+  AdminPartnersIndexRoute: typeof AdminPartnersIndexRoute
+  AdminReviewIndexRoute: typeof AdminReviewIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminActivityRoute: AdminActivityRoute,
+  AdminCalendarRoute: AdminCalendarRoute,
+  AdminCollectionsRoute: AdminCollectionsRoute,
+  AdminEventsRoute: AdminEventsRoute,
+  AdminFollowUpsRoute: AdminFollowUpsRoute,
+  AdminGlobalAgendaRoute: AdminGlobalAgendaRoute,
+  AdminMediaRoute: AdminMediaRoute,
+  AdminNetworkRoute: AdminNetworkRoute,
+  AdminNotificationsRoute: AdminNotificationsRoute,
+  AdminOpportunitiesRoute: AdminOpportunitiesRoute,
+  AdminSettingsRoute: AdminSettingsRoute,
+  AdminSourcesRoute: AdminSourcesRoute,
+  AdminSubmissionsRoute: AdminSubmissionsRoute,
+  AdminTaxonomyRoute: AdminTaxonomyRoute,
+  AdminUsersRoute: AdminUsersRoute,
+  AdminIndexRoute: AdminIndexRoute,
+  AdminCollaborationsIdRoute: AdminCollaborationsIdRoute,
+  AdminContentIdRoute: AdminContentIdRouteWithChildren,
+  AdminContentNewRoute: AdminContentNewRoute,
+  AdminCurationHomepageRoute: AdminCurationHomepageRoute,
+  AdminCurationNowRoute: AdminCurationNowRoute,
+  AdminInquiriesIdRoute: AdminInquiriesIdRoute,
+  AdminInsightsEditorialRoute: AdminInsightsEditorialRoute,
+  AdminInsightsPartnershipsRoute: AdminInsightsPartnershipsRoute,
+  AdminPartnersIdRoute: AdminPartnersIdRoute,
+  AdminReviewSubjectRoute: AdminReviewSubjectRoute,
+  AdminCollaborationsIndexRoute: AdminCollaborationsIndexRoute,
+  AdminContentIndexRoute: AdminContentIndexRoute,
+  AdminInquiriesIndexRoute: AdminInquiriesIndexRoute,
+  AdminInsightsIndexRoute: AdminInsightsIndexRoute,
+  AdminPartnersIndexRoute: AdminPartnersIndexRoute,
+  AdminReviewIndexRoute: AdminReviewIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   SplatRoute: SplatRoute,
   AboutRoute: AboutRoute,
+  AdminRoute: AdminRouteWithChildren,
   AroundTheWorldRoute: AroundTheWorldRoute,
   CollaborateRoute: CollaborateRoute,
   ContactRoute: ContactRoute,
