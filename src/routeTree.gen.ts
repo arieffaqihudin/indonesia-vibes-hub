@@ -27,6 +27,7 @@ import { Route as CollaborationsSlugRouteImport } from './routes/collaborations.
 import { Route as CollectionsIndexRouteImport } from './routes/collections.index'
 import { Route as CollectionsSlugRouteImport } from './routes/collections.$slug'
 import { Route as ContributorLoginRouteImport } from './routes/contributor.login'
+import { Route as ContributorRegisterRouteImport } from './routes/contributor.register'
 import { Route as CultureSlugRouteImport } from './routes/culture.$slug'
 import { Route as EventsIndexRouteImport } from './routes/events.index'
 import { Route as EventsSlugRouteImport } from './routes/events.$slug'
@@ -129,6 +130,11 @@ const ContributorLoginRoute = ContributorLoginRouteImport.update({
   path: '/contributor/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContributorRegisterRoute = ContributorRegisterRouteImport.update({
+  id: '/contributor/register',
+  path: '/contributor/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CultureSlugRoute = CultureSlugRouteImport.update({
   id: '/culture/$slug',
   path: '/culture/$slug',
@@ -202,6 +208,7 @@ export interface FileRoutesByFullPath {
   '/collaborations/$slug': typeof CollaborationsSlugRoute
   '/collections/$slug': typeof CollectionsSlugRoute
   '/contributor/login': typeof ContributorLoginRoute
+  '/contributor/register': typeof ContributorRegisterRoute
   '/culture/$slug': typeof CultureSlugRoute
   '/events/$slug': typeof EventsSlugRoute
   '/institutions/$slug': typeof InstitutionsSlugRoute
@@ -233,6 +240,7 @@ export interface FileRoutesByTo {
   '/collaborations/$slug': typeof CollaborationsSlugRoute
   '/collections/$slug': typeof CollectionsSlugRoute
   '/contributor/login': typeof ContributorLoginRoute
+  '/contributor/register': typeof ContributorRegisterRoute
   '/culture/$slug': typeof CultureSlugRoute
   '/events/$slug': typeof EventsSlugRoute
   '/institutions/$slug': typeof InstitutionsSlugRoute
@@ -265,6 +273,7 @@ export interface FileRoutesById {
   '/collaborations/$slug': typeof CollaborationsSlugRoute
   '/collections/$slug': typeof CollectionsSlugRoute
   '/contributor/login': typeof ContributorLoginRoute
+  '/contributor/register': typeof ContributorRegisterRoute
   '/culture/$slug': typeof CultureSlugRoute
   '/events/$slug': typeof EventsSlugRoute
   '/institutions/$slug': typeof InstitutionsSlugRoute
@@ -298,6 +307,7 @@ export interface FileRouteTypes {
     | '/collaborations/$slug'
     | '/collections/$slug'
     | '/contributor/login'
+    | '/contributor/register'
     | '/culture/$slug'
     | '/events/$slug'
     | '/institutions/$slug'
@@ -329,6 +339,7 @@ export interface FileRouteTypes {
     | '/collaborations/$slug'
     | '/collections/$slug'
     | '/contributor/login'
+    | '/contributor/register'
     | '/culture/$slug'
     | '/events/$slug'
     | '/institutions/$slug'
@@ -360,6 +371,7 @@ export interface FileRouteTypes {
     | '/collaborations/$slug'
     | '/collections/$slug'
     | '/contributor/login'
+    | '/contributor/register'
     | '/culture/$slug'
     | '/events/$slug'
     | '/institutions/$slug'
@@ -392,6 +404,7 @@ export interface RootRouteChildren {
   CollaborationsSlugRoute: typeof CollaborationsSlugRoute
   CollectionsSlugRoute: typeof CollectionsSlugRoute
   ContributorLoginRoute: typeof ContributorLoginRoute
+  ContributorRegisterRoute: typeof ContributorRegisterRoute
   CultureSlugRoute: typeof CultureSlugRoute
   EventsSlugRoute: typeof EventsSlugRoute
   InstitutionsSlugRoute: typeof InstitutionsSlugRoute
@@ -535,6 +548,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContributorLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contributor/register': {
+      id: '/contributor/register'
+      path: '/contributor/register'
+      fullPath: '/contributor/register'
+      preLoaderRoute: typeof ContributorRegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/culture/$slug': {
       id: '/culture/$slug'
       path: '/culture/$slug'
@@ -632,6 +652,7 @@ const rootRouteChildren: RootRouteChildren = {
   CollaborationsSlugRoute: CollaborationsSlugRoute,
   CollectionsSlugRoute: CollectionsSlugRoute,
   ContributorLoginRoute: ContributorLoginRoute,
+  ContributorRegisterRoute: ContributorRegisterRoute,
   CultureSlugRoute: CultureSlugRoute,
   EventsSlugRoute: EventsSlugRoute,
   InstitutionsSlugRoute: InstitutionsSlugRoute,
