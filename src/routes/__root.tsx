@@ -16,6 +16,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { brand } from "@/lib/brand";
+import { WorkspaceProvider } from "@/lib/contributor/store";
 
 function NotFoundComponent() {
   return (
