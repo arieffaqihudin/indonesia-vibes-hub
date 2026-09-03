@@ -33,7 +33,7 @@ function TeamPage() {
   const [name, setName] = useState("");
   const [role, setRole] = useState<(typeof ROLES)[number]>("Contributor");
   const [message, setMessage] = useState("");
-  const isAdmin = user?.role === "Organisation Admin";
+  const isAdmin = user?.workspaceRole === "Organisation Admin";
 
   return (
     <WorkspaceShell>
@@ -58,10 +58,10 @@ function TeamPage() {
                 <span className="min-w-0 flex-1">
                   <span className="block text-sm font-medium text-ink">{m.name}</span>
                   <span className="block truncate text-xs text-muted-foreground">
-                    {m.email} · {m.status === "invited" ? `Invited ${formatDate(m.invitedAt)}` : "Active"}
+                    {m.email} · {m.status === "Invited" ? `Invited ${formatDate(m.joined)}` : "Active"}
                   </span>
                 </span>
-                {isAdmin && m.id !== user?.id ? (
+                {isAdmin && m.email !== user?.email ? (
                   <>
                     <label className="sr-only" htmlFor={`role-${m.id}`}>
                       Role for {m.name}
@@ -95,14 +95,14 @@ function TeamPage() {
         <div className="space-y-6">
           <Panel
             title="Invite a colleague"
-            description={isAdmin ? undefined : "Only organisation admins can invite new members."}
+            {...(isAdmin ? {} : { description: "Only organisation admins can invite new members." })}
           >
             <form
               className="space-y-4"
               onSubmit={(e) => {
                 e.preventDefault();
                 if (!isAdmin || !email.trim()) return;
-                inviteMember({ name: name.trim() || email.split("@")[0]!, email: email.trim(), role });
+                inviteMember(email.trim(), role);
                 setMessage(`Invitation sent to ${email.trim()}.`);
                 setEmail("");
                 setName("");

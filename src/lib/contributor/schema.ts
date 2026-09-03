@@ -1069,7 +1069,9 @@ export function validateStep(
       errors[field.name] = "Enter a full web address, starting with https://";
     }
     if (field.type === "coordinates" && typeof value === "string" && value) {
-      const [lat, lng] = value.split(",").map((n) => Number(n.trim()));
+      const parts = value.split(",").map((n) => Number(n.trim()));
+      const lat = parts[0] ?? NaN;
+      const lng = parts[1] ?? NaN;
       if (!Number.isFinite(lat) || !Number.isFinite(lng) || Math.abs(lat) > 90 || Math.abs(lng) > 180) {
         errors[field.name] = "Use latitude, longitude — for example -8.5069, 115.2625";
       }

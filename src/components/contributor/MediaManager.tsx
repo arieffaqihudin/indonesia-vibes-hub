@@ -138,7 +138,7 @@ export function MediaManager({
       kind: file.type.startsWith("image/") ? "image" : "document",
       title: file.name.replace(/\.[^.]+$/, ""),
       fileName: file.name,
-      url: file.type.startsWith("image/") ? URL.createObjectURL(file) : undefined,
+      ...(file.type.startsWith("image/") ? { url: URL.createObjectURL(file) } : {}),
       permission: "",
     }));
     onChange([...value, ...next]);

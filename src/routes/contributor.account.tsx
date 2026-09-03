@@ -31,7 +31,7 @@ function AccountPage() {
 
   if (!user) return <WorkspaceShell><p className="text-sm text-muted-foreground">Loading…</p></WorkspaceShell>;
 
-  const prefs = user.notificationPrefs ?? {};
+  const prefs = user.notify ?? {};
 
   return (
     <WorkspaceShell>
@@ -61,9 +61,9 @@ function AccountPage() {
               <input
                 id="acct-role"
                 className={inputClass}
-                value={user.jobTitle ?? ""}
+                value={user.role ?? ""}
                 onChange={(e) => {
-                  updateUser({ jobTitle: e.target.value });
+                  updateUser({ role: e.target.value });
                   setSaved(false);
                 }}
               />
@@ -118,7 +118,7 @@ function AccountPage() {
                       type="checkbox"
                       className="mt-0.5 h-4 w-4 accent-[oklch(0.5705_0.2242_31.05)]"
                       checked={prefs[p.key] !== false}
-                      onChange={(e) => updateUser({ notificationPrefs: { ...prefs, [p.key]: e.target.checked } })}
+                      onChange={(e) => updateUser({ notify: { ...prefs, [p.key]: e.target.checked } })}
                     />
                     <span>
                       <span className="block text-sm font-medium text-ink">{p.label}</span>

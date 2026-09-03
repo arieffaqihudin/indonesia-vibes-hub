@@ -136,7 +136,7 @@ function NotificationBell() {
                 <li key={n.id}>
                   <Link
                     to={n.submissionId ? "/contributor/submissions/$id" : "/contributor"}
-                    params={n.submissionId ? { id: n.submissionId } : undefined}
+                    {...(n.submissionId ? { params: { id: n.submissionId } } : {})}
                     onClick={() => setOpen(false)}
                     className="block rounded-md px-2 py-2.5 hover:bg-sand"
                   >

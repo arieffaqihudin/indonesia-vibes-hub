@@ -3,7 +3,8 @@ import { useState } from "react";
 
 import { WorkspaceShell } from "@/components/contributor/WorkspaceShell";
 import { btn, inputClass, PageHeading, Panel } from "@/components/contributor/primitives";
-import { ORGANISATION_TYPES, TYPE_CONFIG } from "@/lib/contributor/schema";
+import { TYPE_CONFIG } from "@/lib/contributor/schema";
+import { ORGANISATION_TYPES } from "@/lib/contributor/store";
 import { useWorkspace } from "@/lib/contributor/store";
 
 export const Route = createFileRoute("/contributor/organisation")({
@@ -92,7 +93,7 @@ function OrganisationPage() {
                     setSaved(false);
                   }}
                 >
-                  {ORGANISATION_TYPES.map((t) => (
+                  {ORGANISATION_TYPES.map((t: string) => (
                     <option key={t}>{t}</option>
                   ))}
                 </select>
@@ -105,15 +106,14 @@ function OrganisationPage() {
                 "Two or three sentences. What you do, who you serve, and what makes your work distinctive.",
                 true,
               )}
-              {field("focus", "Areas of cultural focus", "For example: textile heritage, contemporary performance, archives.")}
+              {field("collaborationInterests", "Areas of cultural focus", "For example: textile heritage, contemporary performance, archives.")}
             </div>
           </Panel>
 
           <Panel title="Contact and links">
             <div className="space-y-5">
               {field("website", "Website")}
-              {field("contactEmail", "Public contact email")}
-              {field("contactPerson", "Main contact person")}
+              {field("contact", "Main contact")}
             </div>
             <div className="mt-6 flex items-center gap-3 border-t border-border pt-4">
               <button type="button" className={btn.primary} onClick={() => setSaved(true)}>

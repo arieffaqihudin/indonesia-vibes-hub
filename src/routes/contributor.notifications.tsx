@@ -54,7 +54,7 @@ function NotificationsPage() {
                     <p className="text-sm font-medium text-ink">{n.title}</p>
                     <p className="mt-0.5 text-sm leading-relaxed text-muted-foreground">{n.body}</p>
                     <p className="mt-1 text-xs text-muted-foreground">
-                      {relativeTime(n.createdAt)}
+                      {relativeTime(n.date)}
                       {n.read ? "" : " · unread"}
                     </p>
                     {n.submissionId ? (
