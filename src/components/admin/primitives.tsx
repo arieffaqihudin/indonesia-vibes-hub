@@ -283,29 +283,93 @@ export function SearchInput({
 
 /* ---------------- table ---------------- */
 
-export function Table({ head, children, caption }: { head: string[]; children: ReactNode; caption?: string }) {
+/**
+ * One table component with two intentional shapes.
+ *
+ * From 48rem up it is a normal dense table (horizontally scrollable only if the
+ * columns genuinely need it). Below that, `.table-adaptive` turns each row into
+ * a structured record block: headline first, remaining values labelled with
+ * their column name, row actions pinned top-right. Column names are injected
+ * into each cell automatically, so no page has to repeat them.
+ */
+export function Table({
+  head,
+  children,
+  caption,
+  /** Force the desktop table shape at every width (genuinely tabular data). */
+  alwaysTable,
+}: {
+  head: string[];
+  children: ReactNode;
+  caption?: string;
+  alwaysTable?: boolean;
+}) {
+  const labelled = Children.map(children, (row) => {
+    if (!isValidElement(row)) return row;
+    const rowProps = row.props as { children?: ReactNode };
+    let i = 0;
+    const cells = Children.map(rowProps.children, (cell) => {
+      if (!isValidElement(cell)) return cell;
+      const label = head[i] ?? "";
+      i += 1;
+      const cellProps = cell.props as { label?: string };
+      if (cellProps.label !== undefined) return cell;
+      return cloneElement(cell as ReactElement<{ label?: string }>, { label });
+    });
+    return cloneElement(row as ReactElement<{ children?: ReactNode }>, { children: cells });
+  });
+
   return (
-    <div className="overflow-x-auto">
-      <table className="w-full min-w-[46rem] border-collapse text-left text-sm">
+    <div className={cn(alwaysTable ? "overflow-x-auto" : "md:overflow-x-auto")}>
+      <table
+        className={cn(
+          "w-full border-collapse text-left text-sm",
+          alwaysTable ? "min-w-[46rem]" : "table-adaptive md:min-w-[46rem]",
+        )}
+      >
         {caption ? <caption className="sr-only">{caption}</caption> : null}
         <thead className="sticky top-0 z-10 bg-background">
           <tr className="border-b border-border">
-            {head.map((h) => (
-              <th key={h} scope="col" className="border-b border-border px-3 pb-2 text-[0.68rem] font-medium tracking-[0.12em] text-muted-foreground uppercase">
+            {head.map((h, i) => (
+              <th
+                key={h || `col-${i}`}
+                scope="col"
+                className="border-b border-border px-3 pb-2 text-[0.68rem] font-medium tracking-[0.12em] text-muted-foreground uppercase"
+              >
                 {h}
               </th>
             ))}
           </tr>
         </thead>
-        <tbody>{children}</tbody>
+        <tbody>{alwaysTable ? children : labelled}</tbody>
       </table>
     </div>
   );
 }
 
-export function Td({ children, className }: { children: ReactNode; className?: string }) {
-  return <td className={cn("border-b border-border/70 px-3 py-3 align-middle text-ink", className)}>{children}</td>;
+export function Td({
+  children,
+  className,
+  label,
+  colSpan,
+}: {
+  children: ReactNode;
+  className?: string;
+  /** Column name, injected by Table; shown as the label in the mobile shape. */
+  label?: string;
+  colSpan?: number;
+}) {
+  return (
+    <td
+      data-label={label}
+      colSpan={colSpan}
+      className={cn("border-b border-border/70 px-3 py-3 align-middle text-ink md:border-b", className)}
+    >
+      {children}
+    </td>
+  );
 }
+
 
 /* ---------------- dialogs ---------------- */
 
