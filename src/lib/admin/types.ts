@@ -953,30 +953,42 @@ export interface Interaction {
 
 /* ---------------- collaboration pipeline ---------------- */
 
+/**
+ * Deliberately short. Teams should not have to learn a ten-step pipeline to
+ * say where a collaboration stands; finer operational detail lives in the
+ * collaboration record's notes and activities.
+ */
 export type PipelineStage =
-  | "Idea"
-  | "Exploring"
-  | "Partners identified"
+  | "Draft"
   | "Discussion"
-  | "Proposal development"
   | "Confirmed"
-  | "Active"
+  | "Ongoing"
   | "Completed"
   | "On hold"
-  | "Closed";
+  | "Archived";
 
 export const PIPELINE_STAGES: PipelineStage[] = [
-  "Idea",
-  "Exploring",
-  "Partners identified",
+  "Draft",
   "Discussion",
-  "Proposal development",
   "Confirmed",
-  "Active",
+  "Ongoing",
   "Completed",
   "On hold",
-  "Closed",
+  "Archived",
 ];
+
+/** Maps any legacy stage stored in the prototype's local state onto the short list. */
+export function normaliseStage(stage: string): PipelineStage {
+  const map: Record<string, PipelineStage> = {
+    Idea: "Draft",
+    Exploring: "Draft",
+    "Partners identified": "Discussion",
+    "Proposal development": "Discussion",
+    Active: "Ongoing",
+    Closed: "Archived",
+  };
+  return (map[stage] ?? (PIPELINE_STAGES.includes(stage as PipelineStage) ? (stage as PipelineStage) : "Draft"));
+}
 
 export type CollaborationOrigin =
   | "Public inquiry"
