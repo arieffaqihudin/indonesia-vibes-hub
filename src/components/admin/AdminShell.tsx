@@ -134,12 +134,27 @@ export function AdminShell({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const groups = useNavGroups();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [collapsed, setCollapsed] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return window.sessionStorage.getItem("iv-admin-sidebar") === "collapsed";
+  });
   const [searchOpen, setSearchOpen] = useState(false);
   const [createOpen, setCreateOpen] = useState(false);
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => setMobileOpen(false), [pathname]);
+  useEffect(() => {
+    window.sessionStorage.setItem("iv-admin-sidebar", collapsed ? "collapsed" : "expanded");
+  }, [collapsed]);
+
+  const sectionLabel = useMemo(() => {
+    const flat = groups.flatMap((g) => g.items);
+    const match = flat
+      .filter((i) => pathname === i.to || (i.to !== "/admin" && pathname.startsWith(`${i.to}/`)))
+      .sort((a, b) => b.to.length - a.to.length)[0];
+    return match?.label ?? "Dashboard";
+  }, [groups, pathname]);
 
   const unread = notifications.filter((n) => !n.read && (!n.roles || n.roles.includes(user.role))).length;
   const results = useMemo(
@@ -147,32 +162,47 @@ export function AdminShell({ children }: { children: ReactNode }) {
     [query, content, inquiries, partners, pipeline],
   );
 
-  const nav = (
+  const nav = (collapsed: boolean) => (
     <nav aria-label="Dashboard sections" className="space-y-5 pb-8">
       {groups.map((group, gi) => (
         <div key={group.label || `g${gi}`}>
-          {group.label ? (
-            <p className="px-3 pb-1.5 text-[0.65rem] font-semibold tracking-[0.16em] text-muted-foreground uppercase">
+          {group.label && !collapsed ? (
+            <p className="px-3 pb-1.5 text-[0.62rem] font-medium tracking-[0.16em] text-muted-foreground uppercase">
               {group.label}
             </p>
           ) : null}
+          {group.label && collapsed ? <div className="mx-3 mb-2 border-t border-border" /> : null}
           <ul className="space-y-0.5">
             {group.items.map((item) => {
               const active = pathname === item.to || (item.to !== "/admin" && pathname.startsWith(`${item.to}/`));
+              const Icon = item.icon;
               return (
                 <li key={item.to}>
                   <Link
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     to={item.to as any}
                     aria-current={active ? "page" : undefined}
+                    title={collapsed ? item.label : undefined}
                     className={cn(
-                      "flex items-center justify-between gap-2 rounded px-3 py-1.5 text-sm transition-colors",
-                      active ? "bg-blush font-medium text-ink" : "text-muted-foreground hover:bg-muted hover:text-ink",
+                      "flex items-center gap-2.5 rounded px-3 py-2 text-sm transition-colors",
+                      collapsed && "justify-center px-0",
+                      active
+                        ? "bg-blush font-medium text-primary"
+                        : "text-muted-foreground hover:bg-muted hover:text-ink",
                     )}
                   >
-                    <span>{item.label}</span>
-                    {item.badge ? (
-                      <span className="rounded bg-ink px-1.5 text-[0.65rem] tabular-nums text-background">{item.badge}</span>
+                    <Icon className={cn("h-4 w-4 shrink-0", active && "text-primary")} aria-hidden />
+                    {!collapsed ? (
+                      <>
+                        <span className="truncate">{item.label}</span>
+                        {item.badge ? (
+                          <span className="ml-auto rounded bg-ink px-1.5 text-[0.65rem] tabular-nums text-background">
+                            {item.badge}
+                          </span>
+                        ) : null}
+                      </>
+                    ) : item.badge ? (
+                      <span className="absolute ml-6 -mt-4 h-1.5 w-1.5 rounded-full bg-primary" aria-hidden />
                     ) : null}
                   </Link>
                 </li>
@@ -181,80 +211,120 @@ export function AdminShell({ children }: { children: ReactNode }) {
           </ul>
         </div>
       ))}
-      <div className="space-y-1 border-t border-border px-3 pt-4 text-xs">
-        <a href="/" target="_blank" rel="noreferrer" className="block text-muted-foreground hover:text-primary">
-          View public platform ↗
-        </a>
-        <a href="/contributor" target="_blank" rel="noreferrer" className="block text-muted-foreground hover:text-primary">
-          Contributor workspace ↗
-        </a>
-      </div>
+      {!collapsed ? (
+        <div className="space-y-1 border-t border-border px-3 pt-4 text-xs">
+          <a href="/" target="_blank" rel="noreferrer" className="block text-muted-foreground hover:text-primary">
+            View public platform ↗
+          </a>
+          <a href="/contributor" target="_blank" rel="noreferrer" className="block text-muted-foreground hover:text-primary">
+            Contributor workspace ↗
+          </a>
+        </div>
+      ) : null}
     </nav>
   );
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="sticky top-0 z-30 border-b border-border bg-card">
-        <div className="flex items-center gap-3 px-4 py-2.5">
-          <button
-            type="button"
-            className={cn(abtn.small, "lg:hidden")}
-            onClick={() => setMobileOpen((v) => !v)}
-            aria-expanded={mobileOpen}
-            aria-controls="admin-nav"
-          >
-            Menu
-          </button>
-          <Link to="/admin" className="flex items-baseline gap-2">
-            <span className="text-sm font-semibold tracking-tight text-ink">Indonesia Vibes</span>
-            <span className="hidden text-[0.68rem] tracking-[0.16em] text-muted-foreground uppercase sm:inline">
-              Editorial &amp; Partnership
-            </span>
+      {/* Fixed sidebar */}
+      <aside
+        id="admin-nav"
+        className={cn(
+          "fixed inset-y-0 left-0 z-40 hidden border-r border-border bg-card lg:block",
+          "transition-[width] duration-[240ms] ease-[cubic-bezier(0.4,0,0.2,1)]",
+          collapsed ? "w-[76px]" : "w-[268px]",
+        )}
+      >
+        <div className={cn("flex h-14 items-center border-b border-border", collapsed ? "justify-center" : "px-4")}>
+          <Link to="/admin" className="flex items-baseline gap-2 overflow-hidden">
+            <span className="text-sm font-semibold tracking-tight text-primary">{collapsed ? "IV" : "Indonesia Vibes"}</span>
           </Link>
-
-          <div className="ml-auto flex items-center gap-2">
-            <button type="button" className={abtn.small} onClick={() => setSearchOpen(true)}>
-              Search
-            </button>
-            <button type="button" className={cn(abtn.primary, "hidden sm:inline-flex")} onClick={() => setCreateOpen(true)}>
-              + Create
-            </button>
-            <Link to="/admin/notifications" className={cn(abtn.small, "relative")}>
-              Notifications
-              {unread ? (
-                <span className="rounded bg-primary px-1.5 text-[0.65rem] tabular-nums text-primary-foreground">{unread}</span>
-              ) : null}
-            </Link>
-            <label className="hidden items-center gap-1.5 text-xs text-muted-foreground md:flex">
-              <span className="sr-only">Signed in as</span>
-              <select
-                className={cn(field, "min-h-8 w-auto py-1 text-xs")}
-                value={user.id}
-                onChange={(e) => setCurrentUser(e.target.value)}
-                aria-label="Prototype role switcher"
-              >
-                {users.map((u) => (
-                  <option key={u.id} value={u.id}>
-                    {u.name} — {u.role}
-                  </option>
-                ))}
-              </select>
-            </label>
-          </div>
         </div>
-      </header>
+        <div className="h-[calc(100vh-3.5rem)] overflow-y-auto px-3 py-4">{nav(collapsed)}</div>
 
-      <div className="mx-auto flex w-full max-w-[100rem] gap-6 px-4 py-6">
-        <aside id="admin-nav" className="hidden w-56 shrink-0 lg:block">
-          <div className="sticky top-20">{nav}</div>
-        </aside>
+        {/* Edge collapse trigger, vertically centred on the sidebar boundary */}
+        <button
+          type="button"
+          onClick={() => setCollapsed((v) => !v)}
+          aria-expanded={!collapsed}
+          aria-controls="admin-nav"
+          title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+          aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+          className="absolute top-1/2 -right-3 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-card text-muted-foreground shadow-sm transition-colors hover:border-primary hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+        >
+          {collapsed ? <ChevronRight className="h-3.5 w-3.5" aria-hidden /> : <ChevronLeft className="h-3.5 w-3.5" aria-hidden />}
+        </button>
+      </aside>
+
+      <div
+        className={cn(
+          "transition-[padding] duration-[240ms] ease-[cubic-bezier(0.4,0,0.2,1)]",
+          collapsed ? "lg:pl-[76px]" : "lg:pl-[268px]",
+        )}
+      >
+        <header className="sticky top-0 z-30 border-b border-border bg-card">
+          <div className="flex h-14 items-center gap-3 px-4 lg:px-6">
+            <button
+              type="button"
+              className={cn(abtn.small, "lg:hidden")}
+              onClick={() => setMobileOpen((v) => !v)}
+              aria-expanded={mobileOpen}
+              aria-controls="admin-nav-mobile"
+            >
+              Menu
+            </button>
+            <div className="min-w-0">
+              <p className="truncate text-sm font-semibold tracking-tight text-ink">{sectionLabel}</p>
+              <p className="hidden text-[0.68rem] tracking-[0.14em] text-muted-foreground uppercase sm:block">
+                Editorial &amp; Partnership Workspace
+              </p>
+            </div>
+
+            <div className="ml-auto flex items-center gap-2">
+              <button type="button" className={abtn.small} onClick={() => setSearchOpen(true)}>
+                Search
+              </button>
+              <button type="button" className={cn(abtn.primary, "hidden sm:inline-flex")} onClick={() => setCreateOpen(true)}>
+                + Create
+              </button>
+              <Link to="/admin/notifications" className={cn(abtn.small, "relative")}>
+                Notifications
+                {unread ? (
+                  <span className="rounded bg-primary px-1.5 text-[0.65rem] tabular-nums text-primary-foreground">{unread}</span>
+                ) : null}
+              </Link>
+              <label className="hidden items-center gap-2 border-l border-border pl-3 text-xs text-muted-foreground md:flex">
+                <span className="flex h-7 w-7 items-center justify-center rounded-full bg-blush text-[0.7rem] font-semibold text-primary">
+                  {user.name.split(" ").map((n) => n[0]).join("").slice(0, 2)}
+                </span>
+                <span className="sr-only">Signed in as</span>
+                <select
+                  className={cn(field, "min-h-8 w-auto py-1 text-xs")}
+                  value={user.id}
+                  onChange={(e) => setCurrentUser(e.target.value)}
+                  aria-label="Prototype role switcher"
+                >
+                  {users.map((u) => (
+                    <option key={u.id} value={u.id}>
+                      {u.name} — {u.role}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
+          </div>
+        </header>
+
         {mobileOpen ? (
-          <div className="fixed inset-0 z-40 lg:hidden">
+          <div className="fixed inset-0 z-50 lg:hidden">
             <div className="absolute inset-0 bg-ink/40" onClick={() => setMobileOpen(false)} aria-hidden />
-            <div className="relative z-10 h-full w-72 overflow-y-auto border-r border-border bg-card p-4">{nav}</div>
+            <div id="admin-nav-mobile" className="relative z-10 h-full w-72 overflow-y-auto border-r border-border bg-card p-4">
+              {nav(false)}
+            </div>
           </div>
         ) : null}
-        <div className="min-w-0 flex-1">{children}</div>
+
+        <main className="mx-auto w-full max-w-[92rem] px-4 py-6 lg:px-8">{children}</main>
       </div>
 
       <Modal open={searchOpen} onClose={() => setSearchOpen(false)} title="Search the workspace">
