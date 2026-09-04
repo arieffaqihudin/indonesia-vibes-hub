@@ -838,7 +838,54 @@ const eventsSource: CulturalEvent[] = [
     context: "The residency treats dye chemistry as the shared language: both traditions depend on plants, water and time rather than on equipment.",
     lastChecked: "2026-01-24",
   },
+
+  /* ---------- source-provided upcoming activity (2026) ----------
+   * Supplied by the project team as real calendar dates. These records are NOT
+   * part of the rolling prototype calendar (`fixedDate`), and they carry only
+   * confirmed information: venue, organiser, programme, partners and official
+   * sources stay absent until verified. `needsVerification` is internal.
+   */
+  {
+    id: "ev-8", slug: "syeikh-yusuf-netherlands", title: "Syeikh Yusuf Exhibition and Seminar",
+    workingTitle: true, type: "Exhibition & Seminar", fixedDate: true,
+    startDate: "2026-10-08", endDate: "2026-10-12", formIds: [],
+    location: { country: "Netherlands", lat: 52.13, lng: 5.29, continent: "Europe" },
+    sourceNote: "Pameran dan seminar Syeikh Yusuf, Belanda",
+    needsVerification: ["City", "Venue", "Organiser", "Programme", "Official source", "Registration or access information", "Partners"],
+  },
+  {
+    id: "ev-9", slug: "indonesia-megadiversity-fire-and-ash", title: "Indonesia Megadiversity: Fire and Ash",
+    fixedDate: true, startDate: "2026-10-20", endDate: "2026-10-26", formIds: [],
+    location: { city: "Chicago", country: "United States", lat: 41.878, lng: -87.63, continent: "Americas" },
+    needsVerification: ["Venue", "Organiser", "Event format", "Programme description", "Official source", "Registration or access", "Partners"],
+  },
+  {
+    id: "ev-10", slug: "russia-east-festival-kazan", title: "The 5th International Festival of National Cultures \u201cRussia-East\u201d",
+    type: "Festival", fixedDate: true, startDate: "2026-11-21", formIds: [],
+    location: { city: "Kazan", country: "Russia", lat: 55.796, lng: 49.106, continent: "Europe" },
+    needsVerification: ["Venue", "Indonesian programme", "Participating artists", "Organiser", "Official source", "Partners"],
+  },
+  {
+    id: "ev-11", slug: "venice-biennale-closing", title: "Venice Biennale \u2014 Closing",
+    workingTitle: true, fixedDate: true, startDate: "2026-11-22", formIds: [],
+    location: { city: "Venice", country: "Italy", lat: 45.438, lng: 12.327, continent: "Europe" },
+    needsVerification: ["Specific Biennale programme", "Indonesian participation context", "Venue", "Organiser", "Official source", "Participating artists or institutions"],
+  },
+  {
+    id: "ev-12", slug: "al-burda-award", title: "Al Burda Award",
+    type: "Award", fixedDate: true, startDate: "2026-11-24", formIds: [],
+    location: { city: "Abu Dhabi", country: "United Arab Emirates", lat: 24.453, lng: 54.377, continent: "Asia" },
+    needsVerification: ["Venue", "Indonesia-related participation", "Programme", "Organiser", "Official source", "Participating people or institutions"],
+  },
+  {
+    id: "ev-13", slug: "turkey-international-book-fair", title: "Turkey International Book Fair",
+    workingTitle: true, type: "Book Fair", fixedDate: true,
+    startDate: "2026-12-01", datePrecision: "month", formIds: [],
+    location: { country: "T\u00fcrkiye", lat: 39.0, lng: 35.24, continent: "Asia" },
+    needsVerification: ["Official event name", "Exact dates", "City", "Venue", "Indonesian participation", "Organiser", "Programme", "Official source", "Partners"],
+  },
 ];
+
 
 const opportunitiesSource: Opportunity[] = [
   {
