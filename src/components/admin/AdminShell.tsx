@@ -23,13 +23,16 @@ import {
   LayoutDashboard,
   Library,
   MapPin,
+  MenuIcon,
   MessageSquare,
+  Search as SearchIcon,
   Settings,
   Sparkles,
   Star,
   Tags,
   UserCog,
   Users,
+  X,
   type LucideIcon,
 } from "lucide-react";
 
