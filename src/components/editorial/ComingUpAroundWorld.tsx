@@ -23,7 +23,7 @@ const monthLabel = (iso: string) =>
  * A chronological, month-grouped read of the canonical event records — the
  * same records the events pages and the map use, never a second copy.
  */
-export function ComingUpAroundWorld({ limit = 8 }: { limit?: number }) {
+export function ComingUpAroundWorld({ limit = 12 }: { limit?: number }) {
   const events = comingUpEvents().slice(0, limit);
 
   const months: { key: string; label: string; items: CulturalEvent[] }[] = [];
