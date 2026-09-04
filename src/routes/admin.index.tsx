@@ -135,7 +135,7 @@ function OverviewPage() {
           { count: overdue.length, label: "partner follow-ups overdue", hint: "Past their due date", to: "/admin/follow-ups" },
         ]),
     { count: closingSoon.length, label: "opportunities close this week", hint: "Check the official source before the deadline", to: "/admin/opportunities" },
-    { count: stale.length, label: "published records overdue for review", hint: "Sent to the review queue, never unpublished automatically", to: "/admin/insights/editorial" },
+    { count: stale.length, label: "published records overdue for review", hint: "Sent to the review queue, never unpublished automatically", to: "/admin/review" },
   ].filter((a) => a.count > 0);
 
   return (

@@ -799,9 +799,9 @@ function ReviewTab({ id }: { id: string }) {
         </dl>
         {item.subjectReview?.comment ? <p className="mt-2 text-sm text-ink">{item.subjectReview.comment}</p> : null}
         <p className="mt-3 text-xs text-muted-foreground">
-          Subject reviewers work in the{" "}
-          <Link to="/admin/review/subject" className="text-primary underline-offset-4 hover:underline">
-            focused reviewer view
+          Subject reviewers pick this record up from{" "}
+          <Link to="/admin/review" className="text-primary underline-offset-4 hover:underline">
+            Needs review
           </Link>
           .
         </p>
