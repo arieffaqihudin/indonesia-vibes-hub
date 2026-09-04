@@ -589,14 +589,14 @@ export function RowActions({ actions, label }: { actions: RowAction[]; label: st
         aria-expanded={open}
         aria-label={label}
         onClick={() => setOpen((v) => !v)}
-        className="inline-flex h-8 w-8 items-center justify-center rounded text-muted-foreground transition-colors hover:bg-muted hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+        className="inline-flex h-11 w-11 items-center justify-center rounded text-muted-foreground transition-colors hover:bg-muted hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary md:h-9 md:w-9"
       >
         <span aria-hidden>•••</span>
       </button>
       {open ? (
         <div
           role="menu"
-          className="absolute top-9 right-0 z-20 w-44 border border-border bg-card py-1 shadow-md"
+          className="absolute top-11 right-0 z-20 w-[min(14rem,calc(100vw-2rem))] border border-border bg-card py-1 shadow-md md:top-9"
         >
           {actions.map((a) => (
             <button
@@ -608,12 +608,13 @@ export function RowActions({ actions, label }: { actions: RowAction[]; label: st
                 a.onSelect();
               }}
               className={cn(
-                "block w-full px-3 py-1.5 text-left text-xs hover:bg-muted",
+                "block w-full px-3 py-2.5 text-left text-xs hover:bg-muted md:py-1.5",
                 a.danger ? "text-primary" : "text-ink",
               )}
             >
               {a.label}
             </button>
+
           ))}
         </div>
       ) : null}
