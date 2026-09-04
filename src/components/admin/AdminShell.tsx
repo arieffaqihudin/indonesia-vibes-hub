@@ -31,26 +31,32 @@ export function useNavGroups(): NavGroup[] {
   const overdue = overdueFollowUps(followUps).length;
 
   return [
-    { label: "", items: [{ to: "/admin", label: "Overview" }] },
+    { label: "", items: [{ to: "/admin", label: "Today" }] },
+    {
+      label: "Content",
+      visibleTo: editorialRole,
+      items: [
+        { to: "/admin/stories", label: "Stories" },
+        { to: "/admin/culture", label: "Culture" },
+        { to: "/admin/people", label: "People & Communities" },
+        { to: "/admin/institutions", label: "Institutions" },
+        { to: "/admin/places", label: "Places" },
+        { to: "/admin/events", label: "Events" },
+        { to: "/admin/collections", label: "Collections" },
+        { to: "/admin/content", label: "All content" },
+      ],
+    },
     {
       label: "Editorial",
       visibleTo: editorialRole,
       items: [
-        { to: "/admin/content", label: "Content" },
+        { to: "/admin/review", label: "Needs review", badge: reviewCount },
         { to: "/admin/submissions", label: "Submissions", badge: submissions },
-        { to: "/admin/calendar", label: "Editorial calendar" },
-        { to: "/admin/review", label: "Review queue", badge: reviewCount },
+        { to: "/admin/calendar", label: "Calendar" },
+        { to: "/admin/curation/homepage", label: "What's on the homepage" },
+        { to: "/admin/curation/in-focus", label: "In Focus" },
         { to: "/admin/sources", label: "Sources & verification" },
         { to: "/admin/media", label: "Media & rights" },
-      ],
-    },
-    {
-      label: "Cultural network",
-      visibleTo: editorialRole,
-      items: [
-        { to: "/admin/network", label: "Cultural subjects" },
-        { to: "/admin/collections", label: "Collections" },
-        { to: "/admin/taxonomy", label: "Taxonomy" },
       ],
     },
     {
@@ -65,33 +71,11 @@ export function useNavGroups(): NavGroup[] {
       ],
     },
     {
-      label: "Events",
-      items: [
-        { to: "/admin/events", label: "Events" },
-        { to: "/admin/global-agenda", label: "Global agenda" },
-      ],
-    },
-    {
-      label: "Insights",
-      items: [
-        { to: "/admin/insights", label: "Platform overview" },
-        { to: "/admin/insights/editorial", label: "Editorial health" },
-        { to: "/admin/insights/partnerships", label: "Partnership outcomes" },
-      ],
-    },
-    {
-      label: "Curation",
-      visibleTo: (r: AdminRole) => can(r, "publish"),
-      items: [
-        { to: "/admin/curation/homepage", label: "Homepage" },
-        { to: "/admin/curation/in-focus", label: "In Focus" },
-      ],
-    },
-    {
       label: "System",
       visibleTo: (r: AdminRole) => can(r, "configure") || r === "Managing Editor",
       items: [
         { to: "/admin/users", label: "Users & roles" },
+        { to: "/admin/taxonomy", label: "Taxonomy" },
         { to: "/admin/data-health", label: "Data health" },
         { to: "/admin/settings", label: "Settings" },
         { to: "/admin/activity", label: "Activity log" },
@@ -99,6 +83,7 @@ export function useNavGroups(): NavGroup[] {
     },
   ].filter((g) => !g.visibleTo || g.visibleTo(role));
 }
+
 
 const CREATE_OPTIONS: { kind: string; label: string }[] = [
   { kind: "story", label: "Story" },

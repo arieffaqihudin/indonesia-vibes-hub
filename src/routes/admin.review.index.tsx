@@ -8,7 +8,7 @@ import { kindLabel } from "@/lib/admin/types";
 import { Card, EmptyState, Metric, PageHeading, StatusPill, TabBar, Tag, abtn, relative } from "@/components/admin/primitives";
 
 export const Route = createFileRoute("/admin/review/")({
-  head: adminHead("Review queue", "Work waiting on the team, grouped by what it is actually waiting for."),
+  head: adminHead("Needs review", "Work waiting on the team, grouped by what it is actually waiting for."),
   component: ReviewQueue,
 });
 
@@ -22,13 +22,8 @@ function ReviewQueue() {
     <>
       <PageHeading
         eyebrow="Editorial"
-        title="Review queue"
+        title="Needs review"
         description="Grouped by what each record is waiting for, so nothing sits in an unnamed pile."
-        actions={
-          <Link to="/admin/review/subject" className={abtn.secondary}>
-            Subject reviewer view
-          </Link>
-        }
       />
 
       <div className="mb-5 grid gap-3 sm:grid-cols-3">
