@@ -5,7 +5,6 @@ import { FilterBar } from "@/components/editorial/FilterBar";
 import { PageHeader } from "@/components/editorial/Section";
 import { StoryCard } from "@/components/editorial/StoryCard";
 import { stories } from "@/data/content";
-import { cn } from "@/lib/utils";
 
 const kinds = ["All", "Feature", "Interview", "Dispatch", "Field note"] as const;
 
