@@ -1,7 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 
-import { EmptyState, FilterGroup, FilterPanel, SearchField } from "@/components/editorial/Filters";
+import { EmptyState } from "@/components/editorial/Filters";
+import { FilterBar } from "@/components/editorial/FilterBar";
+import type { FilterDef } from "@/components/editorial/FilterBar";
 import { CollaborationCard } from "@/components/editorial/EntityCards";
 import { PageHeader } from "@/components/editorial/Section";
 import { InquiryButton } from "@/components/editorial/ui";
@@ -66,14 +68,48 @@ function CollaborationsPage() {
 
   const active = Boolean(query || type || status || region || country || theme);
   const featured = collaborations.find((c) => c.featured);
-  const reset = () => {
-    setQuery("");
-    setType(null);
-    setStatus(null);
-    setRegion(null);
-    setCountry(null);
-    setTheme(null);
-  };
+  const primaryFilters: FilterDef[] = [
+    {
+      id: "status",
+      label: "Status",
+      options: STATUSES,
+      value: status,
+      onChange: (v) => setStatus(v as CollaborationStatus | null),
+      allLabel: "Any status",
+    },
+    {
+      id: "region",
+      label: "Region",
+      options: REGIONS,
+      value: region,
+      onChange: (v) => setRegion(v as GlobalRegion | null),
+      allLabel: "All regions",
+    },
+  ];
+
+  const secondaryFilters: FilterDef[] = [
+    {
+      id: "type",
+      label: "Type",
+      options: COLLABORATION_TYPES,
+      value: type,
+      onChange: (v) => setType(v as CollaborationType | null),
+    },
+    {
+      id: "country",
+      label: "Country",
+      options: collaborationCountries,
+      value: country,
+      onChange: setCountry,
+    },
+    {
+      id: "theme",
+      label: "Theme",
+      options: THEMES,
+      value: theme,
+      onChange: (v) => setTheme(v as ThemeId | null),
+    },
+  ];
 
   const counts = {
     total: collaborations.length,
@@ -113,30 +149,13 @@ function CollaborationsPage() {
         </section>
       ) : null}
 
-      <FilterPanel
+      <FilterBar
+        search={{ value: query, onChange: setQuery, placeholder: "Programme, partner or country" }}
+        primary={primaryFilters}
+        secondary={secondaryFilters}
         resultCount={results.length}
         resultNoun={results.length === 1 ? "collaboration" : "collaborations"}
-        onReset={reset}
-        active={active}
-      >
-        <SearchField
-          id="collab-search"
-          label="Search"
-          placeholder="Programme, partner or country"
-          value={query}
-          onChange={setQuery}
-        />
-        <FilterGroup label="Type" options={COLLABORATION_TYPES} value={type} onChange={setType} />
-        <FilterGroup label="Status" options={STATUSES} value={status} onChange={setStatus} />
-        <FilterGroup label="Region" options={REGIONS} value={region} onChange={setRegion} />
-        <FilterGroup
-          label="Country"
-          options={collaborationCountries}
-          value={country}
-          onChange={setCountry}
-        />
-        <FilterGroup label="Theme" options={THEMES} value={theme} onChange={setTheme} />
-      </FilterPanel>
+      />
 
       <div className="container-editorial py-16">
         <h2 className="sr-only">Collaborations</h2>
