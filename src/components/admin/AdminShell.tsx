@@ -280,43 +280,66 @@ export function AdminShell({ children }: { children: ReactNode }) {
         )}
       >
         <header className="sticky top-0 z-30 border-b border-border bg-card">
-          <div className="flex h-14 items-center gap-3 px-4 lg:px-6">
+          <div className="flex h-14 items-center gap-2 px-3 sm:gap-3 sm:px-4 lg:px-6">
             <button
               type="button"
-              className={cn(abtn.small, "lg:hidden")}
+              className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-md text-ink transition-colors hover:bg-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary lg:hidden"
               onClick={() => setMobileOpen((v) => !v)}
               aria-expanded={mobileOpen}
               aria-controls="admin-nav-mobile"
+              aria-label={mobileOpen ? "Close navigation" : "Open navigation"}
             >
-              Menu
+              {mobileOpen ? <X className="h-5 w-5" aria-hidden /> : <MenuIcon className="h-5 w-5" aria-hidden />}
             </button>
             <div className="min-w-0">
               <p className="truncate text-sm font-semibold tracking-tight text-ink">{sectionLabel}</p>
-              <p className="hidden text-[0.68rem] tracking-[0.14em] text-muted-foreground uppercase sm:block">
+              <p className="hidden text-[0.68rem] tracking-[0.14em] text-muted-foreground uppercase lg:block">
                 Editorial &amp; Partnership Workspace
               </p>
             </div>
 
             <div className="ml-auto flex items-center gap-2">
-              <button type="button" className={abtn.small} onClick={() => setSearchOpen(true)}>
+              <button
+                type="button"
+                className={cn(abtn.small, "hidden sm:inline-flex")}
+                onClick={() => setSearchOpen(true)}
+              >
                 Search
+              </button>
+              <button
+                type="button"
+                className="inline-flex h-11 w-11 items-center justify-center rounded-md text-ink hover:bg-muted sm:hidden"
+                onClick={() => setSearchOpen(true)}
+                aria-label="Search the workspace"
+              >
+                <SearchIcon className="h-[1.05rem] w-[1.05rem]" aria-hidden />
               </button>
               <button type="button" className={cn(abtn.primary, "hidden sm:inline-flex")} onClick={() => setCreateOpen(true)}>
                 + Create
               </button>
-              <Link to="/admin/notifications" className={cn(abtn.small, "relative")}>
+              <Link to="/admin/notifications" className={cn(abtn.small, "relative hidden sm:inline-flex")}>
                 Notifications
                 {unread ? (
                   <span className="rounded bg-primary px-1.5 text-[0.65rem] tabular-nums text-primary-foreground">{unread}</span>
                 ) : null}
               </Link>
-              <label className="hidden items-center gap-2 border-l border-border pl-3 text-xs text-muted-foreground md:flex">
+              <Link
+                to="/admin/notifications"
+                className="relative inline-flex h-11 w-11 items-center justify-center rounded-md text-ink hover:bg-muted sm:hidden"
+                aria-label={`Notifications${unread ? `, ${unread} unread` : ""}`}
+              >
+                <BellRing className="h-[1.05rem] w-[1.05rem]" aria-hidden />
+                {unread ? (
+                  <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-primary" aria-hidden />
+                ) : null}
+              </Link>
+              <label className="hidden items-center gap-2 border-l border-border pl-3 text-xs text-muted-foreground xl:flex">
                 <span className="flex h-7 w-7 items-center justify-center rounded-full bg-blush text-[0.7rem] font-semibold text-primary">
                   {user.name.split(" ").map((n) => n[0]).join("").slice(0, 2)}
                 </span>
                 <span className="sr-only">Signed in as</span>
                 <select
-                  className={cn(field, "min-h-8 w-auto py-1 text-xs")}
+                  className={cn(field, "min-h-8 w-auto max-w-[14rem] py-1 text-xs")}
                   value={user.id}
                   onChange={(e) => setCurrentUser(e.target.value)}
                   aria-label="Prototype role switcher"
@@ -335,11 +358,55 @@ export function AdminShell({ children }: { children: ReactNode }) {
         {mobileOpen ? (
           <div className="fixed inset-0 z-50 lg:hidden">
             <div className="absolute inset-0 bg-ink/40" onClick={() => setMobileOpen(false)} aria-hidden />
-            <div id="admin-nav-mobile" className="relative z-10 h-full w-72 overflow-y-auto border-r border-border bg-card p-4">
-              {nav(false)}
+            <div
+              id="admin-nav-mobile"
+              className="relative z-10 flex h-full w-[min(19rem,86vw)] flex-col border-r border-border bg-card"
+            >
+              <div className="flex h-14 shrink-0 items-center justify-between gap-2 border-b border-border px-4">
+                <span className="text-sm font-semibold tracking-tight text-primary">Indonesia Vibes</span>
+                <button
+                  type="button"
+                  onClick={() => setMobileOpen(false)}
+                  aria-label="Close navigation"
+                  className="inline-flex h-11 w-11 items-center justify-center rounded-md text-ink hover:bg-muted"
+                >
+                  <X className="h-5 w-5" aria-hidden />
+                </button>
+              </div>
+              <div className="flex-1 overflow-y-auto p-4 pb-safe">
+                {nav(false)}
+                <div className="mt-2 border-t border-border pt-3 xl:hidden">
+                  <label className="block text-xs text-muted-foreground">
+                    <span className="mb-1 block">Signed in as</span>
+                    <select
+                      className={cn(field, "text-xs")}
+                      value={user.id}
+                      onChange={(e) => setCurrentUser(e.target.value)}
+                      aria-label="Prototype role switcher"
+                    >
+                      {users.map((u) => (
+                        <option key={u.id} value={u.id}>
+                          {u.name} — {u.role}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                  <button
+                    type="button"
+                    className={cn(abtn.primary, "mt-3 w-full")}
+                    onClick={() => {
+                      setMobileOpen(false);
+                      setCreateOpen(true);
+                    }}
+                  >
+                    + Create
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         ) : null}
+
 
         <main className="mx-auto w-full max-w-[92rem] px-4 py-6 lg:px-8">{children}</main>
       </div>
