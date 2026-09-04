@@ -1027,7 +1027,7 @@ const derivedWorldNodes: WorldNode[] = (() => {
       lng: e.location.lng,
       programme: e.title,
       eventIds: [e.id],
-      status: "Upcoming",
+      status: e.startDate >= new Date().toISOString().slice(0, 10) ? "Upcoming" : "Archive",
     });
   }
   return [...groups.values()];
