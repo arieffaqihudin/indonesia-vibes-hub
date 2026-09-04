@@ -136,7 +136,10 @@ export function AdminShell({ children }: { children: ReactNode }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(() => {
     if (typeof window === "undefined") return false;
-    return window.sessionStorage.getItem("iv-admin-sidebar") === "collapsed";
+    const stored = window.sessionStorage.getItem("iv-admin-sidebar");
+    // Narrow desktops start collapsed so the working area stays wide enough.
+    if (!stored) return window.innerWidth < 1280;
+    return stored === "collapsed";
   });
   const [searchOpen, setSearchOpen] = useState(false);
   const [createOpen, setCreateOpen] = useState(false);
@@ -147,6 +150,20 @@ export function AdminShell({ children }: { children: ReactNode }) {
   useEffect(() => {
     window.sessionStorage.setItem("iv-admin-sidebar", collapsed ? "collapsed" : "expanded");
   }, [collapsed]);
+
+  // The navigation drawer owns the screen while it is open.
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setMobileOpen(false);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = previous;
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [mobileOpen]);
+
 
   const sectionLabel = useMemo(() => {
     const flat = groups.flatMap((g) => g.items);
