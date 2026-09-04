@@ -13,10 +13,10 @@ import {
   staleContent,
 } from "@/lib/admin/selectors";
 import { CONTENT_STATUS, daysUntil, type ContentItem } from "@/lib/admin/types";
-import { Card, EmptyState, PageHeading, StatusPill, Tag, abtn, dateFmt, relative, timeFmt } from "@/components/admin/primitives";
+import { Card, EmptyState, PageHeading, StatusPill, abtn, dateFmt, relative, timeFmt } from "@/components/admin/primitives";
 
 export const Route = createFileRoute("/admin/")({
-  head: adminHead("Overview", "What needs attention across editorial and partnership work today."),
+  head: adminHead("Dashboard", "What needs attention across editorial and partnership work today."),
   component: OverviewPage,
 });
 
@@ -27,38 +27,35 @@ function greeting() {
   return "Good evening";
 }
 
-/** Compact, actionable card — never a giant statistic. */
-function AttentionCard({
+/** One flat row in the attention list — never a KPI tile. */
+function AttentionRow({
   count,
   label,
   hint,
   to,
-  params,
-  search,
+  cta,
 }: {
   count: number;
   label: string;
   hint: string;
   to: string;
-  params?: Record<string, string>;
-  search?: Record<string, string>;
+  cta: string;
 }) {
   return (
-    <Link
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      to={to as any}
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      params={params as any}
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      search={search as any}
-      className="flex items-start gap-3 rounded-lg border border-border bg-card p-4 transition-colors hover:border-primary/50"
-    >
-      <span className="text-lg font-semibold tabular-nums text-ink">{count}</span>
-      <span className="min-w-0">
-        <span className="block text-sm font-medium text-ink">{label}</span>
-        <span className="mt-0.5 block text-xs text-muted-foreground">{hint}</span>
+    <li className="flex flex-wrap items-center gap-x-4 gap-y-1 border-b border-border/70 py-3 last:border-0">
+      <span className="w-8 shrink-0 text-base font-semibold tabular-nums text-ink">{count}</span>
+      <span className="min-w-0 flex-1">
+        <span className="block text-sm text-ink">{label}</span>
+        <span className="block text-xs text-muted-foreground">{hint}</span>
       </span>
-    </Link>
+      <Link
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        to={to as any}
+        className="text-xs font-medium text-primary underline-offset-4 hover:underline"
+      >
+        {cta} →
+      </Link>
+    </li>
   );
 }
 
@@ -115,27 +112,27 @@ function OverviewPage() {
             count: content.filter((c) => c.status === "english_editing").length,
             label: "language reviews waiting",
             hint: "Content held for international readability",
-            to: "/admin/review",
+            to: "/admin/review", cta: "Review",
           },
         ]
       : []),
     ...(partnershipFirst
       ? [
-          { count: routing.length, label: "inquiries need routing", hint: "New or qualified and waiting for a partner", to: "/admin/inquiries" },
-          { count: overdue.length, label: "partner follow-ups overdue", hint: "Past their due date", to: "/admin/follow-ups" },
+          { count: routing.length, label: "inquiries need routing", hint: "New or qualified and waiting for a partner", to: "/admin/inquiries", cta: "Route" },
+          { count: overdue.length, label: "partner follow-ups overdue", hint: "Past their due date", to: "/admin/follow-ups", cta: "View" },
         ]
       : []),
-    { count: awaitingReview.length, label: "submissions awaiting editorial review", hint: "Arrived from the Contributor Workspace", to: "/admin/submissions" },
-    { count: unresolvedClaims.length, label: "claims waiting for source verification", hint: "Flagged by an editor as requiring evidence", to: "/admin/sources" },
-    { count: rights.length, label: "media assets missing usage rights", hint: "Publication is blocked while rights are unresolved", to: "/admin/media" },
+    { count: awaitingReview.length, label: "submissions awaiting editorial review", hint: "Arrived from the Contributor Workspace", to: "/admin/submissions", cta: "Review" },
+    { count: unresolvedClaims.length, label: "claims waiting for source verification", hint: "Flagged by an editor as requiring evidence", to: "/admin/sources", cta: "Verify" },
+    { count: rights.length, label: "media assets missing usage rights", hint: "Publication is blocked while rights are unresolved", to: "/admin/media", cta: "Resolve" },
     ...(partnershipFirst
       ? []
       : [
-          { count: routing.length, label: "inquiries need routing", hint: "New or qualified and waiting for a partner", to: "/admin/inquiries" },
-          { count: overdue.length, label: "partner follow-ups overdue", hint: "Past their due date", to: "/admin/follow-ups" },
+          { count: routing.length, label: "inquiries need routing", hint: "New or qualified and waiting for a partner", to: "/admin/inquiries", cta: "Route" },
+          { count: overdue.length, label: "partner follow-ups overdue", hint: "Past their due date", to: "/admin/follow-ups", cta: "View" },
         ]),
-    { count: closingSoon.length, label: "opportunities close this week", hint: "Check the official source before the deadline", to: "/admin/opportunities" },
-    { count: stale.length, label: "published records overdue for review", hint: "Sent to the review queue, never unpublished automatically", to: "/admin/review" },
+    { count: closingSoon.length, label: "opportunities close this week", hint: "Check the official source before the deadline", to: "/admin/opportunities", cta: "View" },
+    { count: stale.length, label: "published records overdue for review", hint: "Sent to the review queue, never unpublished automatically", to: "/admin/review", cta: "Review" },
   ].filter((a) => a.count > 0);
 
   return (
@@ -156,100 +153,74 @@ function OverviewPage() {
       />
 
       <section aria-labelledby="attention" className="mb-8">
-        <h2 id="attention" className="mb-3 text-[0.68rem] font-semibold tracking-[0.18em] text-muted-foreground uppercase">
-          What needs attention
+        <h2 id="attention" className="mb-1 border-b border-border pb-2 text-[0.68rem] font-medium tracking-[0.16em] text-muted-foreground uppercase">
+          Needs attention
         </h2>
         {attention.length ? (
-          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+          <ul>
             {attention.map((a) => (
-              <AttentionCard key={a.label} {...a} />
+              <AttentionRow key={a.label} {...a} />
             ))}
-          </div>
+          </ul>
         ) : (
           <EmptyState title="Nothing is waiting on the team right now." hint="New submissions and inquiries will appear here." />
         )}
       </section>
 
       <section aria-labelledby="today" className="mb-8">
-        <h2 id="today" className="mb-3 text-[0.68rem] font-semibold tracking-[0.18em] text-muted-foreground uppercase">
-          Today
+        <h2 id="today" className="mb-3 border-b border-border pb-2 text-[0.68rem] font-medium tracking-[0.16em] text-muted-foreground uppercase">
+          Coming up
         </h2>
-        <div className="grid gap-4 lg:grid-cols-3">
-          <Card title="Editorial">
-            <dl className="space-y-2 text-sm">
-              <div className="flex justify-between gap-3">
-                <dt className="text-muted-foreground">Content awaiting review</dt>
-                <dd className="tabular-nums text-ink">{inReview.length}</dd>
-              </div>
-              <div className="flex justify-between gap-3">
-                <dt className="text-muted-foreground">Scheduled publications</dt>
-                <dd className="tabular-nums text-ink">{scheduled.length}</dd>
-              </div>
-              <div className="flex justify-between gap-3">
-                <dt className="text-muted-foreground">Revisions with contributors</dt>
-                <dd className="tabular-nums text-ink">{revisionsReturned.length}</dd>
-              </div>
-              <div className="flex justify-between gap-3">
-                <dt className="text-muted-foreground">Reviews overdue</dt>
-                <dd className="tabular-nums text-ink">{stale.length}</dd>
-              </div>
-            </dl>
-            {scheduled.length ? (
-              <ul className="mt-3 border-t border-border pt-3 text-xs text-muted-foreground">
-                {scheduled.map((s) => (
-                  <li key={s.id}>
-                    {s.title} — {dateFmt(s.scheduledFor)} {timeFmt(s.scheduledFor)} {s.scheduleTimeZone ?? ""}
-                  </li>
-                ))}
-              </ul>
-            ) : null}
-          </Card>
+        <ul className="mb-4">
+          {scheduled.map((item) => (
+            <li key={item.id} className="flex flex-wrap items-baseline gap-x-4 border-b border-border/70 py-2.5 last:border-0">
+              <span className="w-24 shrink-0 text-xs text-muted-foreground">{dateFmt(item.scheduledFor)}</span>
+              <Link to="/admin/content/$id" params={{ id: item.id }} className="text-sm text-ink underline-offset-4 hover:text-primary hover:underline">
+                {item.title}
+              </Link>
+              <span className="text-xs text-muted-foreground">
+                Publication · {timeFmt(item.scheduledFor)} {item.scheduleTimeZone ?? ""}
+              </span>
+            </li>
+          ))}
+          {todayEvents.map((item) => (
+            <li key={item.id} className="flex flex-wrap items-baseline gap-x-4 border-b border-border/70 py-2.5 last:border-0">
+              <span className="w-24 shrink-0 text-xs text-muted-foreground">{item.fields["dates"] ?? "Date to confirm"}</span>
+              <Link to="/admin/content/$id" params={{ id: item.id }} className="text-sm text-ink underline-offset-4 hover:text-primary hover:underline">
+                {item.title}
+              </Link>
+              <span className="text-xs text-muted-foreground">Event · {item.location ?? item.countries.join(", ")}</span>
+            </li>
+          ))}
+          {closingSoon.map((item) => (
+            <li key={item.id} className="flex flex-wrap items-baseline gap-x-4 border-b border-border/70 py-2.5 last:border-0">
+              <span className="w-24 shrink-0 text-xs text-muted-foreground">{item.fields["deadline"]}</span>
+              <Link to="/admin/content/$id" params={{ id: item.id }} className="text-sm text-ink underline-offset-4 hover:text-primary hover:underline">
+                {item.title}
+              </Link>
+              <span className="text-xs text-muted-foreground">Opportunity deadline</span>
+            </li>
+          ))}
+          {!scheduled.length && !todayEvents.length && !closingSoon.length ? (
+            <li className="py-3 text-sm text-muted-foreground">Nothing is scheduled in the next week.</li>
+          ) : null}
+        </ul>
 
-          <Card title="Partnership">
-            <dl className="space-y-2 text-sm">
-              <div className="flex justify-between gap-3">
-                <dt className="text-muted-foreground">New inquiries</dt>
-                <dd className="tabular-nums text-ink">{inquiries.filter((q) => q.status === "New").length}</dd>
-              </div>
-              <div className="flex justify-between gap-3">
-                <dt className="text-muted-foreground">Introductions awaiting follow-up</dt>
-                <dd className="tabular-nums text-ink">
-                  {inquiries.filter((q) => q.introductions.some((i) => !i.outcome)).length}
-                </dd>
-              </div>
-              <div className="flex justify-between gap-3">
-                <dt className="text-muted-foreground">Follow-ups due today</dt>
-                <dd className="tabular-nums text-ink">{dueToday.length}</dd>
-              </div>
-              <div className="flex justify-between gap-3">
-                <dt className="text-muted-foreground">Collaborations needing an update</dt>
-                <dd className="tabular-nums text-ink">{admin.pipeline.filter((c) => c.nextActions.length).length}</dd>
-              </div>
-            </dl>
-          </Card>
-
-          <Card title="Global agenda">
-            <ul className="space-y-2 text-sm">
-              {todayEvents.length ? (
-                todayEvents.map((e) => (
-                  <li key={e.id} className="flex flex-wrap items-center gap-2">
-                    <Link to="/admin/content/$id" params={{ id: e.id }} className="text-ink underline-offset-4 hover:text-primary hover:underline">
-                      {e.title}
-                    </Link>
-                    <Tag tone="quiet">{e.location ?? e.countries.join(", ")}</Tag>
-                  </li>
-                ))
-              ) : (
-                <li className="text-sm text-muted-foreground">No events begin in the next week.</li>
-              )}
-            </ul>
-            {closingSoon.length ? (
-              <p className="mt-3 border-t border-border pt-3 text-xs text-muted-foreground">
-                {closingSoon.length} opportunity deadline{closingSoon.length === 1 ? "" : "s"} within seven days.
-              </p>
-            ) : null}
-          </Card>
-        </div>
+        <dl className="flex flex-wrap gap-x-8 gap-y-2 border-t border-border pt-3 text-xs">
+          {[
+            { label: "In review", value: inReview.length },
+            { label: "Scheduled", value: scheduled.length },
+            { label: "With contributors", value: revisionsReturned.length },
+            { label: "New inquiries", value: inquiries.filter((q) => q.status === "New").length },
+            { label: "Follow-ups due today", value: dueToday.length },
+            { label: "Reviews overdue", value: stale.length },
+          ].map((stat) => (
+            <div key={stat.label} className="flex items-baseline gap-1.5">
+              <dt className="text-muted-foreground">{stat.label}</dt>
+              <dd className="font-semibold tabular-nums text-ink">{stat.value}</dd>
+            </div>
+          ))}
+        </dl>
       </section>
 
       <div className="grid gap-4 lg:grid-cols-2">

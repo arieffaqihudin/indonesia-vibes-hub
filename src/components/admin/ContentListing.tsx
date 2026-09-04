@@ -1,33 +1,44 @@
 /**
  * One listing used by every content type in the dashboard.
  *
- * Stories, Culture, People & Communities, Institutions, Places and Collections
- * all render this, so a team member learns the page once: search, a couple of
- * filters, more filters behind a control, applied filters, a count, and one
- * primary action per row.
+ * Table-first: page title, status tabs, a contextual note when something needs
+ * attention, a compact filter toolbar, a result count and a flat table. No
+ * cards, no KPI tiles — the whole page is one working surface.
  */
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 
 import { useAdmin } from "@/lib/admin/store";
 import {
-  CONTENT_STATUS,
   SIMPLE_STATUSES,
   kindLabel,
   simpleStatus,
-  type ContentKind,
   type ContentItem,
+  type ContentKind,
 } from "@/lib/admin/types";
 import { AdminFilterBar, type AdminFilterDef } from "./AdminFilterBar";
-import { Card, EmptyState, PageHeading, StatusPill, Table, Td, abtn, relative } from "./primitives";
+import {
+  EmptyState,
+  InlineNote,
+  PageHeading,
+  RowActions,
+  StatusPill,
+  Table,
+  TabBar,
+  Td,
+  abtn,
+  relative,
+} from "./primitives";
+
+const TABS = ["All", "Draft", "In review", "Needs changes", "Ready", "Published", "Archived"] as const;
 
 export function ContentListing({
   title,
   description,
   kinds,
   createKind,
+  createLabel,
   showTypeColumn,
-  extraNote,
 }: {
   title: string;
   description: string;
@@ -35,14 +46,13 @@ export function ContentListing({
   kinds: ContentKind[];
   /** Kind used by the page's Create button. */
   createKind: ContentKind;
+  createLabel?: string;
   showTypeColumn?: boolean;
-  /** Contextual data-quality warning, e.g. "3 records are missing sources". */
-  extraNote?: string;
 }) {
-  const { content, users } = useAdmin();
+  const { content, users, sources } = useAdmin();
   const navigate = useNavigate();
+  const [tab, setTab] = useState<string>("All");
   const [query, setQuery] = useState("");
-  const [status, setStatus] = useState<string | null>(null);
   const [editor, setEditor] = useState<string | null>(null);
   const [theme, setTheme] = useState<string | null>(null);
   const [country, setCountry] = useState<string | null>(null);
@@ -51,11 +61,14 @@ export function ContentListing({
   const scope = useMemo(() => content.filter((c) => kinds.includes(c.kind)), [content, kinds]);
   const themes = useMemo(() => [...new Set(scope.flatMap((c) => c.themes))].sort(), [scope]);
   const countries = useMemo(() => [...new Set(scope.flatMap((c) => c.countries))].sort(), [scope]);
+  const needsSources = scope.filter(
+    (c) => c.status !== "archived" && !sources.some((src) => src.contentId === c.id),
+  ).length;
 
   const rows = useMemo(() => {
     const q = query.trim().toLowerCase();
     return scope
-      .filter((c) => (status ? simpleStatus(c.status) === status : true))
+      .filter((c) => (tab === "All" ? true : simpleStatus(c.status) === tab))
       .filter((c) => (editor ? c.assignedTo === editor : true))
       .filter((c) => (theme ? c.themes.includes(theme) : true))
       .filter((c) => (country ? c.countries.includes(country) : true))
@@ -72,102 +85,125 @@ export function ContentListing({
           ? a.title.localeCompare(b.title)
           : new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime(),
       );
-  }, [scope, query, status, editor, theme, country, sort]);
+  }, [scope, tab, query, editor, theme, country, sort]);
 
   const primary: AdminFilterDef[] = [
-    { id: "status", label: "Status", options: SIMPLE_STATUSES, value: status, onChange: setStatus, allLabel: "Any status" },
-    { id: "editor", label: "Editor", options: users.map((u) => u.name), value: editor, onChange: setEditor, allLabel: "Anyone" },
+    { id: "editor", label: "Assigned to", options: users.map((u) => u.name), value: editor, onChange: setEditor, allLabel: "Anyone" },
+    { id: "theme", label: "Theme", options: themes, value: theme, onChange: setTheme, allLabel: "Any theme" },
   ];
   const secondary: AdminFilterDef[] = [
-    { id: "theme", label: "Theme", options: themes, value: theme, onChange: setTheme },
     { id: "country", label: "Country", options: countries, value: country, onChange: setCountry },
   ];
 
   return (
     <>
       <PageHeading
-        eyebrow="Content"
         title={title}
         description={description}
         actions={
           <Link to="/admin/content/new" search={{ kind: createKind }} className={abtn.primary}>
-            + Create
+            + {createLabel ?? `Create ${kindLabel(createKind).toLowerCase()}`}
           </Link>
         }
       />
 
-      {extraNote ? (
-        <p className="mb-4 rounded-md border border-clay/30 bg-blush px-3 py-2 text-xs text-clay">{extraNote}</p>
-      ) : null}
-
-      <AdminFilterBar
-        search={{ value: query, onChange: setQuery, placeholder: "Search title, people or organisation" }}
-        primary={primary}
-        secondary={secondary}
-        sort={{ options: ["Recently updated", "Title"], value: sort, onChange: setSort }}
-        resultCount={rows.length}
-        resultNoun={rows.length === 1 ? "record" : "records"}
+      <TabBar
+        label={`${title} by status`}
+        active={tab}
+        onChange={setTab}
+        tabs={TABS.map((t) => ({
+          id: t,
+          label: t,
+          count:
+            t === "All"
+              ? scope.length
+              : scope.filter((c) => simpleStatus(c.status) === t).length,
+        })).filter((t) => t.id === "All" || t.count > 0 || SIMPLE_STATUSES.includes(t.id as never))}
       />
 
-      {rows.length ? (
-        <Card bodyClass="p-0">
+      <div className="pt-4">
+        {needsSources ? (
+          <InlineNote tone="attention">
+            {needsSources} {needsSources === 1 ? "record has" : "records have"} no source recorded yet.
+          </InlineNote>
+        ) : null}
+
+        <AdminFilterBar
+          search={{ value: query, onChange: setQuery, placeholder: `Search ${title.toLowerCase()}…` }}
+          primary={primary}
+          secondary={secondary}
+          sort={{ options: ["Recently updated", "Title"], value: sort, onChange: setSort }}
+          resultCount={rows.length}
+          resultNoun={rows.length === 1 ? "record" : "records"}
+        />
+
+        {rows.length ? (
           <Table
             caption={title}
             head={[
               "Title",
               ...(showTypeColumn ? ["Type"] : []),
               "Status",
-              "Editor",
-              "Updated",
+              "Assigned to",
+              "Last updated",
               "Public",
               "",
             ]}
           >
             {rows.map((item) => (
-              <tr key={item.id} className="hover:bg-muted/50">
+              <tr key={item.id} className="transition-colors hover:bg-blush/40">
                 <Td>
                   <Link
                     to="/admin/content/$id"
                     params={{ id: item.id }}
-                    className="font-medium underline-offset-4 hover:text-primary hover:underline"
+                    className="font-medium text-ink underline-offset-4 hover:text-primary hover:underline"
                   >
                     {item.title}
                   </Link>
-                  {item.organisation ? (
-                    <span className="block text-xs text-muted-foreground">{item.organisation}</span>
-                  ) : null}
+                  <span className="block text-xs text-muted-foreground">
+                    {[kindLabel(item.kind), item.organisation ?? item.location ?? item.themes[0]]
+                      .filter(Boolean)
+                      .join(" · ")}
+                  </span>
                 </Td>
                 {showTypeColumn ? <Td className="text-xs text-muted-foreground">{kindLabel(item.kind)}</Td> : null}
                 <Td>
-                  <span className="text-xs text-ink">{simpleStatus(item.status)}</span>
-                  {CONTENT_STATUS[item.status].label !== simpleStatus(item.status) ? (
-                    <StatusPill status={item.status} className="ml-2 hidden xl:inline-flex" />
-                  ) : null}
+                  <StatusPill status={item.status} />
                 </Td>
                 <Td className="text-xs text-muted-foreground">{item.assignedTo ?? "Unassigned"}</Td>
                 <Td className="text-xs text-muted-foreground">{relative(item.updatedAt)}</Td>
-                <Td className="text-xs text-muted-foreground">
+                <Td className="text-xs">
                   <PublicLink item={item} />
                 </Td>
-                <Td className="text-right">
-                  <button
-                    type="button"
-                    className={abtn.small}
-                    onClick={() => navigate({ to: "/admin/content/$id", params: { id: item.id } })}
-                  >
-                    {item.status === "published" ? "Update" : "Edit"}
-                  </button>
+                <Td>
+                  <RowActions
+                    label={`Actions for ${item.title}`}
+                    actions={[
+                      {
+                        label: item.status === "published" ? "Update" : "Edit",
+                        onSelect: () => navigate({ to: "/admin/content/$id", params: { id: item.id } }),
+                      },
+                      {
+                        label: "Preview public page",
+                        onSelect: () => navigate({ to: "/admin/content/$id/preview", params: { id: item.id } }),
+                      },
+                      {
+                        label: "Open review",
+                        onSelect: () => navigate({ to: "/admin/review" }),
+                      },
+                    ]}
+                  />
                 </Td>
               </tr>
             ))}
           </Table>
-        </Card>
-      ) : (
-        <EmptyState
-          title={`No ${title.toLowerCase()} match these filters.`}
-          hint="Clear a filter, or create a new record."
-        />
-      )}
+        ) : (
+          <EmptyState
+            title={`No ${title.toLowerCase()} match these filters.`}
+            hint="Clear a filter, switch tab, or create a new record."
+          />
+        )}
+      </div>
     </>
   );
 }
@@ -177,7 +213,7 @@ export function PublicLink({ item }: { item: ContentItem }) {
   if (item.status === "published" && item.publicPath) {
     return (
       <a href={item.publicPath} target="_blank" rel="noreferrer" className="text-primary hover:underline">
-        View published ↗
+        Live ↗
       </a>
     );
   }
