@@ -430,29 +430,34 @@ export function Modal({
 
   if (!open) return null;
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-50 flex items-end justify-center sm:items-center sm:p-4">
       <div className="absolute inset-0 bg-ink/40" onClick={onClose} aria-hidden />
       <div
         ref={ref}
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        className="relative z-10 max-h-[85vh] w-full max-w-lg overflow-auto rounded-lg border border-border bg-card shadow-lg"
+        className="relative z-10 flex max-h-[88dvh] w-full max-w-lg flex-col rounded-t-xl border border-border bg-card shadow-lg sm:max-h-[85vh] sm:rounded-lg"
       >
         <header className="flex items-center justify-between gap-4 border-b border-border px-4 py-3">
           <h2 id={titleId} className="text-sm font-semibold text-ink">
             {title}
           </h2>
-          <button type="button" className={abtn.quiet} onClick={onClose}>
+          <button type="button" className={cn(abtn.quiet, "min-h-11 min-w-11 sm:min-h-8 sm:min-w-0")} onClick={onClose}>
             Close
           </button>
         </header>
-        <div className="space-y-3 p-4 text-sm text-ink">{children}</div>
-        {footer ? <footer className="flex flex-wrap justify-end gap-2 border-t border-border px-4 py-3">{footer}</footer> : null}
+        <div className="flex-1 space-y-3 overflow-y-auto p-4 text-sm text-ink">{children}</div>
+        {footer ? (
+          <footer className="flex flex-wrap justify-end gap-2 border-t border-border px-4 py-3 pb-safe sm:pb-3">
+            {footer}
+          </footer>
+        ) : null}
       </div>
     </div>
   );
 }
+
 
 /** Confirmation before publishing, archiving, or removing a relationship. */
 export function useConfirm() {
