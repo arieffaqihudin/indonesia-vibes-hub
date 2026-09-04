@@ -241,38 +241,55 @@ export function Header() {
       })}
 
 
-      {/* Mobile drawer */}
+      {/* Mobile drawer — one expandable group per section */}
       {mobileOpen ? (
-        <div className="menu-in max-h-[calc(100dvh-4rem)] overflow-y-auto border-t border-border bg-background lg:hidden">
-
-          <nav aria-label="Mobile" className="container-editorial py-6">
+        <div className="menu-in max-h-[calc(100dvh-3.5rem)] overflow-y-auto overscroll-contain border-t border-border bg-background lg:hidden">
+          <nav aria-label="Mobile" className="container-editorial py-4 pb-safe">
             {navigation.map((group) => (
-              <div key={group.label} className="border-b border-border py-5 last:border-b-0">
-                <p className="eyebrow text-primary">{group.label}</p>
-                <ul className="mt-3 space-y-1">
+              <details key={group.label} className="group border-b border-border last:border-b-0">
+                <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-3 py-2 text-[1.05rem] font-medium text-ink marker:content-none">
+                  {group.label}
+                  <span
+                    aria-hidden
+                    className="text-muted-foreground transition-transform duration-200 group-open:rotate-45"
+                  >
+                    +
+                  </span>
+                </summary>
+                <ul className="pb-3">
                   {group.items.map((item) => (
                     <li key={item.to}>
                       <Link
                         to={item.to}
                         {...(item.hash ? { hash: item.hash } : {})}
-                        className="flex min-h-11 items-center text-[1.05rem] font-medium text-ink"
+                        className="flex min-h-11 items-center text-[0.95rem] text-ink/80"
                       >
                         {item.label}
                       </Link>
                     </li>
                   ))}
                 </ul>
-              </div>
+              </details>
             ))}
-            <Link
-              to="/collaborate"
-              className="mt-6 inline-flex min-h-11 w-full items-center justify-center rounded-full bg-primary px-5 text-sm font-medium text-primary-foreground"
-            >
-              Collaborate with us
-            </Link>
+            <div className="mt-5 flex flex-col gap-2">
+              <Link
+                to="/search"
+                search={{ q: "" }}
+                className="inline-flex min-h-11 w-full items-center justify-center rounded-full border border-border px-5 text-sm font-medium text-ink"
+              >
+                Search the platform
+              </Link>
+              <Link
+                to="/collaborate"
+                className="inline-flex min-h-11 w-full items-center justify-center rounded-full bg-primary px-5 text-sm font-medium text-primary-foreground"
+              >
+                Collaborate with us
+              </Link>
+            </div>
           </nav>
         </div>
       ) : null}
+
     </header>
   );
 }
