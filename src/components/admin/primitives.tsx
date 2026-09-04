@@ -22,28 +22,24 @@ export const abtn = {
 
 /* ---------------- status ---------------- */
 
-const groupTone: Record<string, string> = {
-  incoming: "border-border bg-muted text-ink",
-  working: "border-clay/30 bg-blush text-clay",
-  waiting: "border-clay/30 bg-blush text-clay",
-  cleared: "border-ink/25 bg-background text-ink",
-  live: "border-ink bg-ink text-background",
-  closed: "border-border bg-muted text-muted-foreground",
+const groupDot: Record<string, string> = {
+  incoming: "bg-muted-foreground",
+  working: "bg-clay",
+  waiting: "bg-primary",
+  cleared: "bg-clay",
+  live: "bg-ink",
+  closed: "bg-border",
 };
 
-/** Status never relies on colour alone: the word is always present. */
+/** Status never relies on colour alone: a small dot plus the word. */
 export function StatusPill({ status, className }: { status: ContentStatus; className?: string }) {
   const meta = CONTENT_STATUS[status];
   return (
     <span
-      className={cn(
-        "inline-flex items-center gap-1.5 rounded border px-2 py-0.5 text-[0.7rem] font-medium whitespace-nowrap",
-        groupTone[meta.group],
-        className,
-      )}
+      className={cn("inline-flex items-center gap-1.5 text-xs whitespace-nowrap text-ink", className)}
       title={meta.meaning}
     >
-      {meta.group === "waiting" ? <span className="h-1.5 w-1.5 rounded-full bg-current opacity-70" aria-hidden /> : null}
+      <span className={cn("h-1.5 w-1.5 shrink-0 rounded-full", groupDot[meta.group])} aria-hidden />
       {meta.label}
     </span>
   );
@@ -107,24 +103,47 @@ export function Card({
   bodyClass?: string;
 }) {
   return (
-    <section className={cn("rounded-lg border border-border bg-card", className)}>
+    <section className={cn("mb-8", className)}>
       {title ? (
-        <header className="flex flex-wrap items-center justify-between gap-3 border-b border-border px-4 py-3">
+        <header className="mb-3 flex flex-wrap items-end justify-between gap-3 border-b border-border pb-2">
           <div>
-            <h2 className="text-sm font-semibold tracking-tight text-ink">{title}</h2>
-            {description ? <p className="mt-0.5 text-xs text-muted-foreground">{description}</p> : null}
+            <h2 className="text-[0.72rem] font-semibold tracking-[0.14em] text-muted-foreground uppercase">{title}</h2>
+            {description ? <p className="mt-1 text-xs text-muted-foreground">{description}</p> : null}
           </div>
           {action}
         </header>
       ) : null}
-      <div className={cn("p-4", bodyClass)}>{children}</div>
+      <div className={bodyClass}>{children}</div>
     </section>
+  );
+}
+
+/** Flat single-line notice used instead of a boxed alert card. */
+export function InlineNote({
+  children,
+  tone = "info",
+  action,
+}: {
+  children: ReactNode;
+  tone?: "info" | "attention";
+  action?: ReactNode;
+}) {
+  return (
+    <div
+      className={cn(
+        "mb-4 flex flex-wrap items-center gap-2 border-l-2 px-3 py-2 text-xs",
+        tone === "attention" ? "border-primary bg-blush text-clay" : "border-border bg-muted text-ink",
+      )}
+    >
+      <span className="flex-1">{children}</span>
+      {action}
+    </div>
   );
 }
 
 export function EmptyState({ title, hint, action }: { title: string; hint?: string; action?: ReactNode }) {
   return (
-    <div className="rounded-md border border-dashed border-border px-4 py-8 text-center">
+    <div className="border-y border-border px-4 py-10 text-center">
       <p className="text-sm font-medium text-ink">{title}</p>
       {hint ? <p className="mx-auto mt-1 max-w-md text-xs text-muted-foreground">{hint}</p> : null}
       {action ? <div className="mt-4 flex justify-center">{action}</div> : null}
@@ -134,10 +153,10 @@ export function EmptyState({ title, hint, action }: { title: string; hint?: stri
 
 export function Metric({ value, label, hint }: { value: ReactNode; label: string; hint?: string }) {
   return (
-    <div className="rounded-md border border-border bg-card px-4 py-3">
-      <p className="text-lg font-semibold tracking-tight text-ink tabular-nums">{value}</p>
+    <div className="border-l border-border py-1 pl-3">
+      <p className="text-xl font-semibold tracking-tight text-ink tabular-nums">{value}</p>
       <p className="mt-0.5 text-xs font-medium text-ink">{label}</p>
-      {hint ? <p className="mt-1 text-[0.7rem] leading-snug text-muted-foreground">{hint}</p> : null}
+      {hint ? <p className="mt-0.5 text-[0.7rem] leading-snug text-muted-foreground">{hint}</p> : null}
     </div>
   );
 }
@@ -263,10 +282,10 @@ export function Table({ head, children, caption }: { head: string[]; children: R
     <div className="overflow-x-auto">
       <table className="w-full min-w-[46rem] border-collapse text-left text-sm">
         {caption ? <caption className="sr-only">{caption}</caption> : null}
-        <thead className="sticky top-0 z-10 bg-card">
+        <thead className="sticky top-0 z-10 bg-background">
           <tr className="border-b border-border">
             {head.map((h) => (
-              <th key={h} scope="col" className="px-3 py-2 text-[0.7rem] font-semibold tracking-wide text-muted-foreground uppercase">
+              <th key={h} scope="col" className="border-b border-border px-3 pb-2 text-[0.68rem] font-medium tracking-[0.12em] text-muted-foreground uppercase">
                 {h}
               </th>
             ))}
@@ -279,7 +298,7 @@ export function Table({ head, children, caption }: { head: string[]; children: R
 }
 
 export function Td({ children, className }: { children: ReactNode; className?: string }) {
-  return <td className={cn("border-b border-border px-3 py-2.5 align-top text-ink", className)}>{children}</td>;
+  return <td className={cn("border-b border-border/70 px-3 py-3 align-middle text-ink", className)}>{children}</td>;
 }
 
 /* ---------------- dialogs ---------------- */
