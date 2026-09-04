@@ -321,7 +321,7 @@ export function FilterBar({
                 <div className="pb-4">
                   <GroupedFilters defs={all} />
                 </div>
-                <div className="sticky bottom-0 flex items-center justify-between gap-3 border-t border-border bg-background pt-3 pb-1">
+                <div className="sticky bottom-0 flex items-center justify-between gap-3 border-t border-border bg-background pt-3 pb-safe">
                   <button
                     type="button"
                     onClick={clearAll}

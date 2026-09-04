@@ -130,7 +130,7 @@ export function AdminFilterBar({
 
   return (
     <div className="mb-1 border-b border-border py-2.5">
-      <div className="flex flex-wrap items-center gap-2">
+      <div className="scroll-strip flex items-center gap-2 pb-1 md:flex-wrap md:overflow-visible md:pb-0">
         {search ? (
           <div className="min-w-[12rem] flex-1 sm:max-w-xs">
             <label htmlFor={searchId} className="sr-only">
