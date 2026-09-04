@@ -284,7 +284,7 @@ export function FilterBar({
                   <SlidersHorizontal className="h-3.5 w-3.5 shrink-0 opacity-70" aria-hidden />
                   More filters{secondaryActive ? ` (${secondaryActive})` : ""}
                 </PopoverTrigger>
-                <PopoverContent align="start" className="w-80 rounded-xl border-border p-4">
+                <PopoverContent align="start" className="max-h-[70vh] w-80 overflow-y-auto rounded-xl border-border p-4">
                   <GroupedFilters defs={secondary} />
                   <div className="mt-4 flex items-center justify-between border-t border-border pt-3">
                     <button
@@ -318,7 +318,7 @@ export function FilterBar({
                 <SheetHeader className="px-0">
                   <SheetTitle className="text-left text-ink">Filter {resultNoun}</SheetTitle>
                 </SheetHeader>
-                <div className="pb-2">
+                <div className="pb-4">
                   <GroupedFilters defs={all} />
                 </div>
                 <div className="sticky bottom-0 flex items-center justify-between gap-3 border-t border-border bg-background pt-3 pb-1">
