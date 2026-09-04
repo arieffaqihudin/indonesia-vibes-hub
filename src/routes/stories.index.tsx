@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 
+import { FilterBar } from "@/components/editorial/FilterBar";
 import { PageHeader } from "@/components/editorial/Section";
 import { StoryCard } from "@/components/editorial/StoryCard";
 import { stories } from "@/data/content";
@@ -43,25 +44,22 @@ function StoriesPage() {
         title="Stories"
         intro="Long reads and short dispatches. Every piece links back to the forms, people and places it came from."
       >
-        <div className="flex flex-wrap gap-2">
-          {kinds.map((k) => (
-            <button
-              key={k}
-              type="button"
-              onClick={() => setKind(k)}
-              aria-pressed={kind === k}
-              className={cn(
-                "min-h-9 rounded-full border px-4 text-sm transition-colors",
-                kind === k
-                  ? "border-primary bg-primary text-primary-foreground"
-                  : "border-border bg-background text-ink hover:border-primary hover:text-primary",
-              )}
-            >
-              {k}
-            </button>
-          ))}
-        </div>
       </PageHeader>
+
+      <FilterBar
+        primary={[
+          {
+            id: "kind",
+            label: "Kind",
+            options: kinds.filter((k) => k !== "All"),
+            value: kind === "All" ? null : kind,
+            onChange: (v) => setKind((v ?? "All") as (typeof kinds)[number]),
+            allLabel: "All",
+          },
+        ]}
+        resultCount={list.length}
+        resultNoun={list.length === 1 ? "story" : "stories"}
+      />
 
       <div className="container-editorial py-16">
         <h2 className="sr-only">Stories</h2>
