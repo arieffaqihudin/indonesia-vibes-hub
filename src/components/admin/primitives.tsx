@@ -463,3 +463,70 @@ export function RecordLink({
     </Link>
   );
 }
+
+/* ---------------- row actions ---------------- */
+
+export interface RowAction {
+  label: string;
+  onSelect: () => void;
+  danger?: boolean;
+}
+
+/** The "•••" menu at the end of a table row; keeps rows free of button clusters. */
+export function RowActions({ actions, label }: { actions: RowAction[]; label: string }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const onDown = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    document.addEventListener("mousedown", onDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
+  return (
+    <div ref={ref} className="relative flex justify-end">
+      <button
+        type="button"
+        aria-haspopup="menu"
+        aria-expanded={open}
+        aria-label={label}
+        onClick={() => setOpen((v) => !v)}
+        className="inline-flex h-8 w-8 items-center justify-center rounded text-muted-foreground transition-colors hover:bg-muted hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+      >
+        <span aria-hidden>•••</span>
+      </button>
+      {open ? (
+        <div
+          role="menu"
+          className="absolute top-9 right-0 z-20 w-44 border border-border bg-card py-1 shadow-md"
+        >
+          {actions.map((a) => (
+            <button
+              key={a.label}
+              type="button"
+              role="menuitem"
+              onClick={() => {
+                setOpen(false);
+                a.onSelect();
+              }}
+              className={cn(
+                "block w-full px-3 py-1.5 text-left text-xs hover:bg-muted",
+                a.danger ? "text-primary" : "text-ink",
+              )}
+            >
+              {a.label}
+            </button>
+          ))}
+        </div>
+      ) : null}
+    </div>
+  );
+}
