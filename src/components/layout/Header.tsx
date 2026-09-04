@@ -189,12 +189,12 @@ export function Header() {
             onMouseEnter={cancelClose}
             className="menu-in absolute inset-x-0 top-full hidden border-b border-border bg-background/98 backdrop-blur-xl lg:block"
           >
-            <div className="container-editorial grid gap-10 py-9 lg:grid-cols-[minmax(0,15rem)_minmax(0,1fr)_minmax(0,17rem)]">
+            <div className="container-editorial grid gap-8 py-8 lg:grid-cols-[minmax(0,13rem)_minmax(0,1fr)] xl:grid-cols-[minmax(0,15rem)_minmax(0,1fr)_minmax(0,17rem)] xl:gap-10 xl:py-9">
               <div className="stagger-item">
                 <p className="eyebrow text-primary">{group.stage}</p>
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{group.intro}</p>
               </div>
-              <ul className="grid gap-x-8 gap-y-1 sm:grid-cols-2">
+              <ul className="grid gap-x-6 gap-y-1 sm:grid-cols-2 xl:gap-x-8">
                 {group.items.map((item, i) => (
                   <li
                     key={item.to}
@@ -217,7 +217,7 @@ export function Header() {
                 ))}
               </ul>
               <div
-                className="stagger-item border-l border-border pl-8"
+                className="stagger-item hidden border-l border-border pl-8 xl:block"
                 style={{ ["--reveal-delay" as string]: "140ms" }}
               >
                 <p className="eyebrow text-muted-foreground">In focus</p>
