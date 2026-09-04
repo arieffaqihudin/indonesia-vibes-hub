@@ -970,12 +970,16 @@ export const stories: Story[] = storiesSource.map((s) => ({
   ...(s.updatedAt ? { updatedAt: roll(s.updatedAt) } : {}),
 }));
 
-export const events: CulturalEvent[] = eventsSource.map((e) => ({
-  ...e,
-  startDate: roll(e.startDate),
-  endDate: roll(e.endDate),
-  ...(e.lastChecked ? { lastChecked: roll(e.lastChecked) } : {}),
-}));
+export const events: CulturalEvent[] = eventsSource.map((e) =>
+  e.fixedDate
+    ? e
+    : {
+        ...e,
+        startDate: roll(e.startDate),
+        ...(e.endDate ? { endDate: roll(e.endDate) } : {}),
+        ...(e.lastChecked ? { lastChecked: roll(e.lastChecked) } : {}),
+      },
+);
 
 export const opportunities: Opportunity[] = opportunitiesSource.map((o) => ({
   ...o,
@@ -983,7 +987,7 @@ export const opportunities: Opportunity[] = opportunitiesSource.map((o) => ({
   ...(o.lastChecked ? { lastChecked: roll(o.lastChecked) } : {}),
 }));
 
-export const worldNodes: WorldNode[] = [
+const authoredWorldNodes: WorldNode[] = [
   { id: "wn-1", city: "London", country: "United Kingdom", continent: "Europe", lat: 51.507, lng: -0.127, programme: "Warp & Weft exhibition and schools programme", eventIds: ["ev-1"], status: "Active" },
   { id: "wn-2", city: "Berlin", country: "Germany", continent: "Europe", lat: 52.52, lng: 13.405, programme: "Bronze / Circuit residency and concerts", eventIds: ["ev-2"], status: "Upcoming" },
   { id: "wn-3", city: "New York", country: "United States", continent: "Americas", lat: 40.713, lng: -74.006, programme: "New Indonesian Cinema season", eventIds: ["ev-3"], status: "Upcoming" },
@@ -997,6 +1001,40 @@ export const worldNodes: WorldNode[] = [
   { id: "wn-11", city: "Cape Town", country: "South Africa", continent: "Africa", lat: -33.925, lng: 18.424, programme: "Creative economy policy exchange", eventIds: [], status: "Archive" },
   { id: "wn-12", city: "Mexico City", country: "Mexico", continent: "Americas", lat: 19.432, lng: -99.133, programme: "Textile and dye research visit", eventIds: [], status: "Archive" },
 ];
+
+/**
+ * Events that carry their own geography become map locations automatically, so
+ * a location on Indonesia Around the World is never a second copy of an event.
+ * Several activities in one place are grouped into a single location.
+ */
+const derivedWorldNodes: WorldNode[] = (() => {
+  const groups = new Map<string, WorldNode>();
+  for (const e of events) {
+    if (!e.location) continue;
+    const key = `${e.location.city ?? ""}|${e.location.country}`;
+    const existing = groups.get(key);
+    if (existing) {
+      existing.eventIds.push(e.id);
+      existing.programme = `${existing.eventIds.length} activities listed`;
+      continue;
+    }
+    groups.set(key, {
+      id: `wn-ev-${e.id}`,
+      city: e.location.city ?? e.location.country,
+      country: e.location.country,
+      continent: e.location.continent,
+      lat: e.location.lat,
+      lng: e.location.lng,
+      programme: e.title,
+      eventIds: [e.id],
+      status: "Upcoming",
+    });
+  }
+  return [...groups.values()];
+})();
+
+export const worldNodes: WorldNode[] = [...authoredWorldNodes, ...derivedWorldNodes];
+
 
 
 /* ---------- graph helpers ---------- */
