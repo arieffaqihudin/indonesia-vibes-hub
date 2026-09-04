@@ -49,7 +49,7 @@ export function ContentListing({
   createLabel?: string;
   showTypeColumn?: boolean;
 }) {
-  const { content, users } = useAdmin();
+  const { content, users, sources } = useAdmin();
   const navigate = useNavigate();
   const [tab, setTab] = useState<string>("All");
   const [query, setQuery] = useState("");
@@ -61,7 +61,9 @@ export function ContentListing({
   const scope = useMemo(() => content.filter((c) => kinds.includes(c.kind)), [content, kinds]);
   const themes = useMemo(() => [...new Set(scope.flatMap((c) => c.themes))].sort(), [scope]);
   const countries = useMemo(() => [...new Set(scope.flatMap((c) => c.countries))].sort(), [scope]);
-  const needsSources = scope.filter((c) => c.status !== "archived" && (c.sources?.length ?? 0) === 0).length;
+  const needsSources = scope.filter(
+    (c) => c.status !== "archived" && !sources.some((src) => src.contentId === c.id),
+  ).length;
 
   const rows = useMemo(() => {
     const q = query.trim().toLowerCase();
