@@ -195,29 +195,32 @@ export function TabBar({
   label: string;
 }) {
   return (
-    <div role="tablist" aria-label={label} className="flex flex-wrap gap-1 border-b border-border">
-      {tabs.map((tab) => (
-        <button
-          key={tab.id}
-          role="tab"
-          type="button"
-          aria-selected={active === tab.id}
-          onClick={() => onChange(tab.id)}
-          className={cn(
-            "-mb-px min-h-9 rounded-t border-b-2 px-3 text-xs font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
-            active === tab.id
-              ? "border-primary text-ink"
-              : "border-transparent text-muted-foreground hover:text-ink",
-          )}
-        >
-          {tab.label}
-          {typeof tab.count === "number" ? (
-            <span className="ml-1.5 tabular-nums text-muted-foreground">{tab.count}</span>
-          ) : null}
-        </button>
-      ))}
+    <div className="scroll-strip -mx-4 border-b border-border px-4 sm:mx-0 sm:px-0">
+      <div role="tablist" aria-label={label} className="flex w-max min-w-full gap-1 sm:w-auto sm:flex-wrap">
+        {tabs.map((tab) => (
+          <button
+            key={tab.id}
+            role="tab"
+            type="button"
+            aria-selected={active === tab.id}
+            onClick={() => onChange(tab.id)}
+            className={cn(
+              "-mb-px min-h-10 shrink-0 rounded-t border-b-2 px-3 text-xs font-medium whitespace-nowrap transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
+              active === tab.id
+                ? "border-primary text-ink"
+                : "border-transparent text-muted-foreground hover:text-ink",
+            )}
+          >
+            {tab.label}
+            {typeof tab.count === "number" ? (
+              <span className="ml-1.5 tabular-nums text-muted-foreground">{tab.count}</span>
+            ) : null}
+          </button>
+        ))}
+      </div>
     </div>
   );
+
 }
 
 export function SelectFilter({
