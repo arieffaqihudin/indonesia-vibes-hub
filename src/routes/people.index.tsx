@@ -1,7 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 
-import { EmptyState, FilterGroup, FilterPanel, SearchField } from "@/components/editorial/Filters";
+import { EmptyState } from "@/components/editorial/Filters";
+import { FilterBar } from "@/components/editorial/FilterBar";
+import type { FilterDef } from "@/components/editorial/FilterBar";
 import { PersonCard } from "@/components/editorial/EntityCards";
 import { PageHeader } from "@/components/editorial/Section";
 import { people } from "@/data/content";
@@ -62,14 +64,37 @@ function PeoplePage() {
   const emerging = people.filter((p) => p.emerging).slice(0, 3);
   const activeFilters = Boolean(query || role || theme || region || availability || entity);
 
-  const reset = () => {
-    setQuery("");
-    setRole(null);
-    setTheme(null);
-    setRegion(null);
-    setAvailability(null);
-    setEntity(null);
-  };
+  const primaryFilters: FilterDef[] = [
+    {
+      id: "entity",
+      label: "Type",
+      options: ["People", "Communities"],
+      value: entity,
+      onChange: (v) => setEntity(v as EntityFilter | null),
+      allLabel: "Everyone",
+    },
+    {
+      id: "role",
+      label: "Role",
+      options: PERSON_ROLES,
+      value: role,
+      onChange: (v) => setRole(v as PersonRole | null),
+      allLabel: "Any role",
+    },
+  ];
+
+  const secondaryFilters: FilterDef[] = [
+    { id: "theme", label: "Theme", options: THEMES, value: theme, onChange: (v) => setTheme(v as ThemeId | null) },
+    { id: "region", label: "Region", options: personRegions, value: region, onChange: setRegion },
+    {
+      id: "availability",
+      label: "Open to",
+      options: AVAILABILITY,
+      value: availability,
+      onChange: (v) => setAvailability(v as Availability | null),
+      allLabel: "Any",
+    },
+  ];
 
   return (
     <>
@@ -112,37 +137,13 @@ function PeoplePage() {
         </section>
       ) : null}
 
-      <FilterPanel
+      <FilterBar
+        search={{ value: query, onChange: setQuery, placeholder: "Name, practice or expertise" }}
+        primary={primaryFilters}
+        secondary={secondaryFilters}
         resultCount={results.length}
         resultNoun={results.length === 1 ? "profile" : "profiles"}
-        onReset={reset}
-        active={activeFilters}
-      >
-        <SearchField
-          id="people-search"
-          label="Search"
-          placeholder="Name, practice or expertise"
-          value={query}
-          onChange={setQuery}
-        />
-        <FilterGroup
-          label="Type"
-          options={["People", "Communities"] as const}
-          value={entity}
-          onChange={setEntity}
-          allLabel="Everyone"
-        />
-        <FilterGroup label="Role" options={PERSON_ROLES} value={role} onChange={setRole} />
-        <FilterGroup label="Theme" options={THEMES} value={theme} onChange={setTheme} />
-        <FilterGroup label="Region" options={personRegions} value={region} onChange={setRegion} />
-        <FilterGroup
-          label="Open to"
-          options={AVAILABILITY}
-          value={availability}
-          onChange={setAvailability}
-          allLabel="Any"
-        />
-      </FilterPanel>
+      />
 
       <div className="container-editorial py-16">
         {results.length ? (

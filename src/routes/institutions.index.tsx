@@ -1,7 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 
-import { EmptyState, FilterGroup, FilterPanel, SearchField } from "@/components/editorial/Filters";
+import { EmptyState } from "@/components/editorial/Filters";
+import { FilterBar } from "@/components/editorial/FilterBar";
+import type { FilterDef } from "@/components/editorial/FilterBar";
 import { InstitutionCard } from "@/components/editorial/EntityCards";
 import { PageHeader } from "@/components/editorial/Section";
 import { InquiryButton } from "@/components/editorial/ui";
@@ -56,15 +58,37 @@ function InstitutionsPage() {
     });
   }, [query, type, theme, region, expertise, international]);
 
-  const active = Boolean(query || type || theme || region || expertise || international);
-  const reset = () => {
-    setQuery("");
-    setType(null);
-    setTheme(null);
-    setRegion(null);
-    setExpertise(null);
-    setInternational(null);
-  };
+  const primaryFilters: FilterDef[] = [
+    {
+      id: "type",
+      label: "Type",
+      options: INSTITUTION_TYPES,
+      value: type,
+      onChange: (v) => setType(v as InstitutionType | null),
+      allLabel: "All types",
+    },
+    {
+      id: "region",
+      label: "Region",
+      options: institutionRegions,
+      value: region,
+      onChange: setRegion,
+      allLabel: "All regions",
+    },
+  ];
+
+  const secondaryFilters: FilterDef[] = [
+    { id: "theme", label: "Theme", options: THEMES, value: theme, onChange: (v) => setTheme(v as ThemeId | null) },
+    { id: "expertise", label: "Expertise", options: institutionExpertise, value: expertise, onChange: setExpertise },
+    {
+      id: "partnership",
+      label: "Partnership",
+      options: ["International experience"],
+      value: international,
+      onChange: (v) => setInternational(v as "International experience" | null),
+      allLabel: "Any",
+    },
+  ];
 
   return (
     <>
@@ -80,36 +104,13 @@ function InstitutionsPage() {
         </InquiryButton>
       </PageHeader>
 
-      <FilterPanel
+      <FilterBar
+        search={{ value: query, onChange: setQuery, placeholder: "Name, city or collection" }}
+        primary={primaryFilters}
+        secondary={secondaryFilters}
         resultCount={results.length}
         resultNoun={results.length === 1 ? "institution" : "institutions"}
-        onReset={reset}
-        active={active}
-      >
-        <SearchField
-          id="institution-search"
-          label="Search"
-          placeholder="Name, city or collection"
-          value={query}
-          onChange={setQuery}
-        />
-        <FilterGroup label="Type" options={INSTITUTION_TYPES} value={type} onChange={setType} />
-        <FilterGroup label="Theme" options={THEMES} value={theme} onChange={setTheme} />
-        <FilterGroup label="Region" options={institutionRegions} value={region} onChange={setRegion} />
-        <FilterGroup
-          label="Expertise"
-          options={institutionExpertise}
-          value={expertise}
-          onChange={setExpertise}
-        />
-        <FilterGroup
-          label="Partnership"
-          options={["International experience"] as const}
-          value={international}
-          onChange={setInternational}
-          allLabel="Any"
-        />
-      </FilterPanel>
+      />
 
       <div className="container-editorial py-16">
         <h2 className="sr-only">Institutions</h2>
