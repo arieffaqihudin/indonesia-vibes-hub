@@ -48,7 +48,7 @@ function AroundTheWorldPage() {
                       {e!.title}
                     </Link>
                     <span className="block text-xs text-muted-foreground">
-                      {formatEventDates(e!)}
+                      {[e!.type, formatEventDates(e!)].filter(Boolean).join(" · ")}
                     </span>
                   </li>
                 ))}
