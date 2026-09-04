@@ -4,6 +4,8 @@
  * is always computed from structured relations, never hand-listed per page.
  */
 import {
+  eventCountry,
+  eventLocationLabel,
   events,
   forms,
   getForm,
