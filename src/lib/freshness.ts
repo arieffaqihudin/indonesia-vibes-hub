@@ -16,9 +16,10 @@ import {
   events,
   eventStatus,
   formatDate,
-  formatRange,
+  formatEventDates,
+  eventLocationLabel,
   forms,
-  getPlace,
+
   opportunities,
   people,
   stories,
