@@ -838,7 +838,54 @@ const eventsSource: CulturalEvent[] = [
     context: "The residency treats dye chemistry as the shared language: both traditions depend on plants, water and time rather than on equipment.",
     lastChecked: "2026-01-24",
   },
+
+  /* ---------- source-provided upcoming activity (2026) ----------
+   * Supplied by the project team as real calendar dates. These records are NOT
+   * part of the rolling prototype calendar (`fixedDate`), and they carry only
+   * confirmed information: venue, organiser, programme, partners and official
+   * sources stay absent until verified. `needsVerification` is internal.
+   */
+  {
+    id: "ev-8", slug: "syeikh-yusuf-netherlands", title: "Syeikh Yusuf Exhibition and Seminar",
+    workingTitle: true, type: "Exhibition & Seminar", fixedDate: true,
+    startDate: "2026-10-08", endDate: "2026-10-12", formIds: [],
+    location: { country: "Netherlands", lat: 52.13, lng: 5.29, continent: "Europe" },
+    sourceNote: "Pameran dan seminar Syeikh Yusuf, Belanda",
+    needsVerification: ["City", "Venue", "Organiser", "Programme", "Official source", "Registration or access information", "Partners"],
+  },
+  {
+    id: "ev-9", slug: "indonesia-megadiversity-fire-and-ash", title: "Indonesia Megadiversity: Fire and Ash",
+    fixedDate: true, startDate: "2026-10-20", endDate: "2026-10-26", formIds: [],
+    location: { city: "Chicago", country: "United States", lat: 41.878, lng: -87.63, continent: "Americas" },
+    needsVerification: ["Venue", "Organiser", "Event format", "Programme description", "Official source", "Registration or access", "Partners"],
+  },
+  {
+    id: "ev-10", slug: "russia-east-festival-kazan", title: "The 5th International Festival of National Cultures \u201cRussia-East\u201d",
+    type: "Festival", fixedDate: true, startDate: "2026-11-21", formIds: [],
+    location: { city: "Kazan", country: "Russia", lat: 55.796, lng: 49.106, continent: "Europe" },
+    needsVerification: ["Venue", "Indonesian programme", "Participating artists", "Organiser", "Official source", "Partners"],
+  },
+  {
+    id: "ev-11", slug: "venice-biennale-closing", title: "Venice Biennale \u2014 Closing",
+    workingTitle: true, fixedDate: true, startDate: "2026-11-22", formIds: [],
+    location: { city: "Venice", country: "Italy", lat: 45.438, lng: 12.327, continent: "Europe" },
+    needsVerification: ["Specific Biennale programme", "Indonesian participation context", "Venue", "Organiser", "Official source", "Participating artists or institutions"],
+  },
+  {
+    id: "ev-12", slug: "al-burda-award", title: "Al Burda Award",
+    type: "Award", fixedDate: true, startDate: "2026-11-24", formIds: [],
+    location: { city: "Abu Dhabi", country: "United Arab Emirates", lat: 24.453, lng: 54.377, continent: "Asia" },
+    needsVerification: ["Venue", "Indonesia-related participation", "Programme", "Organiser", "Official source", "Participating people or institutions"],
+  },
+  {
+    id: "ev-13", slug: "turkey-international-book-fair", title: "Turkey International Book Fair",
+    workingTitle: true, type: "Book Fair", fixedDate: true,
+    startDate: "2026-12-01", datePrecision: "month", formIds: [],
+    location: { country: "T\u00fcrkiye", lat: 39.0, lng: 35.24, continent: "Asia" },
+    needsVerification: ["Official event name", "Exact dates", "City", "Venue", "Indonesian participation", "Organiser", "Programme", "Official source", "Partners"],
+  },
 ];
+
 
 const opportunitiesSource: Opportunity[] = [
   {
@@ -923,12 +970,16 @@ export const stories: Story[] = storiesSource.map((s) => ({
   ...(s.updatedAt ? { updatedAt: roll(s.updatedAt) } : {}),
 }));
 
-export const events: CulturalEvent[] = eventsSource.map((e) => ({
-  ...e,
-  startDate: roll(e.startDate),
-  endDate: roll(e.endDate),
-  ...(e.lastChecked ? { lastChecked: roll(e.lastChecked) } : {}),
-}));
+export const events: CulturalEvent[] = eventsSource.map((e) =>
+  e.fixedDate
+    ? e
+    : {
+        ...e,
+        startDate: roll(e.startDate),
+        ...(e.endDate ? { endDate: roll(e.endDate) } : {}),
+        ...(e.lastChecked ? { lastChecked: roll(e.lastChecked) } : {}),
+      },
+);
 
 export const opportunities: Opportunity[] = opportunitiesSource.map((o) => ({
   ...o,
@@ -936,7 +987,7 @@ export const opportunities: Opportunity[] = opportunitiesSource.map((o) => ({
   ...(o.lastChecked ? { lastChecked: roll(o.lastChecked) } : {}),
 }));
 
-export const worldNodes: WorldNode[] = [
+const authoredWorldNodes: WorldNode[] = [
   { id: "wn-1", city: "London", country: "United Kingdom", continent: "Europe", lat: 51.507, lng: -0.127, programme: "Warp & Weft exhibition and schools programme", eventIds: ["ev-1"], status: "Active" },
   { id: "wn-2", city: "Berlin", country: "Germany", continent: "Europe", lat: 52.52, lng: 13.405, programme: "Bronze / Circuit residency and concerts", eventIds: ["ev-2"], status: "Upcoming" },
   { id: "wn-3", city: "New York", country: "United States", continent: "Americas", lat: 40.713, lng: -74.006, programme: "New Indonesian Cinema season", eventIds: ["ev-3"], status: "Upcoming" },
@@ -950,6 +1001,40 @@ export const worldNodes: WorldNode[] = [
   { id: "wn-11", city: "Cape Town", country: "South Africa", continent: "Africa", lat: -33.925, lng: 18.424, programme: "Creative economy policy exchange", eventIds: [], status: "Archive" },
   { id: "wn-12", city: "Mexico City", country: "Mexico", continent: "Americas", lat: 19.432, lng: -99.133, programme: "Textile and dye research visit", eventIds: [], status: "Archive" },
 ];
+
+/**
+ * Events that carry their own geography become map locations automatically, so
+ * a location on Indonesia Around the World is never a second copy of an event.
+ * Several activities in one place are grouped into a single location.
+ */
+const derivedWorldNodes: WorldNode[] = (() => {
+  const groups = new Map<string, WorldNode>();
+  for (const e of events) {
+    if (!e.location) continue;
+    const key = `${e.location.city ?? ""}|${e.location.country}`;
+    const existing = groups.get(key);
+    if (existing) {
+      existing.eventIds.push(e.id);
+      existing.programme = `${existing.eventIds.length} activities listed`;
+      continue;
+    }
+    groups.set(key, {
+      id: `wn-ev-${e.id}`,
+      city: e.location.city ?? e.location.country,
+      country: e.location.country,
+      continent: e.location.continent,
+      lat: e.location.lat,
+      lng: e.location.lng,
+      programme: e.title,
+      eventIds: [e.id],
+      status: e.startDate >= new Date().toISOString().slice(0, 10) ? "Upcoming" : "Archive",
+    });
+  }
+  return [...groups.values()];
+})();
+
+export const worldNodes: WorldNode[] = [...authoredWorldNodes, ...derivedWorldNodes];
+
 
 
 /* ---------- graph helpers ---------- */
@@ -1013,12 +1098,47 @@ export const formatRange = (start: string, end: string) => {
     });
   return `${f(s, !sameYear)} – ${f(e, true)}`;
 };
+
+/** Month and year only, for records where the exact dates are not confirmed. */
+export const formatMonth = (iso: string) =>
+  new Date(iso + "T00:00:00Z").toLocaleDateString("en-GB", { month: "long", year: "numeric", timeZone: "UTC" });
+
+/**
+ * The one place event dates are turned into words. A record with month-only
+ * precision reads "December 2026" — never an invented day.
+ */
+export const formatEventDates = (event: CulturalEvent) => {
+  if (event.datePrecision === "month") return formatMonth(event.startDate);
+  if (!event.endDate || event.endDate === event.startDate) return formatDate(event.startDate);
+  return formatRange(event.startDate, event.endDate);
+};
+
+/** City and country as far as they are confirmed. */
+export const eventLocationLabel = (event: CulturalEvent) => {
+  const place = event.placeId ? placeMap.get(event.placeId) : undefined;
+  if (place) return [place.city ?? place.name, place.country].filter(Boolean).join(", ");
+  if (event.location) return [event.location.city, event.location.country].filter(Boolean).join(", ");
+  return "";
+};
+
+export const eventCountry = (event: CulturalEvent) =>
+  (event.placeId ? placeMap.get(event.placeId)?.country : undefined) ?? event.location?.country ?? "";
+
+/** Internal: records whose operational fields are not yet confirmed. */
+export const eventsNeedingVerification = () =>
+  events.filter((e) => (e.needsVerification?.length ?? 0) > 0);
+
 /** Derived from the dates, so the label never contradicts the calendar. */
 export type EventStatus = "Upcoming" | "On now" | "Past";
 
 export const eventStatus = (event: CulturalEvent, now: Date = new Date()): EventStatus => {
   const start = new Date(event.startDate + "T00:00:00Z").getTime();
-  const end = new Date(event.endDate + "T23:59:59Z").getTime();
+  const lastDay =
+    event.datePrecision === "month"
+      ? new Date(Date.UTC(new Date(event.startDate + "T00:00:00Z").getUTCFullYear(), new Date(event.startDate + "T00:00:00Z").getUTCMonth() + 1, 0)).toISOString().slice(0, 10)
+      : (event.endDate ?? event.startDate);
+  const end = new Date(lastDay + "T23:59:59Z").getTime();
+
   const t = now.getTime();
   if (t < start) return "Upcoming";
   if (t > end) return "Past";

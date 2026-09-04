@@ -10,7 +10,7 @@ import {
   relatedCollaborations,
   resolve,
 } from "@/data/graph";
-import { events, formatRange, getForm, stories } from "@/data/content";
+import { events, formatEventDates, getForm, stories } from "@/data/content";
 
 export const Route = createFileRoute("/collaborations/$slug")({
   loader: ({ params }) => {
@@ -189,7 +189,7 @@ function CollaborationPage() {
                   <li key={e.id} className="py-5">
                     <Link to="/events/$slug" params={{ slug: e.slug }} className="group block">
                       <p className="text-sm text-muted-foreground">
-                        {formatRange(e.startDate, e.endDate)} · {e.type}
+                        {formatEventDates(e)} · {e.type}
                       </p>
                       <p className="mt-1.5 text-lg font-medium text-ink">
                         <span className="link-underline">{e.title}</span>

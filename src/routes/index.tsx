@@ -9,14 +9,15 @@ import { StoryCard } from "@/components/editorial/StoryCard";
 import { WorldMap } from "@/components/map/WorldMap";
 import {
   collections,
-  formatRange,
+  formatEventDates,
   getPlace,
   people,
   pillars,
   stories,
   worldNodes,
 } from "@/data/content";
-import { comingUpEvents, ongoingCollaborations, openOpportunities } from "@/lib/freshness";
+import { ongoingCollaborations, openOpportunities } from "@/lib/freshness";
+import { ComingUpAroundWorld } from "@/components/editorial/ComingUpAroundWorld";
 import { brand } from "@/lib/brand";
 
 export const Route = createFileRoute("/")({
@@ -41,7 +42,6 @@ function Home() {
   const featuredCollection = collections[0]!;
   const otherCollections = collections.slice(1);
   const peopleToKnow = people.slice(0, 4);
-  const upcoming = comingUpEvents().slice(0, 3);
   const collaborations = ongoingCollaborations().slice(0, 2);
   const openCalls = openOpportunities().slice(0, 3);
 
@@ -247,55 +247,7 @@ function Home() {
         </div>
       </section>
 
-      {/* Upcoming experiences */}
-      <section className="container-editorial py-16 md:py-24">
-        <Reveal>
-          <SectionHeading
-            eyebrow="Experience"
-            title="Coming up"
-            intro="Exhibitions, performances, screenings and workshops with dates already set."
-            action="/events"
-            actionLabel="All events"
-          />
-        </Reveal>
-        {upcoming.length ? (
-          <ul className="mt-10 divide-y divide-border border-y border-border">
-            {upcoming.map((e, i) => {
-              const place = getPlace(e.placeId);
-              return (
-                <Reveal as="li" key={e.id} delay={i * 70}>
-                  <Link
-                    to="/events/$slug"
-                    params={{ slug: e.slug }}
-                    className="group grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 py-5"
-                  >
-                    <span className="min-w-0">
-                      <span className="eyebrow text-primary">
-                        {e.type} · {place?.name}
-                      </span>
-                      <span className="mt-2 block text-lg leading-snug font-medium text-ink group-hover:text-primary">
-                        {e.title}
-                      </span>
-                      <span className="mt-1 block text-sm text-muted-foreground">
-                        {formatRange(e.startDate, e.endDate)}
-                      </span>
-                    </span>
-                    <ArrowUpRight className="arrow-nudge h-5 w-5 shrink-0 text-primary" />
-                  </Link>
-                </Reveal>
-              );
-            })}
-          </ul>
-        ) : (
-          <p className="mt-10 border-y border-border py-6 text-sm text-muted-foreground">
-            No upcoming dates are currently listed. Programmes in preparation appear under{" "}
-            <Link to="/collaborations" className="link-underline text-primary">
-              collaborations
-            </Link>
-            .
-          </p>
-        )}
-      </section>
+      <ComingUpAroundWorld />
 
       {/* Current collaborations */}
       <section className="border-y border-border bg-blush">

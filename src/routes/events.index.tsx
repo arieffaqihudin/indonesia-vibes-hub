@@ -3,7 +3,7 @@ import { useMemo, useState } from "react";
 
 import { FilterChip } from "@/components/editorial/Filters";
 import { PageHeader } from "@/components/editorial/Section";
-import { events, eventStatus, formatRange, getPlace } from "@/data/content";
+import { eventLocationLabel, events, eventStatus, formatEventDates, getPlace } from "@/data/content";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/events/")({
@@ -39,7 +39,7 @@ function EventsPage() {
   const decorated = useMemo(
     () =>
       events
-        .map((e) => ({ event: e, status: eventStatus(e), place: getPlace(e.placeId) }))
+        .map((e) => ({ event: e, status: eventStatus(e), place: e.placeId ? getPlace(e.placeId) : undefined }))
         .sort((a, b) => {
           const rank = { "On now": 0, Upcoming: 1, Past: 2 } as const;
           if (rank[a.status] !== rank[b.status]) return rank[a.status] - rank[b.status];
@@ -52,8 +52,9 @@ function EventsPage() {
 
   const results = decorated.filter(({ event, status, place }) => {
     if (when !== "All" && status !== when) return false;
-    if (where === "In Indonesia" && place?.country !== "Indonesia") return false;
-    if (where === "Around the world" && place?.country === "Indonesia") return false;
+    const country = place?.country ?? event.location?.country;
+    if (where === "In Indonesia" && country !== "Indonesia") return false;
+    if (where === "Around the world" && country === "Indonesia") return false;
     return Boolean(event);
   });
 
@@ -112,6 +113,7 @@ function EventsPage() {
                   params={{ slug: e.slug }}
                   className="group grid grid-cols-[minmax(0,1fr)] items-center gap-6 py-7 md:grid-cols-[10rem_minmax(0,1fr)_12rem]"
                 >
+                  {e.image ? (
                   <img
                     src={e.image}
                     alt=""
@@ -120,22 +122,27 @@ function EventsPage() {
                     loading="lazy"
                     className={cn("hidden aspect-[4/3] w-40 object-cover md:block", status === "Past" && "opacity-60")}
                   />
+                  ) : (
+                    <span className="hidden aspect-[4/3] w-40 bg-muted md:block" aria-hidden="true" />
+                  )}
                   <span className="min-w-0">
                     <span className="flex flex-wrap items-center gap-2">
                       <span className={cn("rounded-full px-2.5 py-1 text-xs font-medium", statusTone[status])}>
                         {status}
                       </span>
                       <span className="eyebrow text-muted-foreground">
-                        {e.type} · {place?.city ?? place?.name}, {place?.country}
+                        {[e.type, eventLocationLabel(e)].filter(Boolean).join(" · ")}
                       </span>
                     </span>
                     <span className="mt-2.5 block text-xl leading-snug font-medium text-ink group-hover:text-primary">
                       {e.title}
                     </span>
-                    <span className="mt-2 block text-sm leading-relaxed text-muted-foreground">{e.summary}</span>
+                    {e.summary || e.sourceNote ? (
+                      <span className="mt-2 block text-sm leading-relaxed text-muted-foreground">{e.summary ?? e.sourceNote}</span>
+                    ) : null}
                   </span>
                   <span className="text-sm text-muted-foreground md:text-right">
-                    {formatRange(e.startDate, e.endDate)}
+                    {formatEventDates(e)}
                   </span>
                 </Link>
               </li>

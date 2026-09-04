@@ -3,7 +3,7 @@ import { useState } from "react";
 
 import { PageHeader } from "@/components/editorial/Section";
 import { WorldMap } from "@/components/map/WorldMap";
-import { formatRange, getEventById, worldNodes } from "@/data/content";
+import { formatEventDates, getEventById, worldNodes } from "@/data/content";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/around-the-world")({
@@ -48,7 +48,7 @@ function AroundTheWorldPage() {
                       {e!.title}
                     </Link>
                     <span className="block text-xs text-muted-foreground">
-                      {formatRange(e!.startDate, e!.endDate)}
+                      {[e!.type, formatEventDates(e!)].filter(Boolean).join(" · ")}
                     </span>
                   </li>
                 ))}

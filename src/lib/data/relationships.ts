@@ -141,7 +141,7 @@ for (const s of stories) {
 
 /* events */
 for (const e of events) {
-  link("event", e.id, "takes_place_at", "place", e.placeId);
+  if (e.placeId) link("event", e.id, "takes_place_at", "place", e.placeId);
   for (const fid of e.formIds) link("event", e.id, "about_subject", "cultural_subject", fid);
   for (const iid of e.institutionIds ?? []) link("event", e.id, "organised_by", "institution", iid);
   for (const pid of e.peopleIds ?? []) link(personType(pid), pid, "participates_in", "event", e.id);

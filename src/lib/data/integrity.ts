@@ -85,7 +85,7 @@ export const structuralIssues = (): HealthFinding[] => {
     const entity = getEntityBySource("event", e.id);
     const hasOrganiser = Boolean(e.organiser) || Boolean(e.institutionIds?.length);
     if (!hasOrganiser) out.push(finding(`ev-org-${e.id}`, "Event without organiser", e.title, entity));
-    if (e.endDate < e.startDate)
+    if (e.endDate && e.endDate < e.startDate)
       out.push(finding(`ev-date-${e.id}`, "Event dates out of order", e.title, entity));
   }
 

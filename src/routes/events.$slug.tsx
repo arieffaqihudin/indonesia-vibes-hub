@@ -1,6 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 
-import { eventStatus, formatDate, formatRange, getEvent, getForm, getPerson, getPlace } from "@/data/content";
+import { eventLocationLabel, eventStatus, formatDate, formatEventDates, getEvent, getForm, getPerson, getPlace } from "@/data/content";
 import type { CulturalEvent, CulturalForm, Person } from "@/types/content";
 
 export const Route = createFileRoute("/events/$slug")({
@@ -17,9 +17,9 @@ export const Route = createFileRoute("/events/$slug")({
     return {
       meta: [
         { title: `${event.title} — Indonesia Vibes` },
-        { name: "description", content: event.summary },
+        { name: "description", content: event.summary ?? event.sourceNote ?? `${event.title} — an Indonesian cultural activity listed on Indonesia Vibes.` },
         { property: "og:title", content: event.title },
-        { property: "og:description", content: event.summary },
+        { property: "og:description", content: event.summary ?? event.sourceNote ?? `${event.title} — an Indonesian cultural activity listed on Indonesia Vibes.` },
         { property: "og:type", content: "article" },
         { property: "og:url", content: `/events/${params.slug}` },
       ],
@@ -39,7 +39,8 @@ export const Route = createFileRoute("/events/$slug")({
 
 function EventPage() {
   const { event } = Route.useLoaderData();
-  const place = getPlace(event.placeId);
+  const place = event.placeId ? getPlace(event.placeId) : undefined;
+  const locationLabel = eventLocationLabel(event);
   const forms = event.formIds.map(getForm).filter(Boolean) as CulturalForm[];
   const people = (event.peopleIds ?? []).map(getPerson).filter(Boolean) as Person[];
   const status = eventStatus(event);
@@ -47,11 +48,11 @@ function EventPage() {
   return (
     <article>
       <header className="container-editorial pt-14 pb-10">
-        <p className="eyebrow text-primary">
-          {event.type} · {place?.name}, {place?.country}
-        </p>
+        <p className="eyebrow text-primary">{[event.type, locationLabel].filter(Boolean).join(" · ")}</p>
         <h1 className="display-1 mt-5 max-w-4xl text-ink">{event.title}</h1>
-        <p className="standfirst mt-6 max-w-2xl">{event.summary}</p>
+        {event.summary || event.sourceNote ? (
+          <p className="standfirst mt-6 max-w-2xl">{event.summary ?? event.sourceNote}</p>
+        ) : null}
         <div className="mt-7 flex flex-wrap items-center gap-3 text-sm">
           <span
             className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-medium ${
@@ -64,12 +65,14 @@ function EventPage() {
           >
             {status === "On now" ? "On now" : status === "Upcoming" ? "Upcoming" : "Past programme"}
           </span>
-          <span className="text-muted-foreground">{formatRange(event.startDate, event.endDate)}</span>
+          <span className="text-muted-foreground">{formatEventDates(event)}</span>
         </div>
       </header>
-      <figure className="container-editorial">
-        <img src={event.image} alt={event.title} width={1600} height={1104} className="aspect-[16/9] w-full object-cover" />
-      </figure>
+      {event.image ? (
+        <figure className="container-editorial">
+          <img src={event.image} alt={event.title} width={1600} height={1104} className="aspect-[16/9] w-full object-cover" />
+        </figure>
+      ) : null}
       <div className="container-editorial grid gap-10 py-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,20rem)] lg:gap-20">
         <div className="min-w-0 max-w-2xl space-y-12">
           {event.context ? (
@@ -140,11 +143,12 @@ function EventPage() {
         </div>
 
         <div className="space-y-7 border-t border-border pt-8 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-10">
-          <Fact label="Dates" value={formatRange(event.startDate, event.endDate)} />
+          <Fact label="Dates" value={formatEventDates(event)} />
+          {locationLabel ? <Fact label="Location" value={locationLabel} /> : null}
           {event.localTime ? (
             <Fact label="Times" value={`${event.localTime}${event.timeZone ? ` (${event.timeZone})` : ""}`} />
           ) : null}
-          {event.venue ? <Fact label="Venue" value={`${event.venue}, ${place?.name ?? ""}`} /> : null}
+          {event.venue ? <Fact label="Venue" value={[event.venue, place?.name].filter(Boolean).join(", ")} /> : null}
           {event.admission ? <Fact label="Admission" value={event.admission} /> : null}
           {event.organiser ? <Fact label="Organised by" value={event.organiser} /> : null}
           {forms.length ? <Fact label="Forms" value={forms.map((f) => f.name).join(", ")} /> : null}

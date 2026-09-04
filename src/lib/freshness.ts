@@ -16,9 +16,10 @@ import {
   events,
   eventStatus,
   formatDate,
-  formatRange,
+  formatEventDates,
+  eventLocationLabel,
   forms,
-  getPlace,
+
   opportunities,
   people,
   stories,
@@ -100,7 +101,7 @@ const daysSince = (iso: string, now: Date) =>
 
 /** Exhibitions and programmes running across today's date. */
 export const currentlyOnView = (now = new Date()) =>
-  events.filter((e) => eventStatus(e, now) === "On now").sort((a, b) => a.endDate.localeCompare(b.endDate));
+  events.filter((e) => eventStatus(e, now) === "On now").sort((a, b) => (a.endDate ?? a.startDate).localeCompare(b.endDate ?? b.startDate));
 
 /** Events and programmes that have not started yet. */
 export const comingUpEvents = (now = new Date()) =>
@@ -157,15 +158,14 @@ function candidates(now: Date): FreshItem[] {
   );
 
   currentlyOnView(now).forEach((e, i) => {
-    const place = getPlace(e.placeId);
     push({
       id: `event:${e.id}`,
       kind: "on_view",
-      headline: `${e.title}${place?.city ? ` — ${place.city}` : ""}`,
-      meta: `${e.type} · until ${formatDate(e.endDate)}`,
+      headline: `${e.title}${eventLocationLabel(e) ? ` — ${eventLocationLabel(e)}` : ""}`,
+      meta: [e.type, formatEventDates(e)].filter(Boolean).join(" · "),
       href: `/events/${e.slug}`,
       family: "event",
-      image: e.image,
+      ...(e.image ? { image: e.image } : {}),
       score: 70 - i * 2,
     });
   });
@@ -173,15 +173,14 @@ function candidates(now: Date): FreshItem[] {
   comingUpEvents(now)
     .slice(0, 4)
     .forEach((e, i) => {
-      const place = getPlace(e.placeId);
       push({
         id: `event:${e.id}`,
         kind: "coming_up",
-        headline: `${e.title}${place?.city ? ` — ${place.city}` : ""}`,
-        meta: `${e.type} · ${formatRange(e.startDate, e.endDate)}`,
+        headline: `${e.title}${eventLocationLabel(e) ? ` — ${eventLocationLabel(e)}` : ""}`,
+        meta: [e.type, formatEventDates(e)].filter(Boolean).join(" · "),
         href: `/events/${e.slug}`,
         family: "event",
-        image: e.image,
+        ...(e.image ? { image: e.image } : {}),
         score: 62 - i * 3,
       });
     });
