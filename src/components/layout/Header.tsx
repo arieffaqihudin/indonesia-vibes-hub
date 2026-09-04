@@ -57,6 +57,17 @@ export function Header() {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
+  // The mobile menu owns the screen: the page behind it must not scroll.
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previous;
+    };
+  }, [mobileOpen]);
+
+
   const scheduleClose = () => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
     closeTimer.current = setTimeout(() => setOpen(null), 140);
