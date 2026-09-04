@@ -422,11 +422,15 @@ export function Modal({
       }
     };
     document.addEventListener("keydown", onKey);
+    const bodyOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
     return () => {
       document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = bodyOverflow;
       previous?.focus();
     };
   }, [open, onClose]);
+
 
   if (!open) return null;
   return (
