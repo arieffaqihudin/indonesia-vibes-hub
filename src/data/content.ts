@@ -1098,12 +1098,47 @@ export const formatRange = (start: string, end: string) => {
     });
   return `${f(s, !sameYear)} – ${f(e, true)}`;
 };
+
+/** Month and year only, for records where the exact dates are not confirmed. */
+export const formatMonth = (iso: string) =>
+  new Date(iso + "T00:00:00Z").toLocaleDateString("en-GB", { month: "long", year: "numeric", timeZone: "UTC" });
+
+/**
+ * The one place event dates are turned into words. A record with month-only
+ * precision reads "December 2026" — never an invented day.
+ */
+export const formatEventDates = (event: CulturalEvent) => {
+  if (event.datePrecision === "month") return formatMonth(event.startDate);
+  if (!event.endDate || event.endDate === event.startDate) return formatDate(event.startDate);
+  return formatRange(event.startDate, event.endDate);
+};
+
+/** City and country as far as they are confirmed. */
+export const eventLocationLabel = (event: CulturalEvent) => {
+  const place = event.placeId ? placeMap.get(event.placeId) : undefined;
+  if (place) return [place.city ?? place.name, place.country].filter(Boolean).join(", ");
+  if (event.location) return [event.location.city, event.location.country].filter(Boolean).join(", ");
+  return "";
+};
+
+export const eventCountry = (event: CulturalEvent) =>
+  (event.placeId ? placeMap.get(event.placeId)?.country : undefined) ?? event.location?.country ?? "";
+
+/** Internal: records whose operational fields are not yet confirmed. */
+export const eventsNeedingVerification = () =>
+  events.filter((e) => (e.needsVerification?.length ?? 0) > 0);
+
 /** Derived from the dates, so the label never contradicts the calendar. */
 export type EventStatus = "Upcoming" | "On now" | "Past";
 
 export const eventStatus = (event: CulturalEvent, now: Date = new Date()): EventStatus => {
   const start = new Date(event.startDate + "T00:00:00Z").getTime();
-  const end = new Date(event.endDate + "T23:59:59Z").getTime();
+  const lastDay =
+    event.datePrecision === "month"
+      ? new Date(Date.UTC(new Date(event.startDate + "T00:00:00Z").getUTCFullYear(), new Date(event.startDate + "T00:00:00Z").getUTCMonth() + 1, 0)).toISOString().slice(0, 10)
+      : (event.endDate ?? event.startDate);
+  const end = new Date(lastDay + "T23:59:59Z").getTime();
+
   const t = now.getTime();
   if (t < start) return "Upcoming";
   if (t > end) return "Past";
