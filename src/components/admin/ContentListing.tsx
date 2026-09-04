@@ -15,7 +15,7 @@ import {
   kindLabel,
   simpleStatus,
   type ContentKind,
-  type ContentRecord,
+  type ContentItem,
 } from "@/lib/admin/types";
 import { AdminFilterBar, type AdminFilterDef } from "./AdminFilterBar";
 import { Card, EmptyState, PageHeading, StatusPill, Table, Td, abtn, relative } from "./primitives";
@@ -170,7 +170,7 @@ export function ContentListing({
 }
 
 /** Makes the link between a dashboard record and the public site explicit. */
-export function PublicLink({ item }: { item: ContentRecord }) {
+export function PublicLink({ item }: { item: ContentItem }) {
   if (item.status === "published" && item.publicPath) {
     return (
       <a href={item.publicPath} target="_blank" rel="noreferrer" className="text-primary hover:underline">
