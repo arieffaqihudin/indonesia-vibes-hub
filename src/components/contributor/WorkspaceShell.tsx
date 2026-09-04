@@ -168,6 +168,19 @@ export function WorkspaceShell({
   const { user, hydrated, signOut, submissions } = useWorkspace();
   const navigate = useNavigate();
   const [drawer, setDrawer] = useState(false);
+
+  // Keep the page behind the navigation drawer still.
+  useEffect(() => {
+    if (!drawer) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setDrawer(false);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = previous;
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [drawer]);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   useEffect(() => setDrawer(false), [pathname]);
@@ -225,7 +238,7 @@ export function WorkspaceShell({
         </div>
       </header>
 
-      <div className="mx-auto flex max-w-[1400px] gap-8 px-4 py-8 sm:px-6">
+      <div className="mx-auto flex max-w-[1400px] gap-8 px-4 py-6 sm:px-6 sm:py-8">
         <aside className="hidden w-60 shrink-0 lg:block">
           <div className="sticky top-24">
             <NavList />
@@ -258,14 +271,14 @@ export function WorkspaceShell({
             aria-label="Close menu"
             onClick={() => setDrawer(false)}
           />
-          <div className="absolute inset-y-0 left-0 w-72 overflow-auto bg-background p-4">
+          <div className="absolute inset-y-0 left-0 w-[min(19rem,86vw)] overflow-y-auto overscroll-contain bg-background p-4 pb-safe">
             <div className="mb-4 flex items-center justify-between">
               <span className="text-sm font-semibold text-ink">Workspace</span>
               <button
                 type="button"
                 onClick={() => setDrawer(false)}
                 aria-label="Close menu"
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-border"
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-border"
               >
                 <X className="h-4 w-4" aria-hidden />
               </button>
