@@ -8,7 +8,7 @@ import { kindLabel } from "@/lib/admin/types";
 import { Card, EmptyState, Metric, PageHeading, StatusPill, TabBar, Tag, abtn, relative } from "@/components/admin/primitives";
 
 export const Route = createFileRoute("/admin/review/")({
-  head: adminHead("Review queue", "Work waiting on the team, grouped by what it is actually waiting for."),
+  head: adminHead("Needs review", "Work waiting on the team, grouped by what it is actually waiting for."),
   component: ReviewQueue,
 });
 

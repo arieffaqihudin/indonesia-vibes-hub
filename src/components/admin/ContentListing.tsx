@@ -11,6 +11,7 @@ import { useMemo, useState } from "react";
 
 import { useAdmin } from "@/lib/admin/store";
 import {
+  CONTENT_STATUS,
   SIMPLE_STATUSES,
   kindLabel,
   simpleStatus,
@@ -139,7 +140,9 @@ export function ContentListing({
                 {showTypeColumn ? <Td className="text-xs text-muted-foreground">{kindLabel(item.kind)}</Td> : null}
                 <Td>
                   <span className="text-xs text-ink">{simpleStatus(item.status)}</span>
-                  <StatusPill status={item.status} className="ml-2 hidden xl:inline-flex" />
+                  {CONTENT_STATUS[item.status].label !== simpleStatus(item.status) ? (
+                    <StatusPill status={item.status} className="ml-2 hidden xl:inline-flex" />
+                  ) : null}
                 </Td>
                 <Td className="text-xs text-muted-foreground">{item.assignedTo ?? "Unassigned"}</Td>
                 <Td className="text-xs text-muted-foreground">{relative(item.updatedAt)}</Td>
