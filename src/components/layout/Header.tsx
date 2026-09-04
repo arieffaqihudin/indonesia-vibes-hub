@@ -150,15 +150,16 @@ export function Header() {
           </ul>
         </nav>
 
-        <div className="ml-auto flex items-center gap-2 lg:ml-4">
+        <div className="ml-auto flex items-center gap-1 sm:gap-2 lg:ml-4">
           <Link
             to="/search"
             search={{ q: "" }}
             aria-label="Search Indonesia Vibes"
-            className="press hidden h-9 w-9 items-center justify-center rounded-full text-ink/70 hover:bg-blush hover:text-primary sm:inline-flex"
+            className="press inline-flex h-11 w-11 items-center justify-center rounded-full text-ink/70 hover:bg-blush hover:text-primary lg:h-9 lg:w-9"
           >
             <Search className="h-[1.05rem] w-[1.05rem]" />
           </Link>
+
 
           <Link
             to="/collaborate"
