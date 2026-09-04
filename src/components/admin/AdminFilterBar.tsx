@@ -20,7 +20,7 @@ export interface AdminFilterDef {
 
 const trigger = (active: boolean) =>
   cn(
-    "inline-flex min-h-8 max-w-[13rem] items-center gap-1.5 rounded-md border px-2.5 text-xs transition-colors",
+    "inline-flex min-h-9 max-w-[13rem] shrink-0 items-center gap-1.5 rounded-md border px-2.5 text-xs transition-colors md:min-h-8",
     "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
     active ? "border-clay bg-blush font-medium text-clay" : "border-border text-ink hover:border-primary hover:text-primary",
   );
@@ -130,9 +130,25 @@ export function AdminFilterBar({
 
   return (
     <div className="mb-1 border-b border-border py-2.5">
-      <div className="flex flex-wrap items-center gap-2">
+      {search ? (
+        <div className="mb-2 md:hidden">
+          <label htmlFor={`${searchId}-m`} className="sr-only">
+            Search {resultNoun}
+          </label>
+          <input
+            id={`${searchId}-m`}
+            type="search"
+            value={search.value}
+            placeholder={search.placeholder}
+            onChange={(e) => search.onChange(e.target.value)}
+            className={cn(field, "min-h-10 py-1.5 text-sm")}
+          />
+        </div>
+      ) : null}
+
+      <div className="scroll-strip flex items-center gap-2 pb-1 md:flex-wrap md:overflow-visible md:pb-0">
         {search ? (
-          <div className="min-w-[12rem] flex-1 sm:max-w-xs">
+          <div className="hidden min-w-[12rem] flex-1 md:block md:max-w-xs">
             <label htmlFor={searchId} className="sr-only">
               Search {resultNoun}
             </label>
@@ -174,7 +190,7 @@ export function AdminFilterBar({
         {children}
 
         {sort ? (
-          <label className="ml-auto flex items-center gap-1.5 text-xs text-muted-foreground">
+          <label className="ml-auto flex shrink-0 items-center gap-1.5 text-xs text-muted-foreground">
             <span className="hidden sm:inline">Sort</span>
             <select
               value={sort.value}

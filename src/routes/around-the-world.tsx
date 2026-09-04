@@ -22,6 +22,8 @@ export const Route = createFileRoute("/around-the-world")({
 
 function AroundTheWorldPage() {
   const [selected, setSelected] = useState<string | null>(worldNodes[0]?.id ?? null);
+  // On small screens the map and the full city list take turns.
+  const [view, setView] = useState<"map" | "list">("map");
   const node = worldNodes.find((n) => n.id === selected) ?? null;
 
   return (
@@ -31,8 +33,28 @@ function AroundTheWorldPage() {
         title="Indonesia around the world"
         intro="Every programme we run outside Indonesia, on one map. Select a city to see what is there and when."
       />
-      <div className="container-editorial grid gap-10 py-16 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] lg:items-start">
-        <WorldMap selectedId={selected} onSelect={setSelected} focus />
+      <div className="container-editorial pt-8 lg:hidden">
+        <div className="inline-flex rounded-full border border-border p-0.5" role="group" aria-label="Choose a view">
+          {(["map", "list"] as const).map((v) => (
+            <button
+              key={v}
+              type="button"
+              onClick={() => setView(v)}
+              aria-pressed={view === v}
+              className={cn(
+                "min-h-10 rounded-full px-5 text-sm font-medium capitalize transition-colors",
+                view === v ? "bg-primary text-primary-foreground" : "text-ink",
+              )}
+            >
+              {v}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div className="container-editorial grid gap-10 py-10 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] lg:items-start lg:py-16">
+        <div className={cn(view === "map" ? "block" : "hidden", "lg:block")}>
+          <WorldMap selectedId={selected} onSelect={setSelected} focus />
+        </div>
 
         <div>
           {node ? (
@@ -56,7 +78,7 @@ function AroundTheWorldPage() {
             </div>
           ) : null}
 
-          <ul className="mt-8 divide-y divide-border border-y border-border">
+          <ul className={cn("mt-8 divide-y divide-border border-y border-border", view === "list" ? "block" : "hidden", "lg:block")}>
             {worldNodes.map((n) => (
               <li key={n.id}>
                 <button

@@ -57,6 +57,17 @@ export function Header() {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
+  // The mobile menu owns the screen: the page behind it must not scroll.
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previous;
+    };
+  }, [mobileOpen]);
+
+
   const scheduleClose = () => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
     closeTimer.current = setTimeout(() => setOpen(null), 140);
@@ -139,15 +150,16 @@ export function Header() {
           </ul>
         </nav>
 
-        <div className="ml-auto flex items-center gap-2 lg:ml-4">
+        <div className="ml-auto flex items-center gap-1 sm:gap-2 lg:ml-4">
           <Link
             to="/search"
             search={{ q: "" }}
             aria-label="Search Indonesia Vibes"
-            className="press hidden h-9 w-9 items-center justify-center rounded-full text-ink/70 hover:bg-blush hover:text-primary sm:inline-flex"
+            className="press inline-flex h-11 w-11 items-center justify-center rounded-full text-ink/70 hover:bg-blush hover:text-primary lg:h-9 lg:w-9"
           >
             <Search className="h-[1.05rem] w-[1.05rem]" />
           </Link>
+
 
           <Link
             to="/collaborate"
@@ -177,12 +189,12 @@ export function Header() {
             onMouseEnter={cancelClose}
             className="menu-in absolute inset-x-0 top-full hidden border-b border-border bg-background/98 backdrop-blur-xl lg:block"
           >
-            <div className="container-editorial grid gap-10 py-9 lg:grid-cols-[minmax(0,15rem)_minmax(0,1fr)_minmax(0,17rem)]">
+            <div className="container-editorial grid gap-8 py-8 lg:grid-cols-[minmax(0,13rem)_minmax(0,1fr)] xl:grid-cols-[minmax(0,15rem)_minmax(0,1fr)_minmax(0,17rem)] xl:gap-10 xl:py-9">
               <div className="stagger-item">
                 <p className="eyebrow text-primary">{group.stage}</p>
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{group.intro}</p>
               </div>
-              <ul className="grid gap-x-8 gap-y-1 sm:grid-cols-2">
+              <ul className="grid gap-x-6 gap-y-1 sm:grid-cols-2 xl:gap-x-8">
                 {group.items.map((item, i) => (
                   <li
                     key={item.to}
@@ -205,7 +217,7 @@ export function Header() {
                 ))}
               </ul>
               <div
-                className="stagger-item border-l border-border pl-8"
+                className="stagger-item hidden border-l border-border pl-8 xl:block"
                 style={{ ["--reveal-delay" as string]: "140ms" }}
               >
                 <p className="eyebrow text-muted-foreground">In focus</p>
@@ -229,38 +241,55 @@ export function Header() {
       })}
 
 
-      {/* Mobile drawer */}
+      {/* Mobile drawer — one expandable group per section */}
       {mobileOpen ? (
-        <div className="menu-in max-h-[calc(100dvh-4rem)] overflow-y-auto border-t border-border bg-background lg:hidden">
-
-          <nav aria-label="Mobile" className="container-editorial py-6">
+        <div className="menu-in max-h-[calc(100dvh-3.5rem)] overflow-y-auto overscroll-contain border-t border-border bg-background lg:hidden">
+          <nav aria-label="Mobile" className="container-editorial py-4 pb-safe">
             {navigation.map((group) => (
-              <div key={group.label} className="border-b border-border py-5 last:border-b-0">
-                <p className="eyebrow text-primary">{group.label}</p>
-                <ul className="mt-3 space-y-1">
+              <details key={group.label} className="group border-b border-border last:border-b-0">
+                <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-3 py-2 text-[1.05rem] font-medium text-ink marker:content-none">
+                  {group.label}
+                  <span
+                    aria-hidden
+                    className="text-muted-foreground transition-transform duration-200 group-open:rotate-45"
+                  >
+                    +
+                  </span>
+                </summary>
+                <ul className="pb-3">
                   {group.items.map((item) => (
                     <li key={item.to}>
                       <Link
                         to={item.to}
                         {...(item.hash ? { hash: item.hash } : {})}
-                        className="flex min-h-11 items-center text-[1.05rem] font-medium text-ink"
+                        className="flex min-h-11 items-center text-[0.95rem] text-ink/80"
                       >
                         {item.label}
                       </Link>
                     </li>
                   ))}
                 </ul>
-              </div>
+              </details>
             ))}
-            <Link
-              to="/collaborate"
-              className="mt-6 inline-flex min-h-11 w-full items-center justify-center rounded-full bg-primary px-5 text-sm font-medium text-primary-foreground"
-            >
-              Collaborate with us
-            </Link>
+            <div className="mt-5 flex flex-col gap-2">
+              <Link
+                to="/search"
+                search={{ q: "" }}
+                className="inline-flex min-h-11 w-full items-center justify-center rounded-full border border-border px-5 text-sm font-medium text-ink"
+              >
+                Search the platform
+              </Link>
+              <Link
+                to="/collaborate"
+                className="inline-flex min-h-11 w-full items-center justify-center rounded-full bg-primary px-5 text-sm font-medium text-primary-foreground"
+              >
+                Collaborate with us
+              </Link>
+            </div>
           </nav>
         </div>
       ) : null}
+
     </header>
   );
 }

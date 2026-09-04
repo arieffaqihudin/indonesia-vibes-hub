@@ -1,5 +1,16 @@
 import { Link } from "@tanstack/react-router";
-import { useEffect, useId, useRef, useState, type ReactNode } from "react";
+import {
+  Children,
+  cloneElement,
+  isValidElement,
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  type ReactElement,
+  type ReactNode,
+} from "react";
+
 
 import { cn } from "@/lib/utils";
 import { CONTENT_STATUS, type ContentStatus } from "@/lib/admin/types";
@@ -74,16 +85,19 @@ export function PageHeading({
   eyebrow?: string;
 }) {
   return (
-    <header className="mb-5 flex flex-wrap items-end justify-between gap-4">
-      <div className="max-w-2xl">
+    <header className="mb-5 flex flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between sm:gap-4">
+      <div className="min-w-0 max-w-2xl">
         {eyebrow ? (
           <p className="text-[0.68rem] font-semibold tracking-[0.18em] text-muted-foreground uppercase">{eyebrow}</p>
         ) : null}
-        <h1 className="mt-1 text-2xl font-semibold tracking-tight text-ink">{title}</h1>
+        <h1 className="mt-1 text-[1.375rem] leading-tight font-semibold tracking-tight text-ink sm:text-2xl">{title}</h1>
         {description ? <p className="mt-1.5 text-sm text-muted-foreground">{description}</p> : null}
       </div>
-      {actions ? <div className="flex flex-wrap items-center gap-2">{actions}</div> : null}
+      {actions ? (
+        <div className="flex flex-wrap items-center gap-2 [&>*]:max-sm:flex-1 [&>*]:max-sm:justify-center">{actions}</div>
+      ) : null}
     </header>
+
   );
 }
 
@@ -192,29 +206,32 @@ export function TabBar({
   label: string;
 }) {
   return (
-    <div role="tablist" aria-label={label} className="flex flex-wrap gap-1 border-b border-border">
-      {tabs.map((tab) => (
-        <button
-          key={tab.id}
-          role="tab"
-          type="button"
-          aria-selected={active === tab.id}
-          onClick={() => onChange(tab.id)}
-          className={cn(
-            "-mb-px min-h-9 rounded-t border-b-2 px-3 text-xs font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
-            active === tab.id
-              ? "border-primary text-ink"
-              : "border-transparent text-muted-foreground hover:text-ink",
-          )}
-        >
-          {tab.label}
-          {typeof tab.count === "number" ? (
-            <span className="ml-1.5 tabular-nums text-muted-foreground">{tab.count}</span>
-          ) : null}
-        </button>
-      ))}
+    <div className="scroll-strip -mx-4 border-b border-border px-4 sm:mx-0 sm:px-0">
+      <div role="tablist" aria-label={label} className="flex w-max min-w-full gap-1 sm:w-auto sm:flex-wrap">
+        {tabs.map((tab) => (
+          <button
+            key={tab.id}
+            role="tab"
+            type="button"
+            aria-selected={active === tab.id}
+            onClick={() => onChange(tab.id)}
+            className={cn(
+              "-mb-px min-h-10 shrink-0 rounded-t border-b-2 px-3 text-xs font-medium whitespace-nowrap transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
+              active === tab.id
+                ? "border-primary text-ink"
+                : "border-transparent text-muted-foreground hover:text-ink",
+            )}
+          >
+            {tab.label}
+            {typeof tab.count === "number" ? (
+              <span className="ml-1.5 tabular-nums text-muted-foreground">{tab.count}</span>
+            ) : null}
+          </button>
+        ))}
+      </div>
     </div>
   );
+
 }
 
 export function SelectFilter({
@@ -277,29 +294,93 @@ export function SearchInput({
 
 /* ---------------- table ---------------- */
 
-export function Table({ head, children, caption }: { head: string[]; children: ReactNode; caption?: string }) {
+/**
+ * One table component with two intentional shapes.
+ *
+ * From 48rem up it is a normal dense table (horizontally scrollable only if the
+ * columns genuinely need it). Below that, `.table-adaptive` turns each row into
+ * a structured record block: headline first, remaining values labelled with
+ * their column name, row actions pinned top-right. Column names are injected
+ * into each cell automatically, so no page has to repeat them.
+ */
+export function Table({
+  head,
+  children,
+  caption,
+  /** Force the desktop table shape at every width (genuinely tabular data). */
+  alwaysTable,
+}: {
+  head: string[];
+  children: ReactNode;
+  caption?: string;
+  alwaysTable?: boolean;
+}) {
+  const labelled = Children.map(children, (row) => {
+    if (!isValidElement(row)) return row;
+    const rowProps = row.props as { children?: ReactNode };
+    let i = 0;
+    const cells = Children.map(rowProps.children, (cell) => {
+      if (!isValidElement(cell)) return cell;
+      const label = head[i] ?? "";
+      i += 1;
+      const cellProps = cell.props as { label?: string };
+      if (cellProps.label !== undefined) return cell;
+      return cloneElement(cell as ReactElement<{ label?: string }>, { label });
+    });
+    return cloneElement(row as ReactElement<{ children?: ReactNode }>, { children: cells });
+  });
+
   return (
-    <div className="overflow-x-auto">
-      <table className="w-full min-w-[46rem] border-collapse text-left text-sm">
+    <div className={cn(alwaysTable ? "overflow-x-auto" : "md:overflow-x-auto")}>
+      <table
+        className={cn(
+          "w-full border-collapse text-left text-sm",
+          alwaysTable ? "min-w-[46rem]" : "table-adaptive md:min-w-[46rem]",
+        )}
+      >
         {caption ? <caption className="sr-only">{caption}</caption> : null}
         <thead className="sticky top-0 z-10 bg-background">
           <tr className="border-b border-border">
-            {head.map((h) => (
-              <th key={h} scope="col" className="border-b border-border px-3 pb-2 text-[0.68rem] font-medium tracking-[0.12em] text-muted-foreground uppercase">
+            {head.map((h, i) => (
+              <th
+                key={h || `col-${i}`}
+                scope="col"
+                className="border-b border-border px-3 pb-2 text-[0.68rem] font-medium tracking-[0.12em] text-muted-foreground uppercase"
+              >
                 {h}
               </th>
             ))}
           </tr>
         </thead>
-        <tbody>{children}</tbody>
+        <tbody>{alwaysTable ? children : labelled}</tbody>
       </table>
     </div>
   );
 }
 
-export function Td({ children, className }: { children: ReactNode; className?: string }) {
-  return <td className={cn("border-b border-border/70 px-3 py-3 align-middle text-ink", className)}>{children}</td>;
+export function Td({
+  children,
+  className,
+  label,
+  colSpan,
+}: {
+  children: ReactNode;
+  className?: string;
+  /** Column name, injected by Table; shown as the label in the mobile shape. */
+  label?: string;
+  colSpan?: number;
+}) {
+  return (
+    <td
+      data-label={label}
+      colSpan={colSpan}
+      className={cn("border-b border-border/70 px-3 py-3 align-middle text-ink md:border-b", className)}
+    >
+      {children}
+    </td>
+  );
 }
+
 
 /* ---------------- dialogs ---------------- */
 
@@ -341,37 +422,46 @@ export function Modal({
       }
     };
     document.addEventListener("keydown", onKey);
+    const bodyOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
     return () => {
       document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = bodyOverflow;
       previous?.focus();
     };
   }, [open, onClose]);
 
+
   if (!open) return null;
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-50 flex items-end justify-center sm:items-center sm:p-4">
       <div className="absolute inset-0 bg-ink/40" onClick={onClose} aria-hidden />
       <div
         ref={ref}
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        className="relative z-10 max-h-[85vh] w-full max-w-lg overflow-auto rounded-lg border border-border bg-card shadow-lg"
+        className="relative z-10 flex max-h-[88dvh] w-full max-w-lg flex-col rounded-t-xl border border-border bg-card shadow-lg sm:max-h-[85vh] sm:rounded-lg"
       >
         <header className="flex items-center justify-between gap-4 border-b border-border px-4 py-3">
           <h2 id={titleId} className="text-sm font-semibold text-ink">
             {title}
           </h2>
-          <button type="button" className={abtn.quiet} onClick={onClose}>
+          <button type="button" className={cn(abtn.quiet, "min-h-11 min-w-11 sm:min-h-8 sm:min-w-0")} onClick={onClose}>
             Close
           </button>
         </header>
-        <div className="space-y-3 p-4 text-sm text-ink">{children}</div>
-        {footer ? <footer className="flex flex-wrap justify-end gap-2 border-t border-border px-4 py-3">{footer}</footer> : null}
+        <div className="flex-1 space-y-3 overflow-y-auto p-4 text-sm text-ink">{children}</div>
+        {footer ? (
+          <footer className="flex flex-wrap justify-end gap-2 border-t border-border px-4 py-3 pb-safe sm:pb-3">
+            {footer}
+          </footer>
+        ) : null}
       </div>
     </div>
   );
 }
+
 
 /** Confirmation before publishing, archiving, or removing a relationship. */
 export function useConfirm() {
@@ -499,14 +589,14 @@ export function RowActions({ actions, label }: { actions: RowAction[]; label: st
         aria-expanded={open}
         aria-label={label}
         onClick={() => setOpen((v) => !v)}
-        className="inline-flex h-8 w-8 items-center justify-center rounded text-muted-foreground transition-colors hover:bg-muted hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+        className="inline-flex h-11 w-11 items-center justify-center rounded text-muted-foreground transition-colors hover:bg-muted hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary md:h-9 md:w-9"
       >
         <span aria-hidden>•••</span>
       </button>
       {open ? (
         <div
           role="menu"
-          className="absolute top-9 right-0 z-20 w-44 border border-border bg-card py-1 shadow-md"
+          className="absolute top-11 right-0 z-20 w-[min(14rem,calc(100vw-2rem))] border border-border bg-card py-1 shadow-md md:top-9"
         >
           {actions.map((a) => (
             <button
@@ -518,12 +608,13 @@ export function RowActions({ actions, label }: { actions: RowAction[]; label: st
                 a.onSelect();
               }}
               className={cn(
-                "block w-full px-3 py-1.5 text-left text-xs hover:bg-muted",
+                "block w-full px-3 py-2.5 text-left text-xs hover:bg-muted md:py-1.5",
                 a.danger ? "text-primary" : "text-ink",
               )}
             >
               {a.label}
             </button>
+
           ))}
         </div>
       ) : null}
