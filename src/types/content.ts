@@ -229,16 +229,45 @@ export interface Collection {
   formIds: Id[];
 }
 
+export type EventType =
+  | "Exhibition"
+  | "Performance"
+  | "Screening"
+  | "Workshop"
+  | "Residency"
+  | "Seminar"
+  | "Exhibition & Seminar"
+  | "Festival"
+  | "Award"
+  | "Book Fair";
+
+/** A single canonical event record, fed to every surface that shows events. */
 export interface CulturalEvent {
   id: Id;
   slug: string;
   title: string;
-  type: "Exhibition" | "Performance" | "Screening" | "Workshop" | "Residency";
+  /** Only set once the format is confirmed. */
+  type?: EventType;
   startDate: string;
-  endDate: string;
-  placeId: Id;
-  image: string;
-  summary: string;
+  /** Omitted for single-day events and for records where only a month is known. */
+  endDate?: string;
+  /** "day" = exact dates confirmed; "month" = only the month is confirmed. */
+  datePrecision?: "day" | "month";
+  /** Set when the dates are real calendar dates that must not be shifted. */
+  fixedDate?: boolean;
+  placeId?: Id;
+  /** Geography for events that do not (yet) map onto a canonical Place record. */
+  location?: {
+    city?: string;
+    country: string;
+    lat: number;
+    lng: number;
+    continent: GlobalRegion;
+  };
+  image?: string;
+  summary?: string;
+  /** Verbatim description as supplied by the source, when there is no editorial summary. */
+  sourceNote?: string;
   formIds: Id[];
   live?: boolean;
   institutionIds?: Id[];
@@ -252,7 +281,12 @@ export interface CulturalEvent {
   programme?: string[];
   context?: string;
   lastChecked?: string;
+  /** Internal only — operational fields still to be confirmed. Never shown publicly. */
+  needsVerification?: string[];
+  /** Internal only — the title is provisional until the official name is confirmed. */
+  workingTitle?: boolean;
 }
+
 
 export interface Opportunity {
   id: Id;
