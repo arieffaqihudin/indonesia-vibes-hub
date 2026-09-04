@@ -162,6 +162,52 @@ export const CONTENT_STATUS: Record<ContentStatus, StatusMeta> = {
   archived: { label: "Archived", meaning: "Withdrawn from the public platform, kept on record.", group: "closed" },
 };
 
+/** Seven plain states for list views; the detailed stage stays on the record. */
+export type SimpleStatus =
+  | "Draft"
+  | "In review"
+  | "Needs changes"
+  | "Ready"
+  | "Scheduled"
+  | "Published"
+  | "Archived";
+
+export const SIMPLE_STATUSES: SimpleStatus[] = [
+  "Draft",
+  "In review",
+  "Needs changes",
+  "Ready",
+  "Scheduled",
+  "Published",
+  "Archived",
+];
+
+export function simpleStatus(status: ContentStatus): SimpleStatus {
+  switch (status) {
+    case "draft":
+      return "Draft";
+    case "submitted":
+    case "initial_review":
+    case "editorial_review":
+    case "verification":
+    case "subject_review":
+    case "english_editing":
+    case "media_rights":
+      return "In review";
+    case "revision_requested":
+      return "Needs changes";
+    case "ready_for_approval":
+    case "approved":
+      return "Ready";
+    case "scheduled":
+      return "Scheduled";
+    case "published":
+      return "Published";
+    case "archived":
+      return "Archived";
+  }
+}
+
 export type ContentKind =
   | "story"
   | "culture"
