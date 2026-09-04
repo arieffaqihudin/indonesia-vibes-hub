@@ -3,6 +3,7 @@ import { Link, createFileRoute } from "@tanstack/react-router";
 import { adminHead } from "@/lib/admin/head";
 import { useAdmin } from "@/lib/admin/store";
 import { daysUntil } from "@/lib/admin/types";
+import { eventsNeedingVerification, eventLocationLabel, formatEventDates } from "@/data/content";
 import { Card, EmptyState, PageHeading, StatusPill, Tag, abtn, dateFmt } from "@/components/admin/primitives";
 
 export const Route = createFileRoute("/admin/events")({
@@ -18,6 +19,7 @@ function Events() {
 
   const upcoming = events.filter((e) => !e.fields['startDate'] || daysUntil(e.fields['startDate']) >= 0);
   const past = events.filter((e) => e.fields['startDate'] && daysUntil(e.fields['startDate']) < 0);
+  const unverified = eventsNeedingVerification();
 
   return (
     <>
@@ -32,6 +34,35 @@ function Events() {
         }
       />
 
+      {unverified.length ? (
+        <Card
+          title={`Events needing verification · ${unverified.length}`}
+          description="Source-provided records. Public pages simply omit anything not yet confirmed."
+        >
+          <ul className="space-y-3">
+            {unverified.map((e) => (
+              <li key={e.id} className="border-b border-border pb-3 last:border-0 last:pb-0">
+                <div className="flex flex-wrap items-baseline justify-between gap-2">
+                  <p className="text-sm text-ink">
+                    {e.title}
+                    {e.workingTitle ? <span className="text-muted-foreground"> · working title</span> : null}
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    {[formatEventDates(e), eventLocationLabel(e)].filter(Boolean).join(" · ")}
+                  </p>
+                </div>
+                <div className="mt-2 flex flex-wrap gap-1.5">
+                  {e.datePrecision === "month" ? <Tag tone="alert">Exact date required</Tag> : null}
+                  {(e.needsVerification ?? []).map((n) => (
+                    <Tag key={n}>{n}</Tag>
+                  ))}
+                </div>
+              </li>
+            ))}
+          </ul>
+        </Card>
+      ) : null}
+
       {events.length ? (
         <div className="space-y-5">
           <Card title={`Upcoming · ${upcoming.length}`}>
@@ -44,6 +75,7 @@ function Events() {
       ) : (
         <EmptyState title="No event records yet." />
       )}
+
     </>
   );
 }
