@@ -2,7 +2,9 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { List, Map as MapIcon } from "lucide-react";
 import { useMemo, useState } from "react";
 
-import { EmptyState, FilterGroup, FilterPanel, SearchField } from "@/components/editorial/Filters";
+import { EmptyState } from "@/components/editorial/Filters";
+import { FilterBar } from "@/components/editorial/FilterBar";
+import type { FilterDef } from "@/components/editorial/FilterBar";
 import { PlaceCard } from "@/components/editorial/EntityCards";
 import { PageHeader } from "@/components/editorial/Section";
 import { IndonesiaMap } from "@/components/map/IndonesiaMap";
@@ -58,14 +60,15 @@ function PlacesPage() {
   }, [query, type, region, province, theme]);
 
   const selected = results.find((p) => p.id === selectedId) ?? null;
-  const active = Boolean(query || type || region || province || theme);
-  const reset = () => {
-    setQuery("");
-    setType(null);
-    setRegion(null);
-    setProvince(null);
-    setTheme(null);
-  };
+  const primaryFilters: FilterDef[] = [
+    { id: "type", label: "Type of place", options: placeTypes, value: type, onChange: setType, allLabel: "All types" },
+    { id: "region", label: "Region", options: placeRegions, value: region, onChange: setRegion, allLabel: "All regions" },
+  ];
+
+  const secondaryFilters: FilterDef[] = [
+    { id: "province", label: "Province", options: placeProvinces, value: province, onChange: setProvince },
+    { id: "theme", label: "Theme", options: THEMES, value: theme, onChange: (v) => setTheme(v as ThemeId | null) },
+  ];
 
   return (
     <>
@@ -75,24 +78,13 @@ function PlacesPage() {
         intro="Where Indonesian culture is made, kept and performed. Every place carries its significance, what to see, and honest guidance on visiting."
       />
 
-      <FilterPanel
+      <FilterBar
+        search={{ value: query, onChange: setQuery, placeholder: "Place, city or province" }}
+        primary={primaryFilters}
+        secondary={secondaryFilters}
         resultCount={results.length}
         resultNoun={results.length === 1 ? "place" : "places"}
-        onReset={reset}
-        active={active}
-      >
-        <SearchField
-          id="places-search"
-          label="Search"
-          placeholder="Place, city or province"
-          value={query}
-          onChange={setQuery}
-        />
-        <FilterGroup label="Type of place" options={placeTypes} value={type} onChange={setType} />
-        <FilterGroup label="Region" options={placeRegions} value={region} onChange={setRegion} />
-        <FilterGroup label="Province" options={placeProvinces} value={province} onChange={setProvince} />
-        <FilterGroup label="Theme" options={THEMES} value={theme} onChange={setTheme} />
-      </FilterPanel>
+      />
 
       <div className="container-editorial py-12">
         <div className="flex items-center justify-between gap-4">

@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 
-import { FilterChip } from "@/components/editorial/Filters";
+import { FilterBar } from "@/components/editorial/FilterBar";
 import { PageHeader } from "@/components/editorial/Section";
 import { eventLocationLabel, events, eventStatus, formatEventDates, getPlace } from "@/data/content";
 import { cn } from "@/lib/utils";
@@ -33,6 +33,7 @@ const statusTone: Record<string, string> = {
 };
 
 function EventsPage() {
+  const [query, setQuery] = useState("");
   const [when, setWhen] = useState<When>("All");
   const [where, setWhere] = useState<Where>("Everywhere");
 
@@ -50,8 +51,17 @@ function EventsPage() {
     [],
   );
 
+  const q = query.trim().toLowerCase();
   const results = decorated.filter(({ event, status, place }) => {
     if (when !== "All" && status !== when) return false;
+    if (
+      q &&
+      ![event.title, event.summary ?? "", eventLocationLabel(event), event.type ?? ""]
+        .join(" ")
+        .toLowerCase()
+        .includes(q)
+    )
+      return false;
     const country = place?.country ?? event.location?.country;
     if (where === "In Indonesia" && country !== "Indonesia") return false;
     if (where === "Around the world" && country === "Indonesia") return false;
@@ -68,44 +78,34 @@ function EventsPage() {
         intro="Exhibitions, performances, screenings, workshops and residencies — the programme as it stands today. Every listing links on to the venue's own information."
       />
 
-      <div className="border-b border-border bg-background">
-        <div className="container-editorial flex flex-wrap items-center gap-x-6 gap-y-3 py-5">
-          <div className="flex flex-wrap gap-2" role="group" aria-label="Filter events by date">
-            {WHEN.map((w) => (
-              <FilterChip key={w} active={when === w} onClick={() => setWhen(w)}>
-                {w} ({count(w)})
-              </FilterChip>
-            ))}
-          </div>
-          <div className="flex flex-wrap gap-2" role="group" aria-label="Filter events by location">
-            {WHERE.map((w) => (
-              <FilterChip key={w} active={where === w} onClick={() => setWhere(w)}>
-                {w}
-              </FilterChip>
-            ))}
-          </div>
-          {when !== "All" || where !== "Everywhere" ? (
-            <button
-              type="button"
-              onClick={() => {
-                setWhen("All");
-                setWhere("Everywhere");
-              }}
-              className="min-h-9 text-sm text-primary underline underline-offset-4"
-            >
-              Clear filters
-            </button>
-          ) : null}
-        </div>
-      </div>
+      <FilterBar
+        search={{ value: query, onChange: setQuery, placeholder: "Event, venue, city or country" }}
+        primary={[
+          {
+            id: "when",
+            label: "When",
+            options: WHEN.filter((w) => w !== "All").map((w) => `${w} (${count(w)})`),
+            value: when === "All" ? null : `${when} (${count(when)})`,
+            onChange: (v) => setWhen((v ? (v.replace(/ \(\d+\)$/, "") as When) : "All")),
+            allLabel: `All (${count("All")})`,
+          },
+          {
+            id: "where",
+            label: "Where",
+            options: WHERE.filter((w) => w !== "Everywhere"),
+            value: where === "Everywhere" ? null : where,
+            onChange: (v) => setWhere((v ?? "Everywhere") as Where),
+            allLabel: "Everywhere",
+          },
+        ]}
+        resultCount={results.length}
+        resultNoun={results.length === 1 ? "event" : "events"}
+      />
 
       <div className="container-editorial py-16">
         <h2 className="sr-only">Event listings</h2>
-        <p aria-live="polite" className="text-sm text-muted-foreground">
-          {results.length} {results.length === 1 ? "event" : "events"} listed
-        </p>
         {results.length ? (
-          <ul className="mt-6 divide-y divide-border border-y border-border">
+          <ul className="divide-y divide-border border-y border-border">
             {results.map(({ event: e, status, place }) => (
               <li key={e.id}>
                 <Link
@@ -158,6 +158,7 @@ function EventsPage() {
               <button
                 type="button"
                 onClick={() => {
+                  setQuery("");
                   setWhen("All");
                   setWhere("Everywhere");
                 }}
