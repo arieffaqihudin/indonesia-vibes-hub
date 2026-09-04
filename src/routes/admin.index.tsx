@@ -13,10 +13,10 @@ import {
   staleContent,
 } from "@/lib/admin/selectors";
 import { CONTENT_STATUS, daysUntil, type ContentItem } from "@/lib/admin/types";
-import { Card, EmptyState, PageHeading, StatusPill, Tag, abtn, dateFmt, relative, timeFmt } from "@/components/admin/primitives";
+import { Card, EmptyState, PageHeading, StatusPill, abtn, dateFmt, relative, timeFmt } from "@/components/admin/primitives";
 
 export const Route = createFileRoute("/admin/")({
-  head: adminHead("Overview", "What needs attention across editorial and partnership work today."),
+  head: adminHead("Dashboard", "What needs attention across editorial and partnership work today."),
   component: OverviewPage,
 });
 
