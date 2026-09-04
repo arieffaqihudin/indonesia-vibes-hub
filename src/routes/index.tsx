@@ -9,7 +9,7 @@ import { StoryCard } from "@/components/editorial/StoryCard";
 import { WorldMap } from "@/components/map/WorldMap";
 import {
   collections,
-  formatRange,
+  formatEventDates,
   getPlace,
   people,
   pillars,
@@ -277,7 +277,7 @@ function Home() {
                         {e.title}
                       </span>
                       <span className="mt-1 block text-sm text-muted-foreground">
-                        {formatRange(e.startDate, e.endDate)}
+                        {formatEventDates(e)}
                       </span>
                     </span>
                     <ArrowUpRight className="arrow-nudge h-5 w-5 shrink-0 text-primary" />

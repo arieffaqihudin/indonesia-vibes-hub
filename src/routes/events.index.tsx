@@ -3,7 +3,7 @@ import { useMemo, useState } from "react";
 
 import { FilterChip } from "@/components/editorial/Filters";
 import { PageHeader } from "@/components/editorial/Section";
-import { events, eventStatus, formatRange, getPlace } from "@/data/content";
+import { events, eventStatus, formatEventDates, getPlace } from "@/data/content";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/events/")({
@@ -135,7 +135,7 @@ function EventsPage() {
                     <span className="mt-2 block text-sm leading-relaxed text-muted-foreground">{e.summary}</span>
                   </span>
                   <span className="text-sm text-muted-foreground md:text-right">
-                    {formatRange(e.startDate, e.endDate)}
+                    {formatEventDates(e)}
                   </span>
                 </Link>
               </li>

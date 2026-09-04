@@ -1,6 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 
-import { eventStatus, formatDate, formatRange, getEvent, getForm, getPerson, getPlace } from "@/data/content";
+import { eventStatus, formatDate, formatEventDates, getEvent, getForm, getPerson, getPlace } from "@/data/content";
 import type { CulturalEvent, CulturalForm, Person } from "@/types/content";
 
 export const Route = createFileRoute("/events/$slug")({
@@ -64,7 +64,7 @@ function EventPage() {
           >
             {status === "On now" ? "On now" : status === "Upcoming" ? "Upcoming" : "Past programme"}
           </span>
-          <span className="text-muted-foreground">{formatRange(event.startDate, event.endDate)}</span>
+          <span className="text-muted-foreground">{formatEventDates(event)}</span>
         </div>
       </header>
       <figure className="container-editorial">
@@ -140,7 +140,7 @@ function EventPage() {
         </div>
 
         <div className="space-y-7 border-t border-border pt-8 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-10">
-          <Fact label="Dates" value={formatRange(event.startDate, event.endDate)} />
+          <Fact label="Dates" value={formatEventDates(event)} />
           {event.localTime ? (
             <Fact label="Times" value={`${event.localTime}${event.timeZone ? ` (${event.timeZone})` : ""}`} />
           ) : null}
