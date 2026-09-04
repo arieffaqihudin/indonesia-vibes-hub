@@ -3,7 +3,7 @@ import { Search } from "lucide-react";
 import { useMemo, useState } from "react";
 
 import { SearchResultCard } from "@/components/editorial/EntityCards";
-import { FilterChip } from "@/components/editorial/Filters";
+import { FilterChip } from "@/components/editorial/FilterBar";
 import { popularSearches, searchAll, searchSuggestions } from "@/data/graph";
 import type { SearchRecord } from "@/types/content";
 
