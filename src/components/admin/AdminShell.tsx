@@ -54,6 +54,7 @@ export function useNavGroups(): NavGroup[] {
         { to: "/admin/submissions", label: "Submissions", badge: submissions },
         { to: "/admin/calendar", label: "Calendar" },
         { to: "/admin/curation/homepage", label: "What's on the homepage" },
+        { to: "/admin/curation/in-focus", label: "In Focus" },
         { to: "/admin/sources", label: "Sources & verification" },
         { to: "/admin/media", label: "Media & rights" },
       ],
