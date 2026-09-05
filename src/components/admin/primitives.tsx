@@ -249,7 +249,7 @@ export function SelectFilter({
 }) {
   const id = useId();
   return (
-    <label htmlFor={id} className="flex items-center gap-1.5 text-xs text-muted-foreground">
+    <label htmlFor={id} className="flex shrink-0 items-center gap-1.5 text-xs text-muted-foreground">
       <span>{label}</span>
       <select id={id} className={cn(field, "min-h-8 w-auto py-1 text-xs")} value={value} onChange={(e) => onChange(e.target.value)}>
         <option value="">{allLabel}</option>
@@ -276,7 +276,7 @@ export function SearchInput({
 }) {
   const id = useId();
   return (
-    <div className="min-w-48 flex-1">
+    <div className="w-full min-w-48 md:w-auto md:flex-1">
       <label htmlFor={id} className="sr-only">
         {label}
       </label>

@@ -84,7 +84,7 @@ function ContentLibrary() {
         }
       />
 
-      <div className="mb-4 flex flex-wrap items-center gap-3 rounded-lg border border-border bg-card px-4 py-3">
+      <div className="scroll-strip mb-4 flex items-center gap-3 rounded-lg border border-border bg-card px-4 py-3 md:flex-wrap md:overflow-visible">
         <SearchInput value={query} onChange={setQuery} label="Search content" placeholder="Search title, people, institution or theme" />
         <SelectFilter label="Type" value={kind} onChange={setKind} options={CONTENT_KINDS.map((k) => k.label)} />
         <SelectFilter label="Status" value={status} onChange={setStatus} options={Object.values(CONTENT_STATUS).map((s) => s.label)} />

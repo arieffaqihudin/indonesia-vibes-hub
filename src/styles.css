@@ -341,8 +341,9 @@
     padding-right: 2.75rem;
     padding-bottom: 0.375rem;
   }
-  .table-adaptive td:first-child::before {
+  .table-adaptive td:first-child[data-label]::before {
     content: none;
+    display: none;
   }
   /* The row action menu floats to the top-right of the record block. */
   .table-adaptive td:last-child:not([data-label]),
