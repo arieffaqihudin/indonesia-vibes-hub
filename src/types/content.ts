@@ -11,6 +11,8 @@ export type PillarId = "heritage" | "contemporary" | "research";
 
 /** Cross-cutting cultural themes used by every directory filter. */
 export type ThemeId =
+  | "History & Civilization"
+  | "Heritage & Traditions"
   | "Heritage"
   | "Performing Arts"
   | "Music"
@@ -19,10 +21,19 @@ export type ThemeId =
   | "Craft & Design"
   | "Culinary Culture"
   | "Architecture"
+  | "Visual Arts"
+  | "Textiles"
+  | "Maritime Culture"
+  | "Indigenous & Local Knowledge"
+  | "Religion & Cultural Expression"
+  | "Language"
+  | "Cultural Exchange"
   | "Indigenous Knowledge"
   | "Contemporary Culture";
 
 export const THEMES: ThemeId[] = [
+  "History & Civilization",
+  "Heritage & Traditions",
   "Heritage",
   "Performing Arts",
   "Music",
@@ -31,6 +42,13 @@ export const THEMES: ThemeId[] = [
   "Craft & Design",
   "Culinary Culture",
   "Architecture",
+  "Visual Arts",
+  "Textiles",
+  "Maritime Culture",
+  "Indigenous & Local Knowledge",
+  "Religion & Cultural Expression",
+  "Language",
+  "Cultural Exchange",
   "Indigenous Knowledge",
   "Contemporary Culture",
 ];
@@ -203,6 +221,13 @@ export interface Story {
   title: string;
   dek: string;
   kind: "Feature" | "Dispatch" | "Interview" | "Field note";
+  /** Internal editorial delivery type. Public pages translate this to a reader-friendly format. */
+  deliveryType?: "Knowledge" | "Semantic" | "Pragmatic";
+  /** Editorial origin, distinct from the references that support factual claims. */
+  contentSource?: "Internal" | "By Curation";
+  /** The canonical topic remains stable while delivery style can vary. */
+  topics?: ThemeId[];
+  sourceAttribution?: string;
   readingMinutes: number;
   publishedAt: string;
   image: string;
@@ -468,8 +493,10 @@ export interface WorldNode {
 export interface SearchRecord {
   id: Id;
   type:
-    | "Story"
-    | "Culture"
+    | "Essentials"
+    | "Deep Dive"
+    | "Perspectives"
+    | "Topics"
     | "People & Communities"
     | "Institutions"
     | "Places"
