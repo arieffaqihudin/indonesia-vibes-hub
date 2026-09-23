@@ -1,10 +1,10 @@
-# Dashboard simplification roadmap
+# Explore architecture roadmap
 
-- [ ] Shorten and role-filter the dashboard navigation
-- [ ] Consolidate All Content and add Create New
-- [ ] Simplify content editing, connections, media, review, and advanced details
-- [ ] Consolidate review and submissions
-- [ ] Refocus role-specific dashboard home
-- [ ] Simplify inquiry, partner, and follow-up journeys
-- [ ] Consolidate Settings and advanced administration
-- [ ] Verify responsive layouts, roles, journeys, types, and build
+- [ ] Add the compatible Editorial Content dimensions and central Topic model
+- [ ] Migrate seeded stories and add the three requested topic examples
+- [ ] Replace public navigation with Explore, Experience, Connect, About, Search
+- [ ] Build Explore, Topics, Topic detail, Experience, Inquiry, and Partners routes
+- [ ] Update homepage, cards, search, collections, freshness, metadata, and legacy routes
+- [ ] Simplify CMS sidebar, All Content, Create New, editor, review, submissions, and preview
+- [ ] Preserve advanced One Data, source/reference, rights, relationships, roles, and history capabilities
+- [ ] Verify terminology, responsive layouts, routes, TypeScript, build, and key journeys

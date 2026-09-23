@@ -1,64 +1,77 @@
-# Simplify the Indonesia Vibes CMS
+# Indonesia Vibes Explore Architecture Update
 
 ## Goal
-Make the internal workspace understandable to a first-time editor within minutes while preserving One Data, connected records, verification, sources, rights, contributor workflows, partnerships, roles, and history underneath.
+Unify the product around Public Platform, Contributor Workspace, Internal CMS, and One Data. Replace the old Discover/Culture split with Explore, migrate stories into editorial content, and keep the public experience simple while preserving the connected data, workflows, routes, visual identity, and responsive system.
 
-## What will change
+## Public platform
 
-### 1. Short, role-aware navigation
-- Replace the content-type-heavy sidebar with Dashboard, All Content, Create New, Submissions, Review, Calendar, Inquiries, Partners, Follow-ups, and Settings.
-- Show only the groups relevant to the current role.
-- Keep existing specialist routes working, but remove them from everyday navigation.
-- Keep the approved collapsible desktop sidebar and mobile drawer behavior.
+### Navigation and routes
+- Replace the public navigation with Explore, Experience, Connect, About, and Search.
+- Build `/explore`, `/explore/topics`, `/explore/topics/$slug`, and `/explore/collections`; preserve existing people, institutions, events, places, Around the World, opportunities, collaborations, inquiry/contact, and about routes.
+- Keep useful legacy URLs working through route-level redirects or compatibility pages: Stories enters Explore; Heritage, Contemporary, and Research resolve into relevant topic views; Collections resolve under Explore; Collaborate resolves to Inquiry.
+- Remove the obsolete NOW route and every remaining Discover, Culture-as-top-level, and NOW navigation reference.
 
-### 2. All Content as the editorial home
-- Rebuild `/admin/content` as one flat, table-first workspace.
-- Add content-type tabs: All, Stories, Culture, People, Institutions, Places, Events, Opportunities, Collaborations, Collections.
-- Keep Search and Status immediately visible; place editor, theme, and country under More Filters.
-- Use the simplified publication states: Draft, In Review, Needs Changes, Ready, Scheduled, Published, Archived.
-- Keep columns focused on Title, Type, Status, Last Updated, Assigned To, Public, and Actions.
+### Editorial content model and presentation
+- Extend existing Story records into a compatible Editorial Content model with three independent dimensions:
+  - Topic: centrally managed subject taxonomy.
+  - Internal delivery type: Knowledge, Semantic, Pragmatic.
+  - Content source: Internal, By Curation.
+- Map internal delivery types automatically to public labels: Essentials, Deep Dive, Perspectives.
+- Keep content source separate from supporting references and show public attribution only where useful.
+- Seed the requested Gamelan, Indonesian Civilization, and Living Textile Traditions examples without duplicating their topic records.
+- Update public cards, detail pages, search, freshness, collections, and One Data registry to use Editorial Content and public format labels.
 
-### 3. Beginner-friendly Create New and guided editing
-- Add `/admin/create` with clear icon choices and short descriptions for each content type.
-- Keep `/admin/content/new` compatible and use it as the guided first step after a type is selected.
-- Simplify the content detail workspace to Edit, Connections, Media, Review, and More.
-- Put Sources, History, and Advanced Data inside More.
-- Organize fields into progressive, human-language sections based on content type.
-- Keep draft creation, duplicate warnings, connected records, sources, media rights, review history, and advanced IDs operational.
-- Surface subtle saved feedback and keep Preview Public Page prominent.
+### Explore experience
+- Build `/explore` as the all-content discovery destination with Search, Topic, Format, and compact More Filters controls.
+- Build topic index and topic detail pages combining introduction, Editorial Content by format, People & Communities, Institutions, Places, Events, Collaborations, and references from existing relationships.
+- Keep Collections as curated mixed-object journeys and route them under Explore.
+- Update Search filters to All, Essentials, Deep Dive, Perspectives, People, Institutions, Places, Events, Opportunities, and Collaborations.
+- Ensure public pages never expose Semantic, Pragmatic, taxonomy IDs, provenance, canonical entity, or other internal terms.
 
-### 4. Contextual quality and publication controls
-- Present sources only when missing or when verification requires them.
-- Present media permission in plain language and reveal legal details only when needed.
-- Replace the visible internal stage chain with one simple status plus useful context.
-- Add a concise publication checklist and only block publication for genuine blockers.
+### Homepage and supporting pages
+- Reorder the homepage to Hero, In Focus, Featured Content, Explore by Topic, Indonesia Around the World, Coming Up, People to Know, Current Collaborations, Open Opportunities, Latest Content, Newsletter.
+- Keep the homepage visual and curated, not index-like.
+- Add `/experience`, `/inquiry`, and `/partners` destinations using existing content and inquiry/partner language.
+- Update public descriptions and metadata so Explore means understand, Experience means participate, and Connect means engage.
 
-### 5. Consolidated review and submissions
-- Rebuild `/admin/review` around Needs Review, Needs Changes, and Ready, with an optional review-type filter.
-- Show each item’s issue, assignment, update time, and one primary action.
-- Keep content and review requests together on the content detail page.
-- Simplify submissions into New, In Review, Needs Changes, Accepted, and Declined views using existing workflow data.
-- Replace technical duplicate language with “Similar content already exists” and plain actions.
+## Internal CMS
 
-### 6. Action-focused dashboards
-- Tailor the dashboard to editorial, partnership, and admin roles.
-- Keep Needs Your Attention, Recently Edited, Coming Up, and Quick Create as flat operational sections.
-- Remove technical labels and links from ordinary dashboard tasks while retaining their destinations through contextual actions or Settings.
+### Navigation and content entry
+- Reduce the sidebar to Dashboard; Content: All Content, Create New; Editorial: Submissions, Review, Calendar; Partnerships: Inquiries, Partners, Follow-ups; Settings.
+- Keep specialist routes available for deep links and advanced administration but remove them from everyday navigation.
+- Add `/admin/create` with Editorial Content, Person / Community, Institution, Place, Event, Opportunity, Collaboration, and Collection choices.
+- Reuse the existing draft creation and duplicate checks; rename technical duplicate language to “Similar content already exists.”
 
-### 7. Linear partnerships and consolidated Settings
-- Reorganize inquiry detail into Request, Related Content, Find Partner, Introduction, Follow-up, and Outcome.
-- Keep partner and follow-up workflows direct, with common-language labels and existing audit history intact.
-- Rebuild Settings with General, Users & Roles, Categories, and Advanced.
-- Move Data Health, duplicate/merge tools, activity, technical taxonomy, sources, media rights, and curation links into role-gated Advanced settings.
+### Editorial Content workflow
+- Treat existing Story records as Editorial Content while preserving their IDs, relationships, versions, activity, and public paths through compatibility mapping.
+- For Editorial Content, collect title, standfirst, Topic, delivery type, content source, location, and author/editor.
+- Show contextual writing prompts for Knowledge, Semantic, and Pragmatic.
+- When By Curation is selected, reveal original source, institution, creator, link, permission, and editorial notes.
+- For Pragmatic content, reveal claim, evidence, nuance, sensitivity, and Perspective Review requirements; require evidence before publication.
+- Keep Content Source distinct from factual references in state, forms, validation, and review.
 
-### 8. QA
-- Verify role switching changes navigation and dashboard priorities correctly.
-- Test the three supplied journeys: create an event, process a contributor submission, and route a Gamelan-related inquiry.
-- Test desktop, tablet, and mobile layouts without changing the approved visual system.
-- Run TypeScript checks, production build validation, route checks, and interaction checks for preview, review, filters, drawers, and forms.
+### Lists, editing, review, and preview
+- Rebuild All Content tabs as All, Editorial Content, People, Institutions, Places, Events, Opportunities, Collaborations, Collections.
+- Use the seven simple statuses in ordinary lists while preserving detailed workflow stages underneath.
+- Present the editor as Basic Information, Content, Connections, Media, Review & Publish, with advanced data hidden under More.
+- Translate Knowledge/Semantic/Pragmatic to Essentials/Deep Dive/Perspectives in public preview automatically.
+- Consolidate Review around Editorial Review, Source Verification, Claim Review, Media, Language, and Cultural Context.
+- Preserve sources, media rights, publication blockers, contributor workflow, audit history, duplicate/merge tools, and relationship mapping.
 
-## Technical notes
-- Existing state types, selectors, persistence, graph links, source records, media records, activity entries, and detailed workflow statuses remain unchanged as the underlying model.
-- A presentation mapping will translate detailed workflow stages into the seven simple statuses.
-- Existing specialist URLs remain available for deep links and advanced administration; only the normal navigation and default presentation are simplified.
-- No public-platform or Contributor Workspace redesign is included.
+## Contributor Workspace and partnerships
+- Preserve the existing Contributor Workspace and submission forms.
+- When an accepted submission becomes Editorial Content, default Source to By Curation and require Topic plus delivery type during editorial intake.
+- Keep the existing inquiry/partner/follow-up data and routes; align public entry language to “How would you like to connect with Indonesia?” and retain the approved linear internal partnership flow.
+
+## Technical approach
+- Add compatibility helpers rather than rewriting storage: delivery/source mappings, public labels, topic lookups, and legacy route mappings.
+- Extend the canonical registry from Story to Editorial Content without changing stable source IDs or duplicating cultural subjects/topics.
+- Expand the shared topic vocabulary centrally and reuse it in public filters, search, CMS forms, and One Data relationships.
+- Preserve all design tokens, DM Sans, motion, responsive utilities, reusable components, and local prototype persistence.
+- Every new or changed public route receives unique title, description, Open Graph, and Twitter metadata.
+
+## Validation
+- Check that no public screen exposes Knowledge, Semantic, Pragmatic, Discover, Culture as a top-level destination, or NOW.
+- Test Explore and topic journeys, the three seeded topic examples, search filters, legacy links, and mobile/tablet/desktop navigation.
+- Test CMS creation for Internal and By Curation Editorial Content, Pragmatic claim review, preview label mapping, role-aware navigation, submissions, and publication blockers.
+- Run TypeScript checks, route/build validation, runtime diagnostics, and Playwright interaction checks across the public platform and CMS.
