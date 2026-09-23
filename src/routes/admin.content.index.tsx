@@ -105,9 +105,7 @@ function ContentLibrary() {
                   {item.organisation ? <span className="block text-xs text-muted-foreground">{item.organisation}</span> : null}
                 </Td>
                 <Td className="text-xs text-muted-foreground">{kindLabel(item.kind)}</Td>
-                <Td>
-                  <StatusPill status={item.status} />
-                </Td>
+                <Td><span className="inline-flex items-center gap-2 text-xs font-medium text-ink"><span className="h-1.5 w-1.5 rounded-full bg-primary" aria-hidden />{simpleStatus(item.status)}</span></Td>
                 <Td className="text-xs text-muted-foreground">{item.assignedTo ?? "Unassigned"}</Td>
                 <Td className="text-xs text-muted-foreground">{item.themes.slice(0, 2).join(", ") || "—"}</Td>
                 <Td className="text-xs text-muted-foreground">{relative(item.updatedAt)}</Td>

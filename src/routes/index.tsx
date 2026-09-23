@@ -12,7 +12,6 @@ import {
   formatEventDates,
   getPlace,
   people,
-  pillars,
   stories,
   worldNodes,
 } from "@/data/content";
@@ -115,6 +114,11 @@ function Home() {
 
       <InFocus />
 
+      <section className="container-editorial py-16 md:py-24">
+        <Reveal><SectionHeading eyebrow="Explore" title="Featured content" intro="Three ways into Indonesian knowledge: begin with the essentials, go deeper, or follow a perspective." action="/explore" actionLabel="Explore all content" /></Reveal>
+        <div className="mt-10 grid gap-8 md:grid-cols-3">{(["Essentials", "Deep Dive", "Perspectives"] as const).map((format, i) => { const story = stories.find((item) => publicFormat(item) === format) ?? stories[i]!; return <Reveal key={format} delay={i * 70}><StoryCard story={story} size="sm" /></Reveal>; })}</div>
+      </section>
+
       {/* Around the world */}
       <section className="container-editorial py-16 md:py-24">
         <Reveal>
@@ -139,7 +143,7 @@ function Home() {
               eyebrow="Curated"
               title="Featured collection"
               intro="Sets that read as arguments, not folders."
-              action="/collections"
+              action="/explore/collections"
               actionLabel="All collections"
             />
           </Reveal>

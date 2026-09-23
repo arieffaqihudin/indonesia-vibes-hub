@@ -62,7 +62,7 @@ function NewContent() {
 
   return (
     <>
-      <PageHeading eyebrow="Content" title="What would you like to create?" description="Choose a public content type. The draft will guide you through writing, review and publishing." />
+      <PageHeading eyebrow="Content" title={`Create ${type === "story" ? "Editorial Content" : kindLabel(type)}`} description="Start with the basics. You can add relationships, evidence and media inside the draft." />
 
       <Card className="max-w-2xl">
         <div className="space-y-4">

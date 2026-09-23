@@ -52,6 +52,18 @@ function Settings() {
           </div>
         </Card>
 
+        <Card title="Advanced tools">
+          <p className="text-sm text-muted-foreground">Open specialist controls only when you need to manage the shared data model or platform governance.</p>
+          <div className="mt-3 flex flex-wrap gap-2">
+            <Link to="/admin/taxonomy" className={abtn.secondary}>Topics & taxonomy</Link>
+            <Link to="/admin/sources" className={abtn.secondary}>Sources & claims</Link>
+            <Link to="/admin/media" className={abtn.secondary}>Media rights</Link>
+            <Link to="/admin/data-health" className={abtn.secondary}>One Data health</Link>
+            <Link to="/admin/users" className={abtn.secondary}>Users & roles</Link>
+            <Link to="/admin/activity" className={abtn.secondary}>Activity history</Link>
+          </div>
+        </Card>
+
         <Card title="Prototype data">
           <p className="text-sm text-muted-foreground">
             This dashboard runs entirely on prototype data held in your browser. Resetting restores the original demonstration state.
