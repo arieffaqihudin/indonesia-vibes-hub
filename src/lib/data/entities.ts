@@ -100,6 +100,10 @@ export interface CanonicalEntity {
   aliases: string[];
   summary: string;
   themes: ThemeId[];
+  /** Editorial dimensions are additive; canonical identity and graph edges stay unchanged. */
+  topics?: ThemeId[];
+  deliveryType?: "Knowledge" | "Semantic" | "Pragmatic";
+  contentSource?: "Internal" | "By Curation";
   /** Canonical country names; geography is never free text on the entity. */
   countries: string[];
   placeIds: string[];
@@ -212,7 +216,10 @@ const resourceEntities = papers.map((r) =>
     name: r.title,
     aliases: [],
     summary: r.abstract,
-    themes: [],
+    themes: s.topics ?? [],
+    topics: s.topics ?? [],
+    deliveryType: s.deliveryType,
+    contentSource: s.contentSource,
     countries: ["Indonesia"],
     placeIds: [],
     publicationStatus: "published",
