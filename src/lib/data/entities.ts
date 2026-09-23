@@ -100,6 +100,10 @@ export interface CanonicalEntity {
   aliases: string[];
   summary: string;
   themes: ThemeId[];
+  /** Editorial dimensions are additive; canonical identity and graph edges stay unchanged. */
+  topics?: ThemeId[];
+  deliveryType?: "Knowledge" | "Semantic" | "Pragmatic";
+  contentSource?: "Internal" | "By Curation";
   /** Canonical country names; geography is never free text on the entity. */
   countries: string[];
   placeIds: string[];
@@ -232,7 +236,10 @@ const storyEntities = stories.map((s) =>
     name: s.title,
     aliases: [],
     summary: s.dek,
-    themes: [],
+    themes: s.topics ?? [],
+    topics: s.topics ?? [],
+    ...(s.deliveryType ? { deliveryType: s.deliveryType } : {}),
+    ...(s.contentSource ? { contentSource: s.contentSource } : {}),
     countries: [...new Set(s.placeIds.flatMap((id) => placeCountry(id)))],
     placeIds: s.placeIds,
     publicationStatus: "published",

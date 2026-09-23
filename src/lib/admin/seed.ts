@@ -88,11 +88,19 @@ function published(
     frequency: number;
     fields: Record<string, string>;
     relationships?: Partial<Relationships>;
+    deliveryType?: ContentItem["deliveryType"];
+    contentSource?: ContentItem["contentSource"];
+    topics?: string[];
+    sourceAttribution?: string;
   },
 ): ContentItem {
   return {
     id: `c-${source.id}`,
     kind,
+    ...(opts.deliveryType ? { deliveryType: opts.deliveryType } : {}),
+    ...(opts.contentSource ? { contentSource: opts.contentSource } : {}),
+    ...(opts.topics ? { topics: opts.topics } : {}),
+    ...(opts.sourceAttribution ? { sourceAttribution: opts.sourceAttribution } : {}),
     title,
     ...(source.slug ? { slug: source.slug } : {}),
     publicPath: opts.path,
@@ -127,7 +135,11 @@ const pickEditor = (i: number) => editors[i % editors.length]!;
 const storyItems: ContentItem[] = stories.map((s, i) =>
   published("story", s, s.title, {
     path: `/stories/${s.slug}`,
-    themes: [],
+    themes: s.topics ?? [],
+    ...(s.deliveryType ? { deliveryType: s.deliveryType } : {}),
+    ...(s.contentSource ? { contentSource: s.contentSource } : {}),
+    ...(s.topics ? { topics: s.topics } : {}),
+    ...(s.sourceAttribution ? { sourceAttribution: s.sourceAttribution } : {}),
     countries: ["Indonesia"],
     editor: pickEditor(i),
     offset: -40 - i * 9,

@@ -39,9 +39,9 @@ function StoriesPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Discover"
-        title="Stories"
-        intro="Long reads and short dispatches. Every piece links back to the forms, people and places it came from."
+        eyebrow="Explore"
+        title="All Content"
+        intro="Essentials, deep dives and perspectives. Every piece links back to the topics, people and places it came from."
       >
       </PageHeader>
 
@@ -57,11 +57,11 @@ function StoriesPage() {
           },
         ]}
         resultCount={list.length}
-        resultNoun={list.length === 1 ? "story" : "stories"}
+        resultNoun={list.length === 1 ? "item" : "items"}
       />
 
       <div className="container-editorial py-16">
-        <h2 className="sr-only">Stories</h2>
+        <h2 className="sr-only">Editorial content</h2>
         <div className="grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
           {list.map((s) => (
             <StoryCard key={s.id} story={s} />

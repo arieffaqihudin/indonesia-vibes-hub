@@ -11,6 +11,7 @@ import {
   getStory,
   relatedStories,
 } from "@/data/content";
+import { publicFormat } from "@/lib/editorial";
 
 export const Route = createFileRoute("/stories/$slug")({
   loader: ({ params }): { story: Story } => {
@@ -70,7 +71,7 @@ function StoryPage() {
       <ReadingProgress />
       <header className="container-editorial pt-14 pb-10 md:pt-20">
         <p className="eyebrow text-primary">
-          {story.kind} · {story.readingMinutes} min read
+          {publicFormat(story)} · {story.topics?.[0] ?? "Indonesia"} · {story.readingMinutes} min read
         </p>
         <h1 className="display-1 mt-5 max-w-4xl text-ink">{story.title}</h1>
         <p className="standfirst mt-6 max-w-2xl">{story.dek}</p>
@@ -130,7 +131,7 @@ function StoryPage() {
         <div className="space-y-10 border-t border-border pt-8 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-10">
           {forms.length ? (
             <div>
-              <p className="eyebrow text-muted-foreground">Cultural forms</p>
+            <p className="eyebrow text-muted-foreground">Related topics</p>
               <ul className="mt-3 space-y-2">
                 {forms.map((f) => (
                   <li key={f.id}>

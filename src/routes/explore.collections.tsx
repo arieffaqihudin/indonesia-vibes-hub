@@ -1,0 +1,2 @@
+import { createFileRoute, redirect } from "@tanstack/react-router";
+export const Route = createFileRoute("/explore/collections")({ beforeLoad: () => { throw redirect({ to: "/collections" }); } });

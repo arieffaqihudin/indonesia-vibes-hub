@@ -21,7 +21,7 @@ function CollectionsPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Discover"
+        eyebrow="Explore"
         title="Collections"
         intro="Curated sets that read as arguments: what is made slowly, what travels loudly, and who holds the knowledge."
       />
@@ -35,7 +35,7 @@ function CollectionsPage() {
               <span className="link-underline">{c.title}</span>
             </h2>
             <p className="mt-2 text-[0.95rem] leading-relaxed text-muted-foreground">{c.dek}</p>
-            <p className="mt-3 text-xs text-muted-foreground">{c.storyIds.length} stories</p>
+            <p className="mt-3 text-xs text-muted-foreground">{c.storyIds.length} editorial pieces</p>
           </Link>
         ))}
       </div>

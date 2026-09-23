@@ -4,6 +4,7 @@ import { adminHead } from "@/lib/admin/head";
 import { useAdmin } from "@/lib/admin/store";
 import { graphEntry, relationshipGroups } from "@/lib/admin/selectors";
 import { CONTENT_FIELDS, kindLabel } from "@/lib/admin/types";
+import { publicFormatFromInternal } from "@/lib/editorial";
 import { Card, EmptyState, PageHeading, PrototypeNote, abtn } from "@/components/admin/primitives";
 
 export const Route = createFileRoute("/admin/content/$id/preview")({
@@ -51,7 +52,7 @@ function PreviewRoute() {
 
       <div className="mt-4 grid gap-6 lg:grid-cols-[minmax(0,1fr)_18rem]">
         <article className="rounded-lg border border-border bg-card p-6">
-          <p className="text-[0.68rem] tracking-[0.16em] text-muted-foreground uppercase">{kindLabel(item.kind)}</p>
+          <p className="text-[0.68rem] tracking-[0.16em] text-muted-foreground uppercase">{item.kind === "story" ? publicFormatFromInternal(item.deliveryType) : kindLabel(item.kind)}</p>
           <h2 className="mt-2 font-display text-2xl text-ink">{item.title}</h2>
           <div className="mt-4 space-y-4">
             {fields.map((f) => {

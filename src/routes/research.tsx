@@ -25,7 +25,7 @@ function ResearchPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Culture"
+        eyebrow="Explore"
         title="Research"
         intro="Open scholarship and field methodology. Publication is a condition of our funding, and community co-authorship is the default."
       />

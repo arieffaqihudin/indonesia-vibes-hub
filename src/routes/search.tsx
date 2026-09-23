@@ -8,8 +8,10 @@ import { popularSearches, searchAll, searchSuggestions } from "@/data/graph";
 import type { SearchRecord } from "@/types/content";
 
 const TYPES: SearchRecord["type"][] = [
-  "Story",
-  "Culture",
+  "Essentials",
+  "Deep Dive",
+  "Perspectives",
+  "Topics",
   "People & Communities",
   "Institutions",
   "Places",
@@ -39,7 +41,7 @@ export const Route = createFileRoute("/search")({
       {
         name: "description",
         content:
-          "Search across stories, cultural forms, people, institutions, places, events, opportunities and international collaborations.",
+          "Search across editorial content, topics, people, institutions, places, events, opportunities and international collaborations.",
       },
       { property: "og:title", content: "Search — Indonesia Vibes" },
       { property: "og:description", content: "One search across the whole Indonesia Vibes knowledge network." },
@@ -74,7 +76,7 @@ function SearchPage() {
         <div className="container-editorial py-16 md:py-20">
           <h1 className="display-1 text-ink">Search</h1>
           <p className="standfirst mt-5 max-w-2xl">
-            One query across stories, cultural forms, people, institutions, places, events,
+            One query across content, topics, people, institutions, places, events,
             opportunities and collaborations. Plain English works — "shadow puppetry" finds wayang.
           </p>
           <form
@@ -216,7 +218,7 @@ function SearchPage() {
           <h2 className="display-3 text-ink">Start anywhere</h2>
           <ul className="mt-8 grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-4">
             {[
-              { to: "/stories" as const, label: "Stories", note: "Features, interviews, field notes" },
+              { to: "/explore" as const, label: "Explore", note: "Essentials, deep dives and perspectives" },
               { to: "/people" as const, label: "People & Communities", note: "Makers, masters, custodians" },
               { to: "/institutions" as const, label: "Institutions", note: "Museums, universities, archives" },
               { to: "/places" as const, label: "Places", note: "Sites, villages, landscapes" },

@@ -3,6 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { formatDate, getForm } from "@/data/content";
 import type { Story } from "@/types/content";
 import { cn } from "@/lib/utils";
+import { publicFormat } from "@/lib/editorial";
 
 export function StoryCard({
   story,
@@ -31,12 +32,12 @@ export function StoryCard({
             )}
           />
           <span className="absolute top-3 left-3 bg-background/92 px-2.5 py-1 text-[0.65rem] font-semibold tracking-[0.14em] text-ink uppercase">
-            {story.kind}
+            {publicFormat(story)}
           </span>
         </div>
         <div className="pt-4">
           <p className="eyebrow text-primary">
-            {form?.discipline ?? "Culture"} · {story.readingMinutes} min
+            {story.topics?.[0] ?? form?.discipline ?? "Indonesia"} · {story.readingMinutes} min
           </p>
           <h3
             className={cn(

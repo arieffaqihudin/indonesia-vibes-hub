@@ -16,26 +16,21 @@ export interface NavGroup {
 
 export const navigation: NavGroup[] = [
   {
-    label: "Discover",
-    stage: "Discover",
-    intro: "Start anywhere. Stories and curated collections are the way in.",
+    label: "Explore",
+    to: "/explore",
+    stage: "Understand Indonesia",
+    intro: "Stories, ideas, people and connected cultural knowledge.",
     items: [
-      { label: "Stories", to: "/stories", description: "Features, interviews and field notes from across the archipelago." },
-      { label: "Collections", to: "/collections", description: "Editor-curated sets that connect stories, makers and places." },
-    ],
-  },
-  {
-    label: "Culture",
-    stage: "Understand",
-    intro: "Three pillars: what is carried, what is being made, and what we know.",
-    items: [
-      { label: "Heritage", to: "/heritage", description: "Living traditions and the communities who hold them." },
-      { label: "Contemporary", to: "/contemporary", description: "Cinema, design, sound and performance made now." },
-      { label: "Research", to: "/research", description: "Open scholarship, archives and methodology." },
+      { label: "All Content", to: "/explore", description: "Essentials, deep dives and perspectives across Indonesia." },
+      { label: "Topics", to: "/explore/topics", description: "Enter through music, textiles, history, film and more." },
+      { label: "Collections", to: "/explore/collections", description: "Curated journeys connecting content, people and places." },
+      { label: "People & Communities", to: "/people", description: "The people who create, carry and reinterpret culture." },
+      { label: "Institutions", to: "/institutions", description: "Museums, universities, archives and cultural organisations." },
     ],
   },
   {
     label: "Experience",
+    to: "/experience",
     stage: "Experience",
     intro: "In a room, on a stage, or on the ground.",
     items: [
@@ -49,12 +44,9 @@ export const navigation: NavGroup[] = [
     stage: "Connect",
     intro: "Funding, partnership and a way to reach a human.",
     items: [
-      { label: "People & Communities", to: "/people", description: "Artists, masters, researchers and custodian communities." },
-      { label: "Institutions", to: "/institutions", description: "Museums, universities, archives and cultural organisations." },
       { label: "International Collaborations", to: "/collaborations", description: "Exchanges, joint exhibitions and research partnerships." },
       { label: "Opportunities", to: "/opportunities", description: "Grants, residencies, fellowships and open calls." },
-      { label: "Collaborate", to: "/collaborate", description: "How institutions and festivals work with us." },
-      { label: "Contact", to: "/contact", description: "Request an introduction or send an inquiry." },
+      { label: "Submit an Inquiry", to: "/inquiry", description: "Request an introduction or propose a collaboration." },
     ],
   },
   {
@@ -65,7 +57,8 @@ export const navigation: NavGroup[] = [
     items: [
       { label: "About Indonesia Vibes", to: "/about", description: "Mission, method and the people behind the platform." },
       { label: "Editorial Standards", to: "/editorial-standards", description: "How we research, verify, attribute and correct." },
-      { label: "Contribute", to: "/contribute", description: "Suggest a story, nominate a maker, propose research." },
+      { label: "Partners & Contributors", to: "/partners", description: "The people and organisations who help build the platform." },
+      { label: "Contact", to: "/contact", description: "Contact the Indonesia Vibes team." },
     ],
   },
 ];

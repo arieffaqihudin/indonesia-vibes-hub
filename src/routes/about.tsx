@@ -35,10 +35,9 @@ function AboutPage() {
           </p>
           <h2>The journey</h2>
           <p>
-            Every page belongs to one of five stages: {brand.journey.join(", ")}. Discover is
-            editorial. Understand is the three cultural pillars. Experience is events, places and
-            the world map. Connect and Collaborate are the doors out — funding, partnership and a
-            real inbox.
+            Every public journey begins with one of three clear actions: {brand.journey.join(", ")}.
+            Explore connects cultural knowledge. Experience brings together events, places and the
+            world map. Connect opens the door to opportunities, partnerships and a real inbox.
           </p>
           <h2>How we work</h2>
           <p>

@@ -23,7 +23,7 @@ function PillarPage() {
 
   return (
     <>
-      <PageHeader eyebrow="Culture" title="Heritage" intro="Living traditions and the communities who carry them — documented in full, with names, timelines and credit attached." />
+      <PageHeader eyebrow="Explore" title="Heritage" intro="Living traditions and the communities who carry them — documented in full, with names, timelines and credit attached." />
       <div className="container-editorial py-16 md:py-20">
         <div className="space-y-20">
           {forms.map((form, i) => {

@@ -25,6 +25,8 @@ import {
   type SourceStatus,
   type SourceType,
 } from "@/lib/admin/types";
+import { CONTENT_SOURCES, DELIVERY_HELP, DELIVERY_TYPES, SOURCE_HELP, type ContentSource, type DeliveryType } from "@/lib/editorial";
+import { TOPICS } from "@/lib/topics";
 import {
   Card,
   EmptyState,
@@ -308,6 +310,12 @@ function ContentTab({ id }: { id: string }) {
   return (
     <Card title="Structured content" description={editable ? "Fields are typed per content type, not one rich-text blob." : "Read-only for your role."}>
       <div className="space-y-4">
+        {item.kind === "story" ? <div className="grid gap-4 border-b border-border pb-5 sm:grid-cols-2">
+          <label className="text-xs font-medium text-ink">Reader purpose<select className={`${field} mt-1`} value={item.deliveryType ?? "Semantic"} disabled={!editable} onChange={(e) => admin.updateContent(id, { deliveryType: e.target.value as DeliveryType })}>{DELIVERY_TYPES.map((value) => <option key={value}>{value}</option>)}</select><span className="mt-1 block font-normal text-muted-foreground">{DELIVERY_HELP[item.deliveryType ?? "Semantic"]}</span></label>
+          <label className="text-xs font-medium text-ink">Primary topic<select className={`${field} mt-1`} value={item.topics?.[0] ?? ""} disabled={!editable} onChange={(e) => admin.updateContent(id, { topics: e.target.value ? [e.target.value] : [] })}><option value="">Choose a topic</option>{TOPICS.map((entry) => <option key={entry.id}>{entry.id}</option>)}</select></label>
+          <label className="text-xs font-medium text-ink">Content source<select className={`${field} mt-1`} value={item.contentSource ?? "Internal"} disabled={!editable} onChange={(e) => admin.updateContent(id, { contentSource: e.target.value as ContentSource })}>{CONTENT_SOURCES.map((value) => <option key={value}>{value}</option>)}</select><span className="mt-1 block font-normal text-muted-foreground">{SOURCE_HELP[item.contentSource ?? "Internal"]}</span></label>
+          {item.contentSource === "By Curation" ? <label className="text-xs font-medium text-ink">Source attribution<input className={`${field} mt-1`} value={item.sourceAttribution ?? ""} disabled={!editable} onChange={(e) => admin.updateContent(id, { sourceAttribution: e.target.value })} /></label> : null}
+        </div> : null}
         {CONTENT_FIELDS[item.kind].map((f) => {
           const value = item.fields[f.name] ?? "";
           const inputId = `field-${f.name}`;

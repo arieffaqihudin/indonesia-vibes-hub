@@ -17,6 +17,8 @@ export interface TaxonomyTerm {
 }
 
 const SYNONYMS: Record<ThemeId, string[]> = {
+  "History & Civilization": ["history", "civilisation", "civilization", "kingdom", "archipelago"],
+  "Heritage & Traditions": ["heritage", "tradition", "living tradition", "warisan"],
   Heritage: ["tradition", "warisan", "cultural heritage", "intangible heritage"],
   "Performing Arts": ["dance", "theatre", "wayang", "performance", "puppetry"],
   Music: ["gamelan", "ensemble", "musik", "instrument"],
@@ -25,6 +27,13 @@ const SYNONYMS: Record<ThemeId, string[]> = {
   "Craft & Design": ["batik", "ikat", "songket", "textile", "weaving", "kriya"],
   "Culinary Culture": ["food", "cuisine", "kuliner", "spice"],
   Architecture: ["building", "vernacular", "arsitektur", "structure"],
+  "Visual Arts": ["art", "painting", "sculpture", "gallery"],
+  Textiles: ["batik", "ikat", "songket", "cloth", "weaving"],
+  "Maritime Culture": ["sea", "ocean", "boat", "shipbuilding", "phinisi"],
+  "Indigenous & Local Knowledge": ["adat", "local knowledge", "community knowledge"],
+  "Religion & Cultural Expression": ["religion", "belief", "ritual", "sacred"],
+  Language: ["language", "translation", "bahasa", "local name"],
+  "Cultural Exchange": ["exchange", "diplomacy", "international", "collaboration"],
   "Indigenous Knowledge": ["adat", "customary", "traditional knowledge", "navigation"],
   "Contemporary Culture": ["modern", "contemporary art", "new media", "kontemporer"],
 };

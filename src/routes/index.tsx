@@ -12,13 +12,14 @@ import {
   formatEventDates,
   getPlace,
   people,
-  pillars,
   stories,
   worldNodes,
 } from "@/data/content";
 import { ongoingCollaborations, openOpportunities } from "@/lib/freshness";
 import { ComingUpAroundWorld } from "@/components/editorial/ComingUpAroundWorld";
 import { brand } from "@/lib/brand";
+import { publicFormat } from "@/lib/editorial";
+import { TOPICS } from "@/lib/topics";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -71,10 +72,10 @@ function Home() {
               style={{ ["--reveal-delay" as string]: "270ms" }}
             >
               <Link
-                to="/stories"
+                to="/explore"
                 className="press group inline-flex min-h-11 items-center gap-2 rounded-full bg-primary px-6 text-sm font-medium text-primary-foreground hover:bg-deep-red"
               >
-                Start with the stories
+                Explore Indonesia
                 <ArrowRight className="h-4 w-4 transition-transform duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-1" />
               </Link>
               <Link
@@ -98,7 +99,7 @@ function Home() {
               className="aspect-[4/3] w-full object-cover"
             />
             <figcaption className="absolute right-0 bottom-0 left-0 bg-gradient-to-t from-ink-deep/90 to-transparent p-6 pt-16">
-              <p className="eyebrow text-pink">Featured · {lead.kind}</p>
+              <p className="eyebrow text-pink">Featured · {publicFormat(lead)}</p>
               <Link
                 to="/stories/$slug"
                 params={{ slug: lead.slug }}
@@ -112,6 +113,11 @@ function Home() {
       </section>
 
       <InFocus />
+
+      <section className="container-editorial py-16 md:py-24">
+        <Reveal><SectionHeading eyebrow="Explore" title="Featured content" intro="Three ways into Indonesian knowledge: begin with the essentials, go deeper, or follow a perspective." action="/explore" actionLabel="Explore all content" /></Reveal>
+        <div className="mt-10 grid gap-8 md:grid-cols-3">{(["Essentials", "Deep Dive", "Perspectives"] as const).map((format, i) => { const story = stories.find((item) => publicFormat(item) === format) ?? stories[i]!; return <Reveal key={format} delay={i * 70}><StoryCard story={story} size="sm" /></Reveal>; })}</div>
+      </section>
 
       {/* Around the world */}
       <section className="container-editorial py-16 md:py-24">
@@ -137,7 +143,7 @@ function Home() {
               eyebrow="Curated"
               title="Featured collection"
               intro="Sets that read as arguments, not folders."
-              action="/collections"
+              action="/explore/collections"
               actionLabel="All collections"
             />
           </Reveal>
@@ -190,29 +196,32 @@ function Home() {
         </div>
       </section>
 
-      {/* Explore culture */}
+      {/* Explore by topic */}
       <section className="container-editorial py-16 md:py-24">
         <Reveal>
           <SectionHeading
-            eyebrow="Understand"
-            title="Explore culture"
-            intro="Heritage, contemporary practice and research — held together rather than ranked."
+            eyebrow="Explore"
+            title="Explore by topic"
+            intro="Follow connected knowledge across disciplines, communities and places."
+            action="/explore/topics"
+            actionLabel="All topics"
           />
         </Reveal>
         <div className="mt-10 grid gap-px overflow-hidden border border-border bg-border md:grid-cols-3">
-          {pillars.map((p, i) => (
-            <Reveal key={p.id} delay={i * 80} className="contents">
+          {TOPICS.filter((topic) => ["Music", "Textiles", "History & Civilization"].includes(topic.id)).map((topic, i) => (
+            <Reveal key={topic.id} delay={i * 80} className="contents">
               <Link
-                to={p.route}
+                to="/explore/topics/$slug"
+                params={{ slug: topic.slug }}
                 className="press group flex flex-col justify-between gap-10 bg-background p-8 hover:bg-blush"
               >
                 <span className="text-sm text-muted-foreground tabular-nums">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <span>
-                  <span className="display-3 block text-ink">{p.title}</span>
+                  <span className="display-3 block text-ink">{topic.id}</span>
                   <span className="mt-3 block text-[0.95rem] leading-relaxed text-muted-foreground">
-                    {p.blurb}
+                    {topic.intro}
                   </span>
                   <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-primary">
                     Explore
@@ -309,11 +318,11 @@ function Home() {
         <div className="container-editorial py-16 md:py-24">
           <Reveal>
             <SectionHeading
-              eyebrow="Discover"
-              title="Recently published"
-              intro="Reporting, interviews and field notes — each one connected to the makers, forms and places it came from."
-              action="/stories"
-              actionLabel="All stories"
+              eyebrow="Explore"
+              title="Latest content"
+              intro="Essentials, deep dives and perspectives — each connected to the people, topics and places it came from."
+              action="/explore"
+              actionLabel="All content"
             />
           </Reveal>
           <div className="mt-10 grid gap-x-8 gap-y-12 md:grid-cols-2">

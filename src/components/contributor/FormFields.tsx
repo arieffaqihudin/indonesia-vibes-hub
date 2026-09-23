@@ -84,7 +84,11 @@ function ConnectionPicker({
 }) {
   const [query, setQuery] = useState("");
   const pool = useMemo(
-    () => searchRecords.filter((r) => (entity === "Story" ? r.type === "Story" : r.type === entity)),
+    () => searchRecords.filter((r) =>
+      entity === "Story"
+        ? (["Essentials", "Deep Dive", "Perspectives"] as string[]).includes(r.type)
+        : r.type === entity,
+    ),
     [entity],
   );
   const matches = useMemo(() => {

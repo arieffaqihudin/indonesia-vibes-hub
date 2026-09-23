@@ -23,7 +23,7 @@ function PillarPage() {
 
   return (
     <>
-      <PageHeader eyebrow="Culture" title="Contemporary" intro="Cinema, design, sound and performance being made right now, in Jakarta, Yogyakarta and the diaspora." />
+      <PageHeader eyebrow="Explore" title="Contemporary" intro="Cinema, design, sound and performance being made right now, in Jakarta, Yogyakarta and the diaspora." />
       <div className="container-editorial py-16 md:py-20">
         <div className="space-y-20">
           {forms.map((form, i) => {

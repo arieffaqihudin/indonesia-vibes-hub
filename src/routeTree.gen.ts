@@ -19,15 +19,19 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as ContemporaryRouteImport } from './routes/contemporary'
 import { Route as ContributeRouteImport } from './routes/contribute'
 import { Route as EditorialStandardsRouteImport } from './routes/editorial-standards'
+import { Route as ExperienceRouteImport } from './routes/experience'
 import { Route as HeritageRouteImport } from './routes/heritage'
+import { Route as InquiryRouteImport } from './routes/inquiry'
 import { Route as NowRouteImport } from './routes/now'
 import { Route as OpportunitiesRouteImport } from './routes/opportunities'
+import { Route as PartnersRouteImport } from './routes/partners'
 import { Route as ResearchRouteImport } from './routes/research'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminActivityRouteImport } from './routes/admin.activity'
 import { Route as AdminCalendarRouteImport } from './routes/admin.calendar'
 import { Route as AdminCollectionsRouteImport } from './routes/admin.collections'
+import { Route as AdminCreateRouteImport } from './routes/admin.create'
 import { Route as AdminCultureRouteImport } from './routes/admin.culture'
 import { Route as AdminDataHealthRouteImport } from './routes/admin.data-health'
 import { Route as AdminEventsRouteImport } from './routes/admin.events'
@@ -64,6 +68,8 @@ import { Route as ContributorVerifyEmailRouteImport } from './routes/contributor
 import { Route as CultureSlugRouteImport } from './routes/culture.$slug'
 import { Route as EventsIndexRouteImport } from './routes/events.index'
 import { Route as EventsSlugRouteImport } from './routes/events.$slug'
+import { Route as ExploreIndexRouteImport } from './routes/explore.index'
+import { Route as ExploreCollectionsRouteImport } from './routes/explore.collections'
 import { Route as InstitutionsIndexRouteImport } from './routes/institutions.index'
 import { Route as InstitutionsSlugRouteImport } from './routes/institutions.$slug'
 import { Route as PeopleIndexRouteImport } from './routes/people.index'
@@ -85,6 +91,8 @@ import { Route as AdminPartnersIndexRouteImport } from './routes/admin.partners.
 import { Route as AdminPartnersIdRouteImport } from './routes/admin.partners.$id'
 import { Route as AdminReviewIndexRouteImport } from './routes/admin.review.index'
 import { Route as ContributorSubmissionsIndexRouteImport } from './routes/contributor.submissions.index'
+import { Route as ExploreTopicsIndexRouteImport } from './routes/explore.topics.index'
+import { Route as ExploreTopicsSlugRouteImport } from './routes/explore.topics.$slug'
 import { Route as AdminContentIdPreviewRouteImport } from './routes/admin.content.$id.preview'
 import { Route as ContributorSubmissionsIdIndexRouteImport } from './routes/contributor.submissions.$id.index'
 import { Route as ContributorSubmissionsIdReviseRouteImport } from './routes/contributor.submissions.$id.revise'
@@ -140,9 +148,19 @@ const EditorialStandardsRoute = EditorialStandardsRouteImport.update({
   path: '/editorial-standards',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ExperienceRoute = ExperienceRouteImport.update({
+  id: '/experience',
+  path: '/experience',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const HeritageRoute = HeritageRouteImport.update({
   id: '/heritage',
   path: '/heritage',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InquiryRoute = InquiryRouteImport.update({
+  id: '/inquiry',
+  path: '/inquiry',
   getParentRoute: () => rootRouteImport,
 } as any)
 const NowRoute = NowRouteImport.update({
@@ -153,6 +171,11 @@ const NowRoute = NowRouteImport.update({
 const OpportunitiesRoute = OpportunitiesRouteImport.update({
   id: '/opportunities',
   path: '/opportunities',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PartnersRoute = PartnersRouteImport.update({
+  id: '/partners',
+  path: '/partners',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResearchRoute = ResearchRouteImport.update({
@@ -183,6 +206,11 @@ const AdminCalendarRoute = AdminCalendarRouteImport.update({
 const AdminCollectionsRoute = AdminCollectionsRouteImport.update({
   id: '/collections',
   path: '/collections',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminCreateRoute = AdminCreateRouteImport.update({
+  id: '/create',
+  path: '/create',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminCultureRoute = AdminCultureRouteImport.update({
@@ -367,6 +395,16 @@ const EventsSlugRoute = EventsSlugRouteImport.update({
   path: '/events/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ExploreIndexRoute = ExploreIndexRouteImport.update({
+  id: '/explore/',
+  path: '/explore/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExploreCollectionsRoute = ExploreCollectionsRouteImport.update({
+  id: '/explore/collections',
+  path: '/explore/collections',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const InstitutionsIndexRoute = InstitutionsIndexRouteImport.update({
   id: '/institutions/',
   path: '/institutions/',
@@ -474,6 +512,16 @@ const ContributorSubmissionsIndexRoute =
     path: '/contributor/submissions/',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ExploreTopicsIndexRoute = ExploreTopicsIndexRouteImport.update({
+  id: '/explore/topics/',
+  path: '/explore/topics/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExploreTopicsSlugRoute = ExploreTopicsSlugRouteImport.update({
+  id: '/explore/topics/$slug',
+  path: '/explore/topics/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminContentIdPreviewRoute = AdminContentIdPreviewRouteImport.update({
   id: '/preview',
   path: '/preview',
@@ -509,14 +557,18 @@ export interface FileRoutesByFullPath {
   '/contemporary': typeof ContemporaryRoute
   '/contribute': typeof ContributeRoute
   '/editorial-standards': typeof EditorialStandardsRoute
+  '/experience': typeof ExperienceRoute
   '/heritage': typeof HeritageRoute
+  '/inquiry': typeof InquiryRoute
   '/now': typeof NowRoute
   '/opportunities': typeof OpportunitiesRoute
+  '/partners': typeof PartnersRoute
   '/research': typeof ResearchRoute
   '/search': typeof SearchRoute
   '/admin/activity': typeof AdminActivityRoute
   '/admin/calendar': typeof AdminCalendarRoute
   '/admin/collections': typeof AdminCollectionsRoute
+  '/admin/create': typeof AdminCreateRoute
   '/admin/culture': typeof AdminCultureRoute
   '/admin/data-health': typeof AdminDataHealthRoute
   '/admin/events': typeof AdminEventsRoute
@@ -549,6 +601,7 @@ export interface FileRoutesByFullPath {
   '/contributor/verify-email': typeof ContributorVerifyEmailRoute
   '/culture/$slug': typeof CultureSlugRoute
   '/events/$slug': typeof EventsSlugRoute
+  '/explore/collections': typeof ExploreCollectionsRoute
   '/institutions/$slug': typeof InstitutionsSlugRoute
   '/people/$slug': typeof PeopleSlugRoute
   '/places/$slug': typeof PlacesSlugRoute
@@ -558,6 +611,7 @@ export interface FileRoutesByFullPath {
   '/collections/': typeof CollectionsIndexRoute
   '/contributor/': typeof ContributorIndexRoute
   '/events/': typeof EventsIndexRoute
+  '/explore/': typeof ExploreIndexRoute
   '/institutions/': typeof InstitutionsIndexRoute
   '/people/': typeof PeopleIndexRoute
   '/places/': typeof PlacesIndexRoute
@@ -569,12 +623,14 @@ export interface FileRoutesByFullPath {
   '/admin/curation/in-focus': typeof AdminCurationInFocusRoute
   '/admin/inquiries/$id': typeof AdminInquiriesIdRoute
   '/admin/partners/$id': typeof AdminPartnersIdRoute
+  '/explore/topics/$slug': typeof ExploreTopicsSlugRoute
   '/admin/collaborations/': typeof AdminCollaborationsIndexRoute
   '/admin/content/': typeof AdminContentIndexRoute
   '/admin/inquiries/': typeof AdminInquiriesIndexRoute
   '/admin/partners/': typeof AdminPartnersIndexRoute
   '/admin/review/': typeof AdminReviewIndexRoute
   '/contributor/submissions/': typeof ContributorSubmissionsIndexRoute
+  '/explore/topics/': typeof ExploreTopicsIndexRoute
   '/admin/content/$id/preview': typeof AdminContentIdPreviewRoute
   '/contributor/submissions/$id/revise': typeof ContributorSubmissionsIdReviseRoute
   '/contributor/submissions/new/$type': typeof ContributorSubmissionsNewTypeRoute
@@ -590,14 +646,18 @@ export interface FileRoutesByTo {
   '/contemporary': typeof ContemporaryRoute
   '/contribute': typeof ContributeRoute
   '/editorial-standards': typeof EditorialStandardsRoute
+  '/experience': typeof ExperienceRoute
   '/heritage': typeof HeritageRoute
+  '/inquiry': typeof InquiryRoute
   '/now': typeof NowRoute
   '/opportunities': typeof OpportunitiesRoute
+  '/partners': typeof PartnersRoute
   '/research': typeof ResearchRoute
   '/search': typeof SearchRoute
   '/admin/activity': typeof AdminActivityRoute
   '/admin/calendar': typeof AdminCalendarRoute
   '/admin/collections': typeof AdminCollectionsRoute
+  '/admin/create': typeof AdminCreateRoute
   '/admin/culture': typeof AdminCultureRoute
   '/admin/data-health': typeof AdminDataHealthRoute
   '/admin/events': typeof AdminEventsRoute
@@ -630,6 +690,7 @@ export interface FileRoutesByTo {
   '/contributor/verify-email': typeof ContributorVerifyEmailRoute
   '/culture/$slug': typeof CultureSlugRoute
   '/events/$slug': typeof EventsSlugRoute
+  '/explore/collections': typeof ExploreCollectionsRoute
   '/institutions/$slug': typeof InstitutionsSlugRoute
   '/people/$slug': typeof PeopleSlugRoute
   '/places/$slug': typeof PlacesSlugRoute
@@ -639,6 +700,7 @@ export interface FileRoutesByTo {
   '/collections': typeof CollectionsIndexRoute
   '/contributor': typeof ContributorIndexRoute
   '/events': typeof EventsIndexRoute
+  '/explore': typeof ExploreIndexRoute
   '/institutions': typeof InstitutionsIndexRoute
   '/people': typeof PeopleIndexRoute
   '/places': typeof PlacesIndexRoute
@@ -650,12 +712,14 @@ export interface FileRoutesByTo {
   '/admin/curation/in-focus': typeof AdminCurationInFocusRoute
   '/admin/inquiries/$id': typeof AdminInquiriesIdRoute
   '/admin/partners/$id': typeof AdminPartnersIdRoute
+  '/explore/topics/$slug': typeof ExploreTopicsSlugRoute
   '/admin/collaborations': typeof AdminCollaborationsIndexRoute
   '/admin/content': typeof AdminContentIndexRoute
   '/admin/inquiries': typeof AdminInquiriesIndexRoute
   '/admin/partners': typeof AdminPartnersIndexRoute
   '/admin/review': typeof AdminReviewIndexRoute
   '/contributor/submissions': typeof ContributorSubmissionsIndexRoute
+  '/explore/topics': typeof ExploreTopicsIndexRoute
   '/admin/content/$id/preview': typeof AdminContentIdPreviewRoute
   '/contributor/submissions/$id/revise': typeof ContributorSubmissionsIdReviseRoute
   '/contributor/submissions/new/$type': typeof ContributorSubmissionsNewTypeRoute
@@ -673,14 +737,18 @@ export interface FileRoutesById {
   '/contemporary': typeof ContemporaryRoute
   '/contribute': typeof ContributeRoute
   '/editorial-standards': typeof EditorialStandardsRoute
+  '/experience': typeof ExperienceRoute
   '/heritage': typeof HeritageRoute
+  '/inquiry': typeof InquiryRoute
   '/now': typeof NowRoute
   '/opportunities': typeof OpportunitiesRoute
+  '/partners': typeof PartnersRoute
   '/research': typeof ResearchRoute
   '/search': typeof SearchRoute
   '/admin/activity': typeof AdminActivityRoute
   '/admin/calendar': typeof AdminCalendarRoute
   '/admin/collections': typeof AdminCollectionsRoute
+  '/admin/create': typeof AdminCreateRoute
   '/admin/culture': typeof AdminCultureRoute
   '/admin/data-health': typeof AdminDataHealthRoute
   '/admin/events': typeof AdminEventsRoute
@@ -713,6 +781,7 @@ export interface FileRoutesById {
   '/contributor/verify-email': typeof ContributorVerifyEmailRoute
   '/culture/$slug': typeof CultureSlugRoute
   '/events/$slug': typeof EventsSlugRoute
+  '/explore/collections': typeof ExploreCollectionsRoute
   '/institutions/$slug': typeof InstitutionsSlugRoute
   '/people/$slug': typeof PeopleSlugRoute
   '/places/$slug': typeof PlacesSlugRoute
@@ -722,6 +791,7 @@ export interface FileRoutesById {
   '/collections/': typeof CollectionsIndexRoute
   '/contributor/': typeof ContributorIndexRoute
   '/events/': typeof EventsIndexRoute
+  '/explore/': typeof ExploreIndexRoute
   '/institutions/': typeof InstitutionsIndexRoute
   '/people/': typeof PeopleIndexRoute
   '/places/': typeof PlacesIndexRoute
@@ -733,12 +803,14 @@ export interface FileRoutesById {
   '/admin/curation/in-focus': typeof AdminCurationInFocusRoute
   '/admin/inquiries/$id': typeof AdminInquiriesIdRoute
   '/admin/partners/$id': typeof AdminPartnersIdRoute
+  '/explore/topics/$slug': typeof ExploreTopicsSlugRoute
   '/admin/collaborations/': typeof AdminCollaborationsIndexRoute
   '/admin/content/': typeof AdminContentIndexRoute
   '/admin/inquiries/': typeof AdminInquiriesIndexRoute
   '/admin/partners/': typeof AdminPartnersIndexRoute
   '/admin/review/': typeof AdminReviewIndexRoute
   '/contributor/submissions/': typeof ContributorSubmissionsIndexRoute
+  '/explore/topics/': typeof ExploreTopicsIndexRoute
   '/admin/content/$id/preview': typeof AdminContentIdPreviewRoute
   '/contributor/submissions/$id/revise': typeof ContributorSubmissionsIdReviseRoute
   '/contributor/submissions/new/$type': typeof ContributorSubmissionsNewTypeRoute
@@ -757,14 +829,18 @@ export interface FileRouteTypes {
     | '/contemporary'
     | '/contribute'
     | '/editorial-standards'
+    | '/experience'
     | '/heritage'
+    | '/inquiry'
     | '/now'
     | '/opportunities'
+    | '/partners'
     | '/research'
     | '/search'
     | '/admin/activity'
     | '/admin/calendar'
     | '/admin/collections'
+    | '/admin/create'
     | '/admin/culture'
     | '/admin/data-health'
     | '/admin/events'
@@ -797,6 +873,7 @@ export interface FileRouteTypes {
     | '/contributor/verify-email'
     | '/culture/$slug'
     | '/events/$slug'
+    | '/explore/collections'
     | '/institutions/$slug'
     | '/people/$slug'
     | '/places/$slug'
@@ -806,6 +883,7 @@ export interface FileRouteTypes {
     | '/collections/'
     | '/contributor/'
     | '/events/'
+    | '/explore/'
     | '/institutions/'
     | '/people/'
     | '/places/'
@@ -817,12 +895,14 @@ export interface FileRouteTypes {
     | '/admin/curation/in-focus'
     | '/admin/inquiries/$id'
     | '/admin/partners/$id'
+    | '/explore/topics/$slug'
     | '/admin/collaborations/'
     | '/admin/content/'
     | '/admin/inquiries/'
     | '/admin/partners/'
     | '/admin/review/'
     | '/contributor/submissions/'
+    | '/explore/topics/'
     | '/admin/content/$id/preview'
     | '/contributor/submissions/$id/revise'
     | '/contributor/submissions/new/$type'
@@ -838,14 +918,18 @@ export interface FileRouteTypes {
     | '/contemporary'
     | '/contribute'
     | '/editorial-standards'
+    | '/experience'
     | '/heritage'
+    | '/inquiry'
     | '/now'
     | '/opportunities'
+    | '/partners'
     | '/research'
     | '/search'
     | '/admin/activity'
     | '/admin/calendar'
     | '/admin/collections'
+    | '/admin/create'
     | '/admin/culture'
     | '/admin/data-health'
     | '/admin/events'
@@ -878,6 +962,7 @@ export interface FileRouteTypes {
     | '/contributor/verify-email'
     | '/culture/$slug'
     | '/events/$slug'
+    | '/explore/collections'
     | '/institutions/$slug'
     | '/people/$slug'
     | '/places/$slug'
@@ -887,6 +972,7 @@ export interface FileRouteTypes {
     | '/collections'
     | '/contributor'
     | '/events'
+    | '/explore'
     | '/institutions'
     | '/people'
     | '/places'
@@ -898,12 +984,14 @@ export interface FileRouteTypes {
     | '/admin/curation/in-focus'
     | '/admin/inquiries/$id'
     | '/admin/partners/$id'
+    | '/explore/topics/$slug'
     | '/admin/collaborations'
     | '/admin/content'
     | '/admin/inquiries'
     | '/admin/partners'
     | '/admin/review'
     | '/contributor/submissions'
+    | '/explore/topics'
     | '/admin/content/$id/preview'
     | '/contributor/submissions/$id/revise'
     | '/contributor/submissions/new/$type'
@@ -920,14 +1008,18 @@ export interface FileRouteTypes {
     | '/contemporary'
     | '/contribute'
     | '/editorial-standards'
+    | '/experience'
     | '/heritage'
+    | '/inquiry'
     | '/now'
     | '/opportunities'
+    | '/partners'
     | '/research'
     | '/search'
     | '/admin/activity'
     | '/admin/calendar'
     | '/admin/collections'
+    | '/admin/create'
     | '/admin/culture'
     | '/admin/data-health'
     | '/admin/events'
@@ -960,6 +1052,7 @@ export interface FileRouteTypes {
     | '/contributor/verify-email'
     | '/culture/$slug'
     | '/events/$slug'
+    | '/explore/collections'
     | '/institutions/$slug'
     | '/people/$slug'
     | '/places/$slug'
@@ -969,6 +1062,7 @@ export interface FileRouteTypes {
     | '/collections/'
     | '/contributor/'
     | '/events/'
+    | '/explore/'
     | '/institutions/'
     | '/people/'
     | '/places/'
@@ -980,12 +1074,14 @@ export interface FileRouteTypes {
     | '/admin/curation/in-focus'
     | '/admin/inquiries/$id'
     | '/admin/partners/$id'
+    | '/explore/topics/$slug'
     | '/admin/collaborations/'
     | '/admin/content/'
     | '/admin/inquiries/'
     | '/admin/partners/'
     | '/admin/review/'
     | '/contributor/submissions/'
+    | '/explore/topics/'
     | '/admin/content/$id/preview'
     | '/contributor/submissions/$id/revise'
     | '/contributor/submissions/new/$type'
@@ -1003,9 +1099,12 @@ export interface RootRouteChildren {
   ContemporaryRoute: typeof ContemporaryRoute
   ContributeRoute: typeof ContributeRoute
   EditorialStandardsRoute: typeof EditorialStandardsRoute
+  ExperienceRoute: typeof ExperienceRoute
   HeritageRoute: typeof HeritageRoute
+  InquiryRoute: typeof InquiryRoute
   NowRoute: typeof NowRoute
   OpportunitiesRoute: typeof OpportunitiesRoute
+  PartnersRoute: typeof PartnersRoute
   ResearchRoute: typeof ResearchRoute
   SearchRoute: typeof SearchRoute
   CollaborationsSlugRoute: typeof CollaborationsSlugRoute
@@ -1024,6 +1123,7 @@ export interface RootRouteChildren {
   ContributorVerifyEmailRoute: typeof ContributorVerifyEmailRoute
   CultureSlugRoute: typeof CultureSlugRoute
   EventsSlugRoute: typeof EventsSlugRoute
+  ExploreCollectionsRoute: typeof ExploreCollectionsRoute
   InstitutionsSlugRoute: typeof InstitutionsSlugRoute
   PeopleSlugRoute: typeof PeopleSlugRoute
   PlacesSlugRoute: typeof PlacesSlugRoute
@@ -1032,11 +1132,14 @@ export interface RootRouteChildren {
   CollectionsIndexRoute: typeof CollectionsIndexRoute
   ContributorIndexRoute: typeof ContributorIndexRoute
   EventsIndexRoute: typeof EventsIndexRoute
+  ExploreIndexRoute: typeof ExploreIndexRoute
   InstitutionsIndexRoute: typeof InstitutionsIndexRoute
   PeopleIndexRoute: typeof PeopleIndexRoute
   PlacesIndexRoute: typeof PlacesIndexRoute
   StoriesIndexRoute: typeof StoriesIndexRoute
+  ExploreTopicsSlugRoute: typeof ExploreTopicsSlugRoute
   ContributorSubmissionsIndexRoute: typeof ContributorSubmissionsIndexRoute
+  ExploreTopicsIndexRoute: typeof ExploreTopicsIndexRoute
   ContributorSubmissionsIdReviseRoute: typeof ContributorSubmissionsIdReviseRoute
   ContributorSubmissionsNewTypeRoute: typeof ContributorSubmissionsNewTypeRoute
   ContributorSubmissionsIdIndexRoute: typeof ContributorSubmissionsIdIndexRoute
@@ -1114,11 +1217,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EditorialStandardsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/experience': {
+      id: '/experience'
+      path: '/experience'
+      fullPath: '/experience'
+      preLoaderRoute: typeof ExperienceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/heritage': {
       id: '/heritage'
       path: '/heritage'
       fullPath: '/heritage'
       preLoaderRoute: typeof HeritageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/inquiry': {
+      id: '/inquiry'
+      path: '/inquiry'
+      fullPath: '/inquiry'
+      preLoaderRoute: typeof InquiryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/now': {
@@ -1133,6 +1250,13 @@ declare module '@tanstack/react-router' {
       path: '/opportunities'
       fullPath: '/opportunities'
       preLoaderRoute: typeof OpportunitiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/partners': {
+      id: '/partners'
+      path: '/partners'
+      fullPath: '/partners'
+      preLoaderRoute: typeof PartnersRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/research': {
@@ -1175,6 +1299,13 @@ declare module '@tanstack/react-router' {
       path: '/collections'
       fullPath: '/admin/collections'
       preLoaderRoute: typeof AdminCollectionsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/create': {
+      id: '/admin/create'
+      path: '/create'
+      fullPath: '/admin/create'
+      preLoaderRoute: typeof AdminCreateRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/culture': {
@@ -1429,6 +1560,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EventsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/explore/': {
+      id: '/explore/'
+      path: '/explore'
+      fullPath: '/explore/'
+      preLoaderRoute: typeof ExploreIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/explore/collections': {
+      id: '/explore/collections'
+      path: '/explore/collections'
+      fullPath: '/explore/collections'
+      preLoaderRoute: typeof ExploreCollectionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/institutions/': {
       id: '/institutions/'
       path: '/institutions'
@@ -1576,6 +1721,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContributorSubmissionsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/explore/topics/': {
+      id: '/explore/topics/'
+      path: '/explore/topics'
+      fullPath: '/explore/topics/'
+      preLoaderRoute: typeof ExploreTopicsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/explore/topics/$slug': {
+      id: '/explore/topics/$slug'
+      path: '/explore/topics/$slug'
+      fullPath: '/explore/topics/$slug'
+      preLoaderRoute: typeof ExploreTopicsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/content/$id/preview': {
       id: '/admin/content/$id/preview'
       path: '/preview'
@@ -1623,6 +1782,7 @@ interface AdminRouteChildren {
   AdminActivityRoute: typeof AdminActivityRoute
   AdminCalendarRoute: typeof AdminCalendarRoute
   AdminCollectionsRoute: typeof AdminCollectionsRoute
+  AdminCreateRoute: typeof AdminCreateRoute
   AdminCultureRoute: typeof AdminCultureRoute
   AdminDataHealthRoute: typeof AdminDataHealthRoute
   AdminEventsRoute: typeof AdminEventsRoute
@@ -1658,6 +1818,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminActivityRoute: AdminActivityRoute,
   AdminCalendarRoute: AdminCalendarRoute,
   AdminCollectionsRoute: AdminCollectionsRoute,
+  AdminCreateRoute: AdminCreateRoute,
   AdminCultureRoute: AdminCultureRoute,
   AdminDataHealthRoute: AdminDataHealthRoute,
   AdminEventsRoute: AdminEventsRoute,
@@ -1702,9 +1863,12 @@ const rootRouteChildren: RootRouteChildren = {
   ContemporaryRoute: ContemporaryRoute,
   ContributeRoute: ContributeRoute,
   EditorialStandardsRoute: EditorialStandardsRoute,
+  ExperienceRoute: ExperienceRoute,
   HeritageRoute: HeritageRoute,
+  InquiryRoute: InquiryRoute,
   NowRoute: NowRoute,
   OpportunitiesRoute: OpportunitiesRoute,
+  PartnersRoute: PartnersRoute,
   ResearchRoute: ResearchRoute,
   SearchRoute: SearchRoute,
   CollaborationsSlugRoute: CollaborationsSlugRoute,
@@ -1723,6 +1887,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContributorVerifyEmailRoute: ContributorVerifyEmailRoute,
   CultureSlugRoute: CultureSlugRoute,
   EventsSlugRoute: EventsSlugRoute,
+  ExploreCollectionsRoute: ExploreCollectionsRoute,
   InstitutionsSlugRoute: InstitutionsSlugRoute,
   PeopleSlugRoute: PeopleSlugRoute,
   PlacesSlugRoute: PlacesSlugRoute,
@@ -1731,11 +1896,14 @@ const rootRouteChildren: RootRouteChildren = {
   CollectionsIndexRoute: CollectionsIndexRoute,
   ContributorIndexRoute: ContributorIndexRoute,
   EventsIndexRoute: EventsIndexRoute,
+  ExploreIndexRoute: ExploreIndexRoute,
   InstitutionsIndexRoute: InstitutionsIndexRoute,
   PeopleIndexRoute: PeopleIndexRoute,
   PlacesIndexRoute: PlacesIndexRoute,
   StoriesIndexRoute: StoriesIndexRoute,
+  ExploreTopicsSlugRoute: ExploreTopicsSlugRoute,
   ContributorSubmissionsIndexRoute: ContributorSubmissionsIndexRoute,
+  ExploreTopicsIndexRoute: ExploreTopicsIndexRoute,
   ContributorSubmissionsIdReviseRoute: ContributorSubmissionsIdReviseRoute,
   ContributorSubmissionsNewTypeRoute: ContributorSubmissionsNewTypeRoute,
   ContributorSubmissionsIdIndexRoute: ContributorSubmissionsIdIndexRoute,
