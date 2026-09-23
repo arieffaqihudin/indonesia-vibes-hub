@@ -216,10 +216,12 @@ export function SearchResultCard({ record }: { record: SearchRecord }) {
 
   const slug = record.slug ?? "";
   switch (record.type) {
-    case "Story":
+    case "Essentials":
+    case "Deep Dive":
+    case "Perspectives":
       return <RecordShell to="/stories/$slug" params={{ slug }}>{inner}</RecordShell>;
-    case "Culture":
-      return <RecordShell to="/culture/$slug" params={{ slug }}>{inner}</RecordShell>;
+    case "Topics":
+      return <RecordShell to="/explore/topics/$slug" params={{ slug }}>{inner}</RecordShell>;
     case "People & Communities":
       return <RecordShell to="/people/$slug" params={{ slug }}>{inner}</RecordShell>;
     case "Institutions":

@@ -27,6 +27,7 @@ import type {
   Story,
   ThemeId,
 } from "@/types/content";
+import { publicFormat } from "@/lib/editorial";
 
 /* ---------- lookups ---------- */
 
@@ -204,20 +205,21 @@ const eventStatus = (e: CulturalEvent) => {
 
 const storyRecord = (s: Story): SearchRecord => ({
   id: s.id,
-  type: "Story",
+  type: publicFormat(s),
   title: s.title,
   context: s.dek,
   location: resolve(s.placeIds, getPlaceById)[0]?.name,
-  meta: `${s.kind} · ${s.readingMinutes} min read`,
+  meta: `${s.topics?.[0] ?? "Editorial Content"} · ${s.readingMinutes} min read`,
   image: s.image,
   slug: s.slug,
-  themes: [...new Set(resolve(s.formIds, getForm).flatMap((f) => f.themes ?? []))],
+  themes: s.topics ?? [...new Set(resolve(s.formIds, getForm).flatMap((f) => f.themes ?? []))],
   countries: ["Indonesia"],
   date: s.publishedAt,
   keywords: [
     s.title,
     s.dek,
-    s.kind,
+    publicFormat(s),
+    ...(s.topics ?? []),
     ...resolve(s.formIds, getForm).flatMap((f) => [f.name, ...(f.aliases ?? [])]),
     ...resolve(s.peopleIds, getPersonById).map((p) => p.name),
     ...resolve(s.placeIds, getPlaceById).map((p) => p.name),
@@ -229,7 +231,7 @@ export const searchRecords: SearchRecord[] = [
 
   ...forms.map((f) => ({
     id: f.id,
-    type: "Culture" as const,
+    type: "Topics" as const,
     title: f.name,
     context: f.summary,
     location: getPlaceById(f.originPlaceId)?.name,
