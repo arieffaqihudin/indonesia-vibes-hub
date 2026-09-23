@@ -3,7 +3,7 @@ import { useMemo, useState } from "react";
 
 import { adminHead } from "@/lib/admin/head";
 import { useAdmin } from "@/lib/admin/store";
-import { CONTENT_KINDS, CONTENT_STATUS, kindLabel, type ContentKind, type ContentStatus } from "@/lib/admin/types";
+import { CONTENT_KINDS, SIMPLE_STATUSES, kindLabel, simpleStatus, type ContentKind, type ContentStatus } from "@/lib/admin/types";
 import {
   Card,
   EmptyState,
@@ -26,7 +26,6 @@ export const Route = createFileRoute("/admin/content/")({
 
 function ContentLibrary() {
   const { content, users } = useAdmin();
-  const [view, setView] = useState<"list" | "cards">("list");
   const [kind, setKind] = useState("");
   const [status, setStatus] = useState("");
   const [editor, setEditor] = useState("");
@@ -41,7 +40,7 @@ function ContentLibrary() {
     const q = query.trim().toLowerCase();
     return content
       .filter((c) => (kind ? kindLabel(c.kind) === kind : true))
-      .filter((c) => (status ? CONTENT_STATUS[c.status].label === status : true))
+      .filter((c) => (status ? simpleStatus(c.status) === status : true))
       .filter((c) => (editor ? c.assignedTo === editor : true))
       .filter((c) => (theme ? c.themes.includes(theme) : true))
       .filter((c) => (country ? c.countries.includes(country) : true))
@@ -60,34 +59,26 @@ function ContentLibrary() {
     <>
       <PageHeading
         eyebrow="Editorial"
-        title="Content library"
-        description="All publishable content types in one place, filtered by status, editor, theme and geography."
+        title="All Content"
+        description="Find, edit, review and publish every public record from one place."
         actions={
           <>
-            <div className="flex rounded-md border border-border p-0.5" role="group" aria-label="View mode">
-              {(["list", "cards"] as const).map((mode) => (
-                <button
-                  key={mode}
-                  type="button"
-                  aria-pressed={view === mode}
-                  onClick={() => setView(mode)}
-                  className={`min-h-8 rounded px-3 text-xs ${view === mode ? "bg-blush text-ink" : "text-muted-foreground"}`}
-                >
-                  {mode === "list" ? "List" : "Editorial cards"}
-                </button>
-              ))}
-            </div>
-            <Link to="/admin/content/new" search={{ kind: "story" }} className={abtn.primary}>
-              + Create
+            <Link to="/admin/create" className={abtn.primary}>
+              Create New
             </Link>
           </>
         }
       />
 
+      <div className="scroll-strip mb-4 flex gap-1 border-b border-border" role="tablist" aria-label="Content types">
+        {[{ kind: "", plural: "All" }, ...CONTENT_KINDS.filter((entry) => entry.kind !== "community")].map((entry) => (
+          <button key={entry.kind || "all"} type="button" role="tab" aria-selected={kind === entry.label || (!kind && !entry.kind)} onClick={() => setKind(entry.kind ? entry.label : "")} className={`min-h-10 whitespace-nowrap border-b-2 px-3 text-xs font-medium ${kind === entry.label || (!kind && !entry.kind) ? "border-primary text-ink" : "border-transparent text-muted-foreground"}`}>{entry.kind === "story" ? "Stories" : entry.kind === "culture" ? "Culture" : entry.plural}</button>
+        ))}
+      </div>
+
       <div className="scroll-strip mb-4 flex items-center gap-3 rounded-lg border border-border bg-card px-4 py-3 md:flex-wrap md:overflow-visible">
         <SearchInput value={query} onChange={setQuery} label="Search content" placeholder="Search title, people, institution or theme" />
-        <SelectFilter label="Type" value={kind} onChange={setKind} options={CONTENT_KINDS.map((k) => k.label)} />
-        <SelectFilter label="Status" value={status} onChange={setStatus} options={Object.values(CONTENT_STATUS).map((s) => s.label)} />
+        <SelectFilter label="Status" value={status} onChange={setStatus} options={SIMPLE_STATUSES} />
         <SelectFilter label="Editor" value={editor} onChange={setEditor} options={users.map((u) => u.name)} />
         <SelectFilter label="Theme" value={theme} onChange={setTheme} options={themes} />
         <SelectFilter label="Country" value={country} onChange={setCountry} options={countries} />
@@ -99,7 +90,7 @@ function ContentLibrary() {
 
       {!rows.length ? (
         <EmptyState title="No records match these filters." hint="Clear a filter or widen the search." />
-      ) : view === "list" ? (
+      ) : (
         <Card bodyClass="p-0">
           <Table
             caption="Content records"
@@ -125,26 +116,6 @@ function ContentLibrary() {
             ))}
           </Table>
         </Card>
-      ) : (
-        <ul className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-          {rows.map((item) => (
-            <li key={item.id} className="rounded-lg border border-border bg-card p-4">
-              <div className="flex items-start justify-between gap-2">
-                <Tag tone="quiet">{kindLabel(item.kind)}</Tag>
-                <StatusPill status={item.status} />
-              </div>
-              <Link to="/admin/content/$id" params={{ id: item.id }} className="mt-2 block text-sm font-medium text-ink hover:text-primary">
-                {item.title}
-              </Link>
-              <p className="mt-1 line-clamp-2 text-xs text-muted-foreground">
-                {item.fields["standfirst"] ?? item.fields["summary"] ?? item.fields["introduction"] ?? item.fields["profile"] ?? "No standfirst yet."}
-              </p>
-              <p className="mt-3 text-[0.7rem] text-muted-foreground">
-                {item.assignedTo ?? "Unassigned"} · updated {relative(item.updatedAt)}
-              </p>
-            </li>
-          ))}
-        </ul>
       )}
     </>
   );

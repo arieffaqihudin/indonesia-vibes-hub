@@ -644,6 +644,11 @@ export const PRIORITIES: Priority[] = ["Low", "Normal", "High"];
 export interface ContentItem {
   id: string;
   kind: ContentKind;
+  /** Independent editorial dimensions. Legacy records may omit them until edited. */
+  deliveryType?: "Knowledge" | "Semantic" | "Pragmatic";
+  contentSource?: "Internal" | "By Curation";
+  topics?: string[];
+  sourceAttribution?: string;
   title: string;
   slug?: string;
   publicPath?: string;

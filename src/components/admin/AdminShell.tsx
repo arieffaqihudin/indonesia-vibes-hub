@@ -72,16 +72,8 @@ export function useNavGroups(): NavGroup[] {
       label: "Content",
       visibleTo: editorialRole,
       items: [
-        { to: "/admin/stories", label: "Stories", icon: FileText },
-        { to: "/admin/culture", label: "Culture", icon: Drum },
-        { to: "/admin/people", label: "People & Communities", icon: Users },
-        { to: "/admin/institutions", label: "Institutions", icon: Landmark },
-        { to: "/admin/places", label: "Places", icon: MapPin },
-        { to: "/admin/events", label: "Events", icon: CalendarDays },
-        { to: "/admin/opportunities", label: "Opportunities", icon: Sparkles },
-        { to: "/admin/collaborations", label: "Collaborations", icon: Handshake },
-        { to: "/admin/collections", label: "Collections", icon: Library },
-        { to: "/admin/content", label: "All content", icon: Layers },
+        { to: "/admin/content", label: "All Content", icon: Layers },
+        { to: "/admin/create", label: "Create New", icon: FileText },
       ],
     },
     {
@@ -91,10 +83,6 @@ export function useNavGroups(): NavGroup[] {
         { to: "/admin/submissions", label: "Submissions", icon: Inbox, badge: submissions },
         { to: "/admin/review", label: "Review", icon: ClipboardCheck, badge: reviewCount },
         { to: "/admin/calendar", label: "Calendar", icon: CalendarRange },
-        { to: "/admin/curation/homepage", label: "Homepage", icon: Home },
-        { to: "/admin/curation/in-focus", label: "In Focus", icon: Star },
-        { to: "/admin/sources", label: "Sources", icon: BookOpen },
-        { to: "/admin/media", label: "Media & rights", icon: Image },
       ],
     },
     {
@@ -107,14 +95,10 @@ export function useNavGroups(): NavGroup[] {
       ],
     },
     {
-      label: "System",
+      label: "",
       visibleTo: (r: AdminRole) => can(r, "configure") || r === "Managing Editor",
       items: [
-        { to: "/admin/users", label: "Users & roles", icon: UserCog },
-        { to: "/admin/taxonomy", label: "Taxonomy", icon: Tags },
-        { to: "/admin/data-health", label: "Data health", icon: Activity },
         { to: "/admin/settings", label: "Settings", icon: Settings },
-        { to: "/admin/activity", label: "Activity log", icon: History },
       ],
     },
   ].filter((g) => !g.visibleTo || g.visibleTo(role));

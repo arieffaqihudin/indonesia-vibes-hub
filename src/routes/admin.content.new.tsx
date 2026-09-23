@@ -5,6 +5,8 @@ import { adminHead } from "@/lib/admin/head";
 import { useAdmin } from "@/lib/admin/store";
 import { possibleDuplicates } from "@/lib/admin/selectors";
 import { CONTENT_FIELDS, CONTENT_KINDS, emptyRelationships, kindLabel, type ContentKind } from "@/lib/admin/types";
+import { CONTENT_SOURCES, DELIVERY_HELP, DELIVERY_TYPES, SOURCE_HELP, type ContentSource, type DeliveryType } from "@/lib/editorial";
+import { TOPICS } from "@/lib/topics";
 import { Card, PageHeading, PrototypeNote, abtn, field } from "@/components/admin/primitives";
 
 export const Route = createFileRoute("/admin/content/new")({
@@ -19,6 +21,10 @@ function NewContent() {
   const admin = useAdmin();
   const [type, setType] = useState<ContentKind>((CONTENT_KINDS.find((k) => k.kind === kind)?.kind ?? "story") as ContentKind);
   const [title, setTitle] = useState("");
+  const [deliveryType, setDeliveryType] = useState<DeliveryType>("Knowledge");
+  const [contentSource, setContentSource] = useState<ContentSource>("Internal");
+  const [topic, setTopic] = useState("");
+  const [sourceAttribution, setSourceAttribution] = useState("");
   const [ignoreDuplicates, setIgnoreDuplicates] = useState(false);
 
   const duplicates = useMemo(() => (title.length > 3 ? possibleDuplicates(title, admin.content) : []), [title, admin.content]);
@@ -30,6 +36,7 @@ function NewContent() {
     admin.createContent({
       id,
       kind: type,
+      ...(type === "story" ? { deliveryType, contentSource, topics: topic ? [topic] : [], ...(contentSource === "By Curation" ? { sourceAttribution } : {}) } : {}),
       title,
       status: "draft",
       priority: "Normal",
@@ -55,7 +62,7 @@ function NewContent() {
 
   return (
     <>
-      <PageHeading eyebrow="Editorial" title="Create a record" description="New records start as drafts and follow the same workflow as contributor submissions." />
+      <PageHeading eyebrow="Content" title="What would you like to create?" description="Choose a public content type. The draft will guide you through writing, review and publishing." />
 
       <Card className="max-w-2xl">
         <div className="space-y-4">
@@ -71,6 +78,13 @@ function NewContent() {
               ))}
             </select>
           </div>
+
+          {type === "story" ? <div className="grid gap-4 border-t border-border pt-4 sm:grid-cols-2">
+            <label className="text-xs font-medium text-ink">How should it help the reader?<select className={`${field} mt-1`} value={deliveryType} onChange={(e) => setDeliveryType(e.target.value as DeliveryType)}>{DELIVERY_TYPES.map((value) => <option key={value}>{value}</option>)}</select><span className="mt-1 block font-normal text-muted-foreground">{DELIVERY_HELP[deliveryType]}</span></label>
+            <label className="text-xs font-medium text-ink">Topic<select className={`${field} mt-1`} value={topic} onChange={(e) => setTopic(e.target.value)}><option value="">Choose later</option>{TOPICS.map((entry) => <option key={entry.id}>{entry.id}</option>)}</select></label>
+            <label className="text-xs font-medium text-ink">Content source<select className={`${field} mt-1`} value={contentSource} onChange={(e) => setContentSource(e.target.value as ContentSource)}>{CONTENT_SOURCES.map((value) => <option key={value}>{value}</option>)}</select><span className="mt-1 block font-normal text-muted-foreground">{SOURCE_HELP[contentSource]}</span></label>
+            {contentSource === "By Curation" ? <label className="text-xs font-medium text-ink">Source attribution<input className={`${field} mt-1`} value={sourceAttribution} onChange={(e) => setSourceAttribution(e.target.value)} placeholder="Organisation, publication or creator" /></label> : null}
+          </div> : null}
 
           <div>
             <label htmlFor="title" className="mb-1 block text-xs font-medium text-ink">
