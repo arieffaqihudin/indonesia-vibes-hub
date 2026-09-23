@@ -1,0 +1,9 @@
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { PageHeader } from "@/components/editorial/Section";
+import { EventCard, PlaceCard } from "@/components/editorial/EntityCards";
+import { events, places } from "@/data/content";
+
+export const Route = createFileRoute("/experience")({ component: ExperiencePage });
+function ExperiencePage() {
+  return <><PageHeader eyebrow="Experience" title="Culture in place, in time and around the world" intro="Find confirmed events, understand the places behind the work, and follow Indonesia’s cultural presence globally." /><div className="container-editorial py-14 md:py-18"><section><div className="flex items-end justify-between gap-6"><h2 className="display-3 text-ink">Coming up</h2><Link to="/events" className="link-underline text-sm text-primary">All events</Link></div><div className="mt-7 grid gap-8 md:grid-cols-3">{events.slice(0,3).map((event) => <EventCard key={event.id} event={event} />)}</div></section><section className="mt-18 border-t border-border pt-10"><div className="flex items-end justify-between gap-6"><h2 className="display-3 text-ink">Places to understand</h2><Link to="/places" className="link-underline text-sm text-primary">All places</Link></div><div className="mt-7 grid gap-8 md:grid-cols-3">{places.slice(0,3).map((place) => <PlaceCard key={place.id} place={place} />)}</div></section><section className="mt-18 bg-sand px-6 py-10 md:px-10"><p className="eyebrow text-primary">Global presence</p><h2 className="display-3 mt-3 text-ink">Indonesia around the world</h2><p className="mt-4 max-w-2xl text-muted-foreground">Explore events, institutions and collaborations as one connected international network.</p><Link to="/around-the-world" className="mt-6 inline-block link-underline font-medium text-primary">Open the global map</Link></section></div></>;
+}
