@@ -1,4 +1,4 @@
-import { createFileRoute, notFound } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { PageHeader } from "@/components/editorial/Section";
 import { StoryCard } from "@/components/editorial/StoryCard";
 import { stories } from "@/data/content";
@@ -6,8 +6,12 @@ import { PUBLIC_FORMATS, publicFormat } from "@/lib/editorial";
 import { topicBySlug } from "@/lib/topics";
 
 export const Route = createFileRoute("/explore/topics/$slug")({
-  loader: ({ params }) => topicBySlug(params.slug) ?? notFound(),
-  head: ({ loaderData: topic }) => ({ meta: [{ title: `${topic.id} — Indonesia Vibes` }, { name: "description", content: topic.intro }] }),
+  loader: ({ params }) => {
+    const topic = topicBySlug(params.slug);
+    if (!topic) throw new Error("Topic not found");
+    return topic;
+  },
+  head: ({ loaderData: topic }) => ({ meta: [{ title: `${topic?.id ?? "Topic"} — Indonesia Vibes` }, { name: "description", content: topic?.intro ?? "Explore Indonesia by topic." }] }),
   component: TopicPage,
 });
 function TopicPage() {
