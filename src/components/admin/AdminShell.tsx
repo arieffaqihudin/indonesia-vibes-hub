@@ -105,7 +105,7 @@ export function useNavGroups(): NavGroup[] {
 }
 
 const CREATE_OPTIONS: { kind: string; label: string }[] = [
-  { kind: "story", label: "Story" },
+  { kind: "story", label: "Editorial Content" },
   { kind: "culture", label: "Cultural subject" },
   { kind: "person", label: "Person / community" },
   { kind: "institution", label: "Institution" },
