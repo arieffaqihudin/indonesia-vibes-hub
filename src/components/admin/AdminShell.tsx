@@ -130,12 +130,18 @@ export function AdminShell({ children }: { children: ReactNode }) {
   const [searchOpen, setSearchOpen] = useState(false);
   const [createOpen, setCreateOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const [focusMode, setFocusMode] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => setMobileOpen(false), [pathname]);
   useEffect(() => {
     window.sessionStorage.setItem("iv-admin-sidebar", collapsed ? "collapsed" : "expanded");
   }, [collapsed]);
+  useEffect(() => {
+    const onFocusMode = (event: Event) => setFocusMode((event as CustomEvent<boolean>).detail);
+    window.addEventListener("iv-article-focus", onFocusMode);
+    return () => window.removeEventListener("iv-article-focus", onFocusMode);
+  }, []);
 
   // The navigation drawer owns the screen while it is open.
   useEffect(() => {
@@ -234,6 +240,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
         id="admin-nav"
         className={cn(
           "fixed inset-y-0 left-0 z-40 hidden border-r border-sidebar-border bg-sidebar lg:block",
+          focusMode && "lg:hidden",
           "transition-[width] duration-[240ms] ease-[cubic-bezier(0.4,0,0.2,1)]",
           collapsed ? "w-[72px]" : "w-[260px]",
         )}
@@ -262,10 +269,10 @@ export function AdminShell({ children }: { children: ReactNode }) {
       <div
         className={cn(
           "transition-[padding] duration-[240ms] ease-[cubic-bezier(0.4,0,0.2,1)]",
-          collapsed ? "lg:pl-[72px]" : "lg:pl-[260px]",
+          focusMode ? "lg:pl-0" : collapsed ? "lg:pl-[72px]" : "lg:pl-[260px]",
         )}
       >
-        <header className="sticky top-0 z-30 border-b border-border bg-card/95 backdrop-blur-sm">
+        <header className={cn("sticky top-0 z-30 border-b border-border bg-card/95 backdrop-blur-sm", focusMode && "hidden")}>
           <div className="flex h-[var(--admin-header)] items-center gap-2 px-4 sm:gap-3 sm:px-6 lg:px-8">
             <button
               type="button"
@@ -400,7 +407,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
         ) : null}
 
 
-        <main className="w-full px-4 py-5 sm:px-6 lg:px-8 lg:py-6">{children}</main>
+        <main className={cn("w-full px-4 py-5 sm:px-6 lg:px-8 lg:py-6", focusMode && "p-0 sm:p-0 lg:p-0")}>{children}</main>
       </div>
 
       <Modal open={searchOpen} onClose={() => setSearchOpen(false)} title="Search the workspace">

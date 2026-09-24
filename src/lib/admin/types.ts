@@ -644,6 +644,8 @@ export interface ContentItem {
   contentSource?: "Internal" | "By Curation";
   topics?: string[];
   sourceAttribution?: string;
+  /** Versioned rich article document. Legacy records fall back to fields.narrative. */
+  articleDocument?: string;
   title: string;
   slug?: string;
   publicPath?: string;
