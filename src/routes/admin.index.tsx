@@ -12,8 +12,8 @@ import {
   rightsIssues,
   staleContent,
 } from "@/lib/admin/selectors";
-import { CONTENT_STATUS, daysUntil, type ContentItem } from "@/lib/admin/types";
-import { Card, EmptyState, PageHeading, StatusPill, abtn, dateFmt, relative, timeFmt } from "@/components/admin/primitives";
+import { daysUntil } from "@/lib/admin/types";
+import { EmptyState, PageHeading, abtn, dateFmt, relative, timeFmt } from "@/components/admin/primitives";
 
 export const Route = createFileRoute("/admin/")({
   head: adminHead("Dashboard", "What needs attention across editorial and partnership work today."),
@@ -55,20 +55,6 @@ function AttentionRow({
       >
         {cta} →
       </Link>
-    </li>
-  );
-}
-
-function ContentRow({ item }: { item: ContentItem }) {
-  return (
-    <li className="flex flex-wrap items-center gap-x-3 gap-y-1 border-b border-border py-2 last:border-0">
-      <Link to="/admin/content/$id" params={{ id: item.id }} className="text-sm font-medium text-ink underline-offset-4 hover:text-primary hover:underline">
-        {item.title}
-      </Link>
-      <StatusPill status={item.status} />
-      <span className="text-xs text-muted-foreground">
-        {item.assignedTo ?? "Unassigned"} · in this stage {relative(item.stageSince)}
-      </span>
     </li>
   );
 }
@@ -138,12 +124,12 @@ function OverviewPage() {
   return (
     <>
       <PageHeading
-        eyebrow={user.role}
-        title={`${greeting()}, ${user.name.split(" ")[0]}.`}
+        eyebrow="Dashboard"
+        title="Dashboard"
         description={
           leadership
             ? "A read-only view of publication status, inquiries and the collaboration pipeline."
-            : "Here is what is waiting on the team today."
+            : `${greeting()}, ${user.name.split(" ")[0]}. Here is what needs attention today.`
         }
         actions={
           <Link to="/admin/review" className={abtn.secondary}>
@@ -152,9 +138,9 @@ function OverviewPage() {
         }
       />
 
-      <section aria-labelledby="attention" className="mb-8">
-        <h2 id="attention" className="mb-1 border-b border-border pb-2 text-[0.68rem] font-medium tracking-[0.16em] text-muted-foreground uppercase">
-          Needs attention
+      <section aria-labelledby="attention" className="mb-9 max-w-5xl">
+        <h2 id="attention" className="border-b border-border pb-2 text-[0.68rem] font-semibold tracking-[0.12em] text-clay uppercase">
+          Needs your attention
         </h2>
         {attention.length ? (
           <ul>
@@ -167,11 +153,11 @@ function OverviewPage() {
         )}
       </section>
 
-      <section aria-labelledby="today" className="mb-8">
-        <h2 id="today" className="mb-3 border-b border-border pb-2 text-[0.68rem] font-medium tracking-[0.16em] text-muted-foreground uppercase">
+      <section aria-labelledby="today" className="mb-9 max-w-5xl">
+        <h2 id="today" className="border-b border-border pb-2 text-[0.68rem] font-semibold tracking-[0.12em] text-clay uppercase">
           Coming up
         </h2>
-        <ul className="mb-4">
+        <ul>
           {scheduled.map((item) => (
             <li key={item.id} className="flex flex-wrap items-baseline gap-x-4 border-b border-border/70 py-2.5 last:border-0">
               <span className="w-24 shrink-0 text-xs text-muted-foreground">{dateFmt(item.scheduledFor)}</span>
@@ -206,55 +192,20 @@ function OverviewPage() {
           ) : null}
         </ul>
 
-        <dl className="flex flex-wrap gap-x-8 gap-y-2 border-t border-border pt-3 text-xs">
-          {[
-            { label: "In review", value: inReview.length },
-            { label: "Scheduled", value: scheduled.length },
-            { label: "With contributors", value: revisionsReturned.length },
-            { label: "New inquiries", value: inquiries.filter((q) => q.status === "New").length },
-            { label: "Follow-ups due today", value: dueToday.length },
-            { label: "Reviews overdue", value: stale.length },
-          ].map((stat) => (
-            <div key={stat.label} className="flex items-baseline gap-1.5">
-              <dt className="text-muted-foreground">{stat.label}</dt>
-              <dd className="font-semibold tabular-nums text-ink">{stat.value}</dd>
-            </div>
-          ))}
-        </dl>
       </section>
 
-      <div className="grid gap-4 lg:grid-cols-2">
-        <Card title="Waiting on you" description={`Filtered for ${user.role.toLowerCase()}`}>
-          {(() => {
-            const mine = inReview.filter(
-              (c) =>
-                c.assignedTo === user.name ||
-                (role === "Researcher / Fact Checker" && c.status === "verification") ||
-                (role === "Subject Reviewer" && c.status === "subject_review") ||
-                (role === "English Editor" && c.status === "english_editing") ||
-                (role === "Multimedia Editor" && c.status === "media_rights") ||
-                (role === "Managing Editor" && c.status === "ready_for_approval"),
-            );
-            return mine.length ? (
-              <ul>
-                {mine.slice(0, 6).map((item) => (
-                  <ContentRow key={item.id} item={item} />
-                ))}
-              </ul>
-            ) : (
-              <EmptyState title="Nothing is assigned to you." hint="Items appear here when an editor assigns them or a stage matches your role." />
-            );
-          })()}
-        </Card>
-
-        <Card title="Recent activity" action={<Link to="/admin/activity" className={abtn.quiet}>Full log</Link>}>
-          <ul className="space-y-2.5">
+      <section aria-labelledby="activity" className="mb-8 max-w-5xl">
+        <div className="flex items-center justify-between border-b border-border pb-2">
+          <h2 id="activity" className="text-[0.68rem] font-semibold tracking-[0.12em] text-clay uppercase">Recent activity</h2>
+          <Link to="/admin/activity" className={abtn.quiet}>Full log →</Link>
+        </div>
+          <ul>
             {activity
               .filter((a) => !a.sensitive)
               .slice(0, 7)
               .map((entry) => (
-                <li key={entry.id} className="flex gap-3 text-sm">
-                  <span className="w-20 shrink-0 text-xs text-muted-foreground">
+                <li key={entry.id} className="flex gap-4 border-b border-border/70 py-3 text-sm">
+                  <span className="w-24 shrink-0 text-xs text-muted-foreground">
                     {relative(entry.date) === "today" ? timeFmt(entry.date) : relative(entry.date)}
                   </span>
                   <span className="text-ink">
@@ -264,13 +215,7 @@ function OverviewPage() {
                 </li>
               ))}
           </ul>
-        </Card>
-      </div>
-
-      <p className="mt-6 text-[0.7rem] text-muted-foreground">
-        Prototype workspace. Statuses such as “{CONTENT_STATUS.ready_for_approval.label}” behave exactly as they would in
-        production, but no content is transmitted outside this browser.
-      </p>
+      </section>
     </>
   );
 }

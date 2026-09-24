@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { MoreHorizontal } from "lucide-react";
 import {
   Children,
   cloneElement,
@@ -584,6 +585,30 @@ export function RecordLink({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     <Link to={to as any} params={params as any} className="font-medium text-ink underline-offset-4 hover:text-primary hover:underline">
       {children}
+    </Link>
+  );
+}
+
+/** A single compact route action for the far-right table column. */
+export function RowLinkAction({
+  to,
+  params,
+  label,
+}: {
+  to: string;
+  params?: Record<string, string>;
+  label: string;
+}) {
+  return (
+    <Link
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      to={to as any}
+      params={params as any}
+      aria-label={label}
+      title={label}
+      className="ml-auto inline-flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-blush hover:text-primary"
+    >
+      <MoreHorizontal className="h-4 w-4" aria-hidden />
     </Link>
   );
 }

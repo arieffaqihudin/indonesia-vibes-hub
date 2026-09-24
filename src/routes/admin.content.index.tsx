@@ -12,7 +12,7 @@ import {
   SelectFilter,
   SummaryStrip,
   FilterToolbar,
-  StatusPill,
+  RowLinkAction,
   Table,
   Tag,
   Td,
@@ -72,13 +72,6 @@ function ContentLibrary() {
         }
       />
 
-      <SummaryStrip items={[
-        { label: "Total content", value: content.length },
-        { label: "Published", value: content.filter((item) => simpleStatus(item.status) === "Published").length },
-        { label: "In review", value: content.filter((item) => simpleStatus(item.status) === "In review").length },
-        { label: "Needs changes", value: content.filter((item) => simpleStatus(item.status) === "Needs changes").length },
-      ]} />
-
       <div className="scroll-strip mb-4 flex gap-1 border-b border-border" role="tablist" aria-label="Content types">
         {[{ kind: "", label: "", plural: "All" }, ...CONTENT_KINDS.filter((entry) => entry.kind !== "community")].map((entry) => (
           <button key={entry.kind || "all"} type="button" role="tab" aria-selected={kind === entry.label || (!kind && !entry.kind)} onClick={() => setKind(entry.kind ? entry.label : "")} className={`min-h-10 whitespace-nowrap border-b-2 px-3 text-xs font-medium ${kind === entry.label || (!kind && !entry.kind) ? "border-primary text-ink" : "border-transparent text-muted-foreground"}`}>{entry.kind === "story" ? "Stories" : entry.kind === "culture" ? "Culture" : entry.plural}</button>
@@ -92,6 +85,13 @@ function ContentLibrary() {
         <SelectFilter label="Country" value={country} onChange={setCountry} options={countries} />
       </FilterToolbar>
 
+      <SummaryStrip items={[
+        { label: "Total content", value: content.length },
+        { label: "Published", value: content.filter((item) => simpleStatus(item.status) === "Published").length },
+        { label: "In review", value: content.filter((item) => simpleStatus(item.status) === "In review").length },
+        { label: "Needs changes", value: content.filter((item) => simpleStatus(item.status) === "Needs changes").length },
+      ]} />
+
       <p className="mb-3 text-xs text-muted-foreground">
         {rows.length} record{rows.length === 1 ? "" : "s"}
       </p>
@@ -99,7 +99,6 @@ function ContentLibrary() {
       {!rows.length ? (
         <EmptyState title="No records match these filters." hint="Clear a filter or widen the search." />
       ) : (
-        <Card bodyClass="p-0">
           <Table
             caption="Content records"
             head={["Title", "Type", "Status", "Editor", "Themes", "Updated", "Next review"]}
@@ -115,13 +114,12 @@ function ContentLibrary() {
                 <Td className="text-xs text-muted-foreground">{kindLabel(item.kind)}</Td>
                 <Td><span className="inline-flex items-center gap-2 text-xs font-medium text-ink"><span className="h-1.5 w-1.5 rounded-full bg-primary" aria-hidden />{simpleStatus(item.status)}</span></Td>
                 <Td className="text-xs text-muted-foreground">{item.assignedTo ?? "Unassigned"}</Td>
-                <Td className="text-xs text-muted-foreground">{item.themes.slice(0, 2).join(", ") || "—"}</Td>
+                <Td className="text-xs text-muted-foreground">{item.topics?.[0] ?? item.themes[0] ?? "—"}</Td>
                 <Td className="text-xs text-muted-foreground">{relative(item.updatedAt)}</Td>
-                <Td className="text-xs text-muted-foreground">{item.nextReview ? dateFmt(item.nextReview) : "—"}</Td>
+                <Td><RowLinkAction to="/admin/content/$id" params={{ id: item.id }} label={`Open ${item.title}`} /></Td>
               </tr>
             ))}
           </Table>
-        </Card>
       )}
     </>
   );
