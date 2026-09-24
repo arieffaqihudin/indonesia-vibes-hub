@@ -9,7 +9,8 @@ import { abtn, field, Modal, StatusPill } from "@/components/admin/primitives";
 import { useAdmin } from "@/lib/admin/store";
 import { allGraphEntries, blockedForPublication, graphEntry, relationshipGroups } from "@/lib/admin/selectors";
 import { CONTENT_STATUS, RIGHTS_STATUSES, can, type ContentItem, type RightsStatus } from "@/lib/admin/types";
-import { CONTENT_SOURCES, DELIVERY_HELP, DELIVERY_PUBLIC_LABEL, DELIVERY_TYPES, SOURCE_HELP, type ContentSource, type DeliveryType } from "@/lib/editorial";
+import { DELIVERY_HELP, DELIVERY_PUBLIC_LABEL, DELIVERY_TYPES, type DeliveryType } from "@/lib/editorial";
+import { AttributionSettings, CURATION_CHECKS } from "./AttributionSettings";
 import { TOPICS } from "@/lib/topics";
 import { articleDocument, articleSlug, documentText } from "@/lib/article-editor";
 import { HERO_LIMIT_MESSAGE, useHomepageSettings } from "@/lib/homepage";
@@ -107,7 +108,8 @@ export function ArticleEditorWorkspace({ id }: { id: string }) {
     { label: "Topic", ok: Boolean(item.topics?.length), required: true },
     { label: "Article content", ok: documentText(document).trim().length > 20, required: true },
     { label: "Hero image", ok: Boolean(cover), required: true },
-    { label: "Source requirements", ok: item.contentSource !== "By Curation" || Boolean(item.fields["originalSource"] || articleSources.length), required: true },
+    { label: "Source requirements", ok: item.contentSource !== "By Curation" || Boolean(item.fields["originalSource"] || item.fields["originalSubmission"] || item.fields["coContributors"] || articleSources.length), required: true },
+    ...(item.contentSource === "By Curation" ? [{ label: "Curation checks complete", ok: CURATION_CHECKS.every((key) => item.fields[key] === "yes"), required: true }] : []),
     { label: "Media permission", ok: blockedForPublication(item, admin.media).length === 0, required: true },
     { label: "Connection recommended", ok: Object.values(item.relationships).some((values) => values.length), required: false },
   ];
@@ -151,9 +153,11 @@ export function ArticleEditorWorkspace({ id }: { id: string }) {
             <label className="block text-xs text-muted-foreground">Primary topic<input list="article-topics" className={settingInput} value={item.topics?.[0] ?? ""} onChange={(event) => admin.updateContent(id, { topics: event.target.value ? [event.target.value, ...(item.topics?.slice(1) ?? [])] : item.topics?.slice(1) ?? [] })} placeholder="Search topics" /><datalist id="article-topics">{TOPICS.map((topic) => <option key={topic.id} value={topic.id} />)}</datalist></label>
             <div><p className="text-xs text-muted-foreground">Additional topics</p><div className="mt-1 flex flex-wrap gap-1">{TOPICS.filter((topic) => item.topics?.[0] !== topic.id).slice(0, 8).map((topic) => <button type="button" key={topic.id} onClick={() => admin.updateContent(id, { topics: item.topics?.includes(topic.id) ? item.topics.filter((value) => value !== topic.id) : [...(item.topics ?? []), topic.id] })} className={cn("rounded border px-2 py-1 text-[0.68rem]", item.topics?.includes(topic.id) ? "border-primary bg-blush text-primary" : "border-border text-muted-foreground")}>{topic.id}</button>)}</div></div>
             <label className="block text-xs text-muted-foreground">Delivery Type<select className={settingInput} value={item.deliveryType ?? "Semantic"} onChange={(event) => admin.updateContent(id, { deliveryType: event.target.value as DeliveryType })}>{DELIVERY_TYPES.map((type) => <option key={type}>{type}</option>)}</select><span className="mt-1 block text-[0.68rem]">{DELIVERY_HELP[item.deliveryType ?? "Semantic"]} Public: {DELIVERY_PUBLIC_LABEL[item.deliveryType ?? "Semantic"]}.</span></label>
-            <label className="block text-xs text-muted-foreground">Content Source<select className={settingInput} value={item.contentSource ?? "Internal"} onChange={(event) => admin.updateContent(id, { contentSource: event.target.value as ContentSource })}>{CONTENT_SOURCES.map((source) => <option key={source}>{source}</option>)}</select><span className="mt-1 block text-[0.68rem]">{SOURCE_HELP[item.contentSource ?? "Internal"]}</span></label>
-            {item.contentSource === "By Curation" ? <div className="space-y-2 border-l-2 border-blush pl-3">{([['originalSource','Original Source'],['sourceOrganisation','Source Organisation'],['originalAuthor','Original Author'],['originalUrl','Original URL'],['originalPublicationDate','Original Publication Date']] as const).map(([key,label]) => <label key={key} className="block text-xs text-muted-foreground">{label}<input className={settingInput} value={item.fields[key] ?? ""} onChange={(event) => patchFields({ [key]: event.target.value })} /></label>)}</div> : null}
-            <label className="block text-xs text-muted-foreground">Author<input className={settingInput} value={item.fields["author"] ?? ""} onChange={(event) => patchFields({ author: event.target.value })} /></label>
+          </SettingsGroup>
+          <SettingsGroup title="Author / Attribution" open>
+            <AttributionSettings item={item} patchFields={patchFields} setSource={(source) => admin.updateContent(id, { contentSource: source })} />
+          </SettingsGroup>
+          <SettingsGroup title="Publication" open>
             <label className="block text-xs text-muted-foreground">Publication date<input type="date" className={settingInput} value={(item.publishedAt ?? "").slice(0,10)} onChange={(event) => { if (event.target.value) admin.updateContent(id, { publishedAt: new Date(`${event.target.value}T00:00:00Z`).toISOString() }); }} /></label>
             <label className="block text-xs text-muted-foreground">Slug<input className={settingInput} value={item.slug ?? ""} onChange={(event) => admin.updateContent(id, { slug: articleSlug(event.target.value) })} placeholder={articleSlug(title)} /></label>
           </SettingsGroup>
