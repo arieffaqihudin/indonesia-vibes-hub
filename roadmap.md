@@ -35,3 +35,10 @@
 - [x] Add calm autoplay, pause states, numbered navigation, arrows, keyboard, and swipe
 - [x] Refine CMS Hero rows with thumbnail, publication status, ordering, and preview
 - [x] Verify active content updates and responsive behavior at desktop, tablet, and mobile
+
+# Public collaboration navigation consolidation
+
+- [x] Remove Connect from desktop, tablet, mobile, and footer navigation
+- [x] Make `/collaborate` the canonical collaboration page and redirect legacy entry routes
+- [x] Update public CTAs, shortcuts, copy, and related-content links to Collaborate
+- [x] Verify active states, redirects, spacing, keyboard, touch, and responsive behavior

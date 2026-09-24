@@ -7,10 +7,13 @@ import { navigation } from "@/lib/navigation";
 import { getFreshContent } from "@/lib/freshness";
 import { cn } from "@/lib/utils";
 
-/** Connect is also active on collaboration detail pages. */
 function isGroupActive(to: string, pathname: string) {
   if (pathname === to || pathname.startsWith(`${to}/`)) return true;
-  return to === "/connect" && pathname.startsWith("/collaborations/");
+  return false;
+}
+
+function isCollaborateActive(pathname: string) {
+  return pathname === "/collaborate" || pathname.startsWith("/collaborate/") || pathname.startsWith("/collaborations/");
 }
 
 export function Header() {
@@ -160,15 +163,20 @@ export function Header() {
             to="/search"
             search={{ q: "" }}
             aria-label="Search Indonesia Vibes"
-            className="press inline-flex h-11 w-11 items-center justify-center rounded-full text-ink/70 hover:bg-blush hover:text-primary lg:h-9 lg:w-9"
+            className="press inline-flex h-11 w-11 items-center justify-center gap-2 rounded-full text-ink/70 hover:bg-blush hover:text-primary lg:h-9 lg:w-auto lg:px-3"
           >
             <Search className="h-[1.05rem] w-[1.05rem]" />
+            <span className="hidden text-sm font-medium lg:inline">Search</span>
           </Link>
 
 
           <Link
-            to="/connect"
-            className="press hidden h-9 items-center rounded-full bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-deep-red md:inline-flex"
+            to="/collaborate"
+            aria-current={isCollaborateActive(pathname) ? "page" : undefined}
+            className={cn(
+              "press hidden h-9 items-center rounded-full bg-primary px-4 text-sm font-medium text-primary-foreground ring-offset-background hover:bg-deep-red focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 md:inline-flex",
+              isCollaborateActive(pathname) && "bg-deep-red",
+            )}
           >
             Collaborate
           </Link>
@@ -294,10 +302,14 @@ export function Header() {
                 Search the platform
               </Link>
               <Link
-                to="/connect"
-                className="inline-flex min-h-11 w-full items-center justify-center rounded-full bg-primary px-5 text-sm font-medium text-primary-foreground"
+                to="/collaborate"
+                aria-current={isCollaborateActive(pathname) ? "page" : undefined}
+                className={cn(
+                  "inline-flex min-h-11 w-full items-center justify-center rounded-full bg-primary px-5 text-sm font-medium text-primary-foreground ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
+                  isCollaborateActive(pathname) && "bg-deep-red",
+                )}
               >
-                Collaborate with us
+                Collaborate
               </Link>
             </div>
           </nav>

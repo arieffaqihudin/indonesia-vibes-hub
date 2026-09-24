@@ -212,7 +212,7 @@ function PlacePage() {
                     <p className="eyebrow text-primary">{c.type}</p>
                     <p className="mt-2 font-medium text-ink">
                       <Link
-                        to="/collaborations/$slug"
+                        to="/collaborate/$slug"
                         params={{ slug: c.slug }}
                         className="link-underline"
                       >

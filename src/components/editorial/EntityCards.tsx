@@ -129,7 +129,7 @@ export function CollaborationCard({
   return (
     <article className="group min-w-0">
       <Link
-        to="/collaborations/$slug"
+        to="/collaborate/$slug"
         params={{ slug: collaboration.slug }}
         className="block"
       >
@@ -232,7 +232,7 @@ export function SearchResultCard({ record }: { record: SearchRecord }) {
     case "Events":
       return <RecordShell to="/events/$slug" params={{ slug }}>{inner}</RecordShell>;
     case "Collaborations":
-      return <RecordShell to="/collaborations/$slug" params={{ slug }}>{inner}</RecordShell>;
+      return <RecordShell to="/collaborate/$slug" params={{ slug }}>{inner}</RecordShell>;
     default:
       return <RecordShell to="/understand-indonesia">{inner}</RecordShell>;
   }

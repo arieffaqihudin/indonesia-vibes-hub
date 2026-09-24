@@ -37,14 +37,6 @@ export const navigation: NavGroup[] = [
     ],
   },
   {
-    /** Direct link: no submenu. */
-    label: "Connect",
-    to: "/connect",
-    stage: "Connect",
-    intro: "Begin a cultural collaboration with Indonesia.",
-    items: [],
-  },
-  {
     label: "About",
     to: "/about",
     stage: "About",

@@ -37,7 +37,7 @@ function AboutPage() {
           <p>
             Every public journey begins with one of three clear actions: {brand.journey.join(", ")}.
             Understand Indonesia connects cultural knowledge. Experience brings together events, places and the
-            world map. Connect opens a clear pathway to cultural collaboration.
+            world map. Collaborate opens a clear pathway to cultural partnership.
           </p>
           <h2>How we work</h2>
           <p>
@@ -50,7 +50,7 @@ function AboutPage() {
             Directories of{" "}
             <Link to="/people-organisations">people and organisations</Link>,{" "}
             <Link to="/events-places">events and places</Link> and{" "}
-            <Link to="/connect">collaborations</Link> are maintained as
+            <Link to="/collaborate">collaborations</Link> are maintained as
             connective infrastructure for curators, researchers, funders and festival programmers.
             Introductions are facilitated by the team, never by publishing private contact details.
           </p>

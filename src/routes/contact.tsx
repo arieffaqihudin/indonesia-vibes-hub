@@ -45,7 +45,7 @@ function ContactPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Connect"
+        eyebrow="Contact"
         title="Contact and introductions"
         intro="Every request is read by a person. Introductions to artists, communities and institutions are made by the programme team with their consent — we never publish personal contact details."
       />

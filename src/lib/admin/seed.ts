@@ -260,7 +260,7 @@ const eventItems: ContentItem[] = events.map((e, i) =>
 
 const collaborationItems: ContentItem[] = collaborations.map((c, i) =>
   published("collaboration", c, c.title, {
-    path: `/collaborations/${c.slug}`,
+    path: `/collaborate/${c.slug}`,
     themes: c.themes ?? [],
     countries: c.countries ?? [],
     editor: "Siti Hapsari",
