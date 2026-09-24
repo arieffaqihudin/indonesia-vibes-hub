@@ -1,10 +1,11 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
 
 import { adminHead } from "@/lib/admin/head";
 import { useAdmin } from "@/lib/admin/store";
 import { daysUntil } from "@/lib/admin/types";
-import { eventsNeedingVerification, eventLocationLabel, formatEventDates } from "@/data/content";
-import { Card, EmptyState, PageHeading, StatusPill, Tag, abtn, dateFmt } from "@/components/admin/primitives";
+import { eventsNeedingVerification } from "@/data/content";
+import { EmptyState, FilterToolbar, PageHeading, SearchInput, SelectFilter, StatusPill, SummaryStrip, Table, Tag, Td, abtn, dateFmt } from "@/components/admin/primitives";
 
 export const Route = createFileRoute("/admin/events")({
   head: adminHead("Events", "Event records, their dates and what still needs checking before they go live."),
@@ -13,8 +14,13 @@ export const Route = createFileRoute("/admin/events")({
 
 function Events() {
   const admin = useAdmin();
-  const events = admin.content
+  const [query, setQuery] = useState("");
+  const [status, setStatus] = useState("");
+  const allEvents = admin.content.filter((c) => c.kind === "event");
+  const events = allEvents
     .filter((c) => c.kind === "event")
+    .filter((c) => (!status ? true : c.status === status))
+    .filter((c) => (query ? `${c.title} ${c.location ?? ""} ${c.fields['venue'] ?? ""}`.toLowerCase().includes(query.toLowerCase()) : true))
     .sort((a, b) => (a.fields['startDate'] ?? "").localeCompare(b.fields['startDate'] ?? ""));
 
   const upcoming = events.filter((e) => !e.fields['startDate'] || daysUntil(e.fields['startDate']) >= 0);
@@ -24,7 +30,7 @@ function Events() {
   return (
     <>
       <PageHeading
-        eyebrow="Programmes"
+        eyebrow="Content / Events"
         title="Events"
         description="An event is only useful to a reader if the date, venue and access details are right. Past events stay published as a record."
         actions={
@@ -34,79 +40,38 @@ function Events() {
         }
       />
 
-      {unverified.length ? (
-        <Card
-          title={`Events needing verification · ${unverified.length}`}
-          description="Source-provided records. Public pages simply omit anything not yet confirmed."
-        >
-          <ul className="space-y-3">
-            {unverified.map((e) => (
-              <li key={e.id} className="border-b border-border pb-3 last:border-0 last:pb-0">
-                <div className="flex flex-wrap items-baseline justify-between gap-2">
-                  <p className="text-sm text-ink">
-                    {e.title}
-                    {e.workingTitle ? <span className="text-muted-foreground"> · working title</span> : null}
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    {[formatEventDates(e), eventLocationLabel(e)].filter(Boolean).join(" · ")}
-                  </p>
-                </div>
-                <div className="mt-2 flex flex-wrap gap-1.5">
-                  {e.datePrecision === "month" ? <Tag tone="alert">Exact date required</Tag> : null}
-                  {(e.needsVerification ?? []).map((n) => (
-                    <Tag key={n}>{n}</Tag>
-                  ))}
-                </div>
-              </li>
-            ))}
-          </ul>
-        </Card>
-      ) : null}
+      <SummaryStrip items={[
+        { value: allEvents.length, label: "Total events" },
+        { value: allEvents.filter((e) => !e.fields['startDate'] || daysUntil(e.fields['startDate']) >= 0).length, label: "Upcoming" },
+        { value: Math.max(0, allEvents.length - unverified.length), label: "Verified" },
+        { value: unverified.length, label: "Needs review" },
+      ]} />
+
+      <FilterToolbar search={<SearchInput value={query} onChange={setQuery} label="Search events" placeholder="Search event, venue or location" />}>
+        <SelectFilter label="Status" value={status} onChange={setStatus} options={["draft", "submitted", "initial_review", "verification", "approved", "scheduled", "published"]} />
+      </FilterToolbar>
 
       {events.length ? (
-        <div className="space-y-5">
-          <Card title={`Upcoming · ${upcoming.length}`}>
-            <EventList items={upcoming} />
-          </Card>
-          <Card title={`Past · ${past.length}`} description="Kept for the archive; check that any follow-up outcome has been recorded.">
-            <EventList items={past} />
-          </Card>
-        </div>
+        <Table caption="Events" head={["Event", "Date", "Location", "Related topic", "Status", "Public status", ""]}>
+          {[...upcoming, ...past].map((event) => {
+            const needsReview = unverified.some((item) => item.title === event.title);
+            return (
+              <tr key={event.id} className="group hover:bg-muted/35">
+                <Td><Link to="/admin/content/$id" params={{ id: event.id }} className="font-semibold hover:text-primary">{event.title}</Link><span className="block text-xs text-muted-foreground">{event.fields['venue'] ?? "Venue not recorded"}</span></Td>
+                <Td className="text-xs text-muted-foreground">{dateFmt(event.fields['startDate'])}</Td>
+                <Td className="text-xs text-muted-foreground">{event.location ?? "—"}</Td>
+                <Td className="text-xs text-muted-foreground">{event.topics?.[0] ?? event.themes[0] ?? "—"}</Td>
+                <Td>{needsReview ? <Tag tone="alert">Needs verification</Tag> : <Tag tone="quiet">Verified</Tag>}</Td>
+                <Td><StatusPill status={event.status} /></Td>
+                <Td><Link to="/admin/content/$id" params={{ id: event.id }} className={abtn.quiet}>Open</Link></Td>
+              </tr>
+            );
+          })}
+        </Table>
       ) : (
         <EmptyState title="No event records yet." />
       )}
 
     </>
-  );
-}
-
-function EventList({ items }: { items: ReturnType<typeof useAdmin>["content"] }) {
-  if (!items.length) return <p className="text-sm text-muted-foreground">Nothing here.</p>;
-  return (
-    <ul className="space-y-2">
-      {items.map((e) => {
-        const days = e.fields['startDate'] ? daysUntil(e.fields['startDate']) : undefined;
-        return (
-          <li key={e.id} className="flex flex-wrap items-center justify-between gap-2 border-b border-border pb-2 last:border-0 last:pb-0">
-            <div className="min-w-0">
-              <Link to="/admin/content/$id" params={{ id: e.id }} className="text-sm text-ink hover:text-primary">
-                {e.title}
-              </Link>
-              <p className="text-xs text-muted-foreground">
-                {dateFmt(e.fields['startDate'])}
-                {e.fields['venue'] ? ` · ${e.fields['venue']}` : ""}
-                {e.location ? ` · ${e.location}` : ""}
-              </p>
-            </div>
-            <div className="flex items-center gap-2">
-              {typeof days === "number" && days >= 0 && days <= 14 && e.status !== "published" ? (
-                <Tag tone="alert">Starts in {days} days and is not published</Tag>
-              ) : null}
-              <StatusPill status={e.status} />
-            </div>
-          </li>
-        );
-      })}
-    </ul>
   );
 }

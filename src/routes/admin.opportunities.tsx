@@ -3,7 +3,7 @@ import { Link, createFileRoute } from "@tanstack/react-router";
 import { adminHead } from "@/lib/admin/head";
 import { useAdmin } from "@/lib/admin/store";
 import { daysUntil } from "@/lib/admin/types";
-import { Card, EmptyState, PageHeading, StatusPill, Tag, abtn, dateFmt } from "@/components/admin/primitives";
+import { EmptyState, InlineNote, PageHeading, StatusPill, SummaryStrip, Table, Tag, Td, abtn, dateFmt } from "@/components/admin/primitives";
 
 export const Route = createFileRoute("/admin/opportunities")({
   head: adminHead("Opportunities", "Open calls and programmes, with deadline accuracy treated as a duty of care."),
@@ -21,7 +21,7 @@ function Opportunities() {
   return (
     <>
       <PageHeading
-        eyebrow="Programmes"
+        eyebrow="Content / Opportunities"
         title="Opportunities"
         description="People make plans around these deadlines. An expired opportunity that is still published is a mistake, not a detail."
         actions={
@@ -31,48 +31,30 @@ function Opportunities() {
         }
       />
 
-      {expired.length ? (
-        <div className="mb-5">
-          <Card title={`Published but past deadline · ${expired.length}`} description="Close these or update the dates.">
-            <ul className="space-y-1.5 text-sm">
-              {expired.map((o) => (
-                <li key={o.id} className="flex flex-wrap items-center justify-between gap-2">
-                  <Link to="/admin/content/$id" params={{ id: o.id }} className="text-ink hover:text-primary">
-                    {o.title}
-                  </Link>
-                  <span className="text-xs text-muted-foreground">Deadline {dateFmt(o.fields['deadline'])}</span>
-                </li>
-              ))}
-            </ul>
-          </Card>
-        </div>
-      ) : null}
+      <SummaryStrip items={[
+        { value: items.length, label: "Total opportunities" },
+        { value: items.filter((o) => o.status === "published").length, label: "Published" },
+        { value: items.filter((o) => o.fields['deadline'] && daysUntil(o.fields['deadline']) >= 0).length, label: "Open" },
+        { value: expired.length, label: "Needs update" },
+      ]} />
+      {expired.length ? <InlineNote tone="attention">{expired.length} published opportunities have passed their deadline and need an update.</InlineNote> : null}
 
       {items.length ? (
-        <Card title={`All opportunities · ${items.length}`}>
-          <ul className="space-y-2">
+        <Table caption="Opportunities" head={["Opportunity", "Provider", "Deadline", "Time remaining", "Status", ""]}>
             {items.map((o) => {
               const days = o.fields['deadline'] ? daysUntil(o.fields['deadline']) : undefined;
               return (
-                <li key={o.id} className="flex flex-wrap items-center justify-between gap-2 border-b border-border pb-2 last:border-0 last:pb-0">
-                  <div className="min-w-0">
-                    <Link to="/admin/content/$id" params={{ id: o.id }} className="text-sm text-ink hover:text-primary">
-                      {o.title}
-                    </Link>
-                    <p className="text-xs text-muted-foreground">
-                      {o.fields['organisation'] ?? o.organisation ?? "Organisation not recorded"} · deadline {dateFmt(o.fields['deadline'])}
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    {typeof days === "number" && days >= 0 && days <= 10 ? <Tag tone="alert">Closes in {days} days</Tag> : null}
-                    {typeof days === "number" && days < 0 ? <Tag tone="quiet">Closed</Tag> : null}
-                    <StatusPill status={o.status} />
-                  </div>
-                </li>
+                <tr key={o.id} className="group hover:bg-muted/35">
+                  <Td><Link to="/admin/content/$id" params={{ id: o.id }} className="font-semibold hover:text-primary">{o.title}</Link></Td>
+                  <Td className="text-xs text-muted-foreground">{o.fields['organisation'] ?? o.organisation ?? "Not recorded"}</Td>
+                  <Td className="text-xs text-muted-foreground">{dateFmt(o.fields['deadline'])}</Td>
+                  <Td>{typeof days === "number" && days >= 0 ? <Tag tone={days <= 10 ? "alert" : "quiet"}>{days} days</Tag> : <Tag tone="quiet">Closed</Tag>}</Td>
+                  <Td><StatusPill status={o.status} /></Td>
+                  <Td><Link to="/admin/content/$id" params={{ id: o.id }} className={abtn.quiet}>Open</Link></Td>
+                </tr>
               );
             })}
-          </ul>
-        </Card>
+        </Table>
       ) : (
         <EmptyState title="No opportunities recorded yet." />
       )}

@@ -48,14 +48,14 @@ export const Route = createFileRoute("/admin/content/$id")({
   component: ContentWorkspace,
 });
 
-const TABS = ["Content", "Relationships", "Sources", "Media & rights", "Review", "History"] as const;
+const TABS = ["Edit", "Connections", "Media", "Review", "More"] as const;
 type Tab = (typeof TABS)[number];
 
 function ContentWorkspace() {
   const { id } = Route.useParams();
   const admin = useAdmin();
   const item = admin.getContent(id);
-  const [tab, setTab] = useState<Tab>("Content");
+  const [tab, setTab] = useState<Tab>("Edit");
   const [scheduleOpen, setScheduleOpen] = useState(false);
   const [revisionOpen, setRevisionOpen] = useState(false);
   const { confirm, dialog } = useConfirm();
@@ -85,7 +85,7 @@ function ContentWorkspace() {
   return (
     <>
       <PageHeading
-        eyebrow={`${kindLabel(item.kind)} · ${item.countries.join(", ")}`}
+        eyebrow={`Content / ${kindLabel(item.kind)}`}
         title={item.title}
         description={CONTENT_STATUS[item.status].meaning}
         actions={
@@ -119,16 +119,15 @@ function ContentWorkspace() {
             ))}
           </div>
 
-          {tab === "Content" ? <ContentTab id={id} /> : null}
-          {tab === "Relationships" ? <RelationshipsTab id={id} readiness={readiness} /> : null}
-          {tab === "Sources" ? <SourcesTab id={id} sources={sources} claims={claims} /> : null}
-          {tab === "Media & rights" ? <MediaTab id={id} assets={media} /> : null}
+          {tab === "Edit" ? <ContentTab id={id} /> : null}
+          {tab === "Connections" ? <RelationshipsTab id={id} readiness={readiness} /> : null}
+          {tab === "Media" ? <MediaTab id={id} assets={media} /> : null}
           {tab === "Review" ? <ReviewTab id={id} /> : null}
-          {tab === "History" ? <HistoryTab id={id} /> : null}
+          {tab === "More" ? <div className="space-y-8"><SourcesTab id={id} sources={sources} claims={claims} /><HistoryTab id={id} /></div> : null}
         </div>
 
         {/* Workflow and collaboration panel */}
-        <aside className="space-y-4">
+        <aside className="space-y-4 border-l border-border pl-5">
           <Card title="Workflow">
             <dl className="space-y-2 text-sm">
               <div className="flex items-center justify-between gap-2">
