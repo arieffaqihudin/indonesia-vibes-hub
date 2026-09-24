@@ -39,7 +39,7 @@ function Collections() {
         </div>
         <div className="space-y-20 md:space-y-28">
           {remaining.map((item, index) => (
-             <CollectionJourneyPreview key={item.id} collection={item} className={index % 2 === 1 ? "md:[&>div>*:first-child]:order-2" : undefined} />
+             <CollectionJourneyPreview key={item.id} collection={item} {...(index % 2 === 1 ? { className: "md:[&>div>*:first-child]:order-2" } : {})} />
           ))}
         </div>
       </section>
