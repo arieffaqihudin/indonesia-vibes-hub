@@ -6,12 +6,12 @@ import Underline from "@tiptap/extension-underline";
 import Link from "@tiptap/extension-link";
 import Image from "@tiptap/extension-image";
 import Placeholder from "@tiptap/extension-placeholder";
-import Table from "@tiptap/extension-table";
+import { Table } from "@tiptap/extension-table";
 import TableRow from "@tiptap/extension-table-row";
 import TableHeader from "@tiptap/extension-table-header";
 import TableCell from "@tiptap/extension-table-cell";
 import {
-  Bold, ChevronDown, ChevronUp, Copy, Heading2, Heading3, ImageIcon, Italic, Link2, List, ListOrdered,
+  Bold, ChevronUp, ChevronDown, Copy, Heading2, Heading3, ImageIcon, Italic, Link2,
   Minus, PanelTop, Plus, Quote, Redo2, Rows3, Table2, Trash2, UnderlineIcon, Undo2, Video,
 } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -30,7 +30,6 @@ export function RichBlockEditor({ value, onChange, onAddMedia }: { value: JSONCo
   const [slashOpen, setSlashOpen] = useState(false);
   const [blocksOpen, setBlocksOpen] = useState(false);
   const [dragIndex, setDragIndex] = useState<number | null>(null);
-  const fileRef = useRef<HTMLInputElement>(null);
   const editor = useEditor({
     immediatelyRender: false,
     extensions: [StarterKit.configure({ heading: { levels: [2, 3] } }), Underline, Link.configure({ openOnClick: false }), Image.configure({ allowBase64: true }), Placeholder.configure({ placeholder: "Start writing… Press / to add a block" }), Table.configure({ resizable: true }), TableRow, TableHeader, TableCell, PullQuote, Callout, MediaFigure, Gallery, Embed("videoEmbed", "Video"), Embed("externalEmbed", "Embed")],
@@ -100,6 +99,5 @@ export function RichBlockEditor({ value, onChange, onAddMedia }: { value: JSONCo
     <EditorContent editor={editor} />
     {slashOpen ? <div className="absolute left-4 z-30 mt-1 w-64 border border-border bg-popover p-1 shadow-md"><p className="px-2 py-1 text-[0.68rem] font-semibold text-muted-foreground uppercase">Add block</p>{slashItems.map(([type,label,Icon]) => <button key={type} type="button" className="flex min-h-9 w-full items-center gap-2 rounded px-2 text-left text-sm text-ink hover:bg-muted" onMouseDown={(event) => { event.preventDefault(); insert(type); }}><Icon className="h-4 w-4 text-muted-foreground" />{label}</button>)}</div> : null}
     <button type="button" className="mt-4 inline-flex min-h-10 items-center gap-2 text-sm text-muted-foreground hover:text-primary" onClick={() => insert("paragraph")}><Plus className="h-4 w-4" /> Add block</button>
-    <input ref={fileRef} type="file" accept="image/*" className="sr-only" />
   </div>;
 }
