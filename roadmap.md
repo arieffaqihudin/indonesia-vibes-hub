@@ -2,10 +2,10 @@
 
 ## Current: Topics and Collections distinction
 
-- [ ] Redesign Topics as a searchable, filterable cultural catalogue
-- [ ] Redesign Collections as spacious, image-led editorial journeys
-- [ ] Make Topic details richer and Collection details visibly sequenced
-- [ ] Separate Topic catalogue management from Collection curation in CMS
+- [x] Redesign Topics as a searchable, filterable cultural catalogue
+- [x] Redesign Collections as spacious, image-led editorial journeys
+- [x] Make Topic details richer and Collection details visibly sequenced
+- [x] Separate Topic catalogue management from Collection curation in CMS
 - [ ] Verify public and CMS behavior across desktop, tablet, and mobile
 
 ## Current: Homepage Hero editorial showcase
