@@ -497,11 +497,9 @@ export interface SearchRecord {
     | "Deep Dive"
     | "Perspectives"
     | "Topics"
-    | "People & Communities"
-    | "Institutions"
+    | "People & Organisations"
     | "Places"
     | "Events"
-    | "Opportunities"
     | "Collaborations";
   title: string;
   context: string;

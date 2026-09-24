@@ -3,7 +3,7 @@
  *
  * Freshness is a property of the whole platform, not a page. Nothing here is a
  * separate store of "current" records: every candidate is derived from the
- * canonical editorial data (stories, events, opportunities, collaborations,
+ * canonical editorial data (stories, events, collaborations,
  * collections, cultural subjects, people, institutions, places) using the date
  * and status fields those records already carry.
  *
@@ -12,7 +12,6 @@
  */
 import {
   collections,
-  deadlineStatus,
   events,
   eventStatus,
   formatDate,
@@ -20,7 +19,6 @@ import {
   eventLocationLabel,
   forms,
 
-  opportunities,
   people,
   stories,
 } from "@/data/content";
@@ -31,7 +29,6 @@ import { institutions } from "@/data/institutions";
 export const FRESHNESS_KINDS = [
   "in_focus",
   "coming_up",
-  "open_now",
   "ongoing",
   "on_view",
   "recently_published",
@@ -43,7 +40,6 @@ export type FreshnessKind = (typeof FRESHNESS_KINDS)[number];
 export const FRESHNESS_LABELS: Record<FreshnessKind, string> = {
   in_focus: "In focus",
   coming_up: "Coming up",
-  open_now: "Open now",
   ongoing: "Ongoing",
   on_view: "Currently on view",
   recently_published: "Recently published",
@@ -61,7 +57,7 @@ export interface FreshItem {
   meta: string;
   href: string;
   /** Source record family, used to keep the mix editorially diverse. */
-  family: "story" | "event" | "opportunity" | "collaboration" | "collection" | "profile";
+  family: "story" | "event" | "collaboration" | "collection" | "profile";
   image?: string;
   /** Higher sorts first. Derived, then adjusted by editorial priority. */
   score: number;
@@ -106,16 +102,6 @@ export const currentlyOnView = (now = new Date()) =>
 /** Events and programmes that have not started yet. */
 export const comingUpEvents = (now = new Date()) =>
   events.filter((e) => eventStatus(e, now) === "Upcoming").sort((a, b) => a.startDate.localeCompare(b.startDate));
-
-/** opening date passed and deadline not yet reached. */
-export const openOpportunities = (now = new Date()) =>
-  opportunities
-    .map((o) => ({ o, s: deadlineStatus(o.deadline, now) }))
-    .filter(({ s }) => s.open)
-    .sort((a, b) => a.s.days - b.s.days);
-
-/** Configurable "closing soon" threshold, in days. */
-export const CLOSING_SOON_DAYS = 21;
 
 export const ongoingCollaborations = () => collaborations.filter((c) => c.status === "Active");
 
@@ -184,20 +170,6 @@ function candidates(now: Date): FreshItem[] {
         score: 62 - i * 3,
       });
     });
-
-  openOpportunities(now)
-    .slice(0, 3)
-    .forEach(({ o, s }, i) =>
-      push({
-        id: `opportunity:${o.id}`,
-        kind: "open_now",
-        headline: o.title,
-        meta: `${o.type} · ${s.label}`,
-        href: "/opportunities",
-        family: "opportunity",
-        score: 58 - i * 3 + (s.days <= CLOSING_SOON_DAYS ? 6 : 0),
-      }),
-    );
 
   ongoingCollaborations()
     .slice(0, 3)

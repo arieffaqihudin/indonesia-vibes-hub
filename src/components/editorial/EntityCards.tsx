@@ -184,7 +184,7 @@ export function SearchResultCard({ record }: { record: SearchRecord }) {
           loading="lazy"
           className={cn(
             "shrink-0 bg-muted object-cover",
-            record.type === "People & Communities"
+            record.type === "People & Organisations"
               ? "h-20 w-20 rounded-full"
               : "h-20 w-28",
           )}
@@ -221,11 +221,12 @@ export function SearchResultCard({ record }: { record: SearchRecord }) {
     case "Perspectives":
       return <RecordShell to="/stories/$slug" params={{ slug }}>{inner}</RecordShell>;
     case "Topics":
-      return <RecordShell to="/explore/topics/$slug" params={{ slug }}>{inner}</RecordShell>;
-    case "People & Communities":
+      return <RecordShell to="/understand-indonesia/topics/$slug" params={{ slug }}>{inner}</RecordShell>;
+    case "People & Organisations":
+      if (record.meta && ["Museum", "University", "Research Centre", "Cultural Centre", "Archive", "Gallery", "Cultural Community", "Festival Organisation", "Government Cultural Institution", "Diplomatic Institution", "International Organisation"].includes(record.meta)) {
+        return <RecordShell to="/institutions/$slug" params={{ slug }}>{inner}</RecordShell>;
+      }
       return <RecordShell to="/people/$slug" params={{ slug }}>{inner}</RecordShell>;
-    case "Institutions":
-      return <RecordShell to="/institutions/$slug" params={{ slug }}>{inner}</RecordShell>;
     case "Places":
       return <RecordShell to="/places/$slug" params={{ slug }}>{inner}</RecordShell>;
     case "Events":
@@ -233,7 +234,7 @@ export function SearchResultCard({ record }: { record: SearchRecord }) {
     case "Collaborations":
       return <RecordShell to="/collaborations/$slug" params={{ slug }}>{inner}</RecordShell>;
     default:
-      return <RecordShell to="/opportunities">{inner}</RecordShell>;
+      return <RecordShell to="/understand-indonesia">{inner}</RecordShell>;
   }
 }
 
