@@ -37,7 +37,7 @@ export function ArticleEditorWorkspace({ id }: { id: string }) {
   const [title, setTitle] = useState(item?.title ?? "");
   const [standfirst, setStandfirst] = useState(item?.fields["standfirst"] ?? "");
   const [document, setDocument] = useState<JSONContent>(() => item ? articleDocument(item) : { type: "doc", content: [{ type: "paragraph" }] });
-  const [settingsOpen, setSettingsOpen] = useState(true);
+  const [settingsOpen, setSettingsOpen] = useState(false);
   const [focusMode, setFocusMode] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);
   const [publishOpen, setPublishOpen] = useState(false);
@@ -58,6 +58,10 @@ export function ArticleEditorWorkspace({ id }: { id: string }) {
     window.dispatchEvent(new CustomEvent("iv-article-focus", { detail: focusMode }));
     return () => { window.dispatchEvent(new CustomEvent("iv-article-focus", { detail: false })); };
   }, [focusMode]);
+
+  useEffect(() => {
+    if (window.matchMedia("(min-width: 1280px)").matches) setSettingsOpen(true);
+  }, []);
 
   useEffect(() => {
     if (!item || !initial.current) return;
