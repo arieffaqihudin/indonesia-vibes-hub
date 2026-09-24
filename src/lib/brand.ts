@@ -9,7 +9,7 @@ export const brand = {
   shortName: "IV",
   tagline: "Culture in motion, from the archipelago to the world.",
   mission:
-    "The digital front door to Indonesian cultural diplomacy — a place to explore, experience, connect and collaborate.",
+    "The digital front door to Indonesian cultural diplomacy — a place to understand, experience, connect and collaborate.",
   locale: "en",
   organisation: "Indonesia Vibes Cultural Diplomacy Initiative",
   email: "hello@indonesiavibes.org",
@@ -32,7 +32,7 @@ export const brand = {
   /** 17 wave lines in the Garuda mark — one for Independence Day, 17 August. */
   markMeaning:
     "A Garuda formed from seventeen waves: seventeen for the day of independence, waves for an archipelago that has always moved outward.",
-  journey: ["Explore", "Experience", "Connect"] as const,
+  journey: ["Understand", "Experience", "Connect"] as const,
   social: [
     { label: "Instagram", href: "https://instagram.com" },
     { label: "YouTube", href: "https://youtube.com" },

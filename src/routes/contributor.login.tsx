@@ -12,7 +12,7 @@ export const Route = createFileRoute("/contributor/login")({
       {
         name: "description",
         content:
-          "Sign in to the Indonesia Vibes Contributor Workspace to propose stories, events, opportunities, profiles and collaborations.",
+          "Sign in to the Indonesia Vibes Contributor Workspace to propose articles, events, profiles and collaborations.",
       },
       { property: "og:title", content: "Sign in — Indonesia Vibes Contributor Workspace" },
       { property: "og:description", content: "Propose and manage cultural contributions to Indonesia Vibes." },

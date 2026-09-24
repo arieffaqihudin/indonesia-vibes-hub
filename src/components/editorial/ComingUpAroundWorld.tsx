@@ -41,7 +41,7 @@ export function ComingUpAroundWorld({ limit = 12 }: { limit?: number }) {
           eyebrow="Experience"
           title="Coming up around the world"
           intro="Indonesian culture, ideas, and collaborations taking place across the world."
-          action="/events"
+          action="/events-places"
           actionLabel="All events"
         />
       </Reveal>
@@ -78,7 +78,7 @@ export function ComingUpAroundWorld({ limit = 12 }: { limit?: number }) {
       ) : (
         <p className="mt-10 border-y border-border py-6 text-sm text-muted-foreground">
           No upcoming dates are currently listed. Programmes in preparation appear under{" "}
-          <Link to="/collaborations" className="link-underline text-primary">
+          <Link to="/collaborate" className="link-underline text-primary">
             collaborations
           </Link>
           .

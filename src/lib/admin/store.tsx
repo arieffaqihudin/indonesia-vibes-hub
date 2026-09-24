@@ -55,7 +55,7 @@ import {
   type TaxonomyTerm,
 } from "./types";
 
-const STORAGE_KEY = "iv-admin-prototype-v1";
+const STORAGE_KEY = "iv-admin-prototype-v2";
 
 interface AdminState {
   currentUserId: string;

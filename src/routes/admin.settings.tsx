@@ -33,7 +33,7 @@ function Settings() {
           <ul className="space-y-1.5 text-sm text-ink">
             <li>Cultural subjects — reviewed every 12 months</li>
             <li>People and institutions — every 12 months</li>
-            <li>Events and opportunities — checked against their own dates</li>
+            <li>Events — checked against their confirmed dates</li>
             <li>Stories — every 24 months, or when a linked record changes</li>
           </ul>
         </Card>

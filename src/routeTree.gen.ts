@@ -19,34 +19,44 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as ContemporaryRouteImport } from './routes/contemporary'
 import { Route as ContributeRouteImport } from './routes/contribute'
 import { Route as EditorialStandardsRouteImport } from './routes/editorial-standards'
+import { Route as EventsPlacesRouteImport } from './routes/events-places'
 import { Route as ExperienceRouteImport } from './routes/experience'
 import { Route as HeritageRouteImport } from './routes/heritage'
 import { Route as InquiryRouteImport } from './routes/inquiry'
 import { Route as NowRouteImport } from './routes/now'
 import { Route as OpportunitiesRouteImport } from './routes/opportunities'
 import { Route as PartnersRouteImport } from './routes/partners'
+import { Route as PeopleOrganisationsRouteImport } from './routes/people-organisations'
 import { Route as ResearchRouteImport } from './routes/research'
 import { Route as SearchRouteImport } from './routes/search'
+import { Route as UnderstandIndonesiaRouteImport } from './routes/understand-indonesia'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminAboutRouteImport } from './routes/admin.about'
 import { Route as AdminActivityRouteImport } from './routes/admin.activity'
+import { Route as AdminAroundTheWorldRouteImport } from './routes/admin.around-the-world'
+import { Route as AdminArticlesRouteImport } from './routes/admin.articles'
 import { Route as AdminCalendarRouteImport } from './routes/admin.calendar'
 import { Route as AdminCollectionsRouteImport } from './routes/admin.collections'
+import { Route as AdminContactRouteImport } from './routes/admin.contact'
 import { Route as AdminCreateRouteImport } from './routes/admin.create'
 import { Route as AdminCultureRouteImport } from './routes/admin.culture'
 import { Route as AdminDataHealthRouteImport } from './routes/admin.data-health'
+import { Route as AdminEditorialStandardsRouteImport } from './routes/admin.editorial-standards'
 import { Route as AdminEventsRouteImport } from './routes/admin.events'
+import { Route as AdminEventsPlacesRouteImport } from './routes/admin.events-places'
 import { Route as AdminFollowUpsRouteImport } from './routes/admin.follow-ups'
 import { Route as AdminInstitutionsRouteImport } from './routes/admin.institutions'
 import { Route as AdminMediaRouteImport } from './routes/admin.media'
 import { Route as AdminNotificationsRouteImport } from './routes/admin.notifications'
-import { Route as AdminOpportunitiesRouteImport } from './routes/admin.opportunities'
 import { Route as AdminPeopleRouteImport } from './routes/admin.people'
+import { Route as AdminPeopleOrganisationsRouteImport } from './routes/admin.people-organisations'
 import { Route as AdminPlacesRouteImport } from './routes/admin.places'
 import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as AdminSourcesRouteImport } from './routes/admin.sources'
 import { Route as AdminStoriesRouteImport } from './routes/admin.stories'
 import { Route as AdminSubmissionsRouteImport } from './routes/admin.submissions'
 import { Route as AdminTaxonomyRouteImport } from './routes/admin.taxonomy'
+import { Route as AdminTopicsRouteImport } from './routes/admin.topics'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
 import { Route as CollaborationsIndexRouteImport } from './routes/collaborations.index'
 import { Route as CollaborationsSlugRouteImport } from './routes/collaborations.$slug'
@@ -78,6 +88,8 @@ import { Route as PlacesIndexRouteImport } from './routes/places.index'
 import { Route as PlacesSlugRouteImport } from './routes/places.$slug'
 import { Route as StoriesIndexRouteImport } from './routes/stories.index'
 import { Route as StoriesSlugRouteImport } from './routes/stories.$slug'
+import { Route as UnderstandIndonesiaCollectionsRouteImport } from './routes/understand-indonesia.collections'
+import { Route as UnderstandIndonesiaTopicsRouteImport } from './routes/understand-indonesia.topics'
 import { Route as AdminCollaborationsIndexRouteImport } from './routes/admin.collaborations.index'
 import { Route as AdminCollaborationsIdRouteImport } from './routes/admin.collaborations.$id'
 import { Route as AdminContentIndexRouteImport } from './routes/admin.content.index'
@@ -85,6 +97,8 @@ import { Route as AdminContentIdRouteImport } from './routes/admin.content.$id'
 import { Route as AdminContentNewRouteImport } from './routes/admin.content.new'
 import { Route as AdminCurationHomepageRouteImport } from './routes/admin.curation.homepage'
 import { Route as AdminCurationInFocusRouteImport } from './routes/admin.curation.in-focus'
+import { Route as AdminHomepageHeroRouteImport } from './routes/admin.homepage.hero'
+import { Route as AdminHomepageSectionsRouteImport } from './routes/admin.homepage.sections'
 import { Route as AdminInquiriesIndexRouteImport } from './routes/admin.inquiries.index'
 import { Route as AdminInquiriesIdRouteImport } from './routes/admin.inquiries.$id'
 import { Route as AdminPartnersIndexRouteImport } from './routes/admin.partners.index'
@@ -93,6 +107,7 @@ import { Route as AdminReviewIndexRouteImport } from './routes/admin.review.inde
 import { Route as ContributorSubmissionsIndexRouteImport } from './routes/contributor.submissions.index'
 import { Route as ExploreTopicsIndexRouteImport } from './routes/explore.topics.index'
 import { Route as ExploreTopicsSlugRouteImport } from './routes/explore.topics.$slug'
+import { Route as UnderstandIndonesiaTopicsSlugRouteImport } from './routes/understand-indonesia.topics.$slug'
 import { Route as AdminContentIdPreviewRouteImport } from './routes/admin.content.$id.preview'
 import { Route as ContributorSubmissionsIdIndexRouteImport } from './routes/contributor.submissions.$id.index'
 import { Route as ContributorSubmissionsIdReviseRouteImport } from './routes/contributor.submissions.$id.revise'
@@ -148,6 +163,11 @@ const EditorialStandardsRoute = EditorialStandardsRouteImport.update({
   path: '/editorial-standards',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EventsPlacesRoute = EventsPlacesRouteImport.update({
+  id: '/events-places',
+  path: '/events-places',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ExperienceRoute = ExperienceRouteImport.update({
   id: '/experience',
   path: '/experience',
@@ -178,6 +198,11 @@ const PartnersRoute = PartnersRouteImport.update({
   path: '/partners',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PeopleOrganisationsRoute = PeopleOrganisationsRouteImport.update({
+  id: '/people-organisations',
+  path: '/people-organisations',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ResearchRoute = ResearchRouteImport.update({
   id: '/research',
   path: '/research',
@@ -188,14 +213,34 @@ const SearchRoute = SearchRouteImport.update({
   path: '/search',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UnderstandIndonesiaRoute = UnderstandIndonesiaRouteImport.update({
+  id: '/understand-indonesia',
+  path: '/understand-indonesia',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminAboutRoute = AdminAboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminActivityRoute = AdminActivityRouteImport.update({
   id: '/activity',
   path: '/activity',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAroundTheWorldRoute = AdminAroundTheWorldRouteImport.update({
+  id: '/around-the-world',
+  path: '/around-the-world',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminArticlesRoute = AdminArticlesRouteImport.update({
+  id: '/articles',
+  path: '/articles',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminCalendarRoute = AdminCalendarRouteImport.update({
@@ -206,6 +251,11 @@ const AdminCalendarRoute = AdminCalendarRouteImport.update({
 const AdminCollectionsRoute = AdminCollectionsRouteImport.update({
   id: '/collections',
   path: '/collections',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminContactRoute = AdminContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminCreateRoute = AdminCreateRouteImport.update({
@@ -223,9 +273,19 @@ const AdminDataHealthRoute = AdminDataHealthRouteImport.update({
   path: '/data-health',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminEditorialStandardsRoute = AdminEditorialStandardsRouteImport.update({
+  id: '/editorial-standards',
+  path: '/editorial-standards',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminEventsRoute = AdminEventsRouteImport.update({
   id: '/events',
   path: '/events',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminEventsPlacesRoute = AdminEventsPlacesRouteImport.update({
+  id: '/events-places',
+  path: '/events-places',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminFollowUpsRoute = AdminFollowUpsRouteImport.update({
@@ -248,16 +308,17 @@ const AdminNotificationsRoute = AdminNotificationsRouteImport.update({
   path: '/notifications',
   getParentRoute: () => AdminRoute,
 } as any)
-const AdminOpportunitiesRoute = AdminOpportunitiesRouteImport.update({
-  id: '/opportunities',
-  path: '/opportunities',
-  getParentRoute: () => AdminRoute,
-} as any)
 const AdminPeopleRoute = AdminPeopleRouteImport.update({
   id: '/people',
   path: '/people',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminPeopleOrganisationsRoute =
+  AdminPeopleOrganisationsRouteImport.update({
+    id: '/people-organisations',
+    path: '/people-organisations',
+    getParentRoute: () => AdminRoute,
+  } as any)
 const AdminPlacesRoute = AdminPlacesRouteImport.update({
   id: '/places',
   path: '/places',
@@ -286,6 +347,11 @@ const AdminSubmissionsRoute = AdminSubmissionsRouteImport.update({
 const AdminTaxonomyRoute = AdminTaxonomyRouteImport.update({
   id: '/taxonomy',
   path: '/taxonomy',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminTopicsRoute = AdminTopicsRouteImport.update({
+  id: '/topics',
+  path: '/topics',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminUsersRoute = AdminUsersRouteImport.update({
@@ -445,6 +511,18 @@ const StoriesSlugRoute = StoriesSlugRouteImport.update({
   path: '/stories/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UnderstandIndonesiaCollectionsRoute =
+  UnderstandIndonesiaCollectionsRouteImport.update({
+    id: '/collections',
+    path: '/collections',
+    getParentRoute: () => UnderstandIndonesiaRoute,
+  } as any)
+const UnderstandIndonesiaTopicsRoute =
+  UnderstandIndonesiaTopicsRouteImport.update({
+    id: '/topics',
+    path: '/topics',
+    getParentRoute: () => UnderstandIndonesiaRoute,
+  } as any)
 const AdminCollaborationsIndexRoute =
   AdminCollaborationsIndexRouteImport.update({
     id: '/collaborations/',
@@ -479,6 +557,16 @@ const AdminCurationHomepageRoute = AdminCurationHomepageRouteImport.update({
 const AdminCurationInFocusRoute = AdminCurationInFocusRouteImport.update({
   id: '/curation/in-focus',
   path: '/curation/in-focus',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminHomepageHeroRoute = AdminHomepageHeroRouteImport.update({
+  id: '/homepage/hero',
+  path: '/homepage/hero',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminHomepageSectionsRoute = AdminHomepageSectionsRouteImport.update({
+  id: '/homepage/sections',
+  path: '/homepage/sections',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminInquiriesIndexRoute = AdminInquiriesIndexRouteImport.update({
@@ -522,6 +610,12 @@ const ExploreTopicsSlugRoute = ExploreTopicsSlugRouteImport.update({
   path: '/explore/topics/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UnderstandIndonesiaTopicsSlugRoute =
+  UnderstandIndonesiaTopicsSlugRouteImport.update({
+    id: '/$slug',
+    path: '/$slug',
+    getParentRoute: () => UnderstandIndonesiaTopicsRoute,
+  } as any)
 const AdminContentIdPreviewRoute = AdminContentIdPreviewRouteImport.update({
   id: '/preview',
   path: '/preview',
@@ -557,33 +651,43 @@ export interface FileRoutesByFullPath {
   '/contemporary': typeof ContemporaryRoute
   '/contribute': typeof ContributeRoute
   '/editorial-standards': typeof EditorialStandardsRoute
+  '/events-places': typeof EventsPlacesRoute
   '/experience': typeof ExperienceRoute
   '/heritage': typeof HeritageRoute
   '/inquiry': typeof InquiryRoute
   '/now': typeof NowRoute
   '/opportunities': typeof OpportunitiesRoute
   '/partners': typeof PartnersRoute
+  '/people-organisations': typeof PeopleOrganisationsRoute
   '/research': typeof ResearchRoute
   '/search': typeof SearchRoute
+  '/understand-indonesia': typeof UnderstandIndonesiaRouteWithChildren
+  '/admin/about': typeof AdminAboutRoute
   '/admin/activity': typeof AdminActivityRoute
+  '/admin/around-the-world': typeof AdminAroundTheWorldRoute
+  '/admin/articles': typeof AdminArticlesRoute
   '/admin/calendar': typeof AdminCalendarRoute
   '/admin/collections': typeof AdminCollectionsRoute
+  '/admin/contact': typeof AdminContactRoute
   '/admin/create': typeof AdminCreateRoute
   '/admin/culture': typeof AdminCultureRoute
   '/admin/data-health': typeof AdminDataHealthRoute
+  '/admin/editorial-standards': typeof AdminEditorialStandardsRoute
   '/admin/events': typeof AdminEventsRoute
+  '/admin/events-places': typeof AdminEventsPlacesRoute
   '/admin/follow-ups': typeof AdminFollowUpsRoute
   '/admin/institutions': typeof AdminInstitutionsRoute
   '/admin/media': typeof AdminMediaRoute
   '/admin/notifications': typeof AdminNotificationsRoute
-  '/admin/opportunities': typeof AdminOpportunitiesRoute
   '/admin/people': typeof AdminPeopleRoute
+  '/admin/people-organisations': typeof AdminPeopleOrganisationsRoute
   '/admin/places': typeof AdminPlacesRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/sources': typeof AdminSourcesRoute
   '/admin/stories': typeof AdminStoriesRoute
   '/admin/submissions': typeof AdminSubmissionsRoute
   '/admin/taxonomy': typeof AdminTaxonomyRoute
+  '/admin/topics': typeof AdminTopicsRoute
   '/admin/users': typeof AdminUsersRoute
   '/collaborations/$slug': typeof CollaborationsSlugRoute
   '/collections/$slug': typeof CollectionsSlugRoute
@@ -606,6 +710,8 @@ export interface FileRoutesByFullPath {
   '/people/$slug': typeof PeopleSlugRoute
   '/places/$slug': typeof PlacesSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
+  '/understand-indonesia/collections': typeof UnderstandIndonesiaCollectionsRoute
+  '/understand-indonesia/topics': typeof UnderstandIndonesiaTopicsRouteWithChildren
   '/admin/': typeof AdminIndexRoute
   '/collaborations/': typeof CollaborationsIndexRoute
   '/collections/': typeof CollectionsIndexRoute
@@ -621,9 +727,12 @@ export interface FileRoutesByFullPath {
   '/admin/content/new': typeof AdminContentNewRoute
   '/admin/curation/homepage': typeof AdminCurationHomepageRoute
   '/admin/curation/in-focus': typeof AdminCurationInFocusRoute
+  '/admin/homepage/hero': typeof AdminHomepageHeroRoute
+  '/admin/homepage/sections': typeof AdminHomepageSectionsRoute
   '/admin/inquiries/$id': typeof AdminInquiriesIdRoute
   '/admin/partners/$id': typeof AdminPartnersIdRoute
   '/explore/topics/$slug': typeof ExploreTopicsSlugRoute
+  '/understand-indonesia/topics/$slug': typeof UnderstandIndonesiaTopicsSlugRoute
   '/admin/collaborations/': typeof AdminCollaborationsIndexRoute
   '/admin/content/': typeof AdminContentIndexRoute
   '/admin/inquiries/': typeof AdminInquiriesIndexRoute
@@ -646,33 +755,43 @@ export interface FileRoutesByTo {
   '/contemporary': typeof ContemporaryRoute
   '/contribute': typeof ContributeRoute
   '/editorial-standards': typeof EditorialStandardsRoute
+  '/events-places': typeof EventsPlacesRoute
   '/experience': typeof ExperienceRoute
   '/heritage': typeof HeritageRoute
   '/inquiry': typeof InquiryRoute
   '/now': typeof NowRoute
   '/opportunities': typeof OpportunitiesRoute
   '/partners': typeof PartnersRoute
+  '/people-organisations': typeof PeopleOrganisationsRoute
   '/research': typeof ResearchRoute
   '/search': typeof SearchRoute
+  '/understand-indonesia': typeof UnderstandIndonesiaRouteWithChildren
+  '/admin/about': typeof AdminAboutRoute
   '/admin/activity': typeof AdminActivityRoute
+  '/admin/around-the-world': typeof AdminAroundTheWorldRoute
+  '/admin/articles': typeof AdminArticlesRoute
   '/admin/calendar': typeof AdminCalendarRoute
   '/admin/collections': typeof AdminCollectionsRoute
+  '/admin/contact': typeof AdminContactRoute
   '/admin/create': typeof AdminCreateRoute
   '/admin/culture': typeof AdminCultureRoute
   '/admin/data-health': typeof AdminDataHealthRoute
+  '/admin/editorial-standards': typeof AdminEditorialStandardsRoute
   '/admin/events': typeof AdminEventsRoute
+  '/admin/events-places': typeof AdminEventsPlacesRoute
   '/admin/follow-ups': typeof AdminFollowUpsRoute
   '/admin/institutions': typeof AdminInstitutionsRoute
   '/admin/media': typeof AdminMediaRoute
   '/admin/notifications': typeof AdminNotificationsRoute
-  '/admin/opportunities': typeof AdminOpportunitiesRoute
   '/admin/people': typeof AdminPeopleRoute
+  '/admin/people-organisations': typeof AdminPeopleOrganisationsRoute
   '/admin/places': typeof AdminPlacesRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/sources': typeof AdminSourcesRoute
   '/admin/stories': typeof AdminStoriesRoute
   '/admin/submissions': typeof AdminSubmissionsRoute
   '/admin/taxonomy': typeof AdminTaxonomyRoute
+  '/admin/topics': typeof AdminTopicsRoute
   '/admin/users': typeof AdminUsersRoute
   '/collaborations/$slug': typeof CollaborationsSlugRoute
   '/collections/$slug': typeof CollectionsSlugRoute
@@ -695,6 +814,8 @@ export interface FileRoutesByTo {
   '/people/$slug': typeof PeopleSlugRoute
   '/places/$slug': typeof PlacesSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
+  '/understand-indonesia/collections': typeof UnderstandIndonesiaCollectionsRoute
+  '/understand-indonesia/topics': typeof UnderstandIndonesiaTopicsRouteWithChildren
   '/admin': typeof AdminIndexRoute
   '/collaborations': typeof CollaborationsIndexRoute
   '/collections': typeof CollectionsIndexRoute
@@ -710,9 +831,12 @@ export interface FileRoutesByTo {
   '/admin/content/new': typeof AdminContentNewRoute
   '/admin/curation/homepage': typeof AdminCurationHomepageRoute
   '/admin/curation/in-focus': typeof AdminCurationInFocusRoute
+  '/admin/homepage/hero': typeof AdminHomepageHeroRoute
+  '/admin/homepage/sections': typeof AdminHomepageSectionsRoute
   '/admin/inquiries/$id': typeof AdminInquiriesIdRoute
   '/admin/partners/$id': typeof AdminPartnersIdRoute
   '/explore/topics/$slug': typeof ExploreTopicsSlugRoute
+  '/understand-indonesia/topics/$slug': typeof UnderstandIndonesiaTopicsSlugRoute
   '/admin/collaborations': typeof AdminCollaborationsIndexRoute
   '/admin/content': typeof AdminContentIndexRoute
   '/admin/inquiries': typeof AdminInquiriesIndexRoute
@@ -737,33 +861,43 @@ export interface FileRoutesById {
   '/contemporary': typeof ContemporaryRoute
   '/contribute': typeof ContributeRoute
   '/editorial-standards': typeof EditorialStandardsRoute
+  '/events-places': typeof EventsPlacesRoute
   '/experience': typeof ExperienceRoute
   '/heritage': typeof HeritageRoute
   '/inquiry': typeof InquiryRoute
   '/now': typeof NowRoute
   '/opportunities': typeof OpportunitiesRoute
   '/partners': typeof PartnersRoute
+  '/people-organisations': typeof PeopleOrganisationsRoute
   '/research': typeof ResearchRoute
   '/search': typeof SearchRoute
+  '/understand-indonesia': typeof UnderstandIndonesiaRouteWithChildren
+  '/admin/about': typeof AdminAboutRoute
   '/admin/activity': typeof AdminActivityRoute
+  '/admin/around-the-world': typeof AdminAroundTheWorldRoute
+  '/admin/articles': typeof AdminArticlesRoute
   '/admin/calendar': typeof AdminCalendarRoute
   '/admin/collections': typeof AdminCollectionsRoute
+  '/admin/contact': typeof AdminContactRoute
   '/admin/create': typeof AdminCreateRoute
   '/admin/culture': typeof AdminCultureRoute
   '/admin/data-health': typeof AdminDataHealthRoute
+  '/admin/editorial-standards': typeof AdminEditorialStandardsRoute
   '/admin/events': typeof AdminEventsRoute
+  '/admin/events-places': typeof AdminEventsPlacesRoute
   '/admin/follow-ups': typeof AdminFollowUpsRoute
   '/admin/institutions': typeof AdminInstitutionsRoute
   '/admin/media': typeof AdminMediaRoute
   '/admin/notifications': typeof AdminNotificationsRoute
-  '/admin/opportunities': typeof AdminOpportunitiesRoute
   '/admin/people': typeof AdminPeopleRoute
+  '/admin/people-organisations': typeof AdminPeopleOrganisationsRoute
   '/admin/places': typeof AdminPlacesRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/sources': typeof AdminSourcesRoute
   '/admin/stories': typeof AdminStoriesRoute
   '/admin/submissions': typeof AdminSubmissionsRoute
   '/admin/taxonomy': typeof AdminTaxonomyRoute
+  '/admin/topics': typeof AdminTopicsRoute
   '/admin/users': typeof AdminUsersRoute
   '/collaborations/$slug': typeof CollaborationsSlugRoute
   '/collections/$slug': typeof CollectionsSlugRoute
@@ -786,6 +920,8 @@ export interface FileRoutesById {
   '/people/$slug': typeof PeopleSlugRoute
   '/places/$slug': typeof PlacesSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
+  '/understand-indonesia/collections': typeof UnderstandIndonesiaCollectionsRoute
+  '/understand-indonesia/topics': typeof UnderstandIndonesiaTopicsRouteWithChildren
   '/admin/': typeof AdminIndexRoute
   '/collaborations/': typeof CollaborationsIndexRoute
   '/collections/': typeof CollectionsIndexRoute
@@ -801,9 +937,12 @@ export interface FileRoutesById {
   '/admin/content/new': typeof AdminContentNewRoute
   '/admin/curation/homepage': typeof AdminCurationHomepageRoute
   '/admin/curation/in-focus': typeof AdminCurationInFocusRoute
+  '/admin/homepage/hero': typeof AdminHomepageHeroRoute
+  '/admin/homepage/sections': typeof AdminHomepageSectionsRoute
   '/admin/inquiries/$id': typeof AdminInquiriesIdRoute
   '/admin/partners/$id': typeof AdminPartnersIdRoute
   '/explore/topics/$slug': typeof ExploreTopicsSlugRoute
+  '/understand-indonesia/topics/$slug': typeof UnderstandIndonesiaTopicsSlugRoute
   '/admin/collaborations/': typeof AdminCollaborationsIndexRoute
   '/admin/content/': typeof AdminContentIndexRoute
   '/admin/inquiries/': typeof AdminInquiriesIndexRoute
@@ -829,33 +968,43 @@ export interface FileRouteTypes {
     | '/contemporary'
     | '/contribute'
     | '/editorial-standards'
+    | '/events-places'
     | '/experience'
     | '/heritage'
     | '/inquiry'
     | '/now'
     | '/opportunities'
     | '/partners'
+    | '/people-organisations'
     | '/research'
     | '/search'
+    | '/understand-indonesia'
+    | '/admin/about'
     | '/admin/activity'
+    | '/admin/around-the-world'
+    | '/admin/articles'
     | '/admin/calendar'
     | '/admin/collections'
+    | '/admin/contact'
     | '/admin/create'
     | '/admin/culture'
     | '/admin/data-health'
+    | '/admin/editorial-standards'
     | '/admin/events'
+    | '/admin/events-places'
     | '/admin/follow-ups'
     | '/admin/institutions'
     | '/admin/media'
     | '/admin/notifications'
-    | '/admin/opportunities'
     | '/admin/people'
+    | '/admin/people-organisations'
     | '/admin/places'
     | '/admin/settings'
     | '/admin/sources'
     | '/admin/stories'
     | '/admin/submissions'
     | '/admin/taxonomy'
+    | '/admin/topics'
     | '/admin/users'
     | '/collaborations/$slug'
     | '/collections/$slug'
@@ -878,6 +1027,8 @@ export interface FileRouteTypes {
     | '/people/$slug'
     | '/places/$slug'
     | '/stories/$slug'
+    | '/understand-indonesia/collections'
+    | '/understand-indonesia/topics'
     | '/admin/'
     | '/collaborations/'
     | '/collections/'
@@ -893,9 +1044,12 @@ export interface FileRouteTypes {
     | '/admin/content/new'
     | '/admin/curation/homepage'
     | '/admin/curation/in-focus'
+    | '/admin/homepage/hero'
+    | '/admin/homepage/sections'
     | '/admin/inquiries/$id'
     | '/admin/partners/$id'
     | '/explore/topics/$slug'
+    | '/understand-indonesia/topics/$slug'
     | '/admin/collaborations/'
     | '/admin/content/'
     | '/admin/inquiries/'
@@ -918,33 +1072,43 @@ export interface FileRouteTypes {
     | '/contemporary'
     | '/contribute'
     | '/editorial-standards'
+    | '/events-places'
     | '/experience'
     | '/heritage'
     | '/inquiry'
     | '/now'
     | '/opportunities'
     | '/partners'
+    | '/people-organisations'
     | '/research'
     | '/search'
+    | '/understand-indonesia'
+    | '/admin/about'
     | '/admin/activity'
+    | '/admin/around-the-world'
+    | '/admin/articles'
     | '/admin/calendar'
     | '/admin/collections'
+    | '/admin/contact'
     | '/admin/create'
     | '/admin/culture'
     | '/admin/data-health'
+    | '/admin/editorial-standards'
     | '/admin/events'
+    | '/admin/events-places'
     | '/admin/follow-ups'
     | '/admin/institutions'
     | '/admin/media'
     | '/admin/notifications'
-    | '/admin/opportunities'
     | '/admin/people'
+    | '/admin/people-organisations'
     | '/admin/places'
     | '/admin/settings'
     | '/admin/sources'
     | '/admin/stories'
     | '/admin/submissions'
     | '/admin/taxonomy'
+    | '/admin/topics'
     | '/admin/users'
     | '/collaborations/$slug'
     | '/collections/$slug'
@@ -967,6 +1131,8 @@ export interface FileRouteTypes {
     | '/people/$slug'
     | '/places/$slug'
     | '/stories/$slug'
+    | '/understand-indonesia/collections'
+    | '/understand-indonesia/topics'
     | '/admin'
     | '/collaborations'
     | '/collections'
@@ -982,9 +1148,12 @@ export interface FileRouteTypes {
     | '/admin/content/new'
     | '/admin/curation/homepage'
     | '/admin/curation/in-focus'
+    | '/admin/homepage/hero'
+    | '/admin/homepage/sections'
     | '/admin/inquiries/$id'
     | '/admin/partners/$id'
     | '/explore/topics/$slug'
+    | '/understand-indonesia/topics/$slug'
     | '/admin/collaborations'
     | '/admin/content'
     | '/admin/inquiries'
@@ -1008,33 +1177,43 @@ export interface FileRouteTypes {
     | '/contemporary'
     | '/contribute'
     | '/editorial-standards'
+    | '/events-places'
     | '/experience'
     | '/heritage'
     | '/inquiry'
     | '/now'
     | '/opportunities'
     | '/partners'
+    | '/people-organisations'
     | '/research'
     | '/search'
+    | '/understand-indonesia'
+    | '/admin/about'
     | '/admin/activity'
+    | '/admin/around-the-world'
+    | '/admin/articles'
     | '/admin/calendar'
     | '/admin/collections'
+    | '/admin/contact'
     | '/admin/create'
     | '/admin/culture'
     | '/admin/data-health'
+    | '/admin/editorial-standards'
     | '/admin/events'
+    | '/admin/events-places'
     | '/admin/follow-ups'
     | '/admin/institutions'
     | '/admin/media'
     | '/admin/notifications'
-    | '/admin/opportunities'
     | '/admin/people'
+    | '/admin/people-organisations'
     | '/admin/places'
     | '/admin/settings'
     | '/admin/sources'
     | '/admin/stories'
     | '/admin/submissions'
     | '/admin/taxonomy'
+    | '/admin/topics'
     | '/admin/users'
     | '/collaborations/$slug'
     | '/collections/$slug'
@@ -1057,6 +1236,8 @@ export interface FileRouteTypes {
     | '/people/$slug'
     | '/places/$slug'
     | '/stories/$slug'
+    | '/understand-indonesia/collections'
+    | '/understand-indonesia/topics'
     | '/admin/'
     | '/collaborations/'
     | '/collections/'
@@ -1072,9 +1253,12 @@ export interface FileRouteTypes {
     | '/admin/content/new'
     | '/admin/curation/homepage'
     | '/admin/curation/in-focus'
+    | '/admin/homepage/hero'
+    | '/admin/homepage/sections'
     | '/admin/inquiries/$id'
     | '/admin/partners/$id'
     | '/explore/topics/$slug'
+    | '/understand-indonesia/topics/$slug'
     | '/admin/collaborations/'
     | '/admin/content/'
     | '/admin/inquiries/'
@@ -1099,14 +1283,17 @@ export interface RootRouteChildren {
   ContemporaryRoute: typeof ContemporaryRoute
   ContributeRoute: typeof ContributeRoute
   EditorialStandardsRoute: typeof EditorialStandardsRoute
+  EventsPlacesRoute: typeof EventsPlacesRoute
   ExperienceRoute: typeof ExperienceRoute
   HeritageRoute: typeof HeritageRoute
   InquiryRoute: typeof InquiryRoute
   NowRoute: typeof NowRoute
   OpportunitiesRoute: typeof OpportunitiesRoute
   PartnersRoute: typeof PartnersRoute
+  PeopleOrganisationsRoute: typeof PeopleOrganisationsRoute
   ResearchRoute: typeof ResearchRoute
   SearchRoute: typeof SearchRoute
+  UnderstandIndonesiaRoute: typeof UnderstandIndonesiaRouteWithChildren
   CollaborationsSlugRoute: typeof CollaborationsSlugRoute
   CollectionsSlugRoute: typeof CollectionsSlugRoute
   ContributorAccountRoute: typeof ContributorAccountRoute
@@ -1217,6 +1404,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EditorialStandardsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/events-places': {
+      id: '/events-places'
+      path: '/events-places'
+      fullPath: '/events-places'
+      preLoaderRoute: typeof EventsPlacesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/experience': {
       id: '/experience'
       path: '/experience'
@@ -1259,6 +1453,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PartnersRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/people-organisations': {
+      id: '/people-organisations'
+      path: '/people-organisations'
+      fullPath: '/people-organisations'
+      preLoaderRoute: typeof PeopleOrganisationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/research': {
       id: '/research'
       path: '/research'
@@ -1273,6 +1474,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SearchRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/understand-indonesia': {
+      id: '/understand-indonesia'
+      path: '/understand-indonesia'
+      fullPath: '/understand-indonesia'
+      preLoaderRoute: typeof UnderstandIndonesiaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/': {
       id: '/admin/'
       path: '/'
@@ -1280,11 +1488,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/about': {
+      id: '/admin/about'
+      path: '/about'
+      fullPath: '/admin/about'
+      preLoaderRoute: typeof AdminAboutRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/activity': {
       id: '/admin/activity'
       path: '/activity'
       fullPath: '/admin/activity'
       preLoaderRoute: typeof AdminActivityRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/around-the-world': {
+      id: '/admin/around-the-world'
+      path: '/around-the-world'
+      fullPath: '/admin/around-the-world'
+      preLoaderRoute: typeof AdminAroundTheWorldRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/articles': {
+      id: '/admin/articles'
+      path: '/articles'
+      fullPath: '/admin/articles'
+      preLoaderRoute: typeof AdminArticlesRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/calendar': {
@@ -1299,6 +1528,13 @@ declare module '@tanstack/react-router' {
       path: '/collections'
       fullPath: '/admin/collections'
       preLoaderRoute: typeof AdminCollectionsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/contact': {
+      id: '/admin/contact'
+      path: '/contact'
+      fullPath: '/admin/contact'
+      preLoaderRoute: typeof AdminContactRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/create': {
@@ -1322,11 +1558,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminDataHealthRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/editorial-standards': {
+      id: '/admin/editorial-standards'
+      path: '/editorial-standards'
+      fullPath: '/admin/editorial-standards'
+      preLoaderRoute: typeof AdminEditorialStandardsRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/events': {
       id: '/admin/events'
       path: '/events'
       fullPath: '/admin/events'
       preLoaderRoute: typeof AdminEventsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/events-places': {
+      id: '/admin/events-places'
+      path: '/events-places'
+      fullPath: '/admin/events-places'
+      preLoaderRoute: typeof AdminEventsPlacesRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/follow-ups': {
@@ -1357,18 +1607,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminNotificationsRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/admin/opportunities': {
-      id: '/admin/opportunities'
-      path: '/opportunities'
-      fullPath: '/admin/opportunities'
-      preLoaderRoute: typeof AdminOpportunitiesRouteImport
-      parentRoute: typeof AdminRoute
-    }
     '/admin/people': {
       id: '/admin/people'
       path: '/people'
       fullPath: '/admin/people'
       preLoaderRoute: typeof AdminPeopleRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/people-organisations': {
+      id: '/admin/people-organisations'
+      path: '/people-organisations'
+      fullPath: '/admin/people-organisations'
+      preLoaderRoute: typeof AdminPeopleOrganisationsRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/places': {
@@ -1411,6 +1661,13 @@ declare module '@tanstack/react-router' {
       path: '/taxonomy'
       fullPath: '/admin/taxonomy'
       preLoaderRoute: typeof AdminTaxonomyRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/topics': {
+      id: '/admin/topics'
+      path: '/topics'
+      fullPath: '/admin/topics'
+      preLoaderRoute: typeof AdminTopicsRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/users': {
@@ -1630,6 +1887,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StoriesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/understand-indonesia/collections': {
+      id: '/understand-indonesia/collections'
+      path: '/collections'
+      fullPath: '/understand-indonesia/collections'
+      preLoaderRoute: typeof UnderstandIndonesiaCollectionsRouteImport
+      parentRoute: typeof UnderstandIndonesiaRoute
+    }
+    '/understand-indonesia/topics': {
+      id: '/understand-indonesia/topics'
+      path: '/topics'
+      fullPath: '/understand-indonesia/topics'
+      preLoaderRoute: typeof UnderstandIndonesiaTopicsRouteImport
+      parentRoute: typeof UnderstandIndonesiaRoute
+    }
     '/admin/collaborations/': {
       id: '/admin/collaborations/'
       path: '/collaborations'
@@ -1677,6 +1948,20 @@ declare module '@tanstack/react-router' {
       path: '/curation/in-focus'
       fullPath: '/admin/curation/in-focus'
       preLoaderRoute: typeof AdminCurationInFocusRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/homepage/hero': {
+      id: '/admin/homepage/hero'
+      path: '/homepage/hero'
+      fullPath: '/admin/homepage/hero'
+      preLoaderRoute: typeof AdminHomepageHeroRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/homepage/sections': {
+      id: '/admin/homepage/sections'
+      path: '/homepage/sections'
+      fullPath: '/admin/homepage/sections'
+      preLoaderRoute: typeof AdminHomepageSectionsRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/inquiries/': {
@@ -1735,6 +2020,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ExploreTopicsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/understand-indonesia/topics/$slug': {
+      id: '/understand-indonesia/topics/$slug'
+      path: '/$slug'
+      fullPath: '/understand-indonesia/topics/$slug'
+      preLoaderRoute: typeof UnderstandIndonesiaTopicsSlugRouteImport
+      parentRoute: typeof UnderstandIndonesiaTopicsRoute
+    }
     '/admin/content/$id/preview': {
       id: '/admin/content/$id/preview'
       path: '/preview'
@@ -1779,25 +2071,32 @@ const AdminContentIdRouteWithChildren = AdminContentIdRoute._addFileChildren(
 )
 
 interface AdminRouteChildren {
+  AdminAboutRoute: typeof AdminAboutRoute
   AdminActivityRoute: typeof AdminActivityRoute
+  AdminAroundTheWorldRoute: typeof AdminAroundTheWorldRoute
+  AdminArticlesRoute: typeof AdminArticlesRoute
   AdminCalendarRoute: typeof AdminCalendarRoute
   AdminCollectionsRoute: typeof AdminCollectionsRoute
+  AdminContactRoute: typeof AdminContactRoute
   AdminCreateRoute: typeof AdminCreateRoute
   AdminCultureRoute: typeof AdminCultureRoute
   AdminDataHealthRoute: typeof AdminDataHealthRoute
+  AdminEditorialStandardsRoute: typeof AdminEditorialStandardsRoute
   AdminEventsRoute: typeof AdminEventsRoute
+  AdminEventsPlacesRoute: typeof AdminEventsPlacesRoute
   AdminFollowUpsRoute: typeof AdminFollowUpsRoute
   AdminInstitutionsRoute: typeof AdminInstitutionsRoute
   AdminMediaRoute: typeof AdminMediaRoute
   AdminNotificationsRoute: typeof AdminNotificationsRoute
-  AdminOpportunitiesRoute: typeof AdminOpportunitiesRoute
   AdminPeopleRoute: typeof AdminPeopleRoute
+  AdminPeopleOrganisationsRoute: typeof AdminPeopleOrganisationsRoute
   AdminPlacesRoute: typeof AdminPlacesRoute
   AdminSettingsRoute: typeof AdminSettingsRoute
   AdminSourcesRoute: typeof AdminSourcesRoute
   AdminStoriesRoute: typeof AdminStoriesRoute
   AdminSubmissionsRoute: typeof AdminSubmissionsRoute
   AdminTaxonomyRoute: typeof AdminTaxonomyRoute
+  AdminTopicsRoute: typeof AdminTopicsRoute
   AdminUsersRoute: typeof AdminUsersRoute
   AdminIndexRoute: typeof AdminIndexRoute
   AdminCollaborationsIdRoute: typeof AdminCollaborationsIdRoute
@@ -1805,6 +2104,8 @@ interface AdminRouteChildren {
   AdminContentNewRoute: typeof AdminContentNewRoute
   AdminCurationHomepageRoute: typeof AdminCurationHomepageRoute
   AdminCurationInFocusRoute: typeof AdminCurationInFocusRoute
+  AdminHomepageHeroRoute: typeof AdminHomepageHeroRoute
+  AdminHomepageSectionsRoute: typeof AdminHomepageSectionsRoute
   AdminInquiriesIdRoute: typeof AdminInquiriesIdRoute
   AdminPartnersIdRoute: typeof AdminPartnersIdRoute
   AdminCollaborationsIndexRoute: typeof AdminCollaborationsIndexRoute
@@ -1815,25 +2116,32 @@ interface AdminRouteChildren {
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminAboutRoute: AdminAboutRoute,
   AdminActivityRoute: AdminActivityRoute,
+  AdminAroundTheWorldRoute: AdminAroundTheWorldRoute,
+  AdminArticlesRoute: AdminArticlesRoute,
   AdminCalendarRoute: AdminCalendarRoute,
   AdminCollectionsRoute: AdminCollectionsRoute,
+  AdminContactRoute: AdminContactRoute,
   AdminCreateRoute: AdminCreateRoute,
   AdminCultureRoute: AdminCultureRoute,
   AdminDataHealthRoute: AdminDataHealthRoute,
+  AdminEditorialStandardsRoute: AdminEditorialStandardsRoute,
   AdminEventsRoute: AdminEventsRoute,
+  AdminEventsPlacesRoute: AdminEventsPlacesRoute,
   AdminFollowUpsRoute: AdminFollowUpsRoute,
   AdminInstitutionsRoute: AdminInstitutionsRoute,
   AdminMediaRoute: AdminMediaRoute,
   AdminNotificationsRoute: AdminNotificationsRoute,
-  AdminOpportunitiesRoute: AdminOpportunitiesRoute,
   AdminPeopleRoute: AdminPeopleRoute,
+  AdminPeopleOrganisationsRoute: AdminPeopleOrganisationsRoute,
   AdminPlacesRoute: AdminPlacesRoute,
   AdminSettingsRoute: AdminSettingsRoute,
   AdminSourcesRoute: AdminSourcesRoute,
   AdminStoriesRoute: AdminStoriesRoute,
   AdminSubmissionsRoute: AdminSubmissionsRoute,
   AdminTaxonomyRoute: AdminTaxonomyRoute,
+  AdminTopicsRoute: AdminTopicsRoute,
   AdminUsersRoute: AdminUsersRoute,
   AdminIndexRoute: AdminIndexRoute,
   AdminCollaborationsIdRoute: AdminCollaborationsIdRoute,
@@ -1841,6 +2149,8 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminContentNewRoute: AdminContentNewRoute,
   AdminCurationHomepageRoute: AdminCurationHomepageRoute,
   AdminCurationInFocusRoute: AdminCurationInFocusRoute,
+  AdminHomepageHeroRoute: AdminHomepageHeroRoute,
+  AdminHomepageSectionsRoute: AdminHomepageSectionsRoute,
   AdminInquiriesIdRoute: AdminInquiriesIdRoute,
   AdminPartnersIdRoute: AdminPartnersIdRoute,
   AdminCollaborationsIndexRoute: AdminCollaborationsIndexRoute,
@@ -1851,6 +2161,33 @@ const AdminRouteChildren: AdminRouteChildren = {
 }
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
+interface UnderstandIndonesiaTopicsRouteChildren {
+  UnderstandIndonesiaTopicsSlugRoute: typeof UnderstandIndonesiaTopicsSlugRoute
+}
+
+const UnderstandIndonesiaTopicsRouteChildren: UnderstandIndonesiaTopicsRouteChildren =
+  {
+    UnderstandIndonesiaTopicsSlugRoute: UnderstandIndonesiaTopicsSlugRoute,
+  }
+
+const UnderstandIndonesiaTopicsRouteWithChildren =
+  UnderstandIndonesiaTopicsRoute._addFileChildren(
+    UnderstandIndonesiaTopicsRouteChildren,
+  )
+
+interface UnderstandIndonesiaRouteChildren {
+  UnderstandIndonesiaCollectionsRoute: typeof UnderstandIndonesiaCollectionsRoute
+  UnderstandIndonesiaTopicsRoute: typeof UnderstandIndonesiaTopicsRouteWithChildren
+}
+
+const UnderstandIndonesiaRouteChildren: UnderstandIndonesiaRouteChildren = {
+  UnderstandIndonesiaCollectionsRoute: UnderstandIndonesiaCollectionsRoute,
+  UnderstandIndonesiaTopicsRoute: UnderstandIndonesiaTopicsRouteWithChildren,
+}
+
+const UnderstandIndonesiaRouteWithChildren =
+  UnderstandIndonesiaRoute._addFileChildren(UnderstandIndonesiaRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -1863,14 +2200,17 @@ const rootRouteChildren: RootRouteChildren = {
   ContemporaryRoute: ContemporaryRoute,
   ContributeRoute: ContributeRoute,
   EditorialStandardsRoute: EditorialStandardsRoute,
+  EventsPlacesRoute: EventsPlacesRoute,
   ExperienceRoute: ExperienceRoute,
   HeritageRoute: HeritageRoute,
   InquiryRoute: InquiryRoute,
   NowRoute: NowRoute,
   OpportunitiesRoute: OpportunitiesRoute,
   PartnersRoute: PartnersRoute,
+  PeopleOrganisationsRoute: PeopleOrganisationsRoute,
   ResearchRoute: ResearchRoute,
   SearchRoute: SearchRoute,
+  UnderstandIndonesiaRoute: UnderstandIndonesiaRouteWithChildren,
   CollaborationsSlugRoute: CollaborationsSlugRoute,
   CollectionsSlugRoute: CollectionsSlugRoute,
   ContributorAccountRoute: ContributorAccountRoute,

@@ -313,26 +313,6 @@ export interface CulturalEvent {
 }
 
 
-export interface Opportunity {
-  id: Id;
-  slug: string;
-  title: string;
-  type: "Grant" | "Residency" | "Open call" | "Fellowship";
-  deadline: string;
-  forWhom: string;
-  summary: string;
-  amount?: string;
-  institutionIds?: Id[];
-  themes?: ThemeId[];
-  location?: string;
-  duration?: string;
-  support?: string[];
-  eligibility?: string[];
-  howToApply?: string;
-  offeredBy?: string;
-  lastChecked?: string;
-}
-
 export interface ResearchPaper {
   id: Id;
   title: string;
@@ -393,7 +373,6 @@ export interface Institution {
   formIds: Id[];
   paperIds?: Id[];
   eventIds?: Id[];
-  opportunityIds?: Id[];
   partnerCountries: string[];
   collaborationInterests: string[];
   internationalExperience: boolean;
@@ -470,7 +449,6 @@ export interface Collaboration {
   storyIds: Id[];
   formIds: Id[];
   placeIds: Id[];
-  opportunityIds?: Id[];
   documentation: string;
   future: string[];
   featured?: boolean;
@@ -497,11 +475,9 @@ export interface SearchRecord {
     | "Deep Dive"
     | "Perspectives"
     | "Topics"
-    | "People & Communities"
-    | "Institutions"
+    | "People & Organisations"
     | "Places"
     | "Events"
-    | "Opportunities"
     | "Collaborations";
   title: string;
   context: string;

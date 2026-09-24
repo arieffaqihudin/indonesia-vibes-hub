@@ -184,7 +184,7 @@ function StoryPage() {
                 ))}
               </ul>
               <Link
-                to="/places"
+                to="/events-places"
                 className="mt-4 inline-block text-sm font-medium text-primary underline underline-offset-4"
               >
                 All places

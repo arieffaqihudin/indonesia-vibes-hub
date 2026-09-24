@@ -10,7 +10,6 @@ import {
   collections,
   events,
   forms,
-  opportunities,
   papers,
   people,
   places,
@@ -254,24 +253,6 @@ const eventItems: ContentItem[] = events.map((e, i) =>
   }),
 );
 
-const opportunityItems: ContentItem[] = opportunities.map((o, i) =>
-  published("opportunity", o, o.title, {
-    path: `/opportunities`,
-    themes: o.themes ?? [],
-    editor: "Nur Aisyah",
-    offset: -50 - i * 4,
-    frequency: 60,
-    fields: {
-      title: o.title,
-      type: o.type ?? "",
-      deadline: o.deadline ?? "",
-      forWhom: o.forWhom ?? "",
-      support: (o.support ?? []).join("; "),
-      officialLink: "",
-    },
-  }),
-);
-
 const collaborationItems: ContentItem[] = collaborations.map((c, i) =>
   published("collaboration", c, c.title, {
     path: `/collaborations/${c.slug}`,
@@ -476,38 +457,7 @@ const inFlight: ContentItem[] = [
     versions: [{ id: "vx-1", label: "v1", editor: "Arif Santoso", date: at(-6), summary: "Sequence proposed." }],
     prototype: true,
   },
-  {
-    id: "c-sub-residency",
-    kind: "opportunity",
-    title: "Material Culture Residency, Porto",
-    status: "verification",
-    priority: "Normal",
-    assignedTo: "Nur Aisyah",
-    contributor: "Maya Kusuma",
-    organisation: "Embassy of the Republic of Indonesia, Lisbon",
-    submissionId: "proto-residency",
-    themes: ["Craft & Design"],
-    countries: ["Portugal"],
-    createdAt: at(-9),
-    updatedAt: at(-2),
-    stageSince: at(-4),
-    fields: {
-      title: "Material Culture Residency, Porto",
-      type: "Residency",
-      deadline: at(6).slice(0, 10),
-      forWhom: "Indonesian designers and craft researchers working with natural materials.",
-      support: "Studio, materials budget and return travel.",
-      eligibility: "Open to applicants based in Indonesia; portfolio required.",
-      officialLink: "https://example.pt/residency",
-    },
-    relationships: rel({ culture: ["cf-design"], places: ["pl-lisbon"], institutions: ["in-mission-london"] }),
-    culturalReview: { flags: [] },
-    languageReview: { complete: false },
-    feedback: [],
-    notes: [],
-    versions: [],
-    prototype: true,
-  },
+
   {
     id: "c-sub-maritime",
     kind: "story",
@@ -712,7 +662,6 @@ export const seedContent: ContentItem[] = [
   ...peopleItems,
   ...placeItems,
   ...eventItems,
-  ...opportunityItems,
   ...collaborationItems,
   ...collectionItems,
   ...institutionItems,
@@ -1090,7 +1039,7 @@ export const seedInquiries: Inquiry[] = [
     assignedTo: "Siti Hapsari",
     priority: "Normal",
     status: "In discussion",
-    nextAction: "Confirm whether the opportunity listing can go live",
+    nextAction: "Confirm whether the collaboration request can proceed",
     qualification: { request: "Distribution of a residency call.", clear: "Yes", credible: "Needs checking", culturalArea: "Material design", geography: "Portugal", possibleOutcome: "Repeat exchange" },
     clarifications: [{ id: "cf-2", message: "Could you provide more detail about the proposed dates and host institution?", sentAt: at(-14), sentBy: "Siti Hapsari", response: "Dates confirmed for autumn; host is the studio itself with municipal support.", respondedAt: at(-12), status: "Answered" }],
     introductions: [],
@@ -1310,7 +1259,6 @@ export const seedTaxonomy: TaxonomyTerm[] = [
   ...["Learn", "Visit", "Collaborate", "Research", "Report"].map((label, i) => ({ id: `tx-ui-${i}`, category: "User Intent" as const, label, usage: 2 + i })),
   ...["UNESCO Intangible Cultural Heritage", "World Heritage Site", "National Cultural Heritage"].map((label, i) => ({ id: `tx-rec-${i}`, category: "Recognition" as const, label, usage: 1 + i })),
   ...["Exhibition", "Performance", "Screening season", "Open studio", "Symposium", "Festival"].map((label, i) => ({ id: `tx-et-${i}`, category: "Event Type" as const, label, usage: 1 + i })),
-  ...["Residency", "Fellowship", "Open call", "Fund"].map((label, i) => ({ id: `tx-ot-${i}`, category: "Opportunity Type" as const, label, usage: 1 + i })),
   ...["Research", "Exhibition", "Performance exchange", "Training"].map((label, i) => ({ id: `tx-ct-${i}`, category: "Collaboration Type" as const, label, usage: 1 + i })),
 ];
 
@@ -1319,11 +1267,10 @@ export const seedCuration: CurationSlot[] = [
   { id: "cu-2", section: "In Focus", contentId: "c-ev-1", label: "Warp & Weft: Two Years in a Cloth", order: 0 },
   { id: "cu-3", section: "In Focus", contentId: "c-sub-sumba-scheduled", label: "Sumba Weaving Week open studios", order: 1 },
   { id: "cu-4", section: "Featured Collection", contentId: "c-co-1", label: "Made slowly", order: 0 },
-  { id: "cu-5", section: "People to Know", contentId: "c-pe-1", label: "Rambu Ana Hàmu", order: 0 },
-  { id: "cu-6", section: "People to Know", contentId: "c-pe-2", label: "Dimas Prayoga", order: 1 },
-  { id: "cu-7", section: "Upcoming Experiences", contentId: "c-ev-3", label: "New Indonesian Cinema", order: 0 },
-  { id: "cu-8", section: "Current Collaborations", contentId: "c-cl-uk-music", label: "Indonesia–UK Music Research Collaboration", order: 0 },
-  { id: "cu-9", section: "Opportunities", contentId: "c-op-1", label: "Weaving Apprenticeship Fund", order: 0 },
+  { id: "cu-5", section: "People & Organisations", contentId: "c-pe-1", label: "Rambu Ana Hàmu", order: 0 },
+  { id: "cu-6", section: "People & Organisations", contentId: "c-pe-2", label: "Dimas Prayoga", order: 1 },
+  { id: "cu-7", section: "Coming Up", contentId: "c-ev-3", label: "New Indonesian Cinema", order: 0 },
+  { id: "cu-8", section: "Collaborations", contentId: "c-cl-uk-music", label: "Indonesia–UK Music Research Collaboration", order: 0 },
 ];
 
 export const seedFocusOverrides: FocusOverride[] = [

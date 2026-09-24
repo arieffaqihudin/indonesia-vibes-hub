@@ -12,7 +12,7 @@ export const Route = createFileRoute("/contributor/new")({
       {
         name: "description",
         content:
-          "Choose what to contribute: a story, an event, an opportunity, a cultural profile, or an international collaboration.",
+          "Choose what to contribute: an article, an event, a cultural profile, or a collaboration.",
       },
       { property: "og:title", content: "Create a submission — Indonesia Vibes Contributor Workspace" },
       { property: "og:description", content: "Choose what to contribute and we will guide you through it." },

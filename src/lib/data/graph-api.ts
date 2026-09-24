@@ -80,14 +80,14 @@ export const neighboursByType = (uid: CanonicalId, limit = 8) => {
  */
 export const relatedContent = (uid: CanonicalId, limit = 6): CanonicalEntity[] => {
   const direct = neighbours(uid, {
-    types: ["story", "event", "opportunity", "collection", "collaboration", "knowledge_resource"],
+    types: ["story", "event", "collection", "collaboration", "knowledge_resource"],
     limit: 50,
   }).map((e) => e.entity);
 
   const subjects = neighbours(uid, { types: ["cultural_subject"], limit: 10 }).map((e) => e.entity.uid);
   const sameSubject = subjects.flatMap((s) =>
     neighbours(s, {
-      types: ["story", "event", "opportunity", "collaboration"],
+      types: ["story", "event", "collaboration"],
       limit: 20,
     }).map((e) => e.entity),
   );

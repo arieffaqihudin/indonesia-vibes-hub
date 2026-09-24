@@ -36,8 +36,8 @@ function AboutPage() {
           <h2>The journey</h2>
           <p>
             Every public journey begins with one of three clear actions: {brand.journey.join(", ")}.
-            Explore connects cultural knowledge. Experience brings together events, places and the
-            world map. Connect opens the door to opportunities, partnerships and a real inbox.
+            Understand Indonesia connects cultural knowledge. Experience brings together events, places and the
+            world map. Connect opens a clear pathway to cultural collaboration.
           </p>
           <h2>How we work</h2>
           <p>
@@ -48,10 +48,9 @@ function AboutPage() {
           </p>
           <p>
             Directories of{" "}
-            <Link to="/people">people and communities</Link>,{" "}
-            <Link to="/institutions">institutions</Link>,{" "}
-            <Link to="/places">places</Link> and{" "}
-            <Link to="/collaborations">international collaborations</Link> are maintained as
+            <Link to="/people-organisations">people and organisations</Link>,{" "}
+            <Link to="/events-places">events and places</Link> and{" "}
+            <Link to="/collaborate">collaborations</Link> are maintained as
             connective infrastructure for curators, researchers, funders and festival programmers.
             Introductions are facilitated by the team, never by publishing private contact details.
           </p>
@@ -90,8 +89,8 @@ function AboutPage() {
         <div className="container-editorial py-16">
           <div className="flex flex-wrap items-end justify-between gap-6 border-b border-border pb-6">
             <h2 className="display-3 text-ink">Voices on the platform</h2>
-            <Link to="/people" className="link-underline text-sm font-medium text-ink">
-              All people and communities
+            <Link to="/people-organisations" className="link-underline text-sm font-medium text-ink">
+              All people & organisations
             </Link>
           </div>
           <ul className="mt-10 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">

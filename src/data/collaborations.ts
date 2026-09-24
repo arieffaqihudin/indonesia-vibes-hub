@@ -62,7 +62,6 @@ export const collaborations: Collaboration[] = [
     storyIds: ["st-2"],
     formIds: ["cf-cinema"],
     placeIds: ["pl-jakarta", "pl-tokyo"],
-    opportunityIds: ["op-3"],
     documentation:
       "Residency notes, selection panel minutes and the subtitling style guide are published openly by both partners.",
     future: [
@@ -236,7 +235,6 @@ export const collaborations: Collaboration[] = [
     storyIds: ["st-1"],
     formIds: ["cf-ikat"],
     placeIds: ["pl-sumba", "pl-kaliuda", "pl-nairobi"],
-    opportunityIds: ["op-1", "op-4"],
     documentation: "Testing protocols and interim data are published as they are produced.",
     future: [
       "Add a Pacific partner in the second phase",

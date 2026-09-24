@@ -44,7 +44,7 @@ export function Footer() {
 
         <div className="mt-14 border-t border-white/10 pt-8">
           <p className="max-w-3xl text-xs leading-relaxed text-[oklch(0.7_0.02_30)]">
-            Prototype: this is a demonstration platform. Stories, profiles, events and opportunities
+             Prototype: this is a demonstration platform. Articles, profiles, events and collaborations
             are written as realistic editorial examples and are not live listings. Named people,
             institutions and programmes are illustrative.
           </p>

@@ -13,6 +13,8 @@ import {
   staleContent,
 } from "@/lib/admin/selectors";
 import { daysUntil } from "@/lib/admin/types";
+import { stories } from "@/data/content";
+import { useHomepageSettings } from "@/lib/homepage";
 import { EmptyState, PageHeading, abtn, dateFmt, relative, timeFmt } from "@/components/admin/primitives";
 
 export const Route = createFileRoute("/admin/")({
@@ -61,6 +63,7 @@ function AttentionRow({
 
 function OverviewPage() {
   const admin = useAdmin();
+  const [homepage] = useHomepageSettings(stories.map((item) => item.id));
   const { content, inquiries, followUps, media, sources, claims, activity, user, role } = admin;
 
   const inReview = content.filter(isInReview);
@@ -75,9 +78,8 @@ function OverviewPage() {
   const revisionsReturned = content.filter((c) => c.status === "revision_requested");
   const stale = staleContent(content);
 
-  const closingSoon = content.filter(
-    (c) => c.kind === "opportunity" && c.status === "published" && c.fields["deadline"] && daysUntil(c.fields["deadline"]!) >= 0 && daysUntil(c.fields["deadline"]!) <= 7,
-  );
+  const articles = content.filter((c) => c.kind === "story");
+  const publishedArticles = articles.filter((c) => c.status === "published");
 
   const todayEvents = content.filter((c) => {
     if (c.kind !== "event") return false;
@@ -117,7 +119,7 @@ function OverviewPage() {
           { count: routing.length, label: "inquiries need routing", hint: "New or qualified and waiting for a partner", to: "/admin/inquiries", cta: "Route" },
           { count: overdue.length, label: "partner follow-ups overdue", hint: "Past their due date", to: "/admin/follow-ups", cta: "View" },
         ]),
-    { count: closingSoon.length, label: "opportunities close this week", hint: "Check the official source before the deadline", to: "/admin/opportunities", cta: "View" },
+    { count: homepage.hero.length ? 0 : 1, label: "homepage Hero has no article", hint: "Choose one to five published articles", to: "/admin/homepage/hero", cta: "Manage" },
     { count: stale.length, label: "published records overdue for review", hint: "Sent to the review queue, never unpublished automatically", to: "/admin/review", cta: "Review" },
   ].filter((a) => a.count > 0);
 
@@ -137,6 +139,15 @@ function OverviewPage() {
           </Link>
         }
       />
+
+      <section aria-label="Content overview" className="mb-9 max-w-5xl border-y border-border">
+        <dl className="grid grid-cols-2 divide-x divide-y divide-border sm:grid-cols-4 sm:divide-y-0">
+          {[
+            [articles.length, "Total articles"], [publishedArticles.length, "Published"],
+            [inReview.filter((item) => item.kind === "story").length, "In review"], [`${homepage.hero.length}/5`, "Homepage Hero"],
+          ].map(([value, label]) => <div key={label} className="px-4 py-4"><dd className="text-xl font-semibold text-ink">{value}</dd><dt className="mt-1 text-xs text-muted-foreground">{label}</dt></div>)}
+        </dl>
+      </section>
 
       <section aria-labelledby="attention" className="mb-9 max-w-5xl">
         <h2 id="attention" className="border-b border-border pb-2 text-[0.68rem] font-semibold tracking-[0.12em] text-clay uppercase">
@@ -178,16 +189,7 @@ function OverviewPage() {
               <span className="text-xs text-muted-foreground">Event · {item.location ?? item.countries.join(", ")}</span>
             </li>
           ))}
-          {closingSoon.map((item) => (
-            <li key={item.id} className="flex flex-wrap items-baseline gap-x-4 border-b border-border/70 py-2.5 last:border-0">
-              <span className="w-24 shrink-0 text-xs text-muted-foreground">{item.fields["deadline"]}</span>
-              <Link to="/admin/content/$id" params={{ id: item.id }} className="text-sm text-ink underline-offset-4 hover:text-primary hover:underline">
-                {item.title}
-              </Link>
-              <span className="text-xs text-muted-foreground">Opportunity deadline</span>
-            </li>
-          ))}
-          {!scheduled.length && !todayEvents.length && !closingSoon.length ? (
+          {!scheduled.length && !todayEvents.length ? (
             <li className="py-3 text-sm text-muted-foreground">Nothing is scheduled in the next week.</li>
           ) : null}
         </ul>

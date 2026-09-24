@@ -12,11 +12,9 @@ const TYPES: SearchRecord["type"][] = [
   "Deep Dive",
   "Perspectives",
   "Topics",
-  "People & Communities",
-  "Institutions",
+  "People & Organisations",
   "Places",
   "Events",
-  "Opportunities",
   "Collaborations",
 ];
 
@@ -41,7 +39,7 @@ export const Route = createFileRoute("/search")({
       {
         name: "description",
         content:
-          "Search across editorial content, topics, people, institutions, places, events, opportunities and international collaborations.",
+          "Search across articles, topics, collections, people, organisations, places, events and collaborations.",
       },
       { property: "og:title", content: "Search — Indonesia Vibes" },
       { property: "og:description", content: "One search across the whole Indonesia Vibes knowledge network." },
@@ -76,8 +74,8 @@ function SearchPage() {
         <div className="container-editorial py-16 md:py-20">
           <h1 className="display-1 text-ink">Search</h1>
           <p className="standfirst mt-5 max-w-2xl">
-            One query across content, topics, people, institutions, places, events,
-            opportunities and collaborations. Plain English works — "shadow puppetry" finds wayang.
+             One query across articles, topics, people, organisations, places, events and collaborations.
+             Plain English works — "shadow puppetry" finds wayang.
           </p>
           <form
             role="search"
@@ -218,13 +216,10 @@ function SearchPage() {
           <h2 className="display-3 text-ink">Start anywhere</h2>
           <ul className="mt-8 grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-4">
             {[
-              { to: "/explore" as const, label: "Explore", note: "Essentials, deep dives and perspectives" },
-              { to: "/people" as const, label: "People & Communities", note: "Makers, masters, custodians" },
-              { to: "/institutions" as const, label: "Institutions", note: "Museums, universities, archives" },
-              { to: "/places" as const, label: "Places", note: "Sites, villages, landscapes" },
-              { to: "/events" as const, label: "Events", note: "What is on, and where" },
-              { to: "/collaborations" as const, label: "Collaborations", note: "Indonesia and the world" },
-              { to: "/opportunities" as const, label: "Opportunities", note: "Grants, residencies, calls" },
+              { to: "/understand-indonesia" as const, label: "Understand Indonesia", note: "Essentials, deep dives and perspectives" },
+              { to: "/people-organisations" as const, label: "People & Organisations", note: "Makers, communities, museums and universities" },
+              { to: "/events-places" as const, label: "Events & Places", note: "What is on, and where" },
+              { to: "/collaborate" as const, label: "Collaborate with Indonesia", note: "Examples and a way to begin" },
               { to: "/around-the-world" as const, label: "Around the World", note: "The global map" },
             ].map((item) => (
               <li key={item.to} className="border-l-2 border-primary/30 pl-5">

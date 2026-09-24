@@ -17,7 +17,7 @@ import {
   relatedInstitutions,
   resolve,
 } from "@/data/graph";
-import { events, formatEventDates, getForm, opportunities, papers } from "@/data/content";
+import { events, formatEventDates, getForm, papers } from "@/data/content";
 
 export const Route = createFileRoute("/institutions/$slug")({
   loader: ({ params }) => {
@@ -62,9 +62,7 @@ function InstitutionPage() {
   const institutionPapers = papers.filter(
     (p) => p.institutionIds?.includes(institution.id) || institution.paperIds?.includes(p.id),
   );
-  const institutionOpportunities = opportunities.filter(
-    (o) => o.institutionIds?.includes(institution.id) || institution.opportunityIds?.includes(o.id),
-  );
+
 
   return (
     <article>
@@ -185,7 +183,7 @@ function InstitutionPage() {
           ) : null}
 
           {collaborations.length ? (
-            <DetailSection title="International collaborations">
+            <DetailSection title="Related collaborations">
               <ul className="grid gap-8 sm:grid-cols-2">
                 {collaborations.map((c) => (
                   <li key={c.id}>
@@ -207,19 +205,7 @@ function InstitutionPage() {
                 </li>
               ))}
             </ul>
-            {institutionOpportunities.length ? (
-              <ul className="mt-8 space-y-4">
-                {institutionOpportunities.map((o) => (
-                  <li key={o.id} className="border border-border p-5">
-                    <p className="eyebrow text-primary">{o.type}</p>
-                    <p className="mt-2 font-medium text-ink">{o.title}</p>
-                    <p className="mt-1.5 text-sm text-muted-foreground">
-                      {o.forWhom} · closes {o.deadline}
-                    </p>
-                  </li>
-                ))}
-              </ul>
-            ) : null}
+
           </DetailSection>
         </div>
 

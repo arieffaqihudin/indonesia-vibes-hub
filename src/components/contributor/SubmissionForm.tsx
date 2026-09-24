@@ -41,7 +41,6 @@ function PublicationPreview({ sub, data, media }: { sub: Submission; data: Recor
         <p className="text-[0.7rem] font-semibold tracking-[0.18em] text-primary uppercase">
           {(data["storyType"] as string) ||
             (data["eventType"] as string) ||
-            (data["opportunityType"] as string) ||
             (data["profileKind"] as string) ||
             sub.type}
         </p>

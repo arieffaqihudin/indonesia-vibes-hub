@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { useEffect, useState } from "react";
 
 import { Reveal } from "@/components/motion/Reveal";
 import { InFocus } from "@/components/editorial/InFocus";
@@ -15,7 +16,8 @@ import {
   stories,
   worldNodes,
 } from "@/data/content";
-import { ongoingCollaborations, openOpportunities } from "@/lib/freshness";
+import { ongoingCollaborations } from "@/lib/freshness";
+import { useHomepageSettings } from "@/lib/homepage";
 import { ComingUpAroundWorld } from "@/components/editorial/ComingUpAroundWorld";
 import { brand } from "@/lib/brand";
 import { publicFormat } from "@/lib/editorial";
@@ -36,7 +38,14 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
-  const lead = stories[0]!;
+  const [homepage] = useHomepageSettings(stories.map((item) => item.id));
+  const [activeHero, setActiveHero] = useState(0);
+  useEffect(() => {
+    if (activeHero >= homepage.hero.length) setActiveHero(0);
+  }, [activeHero, homepage.hero.length]);
+  const heroSelection = homepage.hero[activeHero] ?? homepage.hero[0];
+  const heroArticleId = heroSelection?.articleId.replace(/^c-/, "");
+  const lead = stories.find((item) => item.id === heroArticleId) ?? stories[0]!;
   const rest = stories.slice(1);
   const secondary = rest.slice(0, 2);
   const grid = rest.slice(2, 6);
@@ -44,7 +53,10 @@ function Home() {
   const otherCollections = collections.slice(1);
   const peopleToKnow = people.slice(0, 4);
   const collaborations = ongoingCollaborations().slice(0, 2);
-  const openCalls = openOpportunities().slice(0, 3);
+  const sectionStyle = (id: (typeof homepage.sections)[number]["id"]) => {
+    const section = homepage.sections.find((item) => item.id === id);
+    return { className: section?.visible === false ? "hidden" : "contents", style: { order: section?.order ?? 0 } };
+  };
 
   return (
     <>
@@ -54,28 +66,26 @@ function Home() {
           <div>
             <p className="eyebrow stagger-item text-primary">{brand.journey.join(" · ")}</p>
             <h1
-              className="display-1 stagger-item mt-6 text-ink"
+               className="display-1 stagger-item mt-6 text-ink"
               style={{ ["--reveal-delay" as string]: "90ms" }}
             >
-              Culture in motion, from the archipelago to the world.
+               {heroSelection?.headline || "Culture in motion, from the archipelago to the world."}
             </h1>
             <p
               className="standfirst stagger-item mt-7 max-w-xl"
               style={{ ["--reveal-delay" as string]: "180ms" }}
             >
-              {brand.name} is the front door to Indonesian cultural diplomacy in English: 17,000
-              islands of practice, told by the people who hold it, and programmed into rooms on six
-              continents.
+               {heroSelection?.summary || `${brand.name} is the front door to Indonesian cultural diplomacy in English: 17,000 islands of practice, told by the people who hold it, and programmed into rooms on six continents.`}
             </p>
             <div
               className="stagger-item mt-9 flex flex-wrap items-center gap-3"
               style={{ ["--reveal-delay" as string]: "270ms" }}
             >
               <Link
-                to="/explore"
+                 to="/understand-indonesia"
                 className="press group inline-flex min-h-11 items-center gap-2 rounded-full bg-primary px-6 text-sm font-medium text-primary-foreground hover:bg-deep-red"
               >
-                Explore Indonesia
+                 {heroSelection?.cta || "Understand Indonesia"}
                 <ArrowRight className="h-4 w-4 transition-transform duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-1" />
               </Link>
               <Link
@@ -83,7 +93,7 @@ function Home() {
                 hash="in-focus"
                 className="link-underline group inline-flex min-h-11 items-center gap-2 px-1 text-sm font-medium text-ink"
               >
-                Explore in focus
+                See what’s in focus
                 <ArrowUpRight className="arrow-nudge h-4 w-4 text-primary" />
               </Link>
             </div>
@@ -91,7 +101,7 @@ function Home() {
 
           <Reveal as="figure" variant="mask" className="media-zoom relative">
             <img
-              src={lead.image}
+              src={heroSelection?.image || lead.image}
               alt={lead.imageAlt}
               width={1600}
               height={1104}
@@ -109,17 +119,29 @@ function Home() {
               </Link>
             </figcaption>
           </Reveal>
+          {homepage.hero.length > 1 ? (
+            <div className="flex flex-wrap gap-2 lg:col-span-2" aria-label="Featured articles">
+              {homepage.hero.map((item, index) => {
+                const article = stories.find((story) => story.id === item.articleId.replace(/^c-/, ""));
+                return article ? <button key={item.articleId} type="button" aria-pressed={index === activeHero} onClick={() => setActiveHero(index)} className={`min-h-9 rounded-full border px-4 text-xs ${index === activeHero ? "border-primary bg-blush text-clay" : "border-border text-muted-foreground hover:border-primary"}`}>{index + 1}. {item.headline || article.title}</button> : null;
+              })}
+            </div>
+          ) : null}
         </div>
       </section>
 
-      <InFocus />
+      <div className="flex flex-col">
+      <div {...sectionStyle("in-focus")}><InFocus /></div>
 
+      <div {...sectionStyle("understand")}>
       <section className="container-editorial py-16 md:py-24">
-        <Reveal><SectionHeading eyebrow="Explore" title="Featured content" intro="Three ways into Indonesian knowledge: begin with the essentials, go deeper, or follow a perspective." action="/explore" actionLabel="Explore all content" /></Reveal>
+         <Reveal><SectionHeading eyebrow="Understand Indonesia" title="Featured articles" intro="Three ways into Indonesian knowledge: begin with the essentials, go deeper, or follow a perspective." action="/understand-indonesia" actionLabel="View all articles" /></Reveal>
         <div className="mt-10 grid gap-8 md:grid-cols-3">{(["Essentials", "Deep Dive", "Perspectives"] as const).map((format, i) => { const story = stories.find((item) => publicFormat(item) === format) ?? stories[i]!; return <Reveal key={format} delay={i * 70}><StoryCard story={story} size="sm" /></Reveal>; })}</div>
       </section>
+      </div>
 
       {/* Around the world */}
+      <div {...sectionStyle("around-world")}>
       <section className="container-editorial py-16 md:py-24">
         <Reveal>
           <SectionHeading
@@ -134,8 +156,10 @@ function Home() {
           <WorldMap />
         </Reveal>
       </section>
+      </div>
 
       {/* Featured collection */}
+      <div {...sectionStyle("collection")}>
       <section className="border-y border-border bg-blush">
         <div className="container-editorial py-16 md:py-24">
           <Reveal>
@@ -143,7 +167,7 @@ function Home() {
               eyebrow="Curated"
               title="Featured collection"
               intro="Sets that read as arguments, not folders."
-              action="/explore/collections"
+             action="/understand-indonesia/collections"
               actionLabel="All collections"
             />
           </Reveal>
@@ -195,15 +219,17 @@ function Home() {
           </Reveal>
         </div>
       </section>
+      </div>
 
-      {/* Explore by topic */}
+      {/* Browse by topic */}
+      <div {...sectionStyle("topics")}>
       <section className="container-editorial py-16 md:py-24">
         <Reveal>
           <SectionHeading
-            eyebrow="Explore"
-            title="Explore by topic"
+             eyebrow="Understand Indonesia"
+             title="Browse by topic"
             intro="Follow connected knowledge across disciplines, communities and places."
-            action="/explore/topics"
+             action="/understand-indonesia/topics"
             actionLabel="All topics"
           />
         </Reveal>
@@ -211,7 +237,7 @@ function Home() {
           {TOPICS.filter((topic) => ["Music", "Textiles", "History & Civilization"].includes(topic.id)).map((topic, i) => (
             <Reveal key={topic.id} delay={i * 80} className="contents">
               <Link
-                to="/explore/topics/$slug"
+                 to="/understand-indonesia/topics/$slug"
                 params={{ slug: topic.slug }}
                 className="press group flex flex-col justify-between gap-10 bg-background p-8 hover:bg-blush"
               >
@@ -224,7 +250,7 @@ function Home() {
                     {topic.intro}
                   </span>
                   <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-primary">
-                    Explore
+                    View topic
                     <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </span>
                 </span>
@@ -233,17 +259,19 @@ function Home() {
           ))}
         </div>
       </section>
+      </div>
 
       {/* People to know */}
+      <div {...sectionStyle("people")}>
       <section className="border-y border-border bg-sand">
         <div className="container-editorial py-16 md:py-24">
           <Reveal>
             <SectionHeading
-              eyebrow="Connect"
-              title="People to know"
-              intro="Makers, masters, researchers and the communities who hold the practice."
-              action="/people"
-              actionLabel="All people & communities"
+               eyebrow="Understand Indonesia"
+               title="People & Organisations"
+               intro="Makers, communities and organisations who create, carry and support the work."
+               action="/people-organisations"
+               actionLabel="View all"
             />
           </Reveal>
           <div className="mt-10 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
@@ -255,19 +283,21 @@ function Home() {
           </div>
         </div>
       </section>
+      </div>
 
-      <ComingUpAroundWorld />
+      <div {...sectionStyle("coming-up")}><ComingUpAroundWorld /></div>
 
       {/* Current collaborations */}
+      <div {...sectionStyle("collaborations")}>
       <section className="border-y border-border bg-blush">
         <div className="container-editorial py-16 md:py-24">
           <Reveal>
             <SectionHeading
               eyebrow="Connect"
-              title="Ongoing collaborations"
-              intro="Long-running exchanges with museums, festivals, universities and independent spaces."
-              action="/collaborations"
-              actionLabel="All collaborations"
+               title="Collaborate with Indonesia"
+               intro="See how museums, festivals, universities and independent spaces work with Indonesia, then begin a conversation."
+               action="/collaborate"
+               actionLabel="Start a collaboration"
             />
           </Reveal>
           <div className="mt-10 grid gap-8 md:grid-cols-2">
@@ -279,50 +309,19 @@ function Home() {
           </div>
         </div>
       </section>
-
-      {/* Opportunities */}
-      <section className="container-editorial py-16 md:py-24">
-        <Reveal>
-          <SectionHeading
-            eyebrow="Connect"
-            title="Open now"
-            intro="Grants, residencies and fellowships currently accepting applications."
-            action="/opportunities"
-            actionLabel="All opportunities"
-          />
-        </Reveal>
-        {openCalls.length ? (
-          <ul className="mt-10 grid gap-px overflow-hidden border border-border bg-border md:grid-cols-3">
-            {openCalls.map(({ o, s }, i) => (
-              <Reveal as="li" key={o.id} delay={i * 70} className="bg-background">
-                <Link to="/opportunities" className="flex h-full flex-col justify-between gap-8 p-6 hover:bg-blush">
-                  <span className="eyebrow text-primary">{o.type}</span>
-                  <span>
-                    <span className="block text-lg leading-snug font-medium text-ink">{o.title}</span>
-                    <span className="mt-2 block text-sm text-muted-foreground">{s.label}</span>
-                  </span>
-                </Link>
-              </Reveal>
-            ))}
-          </ul>
-        ) : (
-          <p className="mt-10 border-y border-border py-6 text-sm text-muted-foreground">
-            No open calls are currently listed for this selection. New rounds are announced through
-            the newsletter.
-          </p>
-        )}
-      </section>
+      </div>
 
       {/* Latest stories */}
+      <div {...sectionStyle("latest")}>
       <section className="border-y border-border bg-sand">
         <div className="container-editorial py-16 md:py-24">
           <Reveal>
             <SectionHeading
-              eyebrow="Explore"
+               eyebrow="Understand Indonesia"
               title="Latest content"
               intro="Essentials, deep dives and perspectives — each connected to the people, topics and places it came from."
-              action="/explore"
-              actionLabel="All content"
+               action="/understand-indonesia"
+               actionLabel="All articles"
             />
           </Reveal>
           <div className="mt-10 grid gap-x-8 gap-y-12 md:grid-cols-2">
@@ -341,6 +340,8 @@ function Home() {
           </div>
         </div>
       </section>
+      </div>
+      </div>
 
       {/* Newsletter / connect */}
       <section className="container-editorial py-16 md:py-24">
@@ -351,7 +352,7 @@ function Home() {
               A monthly letter on what is being made, researched and programmed.
             </h2>
             <p className="mt-5 max-w-xl text-[0.98rem] leading-relaxed text-[oklch(0.82_0.02_30)]">
-              One email a month: new stories, open calls and the programmes travelling abroad. We
+               One email a month: new articles and the programmes travelling abroad. We
               also work directly with museums, festivals and universities.
             </p>
           </div>

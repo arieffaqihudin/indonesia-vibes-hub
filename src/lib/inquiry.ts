@@ -16,8 +16,7 @@ export type InquiryTopic =
   | "Introduction request"
   | "Institutional connection"
   | "Collaboration proposal"
-  | "Event enquiry"
-  | "Opportunity application";
+  | "Event enquiry";
 
 export const INQUIRY_TOPICS: InquiryTopic[] = [
   "General question",
@@ -31,7 +30,6 @@ export const INQUIRY_TOPICS: InquiryTopic[] = [
   "Institutional connection",
   "Collaboration proposal",
   "Event enquiry",
-  "Opportunity application",
 ];
 
 /** Topics that belong in the structured partnership conversation. */

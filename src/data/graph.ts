@@ -9,7 +9,6 @@ import {
   events,
   forms,
   getForm,
-  opportunities,
   papers,
   people,
   places,
@@ -245,7 +244,7 @@ export const searchRecords: SearchRecord[] = [
 
   ...people.map((p) => ({
     id: p.id,
-    type: "People & Communities" as const,
+    type: "People & Organisations" as const,
     title: p.name,
     context: p.intro ?? p.bio,
     location: p.based,
@@ -269,7 +268,7 @@ export const searchRecords: SearchRecord[] = [
 
   ...institutions.map((i) => ({
     id: i.id,
-    type: "Institutions" as const,
+    type: "People & Organisations" as const,
     title: i.name,
     context: i.profile,
     location: `${i.city}, ${i.country}`,
@@ -316,20 +315,6 @@ export const searchRecords: SearchRecord[] = [
       eventLocationLabel(e),
       ...resolve(e.formIds, getForm).flatMap((f) => [f.name, ...(f.aliases ?? [])]),
     ],
-  })),
-
-  ...opportunities.map((o) => ({
-    id: o.id,
-    type: "Opportunities" as const,
-    title: o.title,
-    context: o.summary,
-    meta: `${o.type} · closes ${o.deadline}`,
-    slug: o.slug,
-    themes: o.themes ?? [],
-    countries: ["Indonesia"],
-    date: o.deadline,
-    status: "Open",
-    keywords: [o.title, o.type, o.forWhom, o.summary, o.amount ?? ""],
   })),
 
   ...collaborations.map((c) => ({
@@ -393,8 +378,6 @@ const SYNONYMS: Record<string, string[]> = {
   theatre: ["wayang", "performance", "dance"],
   cooking: ["rempah", "bumbu", "spice", "culinary"],
   translation: ["subtitle", "language", "translator"],
-  funding: ["grant", "fellowship", "residency", "open call"],
-  grant: ["funding", "fellowship", "open call"],
   study: ["research", "fellowship", "paper"],
   partnership: ["collaboration", "exchange", "programme"],
   exhibition: ["show", "gallery", "museum", "event"],
