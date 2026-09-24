@@ -5,6 +5,8 @@ import { useAdmin } from "@/lib/admin/store";
 import { graphEntry, relationshipGroups } from "@/lib/admin/selectors";
 import { CONTENT_FIELDS, kindLabel } from "@/lib/admin/types";
 import { publicFormatFromInternal } from "@/lib/editorial";
+import { articleDocument } from "@/lib/article-editor";
+import { ArticleDocument } from "@/components/admin/article/ArticleDocument";
 import { Card, EmptyState, PageHeading, PrototypeNote, abtn } from "@/components/admin/primitives";
 
 export const Route = createFileRoute("/admin/content/$id/preview")({
@@ -46,15 +48,13 @@ function PreviewRoute() {
         }
       />
 
-      <PrototypeNote>
-        Prototype preview: layout is approximate. Relationship blocks show what a reader will be offered next.
-      </PrototypeNote>
+      <PrototypeNote>{item.status === "published" ? "Published article preview." : "Preview — Not Published"}</PrototypeNote>
 
       <div className="mt-4 grid gap-6 lg:grid-cols-[minmax(0,1fr)_18rem]">
         <article className="rounded-lg border border-border bg-card p-6">
           <p className="text-[0.68rem] tracking-[0.16em] text-muted-foreground uppercase">{item.kind === "story" ? publicFormatFromInternal(item.deliveryType) : kindLabel(item.kind)}</p>
           <h2 className="mt-2 font-display text-2xl text-ink">{item.title}</h2>
-          <div className="mt-4 space-y-4">
+          {item.kind === "story" ? <div className="mt-7"><ArticleDocument document={articleDocument(item)} /></div> : <div className="mt-4 space-y-4">
             {fields.map((f) => {
               const value = item.fields[f.name];
               if (!value) return null;
@@ -70,7 +70,7 @@ function PreviewRoute() {
                 Nothing to preview yet — add content in the workspace and it will appear here.
               </p>
             ) : null}
-          </div>
+          </div>}
 
           {media.length ? (
             <div className="mt-6 border-t border-border pt-4">

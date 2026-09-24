@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import { adminHead } from "@/lib/admin/head";
 import { useAdmin } from "@/lib/admin/store";
@@ -26,6 +26,44 @@ function NewContent() {
   const [topic, setTopic] = useState("");
   const [sourceAttribution, setSourceAttribution] = useState("");
   const [ignoreDuplicates, setIgnoreDuplicates] = useState(false);
+  const creatingArticle = useRef(false);
+
+  useEffect(() => {
+    if (kind !== "story" || creatingArticle.current) return;
+    creatingArticle.current = true;
+    const id = `c-new-${Math.random().toString(36).slice(2, 8)}`;
+    const now = new Date().toISOString();
+    admin.createContent({
+      id,
+      kind: "story",
+      deliveryType: "Knowledge",
+      contentSource: "Internal",
+      topics: [],
+      title: "Untitled article",
+      slug: "",
+      status: "draft",
+      priority: "Normal",
+      assignedTo: admin.user.name,
+      themes: [],
+      countries: ["Indonesia"],
+      createdAt: now,
+      updatedAt: now,
+      stageSince: now,
+      fields: { title: "", standfirst: "", narrative: "", author: admin.user.name, heroMedia: "" },
+      relationships: emptyRelationships(),
+      culturalReview: { flags: [] },
+      languageReview: { complete: false },
+      feedback: [],
+      notes: [],
+      versions: [],
+      prototype: true,
+    });
+    navigate({ to: "/admin/content/$id", params: { id }, replace: true });
+  }, [admin, kind, navigate]);
+
+  if (kind === "story") {
+    return <div className="flex min-h-[60vh] items-center justify-center text-sm text-muted-foreground">Opening article editor…</div>;
+  }
 
   const duplicates = useMemo(() => (title.length > 3 ? possibleDuplicates(title, admin.content) : []), [title, admin.content]);
 
