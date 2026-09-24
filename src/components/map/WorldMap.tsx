@@ -169,7 +169,7 @@ export function WorldMap({
                   }
                 }}
               >
-                <circle cx={p.x} cy={p.y} r="12" fill="transparent" />
+                <circle cx={p.x} cy={p.y} r="20" fill="transparent" />
                 {live && !isActive ? (
                   <circle
                     cx={p.x}
