@@ -7,7 +7,7 @@
  * aliases, geography, taxonomy and ownership, so every surface (public site,
  * contributor workspace, editorial dashboard) reads the same record.
  */
-import { collections, events, forms, opportunities, papers, people, places, stories } from "@/data/content";
+import { collections, events, forms, papers, people, places, stories } from "@/data/content";
 import { collaborations } from "@/data/collaborations";
 import { institutions } from "@/data/institutions";
 import type { ThemeId } from "@/types/content";
@@ -22,7 +22,6 @@ export const ENTITY_TYPES = [
   "knowledge_resource",
   "story",
   "event",
-  "opportunity",
   "collection",
   "collaboration",
   "country",
@@ -40,7 +39,6 @@ export const ENTITY_LAYER: Record<EntityType, 1 | 2 | 3> = {
   country: 1,
   story: 2,
   event: 2,
-  opportunity: 2,
   collection: 2,
   collaboration: 2,
 };
@@ -55,7 +53,6 @@ export const ENTITY_LABEL: Record<EntityType, string> = {
   country: "Country",
   story: "Story",
   event: "Event",
-  opportunity: "Opportunity",
   collection: "Collection",
   collaboration: "Collaboration",
 };
@@ -71,7 +68,6 @@ export const ENTITY_PREFIX: Record<EntityType, string> = {
   country: "co",
   story: "st",
   event: "ev",
-  opportunity: "op",
   collection: "cl",
   collaboration: "cb",
 };
@@ -270,26 +266,6 @@ const eventEntities = events.map((e) =>
   }),
 );
 
-const opportunityEntities = opportunities.map((o) =>
-  entity({
-    uid: canonicalId("opportunity", o.id),
-    sourceId: o.id,
-    type: "opportunity",
-    slug: o.slug,
-    name: o.title,
-    aliases: [],
-    summary: o.summary,
-    themes: o.themes ?? [],
-    countries: [],
-    placeIds: [],
-    publicationStatus: "published",
-    visibility: "public",
-    publicPath: `/opportunities/${o.slug}`,
-    owner: "Partnership Owner",
-    ...(o.lastChecked ? { updatedAt: o.lastChecked } : {}),
-  }),
-);
-
 const collectionEntities = collections.map((c) =>
   entity({
     uid: canonicalId("collection", c.id),
@@ -366,7 +342,6 @@ export const entities: CanonicalEntity[] = [
   ...resourceEntities,
   ...storyEntities,
   ...eventEntities,
-  ...opportunityEntities,
   ...collectionEntities,
   ...collaborationEntities,
   ...countryEntities,

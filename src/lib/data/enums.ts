@@ -19,9 +19,6 @@ export type VerificationStatus = (typeof VERIFICATION_STATUSES)[number];
 export const EVENT_STATUSES = ["upcoming", "live", "past"] as const;
 export type EventStatus = (typeof EVENT_STATUSES)[number];
 
-export const OPPORTUNITY_STATUSES = ["open", "closing_soon", "closed"] as const;
-export type OpportunityStatus = (typeof OPPORTUNITY_STATUSES)[number];
-
 export const COLLABORATION_LIFECYCLE = ["Planned", "Active", "Ongoing", "Completed"] as const;
 export type CollaborationLifecycle = (typeof COLLABORATION_LIFECYCLE)[number];
 

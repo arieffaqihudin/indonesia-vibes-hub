@@ -22,7 +22,6 @@ import type {
   Collection,
   CulturalEvent,
   CulturalForm,
-  Opportunity,
   Person,
   Pillar,
   Place,
@@ -380,7 +379,7 @@ export const forms: CulturalForm[] = [
     whyMatters: "The reliefs were designed to be walked, not viewed. Treating them as architecture rather than illustration changes both how they are read and how they are conserved.",
     today: "Foot traffic is the conservation problem and the purpose of the monument at once. Current management caps visitor numbers and trades volume for guided literacy; visitors taught the reading direction stay roughly four times longer.",
     experienceIt: "Timed entry with a guide at Borobudur; sandals are issued to protect the stone. Sunrise slots are limited and booked well ahead.",
-    sensitivity: "Borobudur is an active pilgrimage site, especially at Waisak. Ceremonies are not a photo opportunity.",
+    sensitivity: "Borobudur is an active pilgrimage site, especially at Waisak. Ceremonies are not staged for photography.",
     sources: [
       { title: "Visitor load and stone wear at Borobudur", author: "Borobudur Conservation Office", year: "2024", publisher: "Programme report" },
     ],
@@ -963,53 +962,6 @@ const eventsSource: CulturalEvent[] = [
 ];
 
 
-const opportunitiesSource: Opportunity[] = [
-  {
-    id: "op-1", slug: "weaving-apprenticeship-fund", title: "Weaving Apprenticeship Fund", type: "Grant",
-    deadline: "2026-03-31", forWhom: "Master weavers and their apprentices in eastern Indonesia",
-    amount: "Up to IDR 180,000,000", location: "Eastern Indonesia (Sumba, Flores, Timor, Savu)", duration: "Two years",
-    offeredBy: "Indonesia Vibes with regional weaving communities",
-    summary: "Two-year support covering materials, dye gardens and a stipend for apprentices under 30.",
-    support: ["Materials and dye garden costs", "Monthly stipend for each apprentice", "Documentation and photography of the apprenticeship", "Travel to one exhibition or market"],
-    eligibility: ["A working master weaver with at least one named apprentice", "Apprentices aged under 30 at the time of application", "Community agreement on which motifs may be taught and shown"],
-    howToApply: "Applications are made jointly by the master weaver and apprentice, in Indonesian or English. Voice recordings are accepted in place of written answers.",
-    lastChecked: "2026-02-16",
-  },
-  {
-    id: "op-2", slug: "touring-ensemble-residency", title: "Touring Ensemble Residency", type: "Residency",
-    deadline: "2026-04-15", forWhom: "Ensembles working between traditional and contemporary practice",
-    location: "Partner venue in Europe", duration: "Ten weeks",
-    offeredBy: "Indonesia Vibes with European venue partners",
-    summary: "Ten weeks at a partner venue in Europe, with freight for instruments and a public performance.",
-    support: ["Instrument freight, including insurance", "Accommodation and per diem for up to twelve players", "Rehearsal space and technical support", "One public performance and one open rehearsal"],
-    eligibility: ["Ensembles based in Indonesia", "At least one work in the programme made in the last three years", "Ability to travel with your own instruments where tuning requires it"],
-    howToApply: "Send a programme outline, one recording made in the last two years, and the names of every player who would travel.",
-    lastChecked: "2026-02-14",
-  },
-  {
-    id: "op-3", slug: "translation-open-call", title: "Subtitle & Translation Open Call", type: "Open call",
-    deadline: "2026-02-28", forWhom: "Literary and screen translators working from Indonesian regional languages",
-    amount: "Per-project fee", location: "Remote", duration: "Per project, typically six to twelve weeks",
-    offeredBy: "Indonesia Vibes editorial team",
-    summary: "We fund translation that preserves register, not just meaning. A sample submission is required.",
-    support: ["Per-project fee agreed before work starts", "Editorial review with a second translator", "Named credit on every published translation"],
-    eligibility: ["Working knowledge of at least one Indonesian regional language", "A sample of 800–1,200 words or five subtitled minutes", "Willingness to document register decisions alongside the translation"],
-    howToApply: "Submit the sample with a short note on how you handled pronouns and honorifics. We read every submission and reply either way.",
-    lastChecked: "2026-02-10",
-  },
-  {
-    id: "op-4", slug: "archipelago-research-fellowship", title: "Archipelago Research Fellowship", type: "Fellowship",
-    deadline: "2026-05-20", forWhom: "Early-career researchers, any nationality, working with Indonesian communities",
-    amount: "12-month stipend", location: "Fieldwork in Indonesia, host institution by arrangement", duration: "Twelve months",
-    offeredBy: "Indonesia Vibes with partner universities and research centres",
-    summary: "Open-access publication is a condition. Community co-authorship is strongly encouraged.",
-    support: ["Twelve-month stipend", "Fieldwork and travel budget", "Introduction to a host institution and community partners", "Open-access publication fees"],
-    eligibility: ["Within eight years of a first research degree", "A named community or institutional partner in Indonesia", "Agreement to publish open access and to share data with the community first"],
-    howToApply: "A four-page proposal, a data-sharing plan, and a letter from your community or institutional partner.",
-    lastChecked: "2026-02-01",
-  },
-];
-
 export const papers: ResearchPaper[] = [
   { id: "rp-1", title: "Proportional rule systems in Konjo hull construction", authors: "B. Lestari, A. Ridwan", year: 2025, discipline: "Maritime history", abstract: "A first formal notation for the oral ratios governing phinisi hull fairing, recorded across nine builds at Tanjung Bira." },
   { id: "rp-2", title: "Morinda dye chemistry and the two-year hinggi", authors: "R. A. Hàmu, S. Prameswari", year: 2025, discipline: "Material science", abstract: "Why compression of the mordanting cycle degrades colourfastness, with fade data across 24 months of exposure." },
@@ -1059,12 +1011,6 @@ export const events: CulturalEvent[] = eventsSource.map((e) =>
         ...(e.lastChecked ? { lastChecked: roll(e.lastChecked) } : {}),
       },
 );
-
-export const opportunities: Opportunity[] = opportunitiesSource.map((o) => ({
-  ...o,
-  deadline: roll(o.deadline),
-  ...(o.lastChecked ? { lastChecked: roll(o.lastChecked) } : {}),
-}));
 
 const authoredWorldNodes: WorldNode[] = [
   { id: "wn-1", city: "London", country: "United Kingdom", continent: "Europe", lat: 51.507, lng: -0.127, programme: "Warp & Weft exhibition and schools programme", eventIds: ["ev-1"], status: "Active" },

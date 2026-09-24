@@ -5,7 +5,7 @@
  * directional relationship records with provenance, so every surface can ask
  * the same questions of the same graph instead of hand-listing related items.
  */
-import { collections, events, forms, opportunities, papers, people, places, stories } from "@/data/content";
+import { collections, events, forms, papers, people, places, stories } from "@/data/content";
 import { collaborations } from "@/data/collaborations";
 import { institutions } from "@/data/institutions";
 import { canonicalId, getEntity, type CanonicalId, type EntityType } from "./entities";
@@ -27,7 +27,6 @@ export const RELATIONSHIP_TYPES = [
   "curates",
   "documents",
   "partner_in",
-  "offered_by",
   "in_country",
 ] as const;
 export type RelationshipType = (typeof RELATIONSHIP_TYPES)[number];
@@ -47,7 +46,6 @@ export const RELATIONSHIP_LABEL: Record<RelationshipType, string> = {
   curates: "curates",
   documents: "documents",
   partner_in: "partner in",
-  offered_by: "offered by",
   in_country: "in country",
 };
 
@@ -67,7 +65,6 @@ export const RELATIONSHIP_INVERSE: Record<RelationshipType, string> = {
   curates: "curated in",
   documents: "documented by",
   partner_in: "has partner",
-  offered_by: "offers",
   in_country: "has record",
 };
 
@@ -126,7 +123,6 @@ for (const i of institutions) {
   for (const fid of i.formIds) link("institution", i.id, "documents", "cultural_subject", fid);
   for (const rid of i.paperIds ?? []) link("knowledge_resource", rid, "held_by", "institution", i.id);
   for (const eid of i.eventIds ?? []) link("event", eid, "organised_by", "institution", i.id);
-  for (const oid of i.opportunityIds ?? []) link("opportunity", oid, "offered_by", "institution", i.id);
 }
 
 /* places */
@@ -145,11 +141,6 @@ for (const e of events) {
   for (const fid of e.formIds) link("event", e.id, "about_subject", "cultural_subject", fid);
   for (const iid of e.institutionIds ?? []) link("event", e.id, "organised_by", "institution", iid);
   for (const pid of e.peopleIds ?? []) link(personType(pid), pid, "participates_in", "event", e.id);
-}
-
-/* opportunities */
-for (const o of opportunities) {
-  for (const iid of o.institutionIds ?? []) link("opportunity", o.id, "offered_by", "institution", iid);
 }
 
 /* knowledge resources */
@@ -172,7 +163,6 @@ for (const c of collaborations) {
   for (const sid of c.storyIds) link("story", sid, "documents", "collaboration", c.id);
   for (const fid of c.formIds) link("collaboration", c.id, "about_subject", "cultural_subject", fid);
   for (const plid of c.placeIds) link("collaboration", c.id, "set_in_place", "place", plid);
-  for (const oid of c.opportunityIds ?? []) link("opportunity", oid, "offered_by", "collaboration", c.id);
   for (const country of c.countries) link("collaboration", c.id, "in_country", "country", countryId(country));
 }
 
