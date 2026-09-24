@@ -32,7 +32,6 @@ import { Route as PeopleOrganisationsRouteImport } from './routes/people-organis
 import { Route as ResearchRouteImport } from './routes/research'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as UnderstandIndonesiaRouteImport } from './routes/understand-indonesia'
-import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminAboutRouteImport } from './routes/admin.about'
 import { Route as AdminActivityRouteImport } from './routes/admin.activity'
 import { Route as AdminAroundTheWorldRouteImport } from './routes/admin.around-the-world'
@@ -41,6 +40,7 @@ import { Route as AdminCalendarRouteImport } from './routes/admin.calendar'
 import { Route as AdminContactRouteImport } from './routes/admin.contact'
 import { Route as AdminCreateRouteImport } from './routes/admin.create'
 import { Route as AdminCultureRouteImport } from './routes/admin.culture'
+import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
 import { Route as AdminDataHealthRouteImport } from './routes/admin.data-health'
 import { Route as AdminEditorialStandardsRouteImport } from './routes/admin.editorial-standards'
 import { Route as AdminEventsRouteImport } from './routes/admin.events'
@@ -236,11 +236,6 @@ const UnderstandIndonesiaRoute = UnderstandIndonesiaRouteImport.update({
   path: '/understand-indonesia',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminIndexRoute = AdminIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AdminRoute,
-} as any)
 const AdminAboutRoute = AdminAboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -279,6 +274,11 @@ const AdminCreateRoute = AdminCreateRouteImport.update({
 const AdminCultureRoute = AdminCultureRouteImport.update({
   id: '/culture',
   path: '/culture',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminDashboardRoute = AdminDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminDataHealthRoute = AdminDataHealthRouteImport.update({
@@ -721,6 +721,7 @@ export interface FileRoutesByFullPath {
   '/admin/contact': typeof AdminContactRoute
   '/admin/create': typeof AdminCreateRoute
   '/admin/culture': typeof AdminCultureRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/data-health': typeof AdminDataHealthRoute
   '/admin/editorial-standards': typeof AdminEditorialStandardsRoute
   '/admin/events': typeof AdminEventsRoute
@@ -759,7 +760,6 @@ export interface FileRoutesByFullPath {
   '/people/$slug': typeof PeopleSlugRoute
   '/places/$slug': typeof PlacesSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
-  '/admin/': typeof AdminIndexRoute
   '/collaborations/': typeof CollaborationsIndexRoute
   '/collections/': typeof CollectionsIndexRoute
   '/contributor/': typeof ContributorIndexRoute
@@ -806,6 +806,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
   '/around-the-world': typeof AroundTheWorldRoute
   '/collaborate': typeof CollaborateRoute
   '/connect': typeof ConnectRoute
@@ -833,6 +834,7 @@ export interface FileRoutesByTo {
   '/admin/contact': typeof AdminContactRoute
   '/admin/create': typeof AdminCreateRoute
   '/admin/culture': typeof AdminCultureRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/data-health': typeof AdminDataHealthRoute
   '/admin/editorial-standards': typeof AdminEditorialStandardsRoute
   '/admin/events': typeof AdminEventsRoute
@@ -871,7 +873,6 @@ export interface FileRoutesByTo {
   '/people/$slug': typeof PeopleSlugRoute
   '/places/$slug': typeof PlacesSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
-  '/admin': typeof AdminIndexRoute
   '/collaborations': typeof CollaborationsIndexRoute
   '/collections': typeof CollectionsIndexRoute
   '/contributor': typeof ContributorIndexRoute
@@ -947,6 +948,7 @@ export interface FileRoutesById {
   '/admin/contact': typeof AdminContactRoute
   '/admin/create': typeof AdminCreateRoute
   '/admin/culture': typeof AdminCultureRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/data-health': typeof AdminDataHealthRoute
   '/admin/editorial-standards': typeof AdminEditorialStandardsRoute
   '/admin/events': typeof AdminEventsRoute
@@ -985,7 +987,6 @@ export interface FileRoutesById {
   '/people/$slug': typeof PeopleSlugRoute
   '/places/$slug': typeof PlacesSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
-  '/admin/': typeof AdminIndexRoute
   '/collaborations/': typeof CollaborationsIndexRoute
   '/collections/': typeof CollectionsIndexRoute
   '/contributor/': typeof ContributorIndexRoute
@@ -1062,6 +1063,7 @@ export interface FileRouteTypes {
     | '/admin/contact'
     | '/admin/create'
     | '/admin/culture'
+    | '/admin/dashboard'
     | '/admin/data-health'
     | '/admin/editorial-standards'
     | '/admin/events'
@@ -1100,7 +1102,6 @@ export interface FileRouteTypes {
     | '/people/$slug'
     | '/places/$slug'
     | '/stories/$slug'
-    | '/admin/'
     | '/collaborations/'
     | '/collections/'
     | '/contributor/'
@@ -1147,6 +1148,7 @@ export interface FileRouteTypes {
     | '/'
     | '/$'
     | '/about'
+    | '/admin'
     | '/around-the-world'
     | '/collaborate'
     | '/connect'
@@ -1174,6 +1176,7 @@ export interface FileRouteTypes {
     | '/admin/contact'
     | '/admin/create'
     | '/admin/culture'
+    | '/admin/dashboard'
     | '/admin/data-health'
     | '/admin/editorial-standards'
     | '/admin/events'
@@ -1212,7 +1215,6 @@ export interface FileRouteTypes {
     | '/people/$slug'
     | '/places/$slug'
     | '/stories/$slug'
-    | '/admin'
     | '/collaborations'
     | '/collections'
     | '/contributor'
@@ -1287,6 +1289,7 @@ export interface FileRouteTypes {
     | '/admin/contact'
     | '/admin/create'
     | '/admin/culture'
+    | '/admin/dashboard'
     | '/admin/data-health'
     | '/admin/editorial-standards'
     | '/admin/events'
@@ -1325,7 +1328,6 @@ export interface FileRouteTypes {
     | '/people/$slug'
     | '/places/$slug'
     | '/stories/$slug'
-    | '/admin/'
     | '/collaborations/'
     | '/collections/'
     | '/contributor/'
@@ -1594,13 +1596,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UnderstandIndonesiaRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/': {
-      id: '/admin/'
-      path: '/'
-      fullPath: '/admin/'
-      preLoaderRoute: typeof AdminIndexRouteImport
-      parentRoute: typeof AdminRoute
-    }
     '/admin/about': {
       id: '/admin/about'
       path: '/about'
@@ -1655,6 +1650,13 @@ declare module '@tanstack/react-router' {
       path: '/culture'
       fullPath: '/admin/culture'
       preLoaderRoute: typeof AdminCultureRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/dashboard': {
+      id: '/admin/dashboard'
+      path: '/dashboard'
+      fullPath: '/admin/dashboard'
+      preLoaderRoute: typeof AdminDashboardRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/data-health': {
@@ -2234,6 +2236,7 @@ interface AdminRouteChildren {
   AdminContactRoute: typeof AdminContactRoute
   AdminCreateRoute: typeof AdminCreateRoute
   AdminCultureRoute: typeof AdminCultureRoute
+  AdminDashboardRoute: typeof AdminDashboardRoute
   AdminDataHealthRoute: typeof AdminDataHealthRoute
   AdminEditorialStandardsRoute: typeof AdminEditorialStandardsRoute
   AdminEventsRoute: typeof AdminEventsRoute
@@ -2251,7 +2254,6 @@ interface AdminRouteChildren {
   AdminSubmissionsRoute: typeof AdminSubmissionsRoute
   AdminTaxonomyRoute: typeof AdminTaxonomyRoute
   AdminUsersRoute: typeof AdminUsersRoute
-  AdminIndexRoute: typeof AdminIndexRoute
   AdminCollaborationsIdRoute: typeof AdminCollaborationsIdRoute
   AdminCollectionsIdRoute: typeof AdminCollectionsIdRoute
   AdminContentIdRoute: typeof AdminContentIdRouteWithChildren
@@ -2284,6 +2286,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminContactRoute: AdminContactRoute,
   AdminCreateRoute: AdminCreateRoute,
   AdminCultureRoute: AdminCultureRoute,
+  AdminDashboardRoute: AdminDashboardRoute,
   AdminDataHealthRoute: AdminDataHealthRoute,
   AdminEditorialStandardsRoute: AdminEditorialStandardsRoute,
   AdminEventsRoute: AdminEventsRoute,
@@ -2301,7 +2304,6 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminSubmissionsRoute: AdminSubmissionsRoute,
   AdminTaxonomyRoute: AdminTaxonomyRoute,
   AdminUsersRoute: AdminUsersRoute,
-  AdminIndexRoute: AdminIndexRoute,
   AdminCollaborationsIdRoute: AdminCollaborationsIdRoute,
   AdminCollectionsIdRoute: AdminCollectionsIdRoute,
   AdminContentIdRoute: AdminContentIdRouteWithChildren,

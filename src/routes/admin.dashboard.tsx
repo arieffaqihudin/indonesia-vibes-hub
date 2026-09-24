@@ -7,7 +7,7 @@ import { useHomepageSettings } from "@/lib/homepage";
 import { useFaqs } from "@/lib/faq";
 import { adminHead } from "@/lib/admin/head";
 
-export const Route = createFileRoute("/admin/")({ head: adminHead("Dashboard", "Recent content and items needing editorial attention."), component: Dashboard });
+export const Route = createFileRoute("/admin/dashboard")({ head: adminHead("Dashboard", "Recent content and items needing editorial attention."), component: Dashboard });
 
 function Section({ title, children, action }: { title: string; children: React.ReactNode; action?: React.ReactNode }) {
   return <section className="border-t border-border pt-4"><header className="mb-2 flex items-center justify-between gap-3"><h2 className="text-xs font-semibold uppercase text-muted-foreground">{title}</h2>{action}</header>{children}</section>;
