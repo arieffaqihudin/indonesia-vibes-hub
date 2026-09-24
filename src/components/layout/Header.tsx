@@ -15,6 +15,7 @@ function isGroupActive(to: string, pathname: string) {
 
 export function Header() {
   const [open, setOpen] = useState<string | null>(null);
+  const [mobileGroupOpen, setMobileGroupOpen] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
@@ -25,6 +26,7 @@ export function Header() {
 
   useEffect(() => {
     setOpen(null);
+    setMobileGroupOpen(null);
     setMobileOpen(false);
   }, [pathname]);
 
@@ -131,30 +133,21 @@ export function Header() {
                       <span aria-hidden className={cn("h-1 w-1 rounded-full bg-primary", active ? "opacity-100" : "opacity-0")} />
                     </Link>
                   ) : (
-                    <button
-                      type="button"
-                      aria-expanded={isOpen}
-                      aria-haspopup="true"
+                    <div
                       onMouseEnter={() => {
                         cancelClose();
                         setOpen(group.label);
                       }}
-                      onFocus={() => setOpen(group.label)}
-                      onClick={() => setOpen(isOpen ? null : group.label)}
                       className={cn(
                         "inline-flex h-9 items-center gap-1.5 rounded-sm px-3 text-sm font-medium transition-colors",
-                        isOpen ? "text-primary" : "text-ink/80 hover:text-primary",
+                        isOpen || (group.to && isGroupActive(group.to, pathname)) ? "text-primary" : "text-ink/80 hover:text-primary",
                       )}
                     >
-                      {group.label}
-                      <span
-                        aria-hidden
-                        className={cn(
-                          "h-1 w-1 rounded-full bg-primary transition-opacity duration-200",
-                          isOpen ? "opacity-100" : "opacity-0",
-                        )}
-                      />
-                    </button>
+                      {group.to ? <Link to={group.to} aria-current={pathname === group.to ? "page" : undefined} onFocus={() => setOpen(group.label)} className="inline-flex h-full items-center">{group.label}</Link> : <span>{group.label}</span>}
+                      <button type="button" aria-label={`Open ${group.label} menu`} aria-expanded={isOpen} aria-haspopup="true" onFocus={() => setOpen(group.label)} onClick={() => setOpen(isOpen ? null : group.label)} className="inline-flex h-8 w-6 items-center justify-center">
+                        <span aria-hidden className={cn("h-1 w-1 rounded-full bg-primary transition-opacity duration-200", isOpen ? "opacity-100" : "opacity-0")} />
+                      </button>
+                    </div>
                   )}
                 </li>
               );
@@ -270,17 +263,14 @@ export function Header() {
                 {group.label}
               </Link>
             ) : (
-              <details key={group.label} className="group border-b border-border last:border-b-0">
-                <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-3 py-2 text-[1.05rem] font-medium text-ink marker:content-none">
-                  {group.label}
-                  <span
-                    aria-hidden
-                    className="text-muted-foreground transition-transform duration-200 group-open:rotate-45"
-                  >
-                    +
-                  </span>
-                </summary>
-                <ul className="pb-3">
+              <div key={group.label} className="border-b border-border last:border-b-0">
+                <div className="flex min-h-12 items-center justify-between gap-3 py-1 text-[1.05rem] font-medium">
+                  {group.to ? <Link to={group.to} aria-current={pathname === group.to ? "page" : undefined} className={cn("flex min-h-11 flex-1 items-center", isGroupActive(group.to, pathname) ? "text-primary" : "text-ink")}>{group.label}</Link> : <span>{group.label}</span>}
+                  <button type="button" aria-label={`${mobileGroupOpen === group.label ? "Close" : "Open"} ${group.label} submenu`} aria-expanded={mobileGroupOpen === group.label} onClick={() => setMobileGroupOpen((current) => current === group.label ? null : group.label)} className="flex h-11 w-11 items-center justify-center text-muted-foreground">
+                    <span aria-hidden className={cn("transition-transform duration-200", mobileGroupOpen === group.label && "rotate-45")}>+</span>
+                  </button>
+                </div>
+                {mobileGroupOpen === group.label ? <ul className="pb-3">
                   {group.items.map((item) => (
                     <li key={item.to}>
                       <Link
@@ -292,8 +282,8 @@ export function Header() {
                       </Link>
                     </li>
                   ))}
-                </ul>
-              </details>
+                </ul> : null}
+              </div>
             ))}
             <div className="mt-5 flex flex-col gap-2">
               <Link

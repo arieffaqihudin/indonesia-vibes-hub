@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { collections } from "@/data/content";
+import { collections, getStoryById } from "@/data/content";
 
 export type CollectionStatus = "Draft" | "Published" | "Archived";
 
@@ -61,3 +61,11 @@ export function useCollections() {
 }
 
 export const collectionBySlug = (slug: string) => readCollections().find((item) => item.slug === slug);
+
+export function collectionReadingMinutes(collection: Pick<EditorialCollection, "storyIds">) {
+  const minutes = collection.storyIds.map(getStoryById).filter((story) => story !== undefined).map((story) => story.readingMinutes);
+  return minutes.length === collection.storyIds.length ? minutes.reduce((total, value) => total + value, 0) : null;
+}
+
+export const collectionStoryLabel = (collection: Pick<EditorialCollection, "storyIds">) =>
+  `${collection.storyIds.length} ${collection.storyIds.length === 1 ? "story" : "stories"}`;

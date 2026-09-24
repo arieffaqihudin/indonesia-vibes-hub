@@ -1,4 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
 import { StoryCard } from "@/components/editorial/StoryCard";
 import { ReadingProgress } from "@/components/motion/ReadingProgress";
@@ -13,8 +14,10 @@ import {
 } from "@/data/content";
 import { publicFormat } from "@/lib/editorial";
 import { attribution } from "@/lib/attribution";
+import { useCollections } from "@/lib/collections";
 
 export const Route = createFileRoute("/stories/$slug")({
+  validateSearch: (search: Record<string, unknown>) => ({ collection: typeof search.collection === "string" ? search.collection : undefined }),
   loader: ({ params }): { story: Story } => {
     const story = getStory(params.slug);
     if (!story) throw notFound();
@@ -62,6 +65,12 @@ export const Route = createFileRoute("/stories/$slug")({
 
 function StoryPage() {
   const { story } = Route.useLoaderData();
+  const { collection: collectionSlug } = Route.useSearch();
+  const [collections] = useCollections();
+  const collection = collectionSlug ? collections.find((item) => item.slug === collectionSlug && item.storyIds.includes(story.id)) : undefined;
+  const collectionIndex = collection?.storyIds.indexOf(story.id) ?? -1;
+  const previousStory = collectionIndex > 0 ? getStoryById(collection?.storyIds[collectionIndex - 1] ?? "") : undefined;
+  const nextStory = collection && collectionIndex >= 0 ? getStoryById(collection.storyIds[collectionIndex + 1] ?? "") : undefined;
   const related = relatedStories(story);
   const forms = story.formIds.map(getForm).filter(Boolean) as CulturalForm[];
   const people = story.peopleIds.map(getPerson).filter(Boolean) as Person[];
@@ -78,6 +87,7 @@ function StoryPage() {
   return (
     <article>
       <ReadingProgress />
+      {collection ? <nav aria-label="Collection reading journey" className="border-b border-border bg-blush"><div className="container-editorial flex flex-wrap items-center gap-x-5 gap-y-2 py-3 text-xs"><Link to="/understand-indonesia/collections/$slug" params={{ slug: collection.slug }} className="font-semibold text-ink hover:text-primary">{collection.title}</Link><span className="text-muted-foreground">Story {collectionIndex + 1} of {collection.storyIds.length}</span><span className="ml-auto flex items-center gap-4">{previousStory ? <Link to="/stories/$slug" params={{ slug: previousStory.slug }} search={{ collection: collection.slug }} className="inline-flex items-center gap-1 text-ink hover:text-primary"><ArrowLeft className="h-3.5 w-3.5" /> Previous</Link> : null}<Link to="/understand-indonesia/collections/$slug" params={{ slug: collection.slug }} className="text-ink hover:text-primary">Back to Collection</Link>{nextStory ? <Link to="/stories/$slug" params={{ slug: nextStory.slug }} search={{ collection: collection.slug }} className="inline-flex items-center gap-1 text-ink hover:text-primary">Next <ArrowRight className="h-3.5 w-3.5" /></Link> : null}</span></div></nav> : null}
       <header className="container-editorial pt-14 pb-10 md:pt-20">
         <p className="eyebrow text-primary">
           {publicFormat(story)} · {story.topics?.[0] ?? "Indonesia"} · {story.readingMinutes} min read
