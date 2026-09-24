@@ -59,8 +59,8 @@ function Articles() {
         const cover = item.fields["heroMedia"];
         return <tr key={item.id} className="group hover:bg-muted/35">
           <Td><div className="flex min-w-64 items-center gap-3">{cover ? <img src={cover} alt="" className="h-12 w-16 shrink-0 rounded-sm object-cover" /> : <span className="h-12 w-16 shrink-0 rounded-sm bg-muted" />}<div className="min-w-0"><Link to="/admin/content/$id" params={{ id: item.id }} className="block truncate font-medium text-ink hover:text-primary">{item.title}</Link><span className="block text-xs text-muted-foreground">{simpleStatus(item.status)}{item.publishedAt ? ` · ${new Date(item.publishedAt).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}` : ""} · {item.deliveryType === "Knowledge" ? "Essentials" : item.deliveryType === "Pragmatic" ? "Perspectives" : "Deep Dive"}</span></div></div></Td>
-          <Td className="text-xs text-muted-foreground">{previewAttribution(item).primary.replace(/^By /, "")}</Td>
-          <Td className="text-xs text-muted-foreground">{item.topics?.[0] ?? "—"}</Td>
+          <Td className="text-xs text-muted-foreground"><span className="line-clamp-2 min-w-32 max-w-48" title={previewAttribution(item).primary.replace(/^By /, "")}>{previewAttribution(item).primary.replace(/^By /, "")}</span></Td>
+          <Td className="text-xs text-muted-foreground"><span className="block min-w-24">{item.topics?.[0] ?? "—"}</span></Td>
           <Td><button type="button" onClick={() => toggleHero(item.id)} aria-label={isHero(item.id) ? `Remove ${item.title} from Homepage Hero` : `Feature ${item.title} in Homepage Hero`} title={isHero(item.id) ? "Homepage Hero" : "Add to Homepage Hero"} className="flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground hover:bg-blush hover:text-primary"><Star className="h-4 w-4" fill={isHero(item.id) ? "currentColor" : "none"} /></button></Td>
           <Td className="text-xs">{simpleStatus(item.status)}</Td>
           <Td className="text-xs text-muted-foreground">{relative(item.updatedAt)}</Td>
