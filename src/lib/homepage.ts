@@ -23,7 +23,7 @@ export interface HomepageSection {
 export interface HomepageSettings { hero: HeroItem[]; sections: HomepageSection[] }
 
 export const defaultHomepageSettings = (articleIds: string[]): HomepageSettings => ({
-  hero: articleIds.slice(0, 1).map((articleId) => ({ articleId })),
+  hero: articleIds.slice(0, 3).map((articleId) => ({ articleId })),
   sections: [
     ["in-focus", "In Focus"], ["understand", "Understand Indonesia"], ["topics", "Topics"],
     ["collection", "Featured Collection"], ["people", "People & Organisations"], ["coming-up", "Coming Up"],

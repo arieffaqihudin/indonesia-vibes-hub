@@ -1,5 +1,12 @@
 # Final product architecture roadmap
 
+## Current: Homepage Hero editorial showcase
+
+- [x] Replace hidden-slide Hero with one active cinematic stage and a visible article rail
+- [x] Add click, arrow, keyboard, swipe, drag, progress, and reduced-motion transitions
+- [x] Add CMS drag ordering, 1–5 enforcement, article context, and preview access
+- [x] Verify desktop, tablet, mobile, and CMS ordering behavior
+
 ## Current: Connect + curated attribution + FAQ
 
 - [x] Connect as direct link to /connect (desktop, mobile, active state); redirect /collaborate, /collaborations, /inquiry, /opportunities
