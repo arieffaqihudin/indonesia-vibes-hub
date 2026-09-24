@@ -38,7 +38,7 @@
 
 # Public collaboration navigation consolidation
 
-- [ ] Remove Connect from desktop, tablet, mobile, and footer navigation
-- [ ] Make `/collaborate` the canonical collaboration page and redirect legacy entry routes
-- [ ] Update public CTAs, shortcuts, copy, and related-content links to Collaborate
-- [ ] Verify active states, redirects, spacing, keyboard, touch, and responsive behavior
+- [x] Remove Connect from desktop, tablet, mobile, and footer navigation
+- [x] Make `/collaborate` the canonical collaboration page and redirect legacy entry routes
+- [x] Update public CTAs, shortcuts, copy, and related-content links to Collaborate
+- [x] Verify active states, redirects, spacing, keyboard, touch, and responsive behavior

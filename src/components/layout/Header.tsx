@@ -163,9 +163,10 @@ export function Header() {
             to="/search"
             search={{ q: "" }}
             aria-label="Search Indonesia Vibes"
-            className="press inline-flex h-11 w-11 items-center justify-center rounded-full text-ink/70 hover:bg-blush hover:text-primary lg:h-9 lg:w-9"
+            className="press inline-flex h-11 w-11 items-center justify-center gap-2 rounded-full text-ink/70 hover:bg-blush hover:text-primary lg:h-9 lg:w-auto lg:px-3"
           >
             <Search className="h-[1.05rem] w-[1.05rem]" />
+            <span className="hidden text-sm font-medium lg:inline">Search</span>
           </Link>
 
 
