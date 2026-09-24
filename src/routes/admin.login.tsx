@@ -6,11 +6,11 @@ import { AdminAuthLayout } from "@/components/admin/AdminAuthLayout";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 
-type LoginSearch = { redirect?: string };
+type LoginSearch = { redirect: string };
 function safeDestination(value: string | undefined) { return value?.startsWith("/admin/") && !value.startsWith("//") ? value : "/admin/dashboard"; }
 
 export const Route = createFileRoute("/admin/login")({
-  validateSearch: (search: Record<string, unknown>): LoginSearch => ({ redirect: typeof search.redirect === "string" ? search.redirect : undefined }),
+  validateSearch: (search: Record<string, unknown>): LoginSearch => ({ redirect: typeof search["redirect"] === "string" ? search["redirect"] : "/admin/dashboard" }),
   beforeLoad: async ({ search }) => { const { data } = await supabase.auth.getUser(); if (data.user) throw redirect({ to: safeDestination(search.redirect) }); },
   head: () => ({ meta: [
     { title: "CMS Sign In — Indonesia Vibes" }, { name: "description", content: "Sign in to manage Indonesia Vibes." },
