@@ -6,5 +6,5 @@
 - [x] Build Explore, Topics, Topic detail, Experience, Inquiry, and Partners routes
 - [x] Update homepage, cards, search, collections, freshness, metadata, and legacy routes
 - [x] Simplify CMS navigation and preserve advanced One Data capabilities
-- [ ] Apply the selected flat, minimalist admin system to priority operational pages
+- [x] Apply the selected flat, minimalist admin system to priority operational pages
 - [ ] Verify admin responsiveness, interactions, TypeScript, and preview rendering

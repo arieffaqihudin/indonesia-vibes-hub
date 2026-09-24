@@ -4,7 +4,7 @@ import { useState } from "react";
 import { adminHead } from "@/lib/admin/head";
 import { useAdmin } from "@/lib/admin/store";
 import { daysUntil } from "@/lib/admin/types";
-import { eventsNeedingVerification, eventLocationLabel, formatEventDates } from "@/data/content";
+import { eventsNeedingVerification } from "@/data/content";
 import { EmptyState, FilterToolbar, PageHeading, SearchInput, SelectFilter, StatusPill, SummaryStrip, Table, Tag, Td, abtn, dateFmt } from "@/components/admin/primitives";
 
 export const Route = createFileRoute("/admin/events")({

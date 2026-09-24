@@ -2,8 +2,7 @@ import { Link, createFileRoute } from "@tanstack/react-router";
 
 import { adminHead } from "@/lib/admin/head";
 import { useAdmin } from "@/lib/admin/store";
-import { PIPELINE_STAGES } from "@/lib/admin/types";
-import { Card, EmptyState, PageHeading, Tag, abtn, relative } from "@/components/admin/primitives";
+import { EmptyState, PageHeading, SummaryStrip, Table, Tag, Td, abtn, relative } from "@/components/admin/primitives";
 
 export const Route = createFileRoute("/admin/collaborations/")({
   head: adminHead("Collaborations", "International collaborations from first idea to recorded outcome."),
@@ -16,49 +15,33 @@ function Collaborations() {
   return (
     <>
       <PageHeading
-        eyebrow="Partnerships"
+        eyebrow="Partnerships / Collaborations"
         title="Collaborations"
         description="Grouped by stage. A collaboration only becomes public content once it is confirmed and written up."
       />
 
+      <SummaryStrip items={[
+        { value: admin.pipeline.length, label: "Total collaborations" },
+        { value: admin.pipeline.filter((item) => item.stage === "Discussion").length, label: "In discussion" },
+        { value: admin.pipeline.filter((item) => item.stage === "Ongoing").length, label: "Ongoing" },
+        { value: admin.pipeline.filter((item) => item.stage === "Completed").length, label: "Completed" },
+      ]} />
+
       {admin.pipeline.length ? (
-        <div className="space-y-6">
-          {PIPELINE_STAGES.map((stage) => {
-            const items = admin.pipeline.filter((c) => c.stage === stage);
-            if (!items.length) return null;
-            return (
-              <section key={stage}>
-                <h2 className="mb-2 text-xs font-semibold tracking-[0.14em] text-muted-foreground uppercase">
-                  {stage} · {items.length}
-                </h2>
-                <div className="grid gap-3 md:grid-cols-2">
-                  {items.map((c) => (
-                    <Card key={c.id}>
-                      <div className="flex flex-wrap items-center gap-2">
-                        <Tag tone="quiet">{c.origin}</Tag>
-                        {c.countries.map((country) => (
-                          <Tag key={country}>{country}</Tag>
-                        ))}
-                      </div>
-                      <h3 className="mt-2 font-display text-lg text-ink">
-                        <Link to="/admin/collaborations/$id" params={{ id: c.id }} className="hover:text-primary">
-                          {c.title}
-                        </Link>
-                      </h3>
-                      <p className="mt-1 text-sm text-muted-foreground">{c.objective}</p>
-                      <p className="mt-2 text-xs text-muted-foreground">
-                        Led by {c.leadOfficer} · updated {relative(c.updatedAt)}
-                      </p>
-                      {c.nextActions.length ? (
-                        <p className="mt-1 text-xs text-ink">Next: {c.nextActions[0]}</p>
-                      ) : null}
-                    </Card>
-                  ))}
-                </div>
-              </section>
-            );
-          })}
-        </div>
+        <Table caption="Collaborations" head={["Collaboration", "Stage", "Origin", "Countries", "Lead", "Updated", "Next action", ""]}>
+          {admin.pipeline.map((item) => (
+            <tr key={item.id} className="group hover:bg-muted/35">
+              <Td><Link to="/admin/collaborations/$id" params={{ id: item.id }} className="font-semibold hover:text-primary">{item.title}</Link><span className="block max-w-sm text-xs text-muted-foreground">{item.objective}</span></Td>
+              <Td><Tag tone={item.stage === "Ongoing" ? "alert" : "quiet"}>{item.stage}</Tag></Td>
+              <Td className="text-xs text-muted-foreground">{item.origin}</Td>
+              <Td className="text-xs text-muted-foreground">{item.countries.join(", ")}</Td>
+              <Td className="text-xs text-muted-foreground">{item.leadOfficer}</Td>
+              <Td className="text-xs text-muted-foreground">{relative(item.updatedAt)}</Td>
+              <Td className="max-w-xs text-xs text-ink">{item.nextActions[0] ?? "—"}</Td>
+              <Td><Link to="/admin/collaborations/$id" params={{ id: item.id }} className={abtn.quiet}>Open</Link></Td>
+            </tr>
+          ))}
+        </Table>
       ) : (
         <EmptyState
           title="No collaborations recorded."

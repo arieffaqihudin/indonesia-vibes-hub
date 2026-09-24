@@ -22,10 +22,10 @@ function Users() {
         description="Roles describe responsibility, not seniority. Everyone can see the work; only some can approve or publish it."
       />
 
-      <Card title="Team">
+      <Card title="Team" bodyClass="p-0">
         <Table head={["Name", "Focus", "Role", "Status"]}>
           {admin.users.map((u) => (
-            <tr key={u.id} className="border-b border-border last:border-0">
+            <tr key={u.id} className="group hover:bg-muted/35">
               <Td>
                 <span className="text-ink">{u.name}</span>
                 <span className="block text-xs text-muted-foreground">{u.email}</span>
