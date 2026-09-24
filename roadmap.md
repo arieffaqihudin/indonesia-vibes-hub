@@ -25,6 +25,6 @@
 
 # Responsive UX audit (full product)
 
-- [ ] Automated overflow/tap-target audit across public + CMS routes at mobile/tablet/desktop widths
-- [ ] Fix every page-level overflow, clipped text, and cramped layout found
-- [ ] Re-verify and deliver audit summary
+- [x] Automated overflow/tap-target audit across public + CMS routes at mobile/tablet/desktop widths
+- [x] Fix every page-level overflow, clipped text, and cramped layout found
+- [x] Re-verify and deliver audit summary
