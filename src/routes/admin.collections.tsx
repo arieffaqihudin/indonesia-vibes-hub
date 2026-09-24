@@ -1,57 +1,20 @@
-import { Link, createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
+import { FilterToolbar, PageHeading, SearchInput, SelectFilter, StatusIndicator, Table, Td, abtn, dateFmt } from "@/components/admin/primitives";
+import { useCollections } from "@/lib/collections";
 
-import { adminHead } from "@/lib/admin/head";
-import { useAdmin } from "@/lib/admin/store";
-import { graphEntry } from "@/lib/admin/selectors";
-import { Card, EmptyState, PageHeading, StatusPill, abtn, dateFmt } from "@/components/admin/primitives";
-
-export const Route = createFileRoute("/admin/collections")({
-  head: adminHead("Collections", "Curated groupings of published content, with an editorial reason for each."),
-  component: Collections,
-});
-
+export const Route = createFileRoute("/admin/collections")({ component: Collections });
 function Collections() {
-  const admin = useAdmin();
-  const collections = admin.content.filter((c) => c.kind === "collection");
-
-  return (
-    <>
-      <PageHeading
-        eyebrow="Cultural network"
-        title="Collections"
-        description="A collection is an editorial argument, so each one records why these records belong together."
-        actions={
-          <Link to="/admin/content/new" search={{ kind: "collection" }} className={abtn.primary}>
-            New collection
-          </Link>
-        }
-      />
-
-      {collections.length ? (
-        <div className="grid gap-4 md:grid-cols-2">
-          {collections.map((c) => (
-            <Card key={c.id} title={c.title} action={<StatusPill status={c.status} />}>
-              <p className="text-sm text-muted-foreground">{c.fields["statement"] || c.fields["standfirst"] || "No editorial statement recorded yet."}</p>
-              <p className="mt-3 text-xs text-muted-foreground">
-                Curated by {c.fields["editor"] || c.assignedTo || "unassigned"} · updated {dateFmt(c.updatedAt)}
-              </p>
-              <ul className="mt-3 space-y-1 text-sm text-ink">
-                {c.relationships.culture.map((id) => (
-                  <li key={id}>{graphEntry(id)?.label ?? id}</li>
-                ))}
-                {!c.relationships.culture.length ? (
-                  <li className="text-muted-foreground">Nothing added to this collection yet.</li>
-                ) : null}
-              </ul>
-              <Link to="/admin/content/$id" params={{ id: c.id }} className={`${abtn.small} mt-3`}>
-                Open collection
-              </Link>
-            </Card>
-          ))}
-        </div>
-      ) : (
-        <EmptyState title="No collections yet." hint="Collections group published records around a single editorial idea." />
-      )}
-    </>
-  );
+  const [collections] = useCollections();
+  const [query, setQuery] = useState("");
+  const [status, setStatus] = useState("");
+  const needle = query.toLowerCase().trim();
+  const visible = collections.filter((item) => (!needle || `${item.title} ${item.introduction}`.toLowerCase().includes(needle)) && (!status || item.status === status));
+  return <>
+    <PageHeading eyebrow="Understand Indonesia / Collections" title="Collections" description="Curate deliberate reading journeys from existing Articles." actions={<Link to="/admin/collections/$id" params={{ id: "new" }} className={abtn.primary}>+ New Collection</Link>} />
+    <FilterToolbar search={<SearchInput value={query} onChange={setQuery} label="Search collections" placeholder="Search collections" />}><SelectFilter label="Status" value={status} onChange={setStatus} options={["Draft", "Published", "Archived"]} /></FilterToolbar>
+    <Table caption="Collections" head={["Collection", "Introduction", "Stories", "Featured", "Status", "Updated", "Action"]}>
+      {visible.map((item) => <tr key={item.id} className="group"><Td><Link to="/admin/collections/$id" params={{ id: item.id }} className="font-medium hover:text-primary">{item.title}</Link></Td><Td className="max-w-md text-xs text-muted-foreground">{item.introduction}</Td><Td>{item.storyIds.length}</Td><Td>{item.featured ? "Yes" : "—"}</Td><Td><StatusIndicator attention={item.status !== "Published"}>{item.status}</StatusIndicator></Td><Td>{dateFmt(item.updatedAt)}</Td><Td><Link to="/admin/collections/$id" params={{ id: item.id }} className={abtn.quiet}>Curate</Link></Td></tr>)}
+    </Table>
+  </>;
 }

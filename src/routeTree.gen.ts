@@ -63,6 +63,7 @@ import { Route as AdminUsersRouteImport } from './routes/admin.users'
 import { Route as CollaborationsIndexRouteImport } from './routes/collaborations.index'
 import { Route as CollaborationsSlugRouteImport } from './routes/collaborations.$slug'
 import { Route as CollectionsIndexRouteImport } from './routes/collections.index'
+import { Route as CollectionsSlugRouteImport } from './routes/collections.$slug'
 import { Route as ContributorIndexRouteImport } from './routes/contributor.index'
 import { Route as ContributorAccountRouteImport } from './routes/contributor.account'
 import { Route as ContributorForgotPasswordRouteImport } from './routes/contributor.forgot-password'
@@ -386,6 +387,11 @@ const CollaborationsSlugRoute = CollaborationsSlugRouteImport.update({
 const CollectionsIndexRoute = CollectionsIndexRouteImport.update({
   id: '/collections/',
   path: '/collections/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CollectionsSlugRoute = CollectionsSlugRouteImport.update({
+  id: '/collections/$slug',
+  path: '/collections/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContributorIndexRoute = ContributorIndexRouteImport.update({
@@ -717,6 +723,7 @@ export interface FileRoutesByFullPath {
   '/admin/topics': typeof AdminTopicsRoute
   '/admin/users': typeof AdminUsersRoute
   '/collaborations/$slug': typeof CollaborationsSlugRoute
+  '/collections/$slug': typeof CollectionsSlugRoute
   '/contributor/account': typeof ContributorAccountRoute
   '/contributor/forgot-password': typeof ContributorForgotPasswordRoute
   '/contributor/help': typeof ContributorHelpRoute
@@ -825,6 +832,7 @@ export interface FileRoutesByTo {
   '/admin/topics': typeof AdminTopicsRoute
   '/admin/users': typeof AdminUsersRoute
   '/collaborations/$slug': typeof CollaborationsSlugRoute
+  '/collections/$slug': typeof CollectionsSlugRoute
   '/contributor/account': typeof ContributorAccountRoute
   '/contributor/forgot-password': typeof ContributorForgotPasswordRoute
   '/contributor/help': typeof ContributorHelpRoute
@@ -935,6 +943,7 @@ export interface FileRoutesById {
   '/admin/topics': typeof AdminTopicsRoute
   '/admin/users': typeof AdminUsersRoute
   '/collaborations/$slug': typeof CollaborationsSlugRoute
+  '/collections/$slug': typeof CollectionsSlugRoute
   '/contributor/account': typeof ContributorAccountRoute
   '/contributor/forgot-password': typeof ContributorForgotPasswordRoute
   '/contributor/help': typeof ContributorHelpRoute
@@ -1046,6 +1055,7 @@ export interface FileRouteTypes {
     | '/admin/topics'
     | '/admin/users'
     | '/collaborations/$slug'
+    | '/collections/$slug'
     | '/contributor/account'
     | '/contributor/forgot-password'
     | '/contributor/help'
@@ -1154,6 +1164,7 @@ export interface FileRouteTypes {
     | '/admin/topics'
     | '/admin/users'
     | '/collaborations/$slug'
+    | '/collections/$slug'
     | '/contributor/account'
     | '/contributor/forgot-password'
     | '/contributor/help'
@@ -1263,6 +1274,7 @@ export interface FileRouteTypes {
     | '/admin/topics'
     | '/admin/users'
     | '/collaborations/$slug'
+    | '/collections/$slug'
     | '/contributor/account'
     | '/contributor/forgot-password'
     | '/contributor/help'
@@ -1346,6 +1358,7 @@ export interface RootRouteChildren {
   SearchRoute: typeof SearchRoute
   UnderstandIndonesiaRoute: typeof UnderstandIndonesiaRouteWithChildren
   CollaborationsSlugRoute: typeof CollaborationsSlugRoute
+  CollectionsSlugRoute: typeof CollectionsSlugRoute
   ContributorAccountRoute: typeof ContributorAccountRoute
   ContributorForgotPasswordRoute: typeof ContributorForgotPasswordRoute
   ContributorHelpRoute: typeof ContributorHelpRoute
@@ -1760,6 +1773,13 @@ declare module '@tanstack/react-router' {
       path: '/collections'
       fullPath: '/collections/'
       preLoaderRoute: typeof CollectionsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/collections/$slug': {
+      id: '/collections/$slug'
+      path: '/collections/$slug'
+      fullPath: '/collections/$slug'
+      preLoaderRoute: typeof CollectionsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contributor/': {
@@ -2312,6 +2332,7 @@ const rootRouteChildren: RootRouteChildren = {
   SearchRoute: SearchRoute,
   UnderstandIndonesiaRoute: UnderstandIndonesiaRouteWithChildren,
   CollaborationsSlugRoute: CollaborationsSlugRoute,
+  CollectionsSlugRoute: CollectionsSlugRoute,
   ContributorAccountRoute: ContributorAccountRoute,
   ContributorForgotPasswordRoute: ContributorForgotPasswordRoute,
   ContributorHelpRoute: ContributorHelpRoute,
