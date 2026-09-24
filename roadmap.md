@@ -1,8 +1,8 @@
-# CMS hard reset
+# Homepage architecture cleanup
 
-- [x] Rebuild the shared CMS shell and reusable CMS primitives
-- [x] Simplify Dashboard and Articles list
-- [x] Complete conventional article editor controls and publishing workflow
-- [x] Normalize Homepage, Topics, Collections, People & Organisations, Events & Places, Around the World, Collaborations, FAQ, and About screens
-- [x] Replace visible create/edit workflows with direct editing and redirect legacy admin routes
-- [x] Validate build, routes, responsive layouts, keyboard flows, and public-site isolation
+- [ ] Replace the homepage with the final six-experience structure
+- [ ] Connect each homepage preview to canonical Topics, Collections, People, Articles, Events, Places, world activity, Collaborations, and FAQ records
+- [ ] Prevent Hero articles from repeating in Latest Articles when alternatives exist
+- [ ] Simplify CMS Homepage Sections to approved controls only and migrate legacy settings
+- [ ] Remove obsolete homepage modules and verify Opportunities remains absent
+- [ ] Validate desktop, tablet, mobile, CMS controls, routes, and public isolation
