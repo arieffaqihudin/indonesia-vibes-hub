@@ -41,17 +41,21 @@ import { Route as AdminCalendarRouteImport } from './routes/admin.calendar'
 import { Route as AdminContactRouteImport } from './routes/admin.contact'
 import { Route as AdminCreateRouteImport } from './routes/admin.create'
 import { Route as AdminCultureRouteImport } from './routes/admin.culture'
+import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
 import { Route as AdminDataHealthRouteImport } from './routes/admin.data-health'
 import { Route as AdminEditorialStandardsRouteImport } from './routes/admin.editorial-standards'
 import { Route as AdminEventsRouteImport } from './routes/admin.events'
 import { Route as AdminEventsPlacesRouteImport } from './routes/admin.events-places'
 import { Route as AdminFollowUpsRouteImport } from './routes/admin.follow-ups'
+import { Route as AdminForgotPasswordRouteImport } from './routes/admin.forgot-password'
 import { Route as AdminInstitutionsRouteImport } from './routes/admin.institutions'
+import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AdminMediaRouteImport } from './routes/admin.media'
 import { Route as AdminNotificationsRouteImport } from './routes/admin.notifications'
 import { Route as AdminPeopleRouteImport } from './routes/admin.people'
 import { Route as AdminPeopleOrganisationsRouteImport } from './routes/admin.people-organisations'
 import { Route as AdminPlacesRouteImport } from './routes/admin.places'
+import { Route as AdminResetPasswordRouteImport } from './routes/admin.reset-password'
 import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as AdminSourcesRouteImport } from './routes/admin.sources'
 import { Route as AdminStoriesRouteImport } from './routes/admin.stories'
@@ -281,6 +285,11 @@ const AdminCultureRoute = AdminCultureRouteImport.update({
   path: '/culture',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminDashboardRoute = AdminDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminDataHealthRoute = AdminDataHealthRouteImport.update({
   id: '/data-health',
   path: '/data-health',
@@ -306,9 +315,19 @@ const AdminFollowUpsRoute = AdminFollowUpsRouteImport.update({
   path: '/follow-ups',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminForgotPasswordRoute = AdminForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminInstitutionsRoute = AdminInstitutionsRouteImport.update({
   id: '/institutions',
   path: '/institutions',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminLoginRoute = AdminLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminMediaRoute = AdminMediaRouteImport.update({
@@ -335,6 +354,11 @@ const AdminPeopleOrganisationsRoute =
 const AdminPlacesRoute = AdminPlacesRouteImport.update({
   id: '/places',
   path: '/places',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminResetPasswordRoute = AdminResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminSettingsRoute = AdminSettingsRouteImport.update({
@@ -721,17 +745,21 @@ export interface FileRoutesByFullPath {
   '/admin/contact': typeof AdminContactRoute
   '/admin/create': typeof AdminCreateRoute
   '/admin/culture': typeof AdminCultureRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/data-health': typeof AdminDataHealthRoute
   '/admin/editorial-standards': typeof AdminEditorialStandardsRoute
   '/admin/events': typeof AdminEventsRoute
   '/admin/events-places': typeof AdminEventsPlacesRoute
   '/admin/follow-ups': typeof AdminFollowUpsRoute
+  '/admin/forgot-password': typeof AdminForgotPasswordRoute
   '/admin/institutions': typeof AdminInstitutionsRoute
+  '/admin/login': typeof AdminLoginRoute
   '/admin/media': typeof AdminMediaRoute
   '/admin/notifications': typeof AdminNotificationsRoute
   '/admin/people': typeof AdminPeopleRoute
   '/admin/people-organisations': typeof AdminPeopleOrganisationsRoute
   '/admin/places': typeof AdminPlacesRoute
+  '/admin/reset-password': typeof AdminResetPasswordRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/sources': typeof AdminSourcesRoute
   '/admin/stories': typeof AdminStoriesRoute
@@ -833,17 +861,21 @@ export interface FileRoutesByTo {
   '/admin/contact': typeof AdminContactRoute
   '/admin/create': typeof AdminCreateRoute
   '/admin/culture': typeof AdminCultureRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/data-health': typeof AdminDataHealthRoute
   '/admin/editorial-standards': typeof AdminEditorialStandardsRoute
   '/admin/events': typeof AdminEventsRoute
   '/admin/events-places': typeof AdminEventsPlacesRoute
   '/admin/follow-ups': typeof AdminFollowUpsRoute
+  '/admin/forgot-password': typeof AdminForgotPasswordRoute
   '/admin/institutions': typeof AdminInstitutionsRoute
+  '/admin/login': typeof AdminLoginRoute
   '/admin/media': typeof AdminMediaRoute
   '/admin/notifications': typeof AdminNotificationsRoute
   '/admin/people': typeof AdminPeopleRoute
   '/admin/people-organisations': typeof AdminPeopleOrganisationsRoute
   '/admin/places': typeof AdminPlacesRoute
+  '/admin/reset-password': typeof AdminResetPasswordRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/sources': typeof AdminSourcesRoute
   '/admin/stories': typeof AdminStoriesRoute
@@ -947,17 +979,21 @@ export interface FileRoutesById {
   '/admin/contact': typeof AdminContactRoute
   '/admin/create': typeof AdminCreateRoute
   '/admin/culture': typeof AdminCultureRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/data-health': typeof AdminDataHealthRoute
   '/admin/editorial-standards': typeof AdminEditorialStandardsRoute
   '/admin/events': typeof AdminEventsRoute
   '/admin/events-places': typeof AdminEventsPlacesRoute
   '/admin/follow-ups': typeof AdminFollowUpsRoute
+  '/admin/forgot-password': typeof AdminForgotPasswordRoute
   '/admin/institutions': typeof AdminInstitutionsRoute
+  '/admin/login': typeof AdminLoginRoute
   '/admin/media': typeof AdminMediaRoute
   '/admin/notifications': typeof AdminNotificationsRoute
   '/admin/people': typeof AdminPeopleRoute
   '/admin/people-organisations': typeof AdminPeopleOrganisationsRoute
   '/admin/places': typeof AdminPlacesRoute
+  '/admin/reset-password': typeof AdminResetPasswordRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/sources': typeof AdminSourcesRoute
   '/admin/stories': typeof AdminStoriesRoute
@@ -1062,17 +1098,21 @@ export interface FileRouteTypes {
     | '/admin/contact'
     | '/admin/create'
     | '/admin/culture'
+    | '/admin/dashboard'
     | '/admin/data-health'
     | '/admin/editorial-standards'
     | '/admin/events'
     | '/admin/events-places'
     | '/admin/follow-ups'
+    | '/admin/forgot-password'
     | '/admin/institutions'
+    | '/admin/login'
     | '/admin/media'
     | '/admin/notifications'
     | '/admin/people'
     | '/admin/people-organisations'
     | '/admin/places'
+    | '/admin/reset-password'
     | '/admin/settings'
     | '/admin/sources'
     | '/admin/stories'
@@ -1174,17 +1214,21 @@ export interface FileRouteTypes {
     | '/admin/contact'
     | '/admin/create'
     | '/admin/culture'
+    | '/admin/dashboard'
     | '/admin/data-health'
     | '/admin/editorial-standards'
     | '/admin/events'
     | '/admin/events-places'
     | '/admin/follow-ups'
+    | '/admin/forgot-password'
     | '/admin/institutions'
+    | '/admin/login'
     | '/admin/media'
     | '/admin/notifications'
     | '/admin/people'
     | '/admin/people-organisations'
     | '/admin/places'
+    | '/admin/reset-password'
     | '/admin/settings'
     | '/admin/sources'
     | '/admin/stories'
@@ -1287,17 +1331,21 @@ export interface FileRouteTypes {
     | '/admin/contact'
     | '/admin/create'
     | '/admin/culture'
+    | '/admin/dashboard'
     | '/admin/data-health'
     | '/admin/editorial-standards'
     | '/admin/events'
     | '/admin/events-places'
     | '/admin/follow-ups'
+    | '/admin/forgot-password'
     | '/admin/institutions'
+    | '/admin/login'
     | '/admin/media'
     | '/admin/notifications'
     | '/admin/people'
     | '/admin/people-organisations'
     | '/admin/places'
+    | '/admin/reset-password'
     | '/admin/settings'
     | '/admin/sources'
     | '/admin/stories'
@@ -1657,6 +1705,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminCultureRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/dashboard': {
+      id: '/admin/dashboard'
+      path: '/dashboard'
+      fullPath: '/admin/dashboard'
+      preLoaderRoute: typeof AdminDashboardRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/data-health': {
       id: '/admin/data-health'
       path: '/data-health'
@@ -1692,11 +1747,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminFollowUpsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/forgot-password': {
+      id: '/admin/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/admin/forgot-password'
+      preLoaderRoute: typeof AdminForgotPasswordRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/institutions': {
       id: '/admin/institutions'
       path: '/institutions'
       fullPath: '/admin/institutions'
       preLoaderRoute: typeof AdminInstitutionsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/login': {
+      id: '/admin/login'
+      path: '/login'
+      fullPath: '/admin/login'
+      preLoaderRoute: typeof AdminLoginRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/media': {
@@ -1732,6 +1801,13 @@ declare module '@tanstack/react-router' {
       path: '/places'
       fullPath: '/admin/places'
       preLoaderRoute: typeof AdminPlacesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/reset-password': {
+      id: '/admin/reset-password'
+      path: '/reset-password'
+      fullPath: '/admin/reset-password'
+      preLoaderRoute: typeof AdminResetPasswordRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/settings': {
@@ -2234,17 +2310,21 @@ interface AdminRouteChildren {
   AdminContactRoute: typeof AdminContactRoute
   AdminCreateRoute: typeof AdminCreateRoute
   AdminCultureRoute: typeof AdminCultureRoute
+  AdminDashboardRoute: typeof AdminDashboardRoute
   AdminDataHealthRoute: typeof AdminDataHealthRoute
   AdminEditorialStandardsRoute: typeof AdminEditorialStandardsRoute
   AdminEventsRoute: typeof AdminEventsRoute
   AdminEventsPlacesRoute: typeof AdminEventsPlacesRoute
   AdminFollowUpsRoute: typeof AdminFollowUpsRoute
+  AdminForgotPasswordRoute: typeof AdminForgotPasswordRoute
   AdminInstitutionsRoute: typeof AdminInstitutionsRoute
+  AdminLoginRoute: typeof AdminLoginRoute
   AdminMediaRoute: typeof AdminMediaRoute
   AdminNotificationsRoute: typeof AdminNotificationsRoute
   AdminPeopleRoute: typeof AdminPeopleRoute
   AdminPeopleOrganisationsRoute: typeof AdminPeopleOrganisationsRoute
   AdminPlacesRoute: typeof AdminPlacesRoute
+  AdminResetPasswordRoute: typeof AdminResetPasswordRoute
   AdminSettingsRoute: typeof AdminSettingsRoute
   AdminSourcesRoute: typeof AdminSourcesRoute
   AdminStoriesRoute: typeof AdminStoriesRoute
@@ -2284,17 +2364,21 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminContactRoute: AdminContactRoute,
   AdminCreateRoute: AdminCreateRoute,
   AdminCultureRoute: AdminCultureRoute,
+  AdminDashboardRoute: AdminDashboardRoute,
   AdminDataHealthRoute: AdminDataHealthRoute,
   AdminEditorialStandardsRoute: AdminEditorialStandardsRoute,
   AdminEventsRoute: AdminEventsRoute,
   AdminEventsPlacesRoute: AdminEventsPlacesRoute,
   AdminFollowUpsRoute: AdminFollowUpsRoute,
+  AdminForgotPasswordRoute: AdminForgotPasswordRoute,
   AdminInstitutionsRoute: AdminInstitutionsRoute,
+  AdminLoginRoute: AdminLoginRoute,
   AdminMediaRoute: AdminMediaRoute,
   AdminNotificationsRoute: AdminNotificationsRoute,
   AdminPeopleRoute: AdminPeopleRoute,
   AdminPeopleOrganisationsRoute: AdminPeopleOrganisationsRoute,
   AdminPlacesRoute: AdminPlacesRoute,
+  AdminResetPasswordRoute: AdminResetPasswordRoute,
   AdminSettingsRoute: AdminSettingsRoute,
   AdminSourcesRoute: AdminSourcesRoute,
   AdminStoriesRoute: AdminStoriesRoute,
