@@ -105,7 +105,7 @@ function Home() {
           </Reveal>
           <Reveal className="mt-10 grid gap-8 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] lg:items-center">
             <Link
-              to="/collections/$slug"
+              to="/understand-indonesia/collections/$slug"
               params={{ slug: featuredCollection.slug }}
               className="group block"
             >
@@ -133,7 +133,7 @@ function Home() {
               {otherCollections.map((c) => (
                 <li key={c.id}>
                   <Link
-                    to="/collections/$slug"
+                    to="/understand-indonesia/collections/$slug"
                     params={{ slug: c.slug }}
                     className="group grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 py-5"
                   >

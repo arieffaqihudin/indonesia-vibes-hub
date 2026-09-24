@@ -1,5 +1,13 @@
 # Final product architecture roadmap
 
+## Current: Topics and Collections distinction
+
+- [x] Redesign Topics as a searchable, filterable cultural catalogue
+- [x] Redesign Collections as spacious, image-led editorial journeys
+- [x] Make Topic details richer and Collection details visibly sequenced
+- [x] Separate Topic catalogue management from Collection curation in CMS
+- [x] Verify public and CMS behavior across desktop, tablet, and mobile
+
 ## Current: Homepage Hero editorial showcase
 
 - [x] Replace hidden-slide Hero with one active cinematic stage and a visible article rail

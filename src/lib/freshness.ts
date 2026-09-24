@@ -136,7 +136,7 @@ function candidates(now: Date): FreshItem[] {
       kind: "in_focus",
       headline: c.title,
       meta: `Collection · ${c.storyIds.length} stories`,
-      href: `/collections/${c.slug}`,
+      href: `/understand-indonesia/collections/${c.slug}`,
       family: "collection",
       image: c.image,
       score: 40 - i,

@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 
 import { FilterBar } from "@/components/editorial/FilterBar";
@@ -22,6 +22,8 @@ export const Route = createFileRoute("/understand-indonesia")({
 });
 
 function UnderstandIndonesia() {
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
+  if (pathname.replace(/\/$/, "") !== "/understand-indonesia") return <Outlet />;
   const [format, setFormat] = useState<"All" | PublicFormat>("All");
   const [topic, setTopic] = useState("All");
   const [location, setLocation] = useState("All");
