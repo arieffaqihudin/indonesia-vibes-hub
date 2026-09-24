@@ -67,10 +67,20 @@ function migrateSettings(parsed: Partial<HomepageSettings>, fallback: HomepageSe
     const saved = previousSections.find((item) => item.id === section.id);
     return saved ? { ...section, visible: saved.visible !== false, order: saved.order } : section;
   });
+  const savedHero = (parsed.hero ?? fallback.hero).slice(0, 5);
+  const selectedIds = new Set(savedHero.map((item) => item.articleId.replace(/^c-/, "")));
+  const hero = [...savedHero];
+  for (const articleId of fallback.hero.map((item) => item.articleId)) {
+    if (hero.length >= 3) break;
+    if (!selectedIds.has(articleId.replace(/^c-/, ""))) {
+      hero.push({ articleId });
+      selectedIds.add(articleId.replace(/^c-/, ""));
+    }
+  }
   return {
     ...fallback,
     ...parsed,
-    hero: (parsed.hero ?? fallback.hero).slice(0, 5),
+    hero,
     sections,
     featuredTopicIds: parsed.featuredTopicIds ?? fallback.featuredTopicIds,
     featuredProfileIds: parsed.featuredProfileIds ?? fallback.featuredProfileIds,
