@@ -7,7 +7,7 @@
  * its own steps, wording and helper text.
  */
 
-export type SubmissionType = "story" | "event" | "opportunity" | "profile" | "collaboration";
+export type SubmissionType = "story" | "event" | "profile" | "collaboration";
 
 export type SubmissionStatus =
   | "draft"
@@ -552,88 +552,6 @@ const eventSteps = (): StepDef[] => [
   reviewStep("review", "07", [accuracyConsent, mediaConsent]),
 ];
 
-/* -------------------------- Opportunity --------------------------- */
-
-const opportunitySteps = (): StepDef[] => [
-  {
-    id: "basics",
-    index: "01",
-    title: "Basics",
-    fields: [
-      { name: "title", label: "Opportunity title", type: "text", required: true },
-      {
-        name: "opportunityType",
-        label: "Opportunity type",
-        type: "select",
-        required: true,
-        half: true,
-        options: [
-          "Residency",
-          "Open call",
-          "Fellowship",
-          "Scholarship",
-          "Research funding",
-          "Exchange",
-          "Artist commission",
-          "Institutional partnership",
-          "Other",
-        ],
-      },
-      { name: "organiser", label: "Organiser", type: "text", required: true, half: true },
-      { name: "summary", label: "Short description", type: "textarea", rows: 3, required: true },
-    ],
-  },
-  {
-    id: "eligibility",
-    index: "02",
-    title: "Who it is for",
-    fields: [
-      { name: "forWhom", label: "Who is it for?", type: "textarea", rows: 3, required: true },
-      { name: "eligibility", label: "Eligibility", type: "textarea", rows: 3 },
-      { name: "countryRestrictions", label: "Country restrictions", type: "text", half: true },
-      {
-        name: "careerStage",
-        label: "Career stage",
-        type: "checkboxes",
-        options: ["Emerging", "Mid-career", "Established", "Students", "Any"],
-      },
-    ],
-  },
-  {
-    id: "terms",
-    index: "03",
-    title: "Terms & dates",
-    fields: [
-      { name: "location", label: "Location", type: "text", half: true },
-      { name: "format", label: "Format", type: "select", options: ["Onsite", "Online", "Hybrid"], half: true },
-      { name: "duration", label: "Duration", type: "text", half: true },
-      {
-        name: "support",
-        label: "Support offered",
-        type: "checkboxes",
-        options: ["Funding", "Accommodation", "Travel", "Mentorship", "Facilities", "Production budget"],
-      },
-      { name: "openingDate", label: "Opening date", type: "date", half: true },
-      { name: "deadline", label: "Deadline", type: "date", required: true, half: true },
-    ],
-  },
-  {
-    id: "apply",
-    index: "04",
-    title: "How to apply",
-    fields: [
-      { name: "requiredDocuments", label: "Required documents", type: "tags" },
-      { name: "process", label: "Application process", type: "textarea", rows: 4, required: true },
-      { name: "applicationLink", label: "Official application link", type: "url", required: true },
-      { name: "contactChannel", label: "Contact channel", type: "text", help: "An organisational address or form, not a personal one." },
-      { name: "themes", label: "Related cultural themes", type: "checkboxes", options: THEMES },
-      { name: "linkInstitutions", label: "Related institutions", type: "connections", entity: "Institutions" },
-    ],
-  },
-  mediaStep("media", "05", "Optional, but a single strong image helps this get read."),
-  reviewStep("review", "06", [accuracyConsent, mediaConsent]),
-];
-
 /* ------------------------ Cultural profile ------------------------ */
 
 const subjectFields: FieldDef[] = [
@@ -846,7 +764,6 @@ const profileSteps = (data: Record<string, unknown>): StepDef[] => {
         { name: "linkPlaces", label: "Related places", type: "connections", entity: "Places" },
         { name: "linkInstitutions", label: "Related institutions", type: "connections", entity: "Institutions" },
         { name: "linkEvents", label: "Related events", type: "connections", entity: "Events" },
-        { name: "linkOpportunities", label: "Related opportunities", type: "connections", entity: "Opportunities" },
         ...sensitivityFields,
       ],
     },
@@ -954,15 +871,6 @@ export const TYPE_CONFIG: Record<SubmissionType, TypeConfig> = {
     needs: "Dates, venue or link, organiser, programme, and one image you have the rights to.",
     effort: "15–25 minutes",
     steps: eventSteps,
-  },
-  opportunity: {
-    type: "opportunity",
-    label: "Opportunity",
-    cta: "Share an opportunity",
-    description: "A residency, grant, fellowship, open call or exchange that others should know about.",
-    needs: "Deadline, eligibility, what support is offered, and the official application link.",
-    effort: "10–20 minutes",
-    steps: opportunitySteps,
   },
   profile: {
     type: "profile",

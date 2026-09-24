@@ -332,7 +332,7 @@ export function AuthShell({
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-background/70">
             Embassies, museums, universities, archives, communities, festivals and artists propose
-            stories, events, opportunities, profiles and collaborations here. Our editorial team
+            articles, events, profiles and collaborations here. Our editorial team
             prepares them for a global readership — and tells you exactly where yours stands.
           </p>
         </div>

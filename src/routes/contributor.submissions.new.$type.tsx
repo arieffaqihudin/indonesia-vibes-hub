@@ -7,7 +7,7 @@ import { PageHeading } from "@/components/contributor/primitives";
 import { TYPE_CONFIG, type SubmissionType } from "@/lib/contributor/schema";
 import { useWorkspace } from "@/lib/contributor/store";
 
-const TYPES: SubmissionType[] = ["story", "event", "opportunity", "profile", "collaboration"];
+const TYPES: SubmissionType[] = ["story", "event", "profile", "collaboration"];
 
 export const Route = createFileRoute("/contributor/submissions/new/$type")({
   head: ({ params }) => {

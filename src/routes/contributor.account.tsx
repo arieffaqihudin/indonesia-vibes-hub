@@ -22,7 +22,6 @@ const PREFS: { key: string; label: string; help: string }[] = [
   { key: "statusChanges", label: "Status changes", help: "When a submission moves to a new stage." },
   { key: "revisionRequests", label: "Revision requests", help: "When our editors need something from you." },
   { key: "publication", label: "Publication", help: "When a contribution goes live on the public platform." },
-  { key: "opportunities", label: "Opportunities and calls", help: "Occasional invitations relevant to your work." },
 ];
 
 function AccountPage() {
