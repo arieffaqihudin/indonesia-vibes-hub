@@ -229,7 +229,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
   );
 
   return (
-    <div className="min-h-screen bg-background [--admin-header:4.25rem]">
+    <div className="admin-shell min-h-screen bg-background [--admin-header:4.25rem]">
       {/* Fixed sidebar */}
       <aside
         id="admin-nav"

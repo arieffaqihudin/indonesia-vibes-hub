@@ -12,21 +12,28 @@ export const Route = createFileRoute("/admin/submissions")({
   component: Submissions,
 });
 
-const INCOMING = ["submitted", "initial_review"] as const;
+const submissionGroups: Record<string, string[]> = {
+  new: ["submitted"],
+  review: ["initial_review", "verification", "subject_review", "english_editing", "media_rights", "ready_for_approval"],
+  changes: ["revision_requested"],
+  accepted: ["approved", "scheduled", "published"],
+  declined: ["archived"],
+};
 
 function Submissions() {
   const admin = useAdmin();
   const [query, setQuery] = useState("");
   const [view, setView] = useState("new");
 
-  const items = useMemo(
+  const submissions = useMemo(
     () =>
       admin.content
-        .filter((c) => (INCOMING as readonly string[]).includes(c.status) && c.contributor)
+        .filter((c) => c.contributor)
         .filter((c) => (query ? `${c.title} ${c.organisation ?? ""}`.toLowerCase().includes(query.toLowerCase()) : true))
         .sort((a, b) => a.stageSince.localeCompare(b.stageSince)),
     [admin.content, query],
   );
+  const items = submissions.filter((item) => submissionGroups[view]?.includes(item.status));
 
   return (
     <>
@@ -38,11 +45,11 @@ function Submissions() {
       <TabBar label="Submission status" tabs={[{ id: "new", label: "New" }, { id: "review", label: "In Review" }, { id: "changes", label: "Needs Changes" }, { id: "accepted", label: "Accepted" }, { id: "declined", label: "Declined" }]} active={view} onChange={setView} />
       <FilterToolbar search={<SearchInput value={query} onChange={setQuery} label="Search submissions" placeholder="Title or organisation" />} />
       <SummaryStrip items={[
-        { value: items.length, label: "Total" },
-        { value: items.filter((item) => item.status === "submitted").length, label: "New" },
-        { value: items.filter((item) => item.status === "initial_review").length, label: "In review" },
-        { value: admin.content.filter((item) => item.status === "revision_requested" && item.contributor).length, label: "Needs changes" },
-        { value: admin.content.filter((item) => item.status === "approved" && item.contributor).length, label: "Accepted" },
+        { value: submissions.length, label: "Total" },
+        { value: submissions.filter((item) => submissionGroups.new?.includes(item.status)).length, label: "New" },
+        { value: submissions.filter((item) => submissionGroups.review?.includes(item.status)).length, label: "In review" },
+        { value: submissions.filter((item) => submissionGroups.changes?.includes(item.status)).length, label: "Needs changes" },
+        { value: submissions.filter((item) => submissionGroups.accepted?.includes(item.status)).length, label: "Accepted" },
       ]} />
       <p className="mb-3 text-xs text-muted-foreground">Showing {items.length} submission{items.length === 1 ? "" : "s"}</p>
 

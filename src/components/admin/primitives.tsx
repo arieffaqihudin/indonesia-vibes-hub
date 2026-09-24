@@ -72,6 +72,10 @@ export function Tag({ children, tone = "default" }: { children: ReactNode; tone?
   );
 }
 
+export function StatusIndicator({ children, attention = false }: { children: ReactNode; attention?: boolean }) {
+  return <span className="inline-flex items-center gap-1.5 text-xs whitespace-nowrap text-ink"><span className={cn("h-1.5 w-1.5 rounded-full", attention ? "bg-primary" : "bg-muted-foreground")} aria-hidden />{children}</span>;
+}
+
 /* ---------------- layout blocks ---------------- */
 
 export function PageHeading({
