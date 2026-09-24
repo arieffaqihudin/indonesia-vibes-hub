@@ -60,40 +60,42 @@ const editorialRole = (role: AdminRole) =>
   can(role, "editorial") || can(role, "verify") || can(role, "subject") || can(role, "language") || can(role, "media") || can(role, "approve");
 
 export function useNavGroups(): NavGroup[] {
-  const { content, inquiries, followUps, role } = useAdmin();
-  const reviewCount = content.filter(isInReview).length;
-  const submissions = content.filter((c) => c.status === "submitted").length;
-  const routing = inquiriesNeedingRouting(inquiries).length;
-  const overdue = overdueFollowUps(followUps).length;
+  const { role } = useAdmin();
 
   return [
     { label: "", items: [{ to: "/admin", label: "Dashboard", icon: LayoutDashboard }] },
     {
-      label: "Content",
+      label: "Homepage",
       visibleTo: editorialRole,
       items: [
-        { to: "/admin/content", label: "All Content", icon: Layers },
-        { to: "/admin/create", label: "Create New", icon: FileText },
+        { to: "/admin/homepage/hero", label: "Hero", icon: Star },
+        { to: "/admin/homepage/sections", label: "Homepage Sections", icon: Layers },
       ],
     },
     {
-      label: "Editorial",
+      label: "Understand Indonesia",
       visibleTo: editorialRole,
       items: [
-        { to: "/admin/submissions", label: "Submissions", icon: Inbox, badge: submissions },
-        { to: "/admin/review", label: "Review", icon: ClipboardCheck, badge: reviewCount },
-        { to: "/admin/calendar", label: "Calendar", icon: CalendarRange },
+        { to: "/admin/articles", label: "Articles", icon: FileText },
+        { to: "/admin/topics", label: "Topics", icon: Tags },
+        { to: "/admin/collections", label: "Collections", icon: Library },
+        { to: "/admin/people-organisations", label: "People & Organisations", icon: Users },
       ],
     },
     {
-      label: "Partnerships",
-      visibleTo: (r: AdminRole) => can(r, "partnership") || r === "Viewer / Leadership",
+      label: "Experience",
+      visibleTo: editorialRole,
       items: [
-        { to: "/admin/inquiries", label: "Inquiries", icon: MessageSquare, badge: routing },
-        { to: "/admin/partners", label: "Partners", icon: Building2 },
-        { to: "/admin/follow-ups", label: "Follow-ups", icon: BellRing, badge: overdue },
+        { to: "/admin/events-places", label: "Events & Places", icon: CalendarDays },
+        { to: "/admin/around-the-world", label: "Indonesia Around the World", icon: MapPin },
       ],
     },
+    { label: "Connect", visibleTo: (r: AdminRole) => can(r, "partnership") || editorialRole(r) || r === "Viewer / Leadership", items: [{ to: "/admin/collaborations", label: "Collaborations", icon: Handshake }] },
+    { label: "About", visibleTo: editorialRole, items: [
+      { to: "/admin/about", label: "About Indonesia Vibes", icon: Home },
+      { to: "/admin/editorial-standards", label: "Editorial Standards", icon: BookOpen },
+      { to: "/admin/contact", label: "Contact", icon: MessageSquare },
+    ] },
     {
       label: "Settings",
       visibleTo: (r: AdminRole) => can(r, "configure") || r === "Managing Editor",
@@ -105,13 +107,10 @@ export function useNavGroups(): NavGroup[] {
 }
 
 const CREATE_OPTIONS: { kind: string; label: string }[] = [
-  { kind: "story", label: "Editorial Content" },
-  { kind: "culture", label: "Cultural subject" },
-  { kind: "person", label: "Person / community" },
-  { kind: "institution", label: "Institution" },
-  { kind: "place", label: "Place" },
+  { kind: "story", label: "Article" },
+  { kind: "person", label: "Person / Organisation" },
   { kind: "event", label: "Event" },
-  { kind: "opportunity", label: "Opportunity" },
+  { kind: "place", label: "Place" },
   { kind: "collaboration", label: "Collaboration" },
   { kind: "collection", label: "Collection" },
 ];

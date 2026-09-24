@@ -216,19 +216,17 @@ export type ContentKind =
   | "institution"
   | "place"
   | "event"
-  | "opportunity"
   | "collaboration"
   | "collection";
 
 export const CONTENT_KINDS: { kind: ContentKind; label: string; plural: string }[] = [
-  { kind: "story", label: "Story", plural: "Stories" },
+  { kind: "story", label: "Article", plural: "Articles" },
   { kind: "culture", label: "Cultural subject", plural: "Cultural subjects" },
   { kind: "person", label: "Person", plural: "People" },
   { kind: "community", label: "Community", plural: "Communities" },
   { kind: "institution", label: "Institution", plural: "Institutions" },
   { kind: "place", label: "Place", plural: "Places" },
   { kind: "event", label: "Event", plural: "Events" },
-  { kind: "opportunity", label: "Opportunity", plural: "Opportunities" },
   { kind: "collaboration", label: "Collaboration", plural: "Collaborations" },
   { kind: "collection", label: "Collection", plural: "Collections" },
 ];
@@ -261,7 +259,6 @@ export const REQUIRED_STAGES: Record<ContentKind, ContentStatus[]> = {
   institution: ["initial_review", "verification", "ready_for_approval"],
   place: ["editorial_review", "verification", "media_rights", "ready_for_approval"],
   event: ["initial_review", "verification", "ready_for_approval"],
-  opportunity: ["initial_review", "verification", "ready_for_approval"],
   collaboration: ["editorial_review", "verification", "media_rights", "ready_for_approval"],
   collection: ["editorial_review", "media_rights", "ready_for_approval"],
 };
@@ -1139,7 +1136,6 @@ export type TaxonomyCategory =
   | "User Intent"
   | "Recognition"
   | "Event Type"
-  | "Opportunity Type"
   | "Collaboration Type";
 
 export const TAXONOMY_CATEGORIES: TaxonomyCategory[] = [
@@ -1151,7 +1147,6 @@ export const TAXONOMY_CATEGORIES: TaxonomyCategory[] = [
   "User Intent",
   "Recognition",
   "Event Type",
-  "Opportunity Type",
   "Collaboration Type",
 ];
 
@@ -1165,7 +1160,7 @@ export interface TaxonomyTerm {
 
 export interface CurationSlot {
   id: string;
-  section: "Hero" | "In Focus" | "Featured Collection" | "People to Know" | "Upcoming Experiences" | "Current Collaborations" | "Opportunities";
+  section: "Hero" | "In Focus" | "Understand Indonesia" | "Topics" | "Featured Collection" | "People & Organisations" | "Coming Up" | "Around the World" | "Collaborations" | "Latest Content";
   contentId: string;
   label: string;
   order: number;
