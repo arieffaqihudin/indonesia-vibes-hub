@@ -1,8 +1,9 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
 
 import { adminHead } from "@/lib/admin/head";
 import { useAdmin } from "@/lib/admin/store";
-import { EmptyState, PageHeading, RowLinkAction, SummaryStrip, Table, Tag, Td, abtn, relative } from "@/components/admin/primitives";
+import { EmptyState, PageHeading, RowLinkAction, SummaryStrip, Table, TabBar, Tag, Td, abtn, relative } from "@/components/admin/primitives";
 
 export const Route = createFileRoute("/admin/collaborations/")({
   head: adminHead("Collaborations", "International collaborations from first idea to recorded outcome."),
@@ -11,16 +12,18 @@ export const Route = createFileRoute("/admin/collaborations/")({
 
 function Collaborations() {
   const admin = useAdmin();
+  const [tab, setTab] = useState("Collaborations");
 
   return (
     <>
       <PageHeading
-        eyebrow="Partnerships / Collaborations"
+        eyebrow="Connect / Collaborations"
         title="Collaborations"
         description="Grouped by stage. A collaboration only becomes public content once it is confirmed and written up."
       />
+      <TabBar label="Connect records" active={tab} onChange={setTab} tabs={[{ id: "Collaborations", label: "Collaborations", count: admin.pipeline.length }, { id: "Requests", label: "Requests", count: admin.inquiries.length }]} />
 
-      <SummaryStrip items={[
+      {tab === "Collaborations" ? <><SummaryStrip items={[
         { value: admin.pipeline.length, label: "Total collaborations" },
         { value: admin.pipeline.filter((item) => item.stage === "Discussion").length, label: "In discussion" },
         { value: admin.pipeline.filter((item) => item.stage === "Ongoing").length, label: "Ongoing" },
@@ -52,7 +55,7 @@ function Collaborations() {
             </Link>
           }
         />
-      )}
+      )}</> : <><SummaryStrip items={[{ value: admin.inquiries.length, label: "Total requests" }, { value: admin.inquiries.filter((item) => item.status === "New").length, label: "New" }, { value: admin.inquiries.filter((item) => item.assignedTo).length, label: "Assigned" }, { value: admin.inquiries.filter((item) => ["Completed", "Closed"].includes(item.status)).length, label: "Completed" }]} /><Table caption="Collaboration requests" head={["Requester", "Organisation", "Request", "Status", "Assigned to", ""]}>{admin.inquiries.map((item) => <tr key={item.id} className="hover:bg-muted/35"><Td className="font-medium">{item.requesterName}<span className="block text-xs text-muted-foreground">{item.country}</span></Td><Td>{item.organisation}</Td><Td>{item.subject}</Td><Td><Tag tone={item.status === "New" ? "alert" : "quiet"}>{item.status}</Tag></Td><Td>{item.assignedTo ?? "Unassigned"}</Td><Td><RowLinkAction to="/admin/inquiries/$id" params={{ id: item.id }} label={`Open request from ${item.requesterName}`} /></Td></tr>)}</Table></>}
     </>
   );
 }

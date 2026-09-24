@@ -16,6 +16,7 @@ import {
   worldNodes,
 } from "@/data/content";
 import { ongoingCollaborations } from "@/lib/freshness";
+import { useHomepageSettings } from "@/lib/homepage";
 import { ComingUpAroundWorld } from "@/components/editorial/ComingUpAroundWorld";
 import { brand } from "@/lib/brand";
 import { publicFormat } from "@/lib/editorial";
@@ -36,7 +37,10 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
-  const lead = stories[0]!;
+  const [homepage] = useHomepageSettings(stories.map((item) => item.id));
+  const heroSelection = homepage.hero[0];
+  const heroArticleId = heroSelection?.articleId.replace(/^c-/, "");
+  const lead = stories.find((item) => item.id === heroArticleId) ?? stories[0]!;
   const rest = stories.slice(1);
   const secondary = rest.slice(0, 2);
   const grid = rest.slice(2, 6);
@@ -53,18 +57,16 @@ function Home() {
           <div>
             <p className="eyebrow stagger-item text-primary">{brand.journey.join(" · ")}</p>
             <h1
-              className="display-1 stagger-item mt-6 text-ink"
+               className="display-1 stagger-item mt-6 text-ink"
               style={{ ["--reveal-delay" as string]: "90ms" }}
             >
-              Culture in motion, from the archipelago to the world.
+               {heroSelection?.headline || "Culture in motion, from the archipelago to the world."}
             </h1>
             <p
               className="standfirst stagger-item mt-7 max-w-xl"
               style={{ ["--reveal-delay" as string]: "180ms" }}
             >
-              {brand.name} is the front door to Indonesian cultural diplomacy in English: 17,000
-              islands of practice, told by the people who hold it, and programmed into rooms on six
-              continents.
+               {heroSelection?.summary || `${brand.name} is the front door to Indonesian cultural diplomacy in English: 17,000 islands of practice, told by the people who hold it, and programmed into rooms on six continents.`}
             </p>
             <div
               className="stagger-item mt-9 flex flex-wrap items-center gap-3"
@@ -74,7 +76,7 @@ function Home() {
                  to="/understand-indonesia"
                 className="press group inline-flex min-h-11 items-center gap-2 rounded-full bg-primary px-6 text-sm font-medium text-primary-foreground hover:bg-deep-red"
               >
-                 Understand Indonesia
+                 {heroSelection?.cta || "Understand Indonesia"}
                 <ArrowRight className="h-4 w-4 transition-transform duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-1" />
               </Link>
               <Link
