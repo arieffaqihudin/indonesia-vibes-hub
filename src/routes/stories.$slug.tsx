@@ -1,4 +1,4 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound, useSearch } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
 import { StoryCard } from "@/components/editorial/StoryCard";
@@ -18,7 +18,6 @@ import { attribution } from "@/lib/attribution";
 import { useCollections } from "@/lib/collections";
 
 export const Route = createFileRoute("/stories/$slug")({
-  validateSearch: (search: Record<string, unknown>) => ({ collection: typeof search.collection === "string" ? search.collection : undefined }),
   loader: ({ params }): { story: Story } => {
     const story = getStory(params.slug);
     if (!story) throw notFound();
@@ -66,7 +65,8 @@ export const Route = createFileRoute("/stories/$slug")({
 
 function StoryPage() {
   const { story } = Route.useLoaderData();
-  const { collection: collectionSlug } = Route.useSearch();
+  const untypedSearch = useSearch({ strict: false });
+  const collectionSlug = typeof untypedSearch.collection === "string" ? untypedSearch.collection : undefined;
   const [collections] = useCollections();
   const collection = collectionSlug ? collections.find((item) => item.slug === collectionSlug && item.storyIds.includes(story.id)) : undefined;
   const collectionIndex = collection?.storyIds.indexOf(story.id) ?? -1;
