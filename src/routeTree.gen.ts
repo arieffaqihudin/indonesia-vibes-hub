@@ -62,6 +62,7 @@ import { Route as AdminStoriesRouteImport } from './routes/admin.stories'
 import { Route as AdminSubmissionsRouteImport } from './routes/admin.submissions'
 import { Route as AdminTaxonomyRouteImport } from './routes/admin.taxonomy'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
+import { Route as CollaborateSlugRouteImport } from './routes/collaborate.$slug'
 import { Route as CollaborationsIndexRouteImport } from './routes/collaborations.index'
 import { Route as CollaborationsSlugRouteImport } from './routes/collaborations.$slug'
 import { Route as CollectionsIndexRouteImport } from './routes/collections.index'
@@ -391,6 +392,11 @@ const AdminUsersRoute = AdminUsersRouteImport.update({
   path: '/users',
   getParentRoute: () => AdminRoute,
 } as any)
+const CollaborateSlugRoute = CollaborateSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => CollaborateRoute,
+} as any)
 const CollaborationsIndexRoute = CollaborationsIndexRouteImport.update({
   id: '/collaborations/',
   path: '/collaborations/',
@@ -719,7 +725,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/admin': typeof AdminRouteWithChildren
   '/around-the-world': typeof AroundTheWorldRoute
-  '/collaborate': typeof CollaborateRoute
+  '/collaborate': typeof CollaborateRouteWithChildren
   '/connect': typeof ConnectRoute
   '/contact': typeof ContactRoute
   '/contemporary': typeof ContemporaryRoute
@@ -766,6 +772,7 @@ export interface FileRoutesByFullPath {
   '/admin/submissions': typeof AdminSubmissionsRoute
   '/admin/taxonomy': typeof AdminTaxonomyRoute
   '/admin/users': typeof AdminUsersRoute
+  '/collaborate/$slug': typeof CollaborateSlugRoute
   '/collaborations/$slug': typeof CollaborationsSlugRoute
   '/collections/$slug': typeof CollectionsSlugRoute
   '/contributor/account': typeof ContributorAccountRoute
@@ -835,7 +842,7 @@ export interface FileRoutesByTo {
   '/$': typeof SplatRoute
   '/about': typeof AboutRoute
   '/around-the-world': typeof AroundTheWorldRoute
-  '/collaborate': typeof CollaborateRoute
+  '/collaborate': typeof CollaborateRouteWithChildren
   '/connect': typeof ConnectRoute
   '/contact': typeof ContactRoute
   '/contemporary': typeof ContemporaryRoute
@@ -882,6 +889,7 @@ export interface FileRoutesByTo {
   '/admin/submissions': typeof AdminSubmissionsRoute
   '/admin/taxonomy': typeof AdminTaxonomyRoute
   '/admin/users': typeof AdminUsersRoute
+  '/collaborate/$slug': typeof CollaborateSlugRoute
   '/collaborations/$slug': typeof CollaborationsSlugRoute
   '/collections/$slug': typeof CollectionsSlugRoute
   '/contributor/account': typeof ContributorAccountRoute
@@ -953,7 +961,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/admin': typeof AdminRouteWithChildren
   '/around-the-world': typeof AroundTheWorldRoute
-  '/collaborate': typeof CollaborateRoute
+  '/collaborate': typeof CollaborateRouteWithChildren
   '/connect': typeof ConnectRoute
   '/contact': typeof ContactRoute
   '/contemporary': typeof ContemporaryRoute
@@ -1000,6 +1008,7 @@ export interface FileRoutesById {
   '/admin/submissions': typeof AdminSubmissionsRoute
   '/admin/taxonomy': typeof AdminTaxonomyRoute
   '/admin/users': typeof AdminUsersRoute
+  '/collaborate/$slug': typeof CollaborateSlugRoute
   '/collaborations/$slug': typeof CollaborationsSlugRoute
   '/collections/$slug': typeof CollectionsSlugRoute
   '/contributor/account': typeof ContributorAccountRoute
@@ -1119,6 +1128,7 @@ export interface FileRouteTypes {
     | '/admin/submissions'
     | '/admin/taxonomy'
     | '/admin/users'
+    | '/collaborate/$slug'
     | '/collaborations/$slug'
     | '/collections/$slug'
     | '/contributor/account'
@@ -1235,6 +1245,7 @@ export interface FileRouteTypes {
     | '/admin/submissions'
     | '/admin/taxonomy'
     | '/admin/users'
+    | '/collaborate/$slug'
     | '/collaborations/$slug'
     | '/collections/$slug'
     | '/contributor/account'
@@ -1352,6 +1363,7 @@ export interface FileRouteTypes {
     | '/admin/submissions'
     | '/admin/taxonomy'
     | '/admin/users'
+    | '/collaborate/$slug'
     | '/collaborations/$slug'
     | '/collections/$slug'
     | '/contributor/account'
@@ -1423,7 +1435,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AdminRoute: typeof AdminRouteWithChildren
   AroundTheWorldRoute: typeof AroundTheWorldRoute
-  CollaborateRoute: typeof CollaborateRoute
+  CollaborateRoute: typeof CollaborateRouteWithChildren
   ConnectRoute: typeof ConnectRoute
   ContactRoute: typeof ContactRoute
   ContemporaryRoute: typeof ContemporaryRoute
@@ -1851,6 +1863,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/users'
       preLoaderRoute: typeof AdminUsersRouteImport
       parentRoute: typeof AdminRoute
+    }
+    '/collaborate/$slug': {
+      id: '/collaborate/$slug'
+      path: '/$slug'
+      fullPath: '/collaborate/$slug'
+      preLoaderRoute: typeof CollaborateSlugRouteImport
+      parentRoute: typeof CollaborateRoute
     }
     '/collaborations/': {
       id: '/collaborations/'
@@ -2411,6 +2430,18 @@ const AdminRouteChildren: AdminRouteChildren = {
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
+interface CollaborateRouteChildren {
+  CollaborateSlugRoute: typeof CollaborateSlugRoute
+}
+
+const CollaborateRouteChildren: CollaborateRouteChildren = {
+  CollaborateSlugRoute: CollaborateSlugRoute,
+}
+
+const CollaborateRouteWithChildren = CollaborateRoute._addFileChildren(
+  CollaborateRouteChildren,
+)
+
 interface UnderstandIndonesiaRouteChildren {
   UnderstandIndonesiaCollectionsSlugRoute: typeof UnderstandIndonesiaCollectionsSlugRoute
   UnderstandIndonesiaTopicsSlugRoute: typeof UnderstandIndonesiaTopicsSlugRoute
@@ -2436,7 +2467,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AdminRoute: AdminRouteWithChildren,
   AroundTheWorldRoute: AroundTheWorldRoute,
-  CollaborateRoute: CollaborateRoute,
+  CollaborateRoute: CollaborateRouteWithChildren,
   ConnectRoute: ConnectRoute,
   ContactRoute: ContactRoute,
   ContemporaryRoute: ContemporaryRoute,
