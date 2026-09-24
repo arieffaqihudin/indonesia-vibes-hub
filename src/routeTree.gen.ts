@@ -94,6 +94,7 @@ import { Route as UnderstandIndonesiaCollectionsRouteImport } from './routes/und
 import { Route as UnderstandIndonesiaTopicsRouteImport } from './routes/understand-indonesia.topics'
 import { Route as AdminCollaborationsIndexRouteImport } from './routes/admin.collaborations.index'
 import { Route as AdminCollaborationsIdRouteImport } from './routes/admin.collaborations.$id'
+import { Route as AdminCollectionsIdRouteImport } from './routes/admin.collections.$id'
 import { Route as AdminContentIndexRouteImport } from './routes/admin.content.index'
 import { Route as AdminContentIdRouteImport } from './routes/admin.content.$id'
 import { Route as AdminContentNewRouteImport } from './routes/admin.content.new'
@@ -550,6 +551,11 @@ const AdminCollaborationsIdRoute = AdminCollaborationsIdRouteImport.update({
   path: '/collaborations/$id',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminCollectionsIdRoute = AdminCollectionsIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => AdminCollectionsRoute,
+} as any)
 const AdminContentIndexRoute = AdminContentIndexRouteImport.update({
   id: '/content/',
   path: '/content/',
@@ -706,7 +712,7 @@ export interface FileRoutesByFullPath {
   '/admin/around-the-world': typeof AdminAroundTheWorldRoute
   '/admin/articles': typeof AdminArticlesRoute
   '/admin/calendar': typeof AdminCalendarRoute
-  '/admin/collections': typeof AdminCollectionsRoute
+  '/admin/collections': typeof AdminCollectionsRouteWithChildren
   '/admin/contact': typeof AdminContactRoute
   '/admin/create': typeof AdminCreateRoute
   '/admin/culture': typeof AdminCultureRoute
@@ -762,6 +768,7 @@ export interface FileRoutesByFullPath {
   '/places/': typeof PlacesIndexRoute
   '/stories/': typeof StoriesIndexRoute
   '/admin/collaborations/$id': typeof AdminCollaborationsIdRoute
+  '/admin/collections/$id': typeof AdminCollectionsIdRoute
   '/admin/content/$id': typeof AdminContentIdRouteWithChildren
   '/admin/content/new': typeof AdminContentNewRoute
   '/admin/curation/homepage': typeof AdminCurationHomepageRoute
@@ -816,7 +823,7 @@ export interface FileRoutesByTo {
   '/admin/around-the-world': typeof AdminAroundTheWorldRoute
   '/admin/articles': typeof AdminArticlesRoute
   '/admin/calendar': typeof AdminCalendarRoute
-  '/admin/collections': typeof AdminCollectionsRoute
+  '/admin/collections': typeof AdminCollectionsRouteWithChildren
   '/admin/contact': typeof AdminContactRoute
   '/admin/create': typeof AdminCreateRoute
   '/admin/culture': typeof AdminCultureRoute
@@ -872,6 +879,7 @@ export interface FileRoutesByTo {
   '/places': typeof PlacesIndexRoute
   '/stories': typeof StoriesIndexRoute
   '/admin/collaborations/$id': typeof AdminCollaborationsIdRoute
+  '/admin/collections/$id': typeof AdminCollectionsIdRoute
   '/admin/content/$id': typeof AdminContentIdRouteWithChildren
   '/admin/content/new': typeof AdminContentNewRoute
   '/admin/curation/homepage': typeof AdminCurationHomepageRoute
@@ -928,7 +936,7 @@ export interface FileRoutesById {
   '/admin/around-the-world': typeof AdminAroundTheWorldRoute
   '/admin/articles': typeof AdminArticlesRoute
   '/admin/calendar': typeof AdminCalendarRoute
-  '/admin/collections': typeof AdminCollectionsRoute
+  '/admin/collections': typeof AdminCollectionsRouteWithChildren
   '/admin/contact': typeof AdminContactRoute
   '/admin/create': typeof AdminCreateRoute
   '/admin/culture': typeof AdminCultureRoute
@@ -984,6 +992,7 @@ export interface FileRoutesById {
   '/places/': typeof PlacesIndexRoute
   '/stories/': typeof StoriesIndexRoute
   '/admin/collaborations/$id': typeof AdminCollaborationsIdRoute
+  '/admin/collections/$id': typeof AdminCollectionsIdRoute
   '/admin/content/$id': typeof AdminContentIdRouteWithChildren
   '/admin/content/new': typeof AdminContentNewRoute
   '/admin/curation/homepage': typeof AdminCurationHomepageRoute
@@ -1097,6 +1106,7 @@ export interface FileRouteTypes {
     | '/places/'
     | '/stories/'
     | '/admin/collaborations/$id'
+    | '/admin/collections/$id'
     | '/admin/content/$id'
     | '/admin/content/new'
     | '/admin/curation/homepage'
@@ -1207,6 +1217,7 @@ export interface FileRouteTypes {
     | '/places'
     | '/stories'
     | '/admin/collaborations/$id'
+    | '/admin/collections/$id'
     | '/admin/content/$id'
     | '/admin/content/new'
     | '/admin/curation/homepage'
@@ -1318,6 +1329,7 @@ export interface FileRouteTypes {
     | '/places/'
     | '/stories/'
     | '/admin/collaborations/$id'
+    | '/admin/collections/$id'
     | '/admin/content/$id'
     | '/admin/content/new'
     | '/admin/curation/homepage'
@@ -2004,6 +2016,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminCollaborationsIdRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/collections/$id': {
+      id: '/admin/collections/$id'
+      path: '/$id'
+      fullPath: '/admin/collections/$id'
+      preLoaderRoute: typeof AdminCollectionsIdRouteImport
+      parentRoute: typeof AdminCollectionsRoute
+    }
     '/admin/content/': {
       id: '/admin/content/'
       path: '/content'
@@ -2175,6 +2194,17 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AdminCollectionsRouteChildren {
+  AdminCollectionsIdRoute: typeof AdminCollectionsIdRoute
+}
+
+const AdminCollectionsRouteChildren: AdminCollectionsRouteChildren = {
+  AdminCollectionsIdRoute: AdminCollectionsIdRoute,
+}
+
+const AdminCollectionsRouteWithChildren =
+  AdminCollectionsRoute._addFileChildren(AdminCollectionsRouteChildren)
+
 interface AdminTopicsRouteChildren {
   AdminTopicsSlugRoute: typeof AdminTopicsSlugRoute
 }
@@ -2205,7 +2235,7 @@ interface AdminRouteChildren {
   AdminAroundTheWorldRoute: typeof AdminAroundTheWorldRoute
   AdminArticlesRoute: typeof AdminArticlesRoute
   AdminCalendarRoute: typeof AdminCalendarRoute
-  AdminCollectionsRoute: typeof AdminCollectionsRoute
+  AdminCollectionsRoute: typeof AdminCollectionsRouteWithChildren
   AdminContactRoute: typeof AdminContactRoute
   AdminCreateRoute: typeof AdminCreateRoute
   AdminCultureRoute: typeof AdminCultureRoute
@@ -2252,7 +2282,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminAroundTheWorldRoute: AdminAroundTheWorldRoute,
   AdminArticlesRoute: AdminArticlesRoute,
   AdminCalendarRoute: AdminCalendarRoute,
-  AdminCollectionsRoute: AdminCollectionsRoute,
+  AdminCollectionsRoute: AdminCollectionsRouteWithChildren,
   AdminContactRoute: AdminContactRoute,
   AdminCreateRoute: AdminCreateRoute,
   AdminCultureRoute: AdminCultureRoute,
