@@ -5,8 +5,8 @@ import { useCollections } from "@/lib/collections";
 
 export const Route = createFileRoute("/understand-indonesia/collections/")({
   head: () => ({ meta: [
-    { title: "Collections — Indonesia Vibes" }, { name: "description", content: "Curated reading journeys through the stories, ideas and people shaping Indonesia." },
-    { property: "og:title", content: "Collections — Indonesia Vibes" }, { property: "og:description", content: "Follow editorially curated journeys through Indonesian culture." },
+    { title: "Curated Collections — Indonesia Vibes" }, { name: "description", content: "Follow curated reading journeys through stories, ideas and perspectives selected to be experienced together." },
+    { property: "og:title", content: "Curated Collections — Indonesia Vibes" }, { property: "og:description", content: "Follow curated reading journeys through Indonesian culture." },
     { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" },
   ] }),
   component: Collections,

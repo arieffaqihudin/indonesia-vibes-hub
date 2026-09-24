@@ -10,6 +10,7 @@ import {
   getPerson,
   getPlace,
   getStory,
+  getStoryById,
   relatedStories,
 } from "@/data/content";
 import { publicFormat } from "@/lib/editorial";
