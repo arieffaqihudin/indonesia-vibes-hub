@@ -48,7 +48,6 @@ import { Route as AdminFollowUpsRouteImport } from './routes/admin.follow-ups'
 import { Route as AdminInstitutionsRouteImport } from './routes/admin.institutions'
 import { Route as AdminMediaRouteImport } from './routes/admin.media'
 import { Route as AdminNotificationsRouteImport } from './routes/admin.notifications'
-import { Route as AdminOpportunitiesRouteImport } from './routes/admin.opportunities'
 import { Route as AdminPeopleRouteImport } from './routes/admin.people'
 import { Route as AdminPeopleOrganisationsRouteImport } from './routes/admin.people-organisations'
 import { Route as AdminPlacesRouteImport } from './routes/admin.places'
@@ -307,11 +306,6 @@ const AdminMediaRoute = AdminMediaRouteImport.update({
 const AdminNotificationsRoute = AdminNotificationsRouteImport.update({
   id: '/notifications',
   path: '/notifications',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminOpportunitiesRoute = AdminOpportunitiesRouteImport.update({
-  id: '/opportunities',
-  path: '/opportunities',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminPeopleRoute = AdminPeopleRouteImport.update({
@@ -685,7 +679,6 @@ export interface FileRoutesByFullPath {
   '/admin/institutions': typeof AdminInstitutionsRoute
   '/admin/media': typeof AdminMediaRoute
   '/admin/notifications': typeof AdminNotificationsRoute
-  '/admin/opportunities': typeof AdminOpportunitiesRoute
   '/admin/people': typeof AdminPeopleRoute
   '/admin/people-organisations': typeof AdminPeopleOrganisationsRoute
   '/admin/places': typeof AdminPlacesRoute
@@ -790,7 +783,6 @@ export interface FileRoutesByTo {
   '/admin/institutions': typeof AdminInstitutionsRoute
   '/admin/media': typeof AdminMediaRoute
   '/admin/notifications': typeof AdminNotificationsRoute
-  '/admin/opportunities': typeof AdminOpportunitiesRoute
   '/admin/people': typeof AdminPeopleRoute
   '/admin/people-organisations': typeof AdminPeopleOrganisationsRoute
   '/admin/places': typeof AdminPlacesRoute
@@ -897,7 +889,6 @@ export interface FileRoutesById {
   '/admin/institutions': typeof AdminInstitutionsRoute
   '/admin/media': typeof AdminMediaRoute
   '/admin/notifications': typeof AdminNotificationsRoute
-  '/admin/opportunities': typeof AdminOpportunitiesRoute
   '/admin/people': typeof AdminPeopleRoute
   '/admin/people-organisations': typeof AdminPeopleOrganisationsRoute
   '/admin/places': typeof AdminPlacesRoute
@@ -1005,7 +996,6 @@ export interface FileRouteTypes {
     | '/admin/institutions'
     | '/admin/media'
     | '/admin/notifications'
-    | '/admin/opportunities'
     | '/admin/people'
     | '/admin/people-organisations'
     | '/admin/places'
@@ -1110,7 +1100,6 @@ export interface FileRouteTypes {
     | '/admin/institutions'
     | '/admin/media'
     | '/admin/notifications'
-    | '/admin/opportunities'
     | '/admin/people'
     | '/admin/people-organisations'
     | '/admin/places'
@@ -1216,7 +1205,6 @@ export interface FileRouteTypes {
     | '/admin/institutions'
     | '/admin/media'
     | '/admin/notifications'
-    | '/admin/opportunities'
     | '/admin/people'
     | '/admin/people-organisations'
     | '/admin/places'
@@ -1617,13 +1605,6 @@ declare module '@tanstack/react-router' {
       path: '/notifications'
       fullPath: '/admin/notifications'
       preLoaderRoute: typeof AdminNotificationsRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/opportunities': {
-      id: '/admin/opportunities'
-      path: '/opportunities'
-      fullPath: '/admin/opportunities'
-      preLoaderRoute: typeof AdminOpportunitiesRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/people': {
@@ -2107,7 +2088,6 @@ interface AdminRouteChildren {
   AdminInstitutionsRoute: typeof AdminInstitutionsRoute
   AdminMediaRoute: typeof AdminMediaRoute
   AdminNotificationsRoute: typeof AdminNotificationsRoute
-  AdminOpportunitiesRoute: typeof AdminOpportunitiesRoute
   AdminPeopleRoute: typeof AdminPeopleRoute
   AdminPeopleOrganisationsRoute: typeof AdminPeopleOrganisationsRoute
   AdminPlacesRoute: typeof AdminPlacesRoute
@@ -2153,7 +2133,6 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminInstitutionsRoute: AdminInstitutionsRoute,
   AdminMediaRoute: AdminMediaRoute,
   AdminNotificationsRoute: AdminNotificationsRoute,
-  AdminOpportunitiesRoute: AdminOpportunitiesRoute,
   AdminPeopleRoute: AdminPeopleRoute,
   AdminPeopleOrganisationsRoute: AdminPeopleOrganisationsRoute,
   AdminPlacesRoute: AdminPlacesRoute,
