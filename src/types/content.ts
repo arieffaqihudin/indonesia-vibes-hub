@@ -228,6 +228,9 @@ export interface Story {
   /** The canonical topic remains stable while delivery style can vary. */
   topics?: ThemeId[];
   sourceAttribution?: string;
+  /** Internal only: how a curated article was produced. Drives public attribution wording. */
+  curationModel?: "External Author" | "External Material" | "Co-created";
+  coContributors?: string;
   readingMinutes: number;
   publishedAt: string;
   image: string;
