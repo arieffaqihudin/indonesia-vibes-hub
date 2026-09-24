@@ -16,6 +16,7 @@ import {
 import { publicFormat } from "@/lib/editorial";
 import { attribution } from "@/lib/attribution";
 import { useCollections } from "@/lib/collections";
+import { topicById } from "@/lib/topics";
 
 export const Route = createFileRoute("/stories/$slug")({
   loader: ({ params }): { story: Story } => {
@@ -75,6 +76,8 @@ function StoryPage() {
   const related = relatedStories(story);
   const forms = story.formIds.map(getForm).filter(Boolean) as CulturalForm[];
   const people = story.peopleIds.map(getPerson).filter(Boolean) as Person[];
+  const authorProfile = story.author ? people.find((person) => person.name.toLocaleLowerCase() === story.author?.toLocaleLowerCase()) : undefined;
+  const relatedPeople = people.filter((person) => person.id !== authorProfile?.id);
   const placesIn = story.placeIds.map(getPlace).filter(Boolean) as Place[];
   const credit = attribution({
     ...(story.contentSource ? { contentSource: story.contentSource } : {}),
@@ -90,19 +93,17 @@ function StoryPage() {
       <ReadingProgress />
       {collection ? <nav aria-label="Collection reading journey" className="border-b border-border bg-blush"><div className="container-editorial flex flex-wrap items-center gap-x-5 gap-y-2 py-3 text-xs"><Link to="/understand-indonesia/collections/$slug" params={{ slug: collection.slug }} className="font-semibold text-ink hover:text-primary">{collection.title}</Link><span className="text-muted-foreground">Story {collectionIndex + 1} of {collection.storyIds.length}</span><span className="ml-auto flex items-center gap-4">{previousStory ? <Link to="/stories/$slug" params={{ slug: previousStory.slug }} search={{ collection: collection.slug }} className="inline-flex items-center gap-1 text-ink hover:text-primary"><ArrowLeft className="h-3.5 w-3.5" /> Previous</Link> : null}<Link to="/understand-indonesia/collections/$slug" params={{ slug: collection.slug }} className="text-ink hover:text-primary">Back to Collection</Link>{nextStory ? <Link to="/stories/$slug" params={{ slug: nextStory.slug }} search={{ collection: collection.slug }} className="inline-flex items-center gap-1 text-ink hover:text-primary">Next <ArrowRight className="h-3.5 w-3.5" /></Link> : null}</span></div></nav> : null}
       <header className="container-editorial pt-14 pb-10 md:pt-20">
-        <p className="eyebrow text-primary">
-          {publicFormat(story)} · {story.topics?.[0] ?? "Indonesia"} · {story.readingMinutes} min read
-        </p>
+        <p className="eyebrow text-primary">{story.topics?.[0] ?? "Indonesia"} · {publicFormat(story)}</p>
         <h1 className="display-1 mt-5 max-w-4xl text-ink">{story.title}</h1>
         <p className="standfirst mt-6 max-w-2xl">{story.dek}</p>
-        <div className="mt-7 flex flex-col gap-1 border-t border-border pt-5 text-sm text-muted-foreground sm:flex-row sm:flex-wrap sm:items-baseline sm:gap-x-4">
-          <p className="text-ink">
-            {credit.primary}
-            {credit.role ? <span className="text-muted-foreground">, {credit.role}</span> : null}
-            {credit.secondary ? <span className="block text-muted-foreground sm:inline sm:before:content-['·_'] sm:before:mx-1">{credit.secondary}</span> : null}
+        <div className="mt-8 max-w-2xl border-y border-border bg-sand/35 px-4 py-5 sm:px-5">
+          <p className="eyebrow text-primary">Article author</p>
+          <p className="mt-2 text-lg font-semibold text-ink">
+            {authorProfile ? <Link to="/people/$slug" params={{ slug: authorProfile.slug }} className="link-underline">{credit.primary} <ArrowRight className="ml-1 inline h-4 w-4" /></Link> : credit.primary}
+            {credit.role ? <span className="ml-2 text-base font-normal text-muted-foreground">{credit.role}</span> : null}
           </p>
-          <p>Published {formatDate(story.publishedAt)}</p>
-          {story.updatedAt ? <p>Updated {formatDate(story.updatedAt)}</p> : null}
+          {credit.secondary ? <p className="mt-1 text-sm text-muted-foreground">{credit.secondary}</p> : null}
+          <p className="mt-3 text-sm text-muted-foreground">{formatDate(story.publishedAt)} · {story.readingMinutes} min read{story.updatedAt ? ` · Updated ${formatDate(story.updatedAt)}` : ""}</p>
         </div>
         {story.reviewedBy ? (
           <p className="mt-2 text-sm text-muted-foreground">
@@ -147,11 +148,16 @@ function StoryPage() {
           ) : null}
         </div>
 
-        <div className="space-y-10 border-t border-border pt-8 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-10">
-          {forms.length ? (
-            <div>
-            <p className="eyebrow text-muted-foreground">Related topics</p>
+        {(story.topics?.length || forms.length || relatedPeople.length || placesIn.length) ? <aside aria-labelledby="related-heading" className="border-t border-border pt-8 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-10">
+          <h2 id="related-heading" className="eyebrow text-ink">Related to this Article</h2>
+          {(story.topics?.length || forms.length) ? (
+            <section className="mt-7">
+              <h3 className="eyebrow text-muted-foreground">Topics</h3>
               <ul className="mt-3 space-y-2">
+                {story.topics?.map((topic) => {
+                  const definition = topicById(topic);
+                  return <li key={topic}>{definition ? <Link to="/understand-indonesia/topics/$slug" params={{ slug: definition.slug }} className="text-sm font-medium text-ink hover:text-primary">{topic}</Link> : <span className="text-sm font-medium text-ink">{topic}</span>}</li>;
+                })}
                 {forms.map((f) => (
                   <li key={f.id}>
                     <Link
@@ -163,42 +169,45 @@ function StoryPage() {
                   </li>
                 ))}
               </ul>
-            </div>
+            </section>
           ) : null}
 
-          {people.length ? (
-            <div>
-              <p className="eyebrow text-muted-foreground">People</p>
-              <ul className="mt-3 space-y-4">
-                {people.map((p) => (
-                  <li key={p.id} className="flex min-w-0 items-center gap-3">
+          {relatedPeople.length ? (
+            <section className="mt-8 border-t border-border pt-7">
+              <h3 className="eyebrow text-muted-foreground">Related People</h3>
+              <p className="mt-2 text-xs leading-relaxed text-muted-foreground">People connected to the subjects discussed in this article.</p>
+              <ul className="mt-5 space-y-5">
+                {relatedPeople.map((p) => {
+                  const relationshipTopic = story.topics?.find((topic) => p.themes.includes(topic));
+                  const relationshipForm = forms.find((form) => p.formIds.includes(form.id));
+                  const context = relationshipForm?.name ?? relationshipTopic;
+                  return <li key={p.id} className="flex min-w-0 items-start gap-3">
                     <img
                       src={p.image}
                       alt=""
                       width={96}
                       height={96}
                       loading="lazy"
-                      className="h-11 w-11 shrink-0 rounded-full object-cover"
+                      className="h-12 w-12 shrink-0 rounded-sm object-cover"
                     />
                     <span className="min-w-0">
-                      <span className="block truncate text-sm font-medium text-ink">{p.name}</span>
-                      <span className="block truncate text-xs text-muted-foreground">
-                        {p.role}
-                      </span>
+                      <Link to="/people/$slug" params={{ slug: p.slug }} className="block text-sm font-semibold text-ink hover:text-primary">{p.name}</Link>
+                      <span className="mt-0.5 block text-xs leading-relaxed text-muted-foreground">{p.role}</span>
+                      {context ? <span className="mt-1 block text-[0.7rem] text-primary">Related to {context} <ArrowRight className="ml-0.5 inline h-3 w-3" /></span> : null}
                     </span>
-                  </li>
-                ))}
+                  </li>;
+                })}
               </ul>
-            </div>
+            </section>
           ) : null}
 
           {placesIn.length ? (
-            <div>
-              <p className="eyebrow text-muted-foreground">Places</p>
+            <section className="mt-8 border-t border-border pt-7">
+              <h3 className="eyebrow text-muted-foreground">Related Places</h3>
               <ul className="mt-3 space-y-2">
                 {placesIn.map((pl) => (
-                  <li key={pl.id} className="text-sm text-ink">
-                    {pl.name} <span className="text-muted-foreground">· {pl.country}</span>
+                  <li key={pl.id}>
+                    <Link to="/places/$slug" params={{ slug: pl.slug }} className="text-sm font-medium text-ink hover:text-primary">{pl.name} <span className="font-normal text-muted-foreground">· {pl.country}</span></Link>
                   </li>
                 ))}
               </ul>
@@ -206,11 +215,11 @@ function StoryPage() {
                 to="/events-places"
                 className="mt-4 inline-block text-sm font-medium text-primary underline underline-offset-4"
               >
-                All places
+                View related places <ArrowRight className="ml-1 inline h-3.5 w-3.5" />
               </Link>
-            </div>
+            </section>
           ) : null}
-        </div>
+        </aside> : null}
       </div>
 
       {related.length ? (

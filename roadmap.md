@@ -17,8 +17,8 @@
 
 # Article authorship and related content
 
-- [ ] Establish a clear canonical author byline below title and standfirst
-- [ ] Group Topics, Related People, and Related Places under “Related to this Article”
-- [ ] Show canonical relationship context and avoid repeating the author
-- [ ] Separate Author from Connections in the CMS article editor
-- [ ] Verify desktop and mobile hierarchy, links, and attribution clarity
+- [x] Establish a clear canonical author byline below title and standfirst
+- [x] Group Topics, Related People, and Related Places under “Related to this Article”
+- [x] Show canonical relationship context and avoid repeating the author
+- [x] Separate Author from Connections in the CMS article editor
+- [x] Verify desktop and mobile hierarchy, links, and attribution clarity
