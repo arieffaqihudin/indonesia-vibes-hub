@@ -78,7 +78,7 @@ export function ComingUpAroundWorld({ limit = 12 }: { limit?: number }) {
       ) : (
         <p className="mt-10 border-y border-border py-6 text-sm text-muted-foreground">
           No upcoming dates are currently listed. Programmes in preparation appear under{" "}
-          <Link to="/collaborate" className="link-underline text-primary">
+          <Link to="/connect" className="link-underline text-primary">
             collaborations
           </Link>
           .

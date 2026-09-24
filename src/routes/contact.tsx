@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 
 import { PageHeader } from "@/components/editorial/Section";
+import { ContextualFaq } from "@/components/editorial/FaqList";
 import { brand } from "@/lib/brand";
 import { INQUIRY_TOPICS, STRUCTURED_TOPICS, isInquiryTopic } from "@/lib/inquiry";
 import type { InquirySearch, InquiryTopic } from "@/lib/inquiry";
@@ -226,6 +227,7 @@ function ContactPage() {
           </div>
         </div>
       </div>
+      <div className="container-editorial pb-16"><ContextualFaq placement="contact" limit={5} title="Common questions" /></div>
     </>
   );
 }

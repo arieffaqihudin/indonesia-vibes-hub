@@ -50,7 +50,7 @@ function AboutPage() {
             Directories of{" "}
             <Link to="/people-organisations">people and organisations</Link>,{" "}
             <Link to="/events-places">events and places</Link> and{" "}
-            <Link to="/collaborate">collaborations</Link> are maintained as
+            <Link to="/connect">collaborations</Link> are maintained as
             connective infrastructure for curators, researchers, funders and festival programmers.
             Introductions are facilitated by the team, never by publishing private contact details.
           </p>

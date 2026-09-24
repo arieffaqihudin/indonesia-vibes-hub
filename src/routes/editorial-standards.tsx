@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 
 import { PageHeader } from "@/components/editorial/Section";
+import { ContextualFaq } from "@/components/editorial/FaqList";
 
 export const Route = createFileRoute("/editorial-standards")({
   head: () => ({
@@ -153,6 +154,7 @@ function EditorialStandardsPage() {
           </section>
         </div>
       </div>
+      <div className="container-editorial pb-16"><ContextualFaq placement="editorial-standards" limit={5} title="Content & editorial questions" /></div>
     </>
   );
 }

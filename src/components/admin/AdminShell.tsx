@@ -25,6 +25,7 @@ import {
   MapPin,
   MenuIcon,
   MessageSquare,
+  HelpCircle,
   Search as SearchIcon,
   Settings,
   Sparkles,
@@ -94,6 +95,7 @@ export function useNavGroups(): NavGroup[] {
     { label: "About", visibleTo: editorialRole, items: [
       { to: "/admin/about", label: "About Indonesia Vibes", icon: Home },
       { to: "/admin/editorial-standards", label: "Editorial Standards", icon: BookOpen },
+      { to: "/admin/faq", label: "FAQ", icon: HelpCircle },
       { to: "/admin/contact", label: "Contact", icon: MessageSquare },
     ] },
     {

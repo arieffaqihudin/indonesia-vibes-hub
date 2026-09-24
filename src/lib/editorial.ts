@@ -33,3 +33,7 @@ export const publicFormatFromInternal = (value?: string): PublicFormat =>
   DELIVERY_PUBLIC_LABEL[(DELIVERY_TYPES.includes(value as DeliveryType) ? value : "Semantic") as DeliveryType];
 
 export const isEditorialKind = (kind: string) => kind === "story" || kind === "culture";
+
+/** Contributor submissions default to By Curation; everything else to Internal. */
+export const contentSourceOf = (item: { contentSource?: ContentSource | undefined; submissionId?: string | undefined }): ContentSource =>
+  item.contentSource ?? (item.submissionId ? "By Curation" : "Internal");

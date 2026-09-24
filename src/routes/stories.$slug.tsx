@@ -12,6 +12,7 @@ import {
   relatedStories,
 } from "@/data/content";
 import { publicFormat } from "@/lib/editorial";
+import { attribution } from "@/lib/attribution";
 
 export const Route = createFileRoute("/stories/$slug")({
   loader: ({ params }): { story: Story } => {
@@ -65,6 +66,14 @@ function StoryPage() {
   const forms = story.formIds.map(getForm).filter(Boolean) as CulturalForm[];
   const people = story.peopleIds.map(getPerson).filter(Boolean) as Person[];
   const placesIn = story.placeIds.map(getPlace).filter(Boolean) as Place[];
+  const credit = attribution({
+    ...(story.contentSource ? { contentSource: story.contentSource } : {}),
+    ...(story.curationModel ? { curationModel: story.curationModel } : {}),
+    ...(story.author ? { author: story.author } : {}),
+    ...(story.authorRole ? { authorRole: story.authorRole } : {}),
+    ...(story.sourceAttribution ? { sourceOrganisation: story.sourceAttribution } : {}),
+    ...(story.coContributors ? { coContributors: story.coContributors } : {}),
+  });
 
   return (
     <article>
@@ -76,12 +85,11 @@ function StoryPage() {
         <h1 className="display-1 mt-5 max-w-4xl text-ink">{story.title}</h1>
         <p className="standfirst mt-6 max-w-2xl">{story.dek}</p>
         <div className="mt-7 flex flex-col gap-1 border-t border-border pt-5 text-sm text-muted-foreground sm:flex-row sm:flex-wrap sm:items-baseline sm:gap-x-4">
-          {story.author ? (
-            <p className="text-ink">
-              By {story.author}
-              {story.authorRole ? <span className="text-muted-foreground">, {story.authorRole}</span> : null}
-            </p>
-          ) : null}
+          <p className="text-ink">
+            {credit.primary}
+            {credit.role ? <span className="text-muted-foreground">, {credit.role}</span> : null}
+            {credit.secondary ? <span className="block text-muted-foreground sm:inline sm:before:content-['·_'] sm:before:mx-1">{credit.secondary}</span> : null}
+          </p>
           <p>Published {formatDate(story.publishedAt)}</p>
           {story.updatedAt ? <p>Updated {formatDate(story.updatedAt)}</p> : null}
         </div>

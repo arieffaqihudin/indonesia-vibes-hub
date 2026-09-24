@@ -15,6 +15,8 @@ import {
 import { daysUntil } from "@/lib/admin/types";
 import { stories } from "@/data/content";
 import { useHomepageSettings } from "@/lib/homepage";
+import { contentSourceOf } from "@/lib/editorial";
+import { useFaqs } from "@/lib/faq";
 import { EmptyState, PageHeading, abtn, dateFmt, relative, timeFmt } from "@/components/admin/primitives";
 
 export const Route = createFileRoute("/admin/")({
@@ -80,6 +82,11 @@ function OverviewPage() {
 
   const articles = content.filter((c) => c.kind === "story");
   const publishedArticles = articles.filter((c) => c.status === "published");
+  const internalCount = articles.filter((c) => contentSourceOf(c) === "Internal").length;
+  const curatedCount = articles.length - internalCount;
+  const pct = (n: number) => (articles.length ? Math.round((n / articles.length) * 100) : 0);
+  const [faqs] = useFaqs();
+  const faqDrafts = faqs.filter((f) => f.status === "Draft");
 
   const todayEvents = content.filter((c) => {
     if (c.kind !== "event") return false;
@@ -120,6 +127,7 @@ function OverviewPage() {
           { count: overdue.length, label: "partner follow-ups overdue", hint: "Past their due date", to: "/admin/follow-ups", cta: "View" },
         ]),
     { count: homepage.hero.length ? 0 : 1, label: "homepage Hero has no article", hint: "Choose one to five published articles", to: "/admin/homepage/hero", cta: "Manage" },
+    { count: faqDrafts.length, label: `FAQ draft${faqDrafts.length === 1 ? "" : "s"} waiting to publish`, hint: "Only published FAQs appear on the site", to: "/admin/faq", cta: "Open" },
     { count: stale.length, label: "published records overdue for review", hint: "Sent to the review queue, never unpublished automatically", to: "/admin/review", cta: "Review" },
   ].filter((a) => a.count > 0);
 
@@ -146,6 +154,15 @@ function OverviewPage() {
             [articles.length, "Total articles"], [publishedArticles.length, "Published"],
             [inReview.filter((item) => item.kind === "story").length, "In review"], [`${homepage.hero.length}/5`, "Homepage Hero"],
           ].map(([value, label]) => <div key={label} className="px-4 py-4"><dd className="text-xl font-semibold text-ink">{value}</dd><dt className="mt-1 text-xs text-muted-foreground">{label}</dt></div>)}
+        </dl>
+      </section>
+
+      <section aria-labelledby="content-source" className="mb-9 max-w-5xl">
+        <h2 id="content-source" className="border-b border-border pb-2 text-[0.68rem] font-semibold tracking-[0.12em] text-clay uppercase">Content source</h2>
+        <dl className="grid grid-cols-2 divide-x divide-border border-b border-border">
+          {[["Internal", internalCount], ["By Curation", curatedCount]].map(([label, value]) => (
+            <div key={label} className="px-4 py-4"><dd className="text-xl font-semibold text-ink">{value} <span className="text-xs font-normal text-muted-foreground">{pct(value as number)}%</span></dd><dt className="mt-1 text-xs text-muted-foreground">{label}</dt></div>
+          ))}
         </dl>
       </section>
 

@@ -712,10 +712,10 @@ const storiesSource: Story[] = [
   {
     id: "st-gamelan-perspective", slug: "gamelan-global-cultural-language", title: "How Gamelan Became a Global Cultural Language",
     dek: "What changes when an ensemble travels—and why exchange works best when knowledge, credit and relationships travel with it.",
-    kind: "Feature", deliveryType: "Pragmatic", contentSource: "Internal", topics: ["Music", "Cultural Exchange"], readingMinutes: 9,
+    kind: "Feature", deliveryType: "Pragmatic", contentSource: "By Curation", curationModel: "External Author", topics: ["Music", "Cultural Exchange"], readingMinutes: 9,
     publishedAt: "2026-02-16", image: gamelan, imageAlt: "A gamelan ensemble prepared for an international performance",
     body: ["Gamelan’s global presence is not simply a story of export. It is a network of teachers, students, institutions and long-term exchange.", "Its strongest international future depends on keeping those relationships visible."],
-    formIds: ["cf-gamelan"], peopleIds: ["pe-2", "pe-c2"], placeIds: ["pl-yogya", "pl-berlin"], author: "Indonesia Vibes editorial team",
+    formIds: ["cf-gamelan"], peopleIds: ["pe-2", "pe-c2"], placeIds: ["pl-yogya", "pl-berlin"], author: "Maya Santoso", authorRole: "Ethnomusicologist",
     sources: [{ title: "Beating frequencies and the perception of gamelan tuning", author: "D. Prayoga, K. Meurer", year: "2024" }],
   },
   {
@@ -729,7 +729,7 @@ const storiesSource: Story[] = [
   {
     id: "st-civilization-deep", slug: "maritime-networks-shaped-archipelago-civilizations", title: "How Maritime Networks Shaped Civilizations Across the Archipelago",
     dek: "Ports and sea routes connected local societies to one another and to wider worlds without making them culturally uniform.",
-    kind: "Feature", deliveryType: "Semantic", contentSource: "Internal", topics: ["History & Civilization", "Maritime Culture"], readingMinutes: 11,
+    kind: "Feature", deliveryType: "Semantic", contentSource: "By Curation", curationModel: "Co-created", coContributors: "Universitas Hasanuddin", topics: ["History & Civilization", "Maritime Culture"], readingMinutes: 11,
     publishedAt: "2026-02-12", image: maritime, imageAlt: "A traditional wooden vessel crossing Indonesian waters",
     body: ["Water joined the archipelago long before modern roads did.", "Maritime networks moved objects and ideas, while communities adapted them through local institutions and languages."],
     formIds: ["cf-phinisi", "cf-temple"], peopleIds: ["pe-4"], placeIds: ["pl-bira", "pl-borobudur"], author: "Indonesia Vibes research desk",
@@ -754,10 +754,10 @@ const storiesSource: Story[] = [
   {
     id: "st-textiles-deep", slug: "many-lives-indonesian-textiles", title: "The Many Lives of Indonesian Textiles",
     dek: "Cloth can be clothing, inheritance, ceremony, livelihood, archive and contemporary design material at once.",
-    kind: "Feature", deliveryType: "Semantic", contentSource: "By Curation", sourceAttribution: "Kaliuda Weaving Community", topics: ["Textiles", "Craft & Design"], readingMinutes: 12,
+    kind: "Feature", deliveryType: "Semantic", contentSource: "By Curation", curationModel: "External Material", sourceAttribution: "Kaliuda Weaving Community", topics: ["Textiles", "Craft & Design"], readingMinutes: 12,
     publishedAt: "2026-02-06", image: textileHero, imageAlt: "A handwoven textile being examined in natural light",
     body: ["A textile changes meaning as it moves between household, ceremony, market, museum and runway.", "Following those lives reveals how value, authority and credit are negotiated."],
-    formIds: ["cf-ikat"], peopleIds: ["pe-1", "pe-c1", "pe-3"], placeIds: ["pl-sumba"], author: "Curated by Indonesia Vibes",
+    formIds: ["cf-ikat"], peopleIds: ["pe-1", "pe-c1", "pe-3"], placeIds: ["pl-sumba"],
     sources: [{ title: "Morinda dye chemistry and the two-year hinggi", author: "R. A. Hàmu, S. Prameswari", year: "2025" }],
   },
   {

@@ -296,7 +296,7 @@ function Home() {
               eyebrow="Connect"
                title="Collaborate with Indonesia"
                intro="See how museums, festivals, universities and independent spaces work with Indonesia, then begin a conversation."
-               action="/collaborate"
+               action="/connect"
                actionLabel="Start a collaboration"
             />
           </Reveal>
@@ -364,7 +364,7 @@ function Home() {
               Subscribe
             </Link>
             <Link
-              to="/collaborate"
+              to="/connect"
               className="press inline-flex min-h-11 items-center rounded-full border border-white/25 px-6 text-sm font-medium hover:bg-white/10"
             >
               Partner with us
