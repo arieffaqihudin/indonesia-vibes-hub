@@ -27,6 +27,7 @@ function NewContent() {
   const [sourceAttribution, setSourceAttribution] = useState("");
   const [ignoreDuplicates, setIgnoreDuplicates] = useState(false);
   const creatingArticle = useRef(false);
+  const [newArticleId, setNewArticleId] = useState<string | null>(null);
 
   useEffect(() => {
     if (kind !== "story" || creatingArticle.current) return;
@@ -58,8 +59,13 @@ function NewContent() {
       versions: [],
       prototype: true,
     });
-    navigate({ to: "/admin/content/$id", params: { id }, replace: true });
-  }, [admin, kind, navigate]);
+    setNewArticleId(id);
+  }, [admin, kind]);
+
+  useEffect(() => {
+    if (!newArticleId || !admin.content.some((entry) => entry.id === newArticleId)) return;
+    navigate({ to: "/admin/content/$id", params: { id: newArticleId }, replace: true });
+  }, [admin.content, navigate, newArticleId]);
 
   if (kind === "story") {
     return <div className="flex min-h-[60vh] items-center justify-center text-sm text-muted-foreground">Opening article editor…</div>;
