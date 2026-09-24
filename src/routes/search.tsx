@@ -6,6 +6,7 @@ import { SearchResultCard } from "@/components/editorial/EntityCards";
 import { FilterChip } from "@/components/editorial/FilterBar";
 import { popularSearches, searchAll, searchSuggestions } from "@/data/graph";
 import type { SearchRecord } from "@/types/content";
+import { faqText, publishedFor, useFaqs } from "@/lib/faq";
 
 const TYPES: SearchRecord["type"][] = [
   "Essentials",
@@ -64,6 +65,11 @@ function SearchPage() {
   }, [hits]);
   const visible = type ? hits.filter((h) => h.record.type === type) : hits;
   const suggestions = searchSuggestions();
+  const [faqs] = useFaqs();
+  const ql = q.trim().toLowerCase();
+  const faqHits = ql && !type
+    ? publishedFor(faqs, "faq").filter((f) => `${f.question} ${faqText(f.answer)} ${f.category}`.toLowerCase().includes(ql)).slice(0, 5)
+    : [];
 
   const submit = (value: string) =>
     navigate({ search: (prev) => ({ ...prev, q: value }), replace: true });
@@ -159,6 +165,21 @@ function SearchPage() {
               <span className="font-medium text-ink">“{q}”</span>
             </p>
 
+            {faqHits.length ? (
+              <section aria-labelledby="faq-results" className="order-last mt-12 max-w-3xl border-t border-border pt-6">
+                <h2 id="faq-results" className="eyebrow text-muted-foreground">FAQ</h2>
+                <ul className="mt-3 divide-y divide-border">
+                  {faqHits.map((f) => (
+                    <li key={f.id} className="py-3">
+                      <Link to="/faq" className="group block">
+                        <span className="text-[0.7rem] font-medium tracking-wide text-primary uppercase">FAQ · {f.category}</span>
+                        <span className="mt-1 block font-medium text-ink group-hover:text-primary">{f.question}</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ) : null}
             {visible.length ? (
               <ul key={`${q}-${visible.length}`} className="list-swap mt-6 max-w-3xl">
                 {visible.map((hit) => (
