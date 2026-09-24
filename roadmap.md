@@ -28,3 +28,10 @@
 - [x] Automated overflow/tap-target audit across public + CMS routes at mobile/tablet/desktop widths
 - [x] Fix every page-level overflow, clipped text, and cramped layout found
 - [x] Re-verify and deliver audit summary
+
+# Homepage Hero redesign
+
+- [ ] Recompose the homepage Hero as the selected cinematic editorial spread
+- [ ] Add calm autoplay, pause states, numbered navigation, arrows, keyboard, and swipe
+- [ ] Refine CMS Hero rows with thumbnail, publication status, ordering, and preview
+- [ ] Verify active content updates and responsive behavior at desktop, tablet, and mobile
