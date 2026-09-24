@@ -120,13 +120,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const groups = useNavGroups();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [collapsed, setCollapsed] = useState(() => {
-    if (typeof window === "undefined") return false;
-    const stored = window.sessionStorage.getItem("iv-admin-sidebar");
-    // Narrow desktops start collapsed so the working area stays wide enough.
-    if (!stored) return window.innerWidth < 1280;
-    return stored === "collapsed";
-  });
+  const [collapsed, setCollapsed] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [createOpen, setCreateOpen] = useState(false);
   const [query, setQuery] = useState("");
@@ -134,6 +128,10 @@ export function AdminShell({ children }: { children: ReactNode }) {
   const navigate = useNavigate();
 
   useEffect(() => setMobileOpen(false), [pathname]);
+  useEffect(() => {
+    const stored = window.sessionStorage.getItem("iv-admin-sidebar");
+    setCollapsed(stored ? stored === "collapsed" : window.innerWidth < 1280);
+  }, []);
   useEffect(() => {
     window.sessionStorage.setItem("iv-admin-sidebar", collapsed ? "collapsed" : "expanded");
   }, [collapsed]);

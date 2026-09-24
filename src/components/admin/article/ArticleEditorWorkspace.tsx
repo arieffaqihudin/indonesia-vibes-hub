@@ -143,7 +143,7 @@ export function ArticleEditorWorkspace({ id }: { id: string }) {
         </div>
       </main>
 
-      {!focusMode ? <aside className={cn("border-l border-border bg-background", "max-xl:fixed max-xl:inset-y-0 max-xl:right-0 max-xl:z-50 max-xl:w-[min(320px,90vw)] max-xl:shadow-lg max-xl:transition-transform", settingsOpen ? "max-xl:translate-x-0" : "max-xl:translate-x-full")}>
+      {!focusMode ? <aside className={cn("border-l border-border bg-background", "max-xl:fixed max-xl:inset-y-0 max-xl:right-0 max-xl:z-50 max-xl:w-[min(320px,90vw)] max-xl:shadow-lg", !settingsOpen && "max-xl:hidden")}>
         <div className="sticky top-14 max-h-[calc(100vh-3.5rem)] overflow-y-auto px-5 pb-10">
           <div className="flex min-h-14 items-center justify-between border-b border-border"><h2 className="text-sm font-semibold text-ink">Article Settings</h2><button type="button" className="inline-flex h-9 w-9 items-center justify-center rounded text-muted-foreground hover:bg-muted hover:text-ink" onClick={() => setSettingsOpen(false)} title="Collapse settings"><X className="h-4 w-4" /></button></div>
           <SettingsGroup title="Article" open>
