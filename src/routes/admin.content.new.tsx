@@ -8,6 +8,7 @@ import { CONTENT_FIELDS, CONTENT_KINDS, emptyRelationships, kindLabel, type Cont
 import { CONTENT_SOURCES, DELIVERY_HELP, DELIVERY_TYPES, SOURCE_HELP, type ContentSource, type DeliveryType } from "@/lib/editorial";
 import { TOPICS } from "@/lib/topics";
 import { PageHeading, PrototypeNote, abtn, field } from "@/components/admin/primitives";
+import { ArticleEditorWorkspace } from "@/components/admin/article/ArticleEditorWorkspace";
 
 export const Route = createFileRoute("/admin/content/new")({
   head: adminHead("Create content", "Start a new record inside the editorial workflow."),
@@ -62,13 +63,10 @@ function NewContent() {
     setNewArticleId(id);
   }, [admin, kind]);
 
-  useEffect(() => {
-    if (!newArticleId || !admin.content.some((entry) => entry.id === newArticleId)) return;
-    navigate({ to: "/admin/content/$id", params: { id: newArticleId }, replace: true });
-  }, [admin.content, navigate, newArticleId]);
-
   if (kind === "story") {
-    return <div className="flex min-h-[60vh] items-center justify-center text-sm text-muted-foreground">Opening article editor…</div>;
+    return newArticleId && admin.content.some((entry) => entry.id === newArticleId)
+      ? <ArticleEditorWorkspace id={newArticleId} />
+      : <div className="flex min-h-[60vh] items-center justify-center text-sm text-muted-foreground">Opening article editor…</div>;
   }
 
   const duplicates = useMemo(() => (title.length > 3 ? possibleDuplicates(title, admin.content) : []), [title, admin.content]);
