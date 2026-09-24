@@ -33,63 +33,48 @@ function slideAttribution(article: Story) {
 }
 
 export function HomepageHero({ slides }: { slides: HomepageHeroSlide[] }) {
-  const viewportRef = useRef<HTMLDivElement>(null);
-  const pointerStart = useRef<{ x: number; scrollLeft: number } | null>(null);
+  const railRef = useRef<HTMLDivElement>(null);
+  const pointerStart = useRef<number | null>(null);
   const moved = useRef(false);
   const [active, setActive] = useState(0);
+  const [direction, setDirection] = useState<"next" | "previous">("next");
   const multiple = slides.length > 1;
 
   useEffect(() => {
     if (active >= slides.length) setActive(0);
   }, [active, slides.length]);
 
+  useEffect(() => {
+    const activeSelector = railRef.current?.children.item(active);
+    if (!(activeSelector instanceof HTMLElement)) return;
+    activeSelector.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+  }, [active]);
+
   const goTo = (index: number) => {
-    const viewport = viewportRef.current;
-    if (!viewport || !slides.length) return;
+    if (!slides.length) return;
     const next = (index + slides.length) % slides.length;
-    const target = viewport.children.item(next);
-    if (!(target instanceof HTMLElement)) return;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    viewport.scrollTo({ left: target.offsetLeft, behavior: reduced ? "auto" : "smooth" });
+    setDirection(next === active ? direction : index > active || (active === slides.length - 1 && next === 0) ? "next" : "previous");
     setActive(next);
   };
 
-  const updateActiveFromScroll = () => {
-    const viewport = viewportRef.current;
-    if (!viewport) return;
-    let nearest = 0;
-    let distance = Number.POSITIVE_INFINITY;
-    Array.from(viewport.children).forEach((node, index) => {
-      if (!(node instanceof HTMLElement)) return;
-      const nextDistance = Math.abs(node.offsetLeft - viewport.scrollLeft);
-      if (nextDistance < distance) {
-        nearest = index;
-        distance = nextDistance;
-      }
-    });
-    setActive(nearest);
-  };
-
   const onPointerDown = (event: ReactPointerEvent<HTMLDivElement>) => {
-    if (!multiple || event.pointerType === "touch") return;
-    pointerStart.current = { x: event.clientX, scrollLeft: event.currentTarget.scrollLeft };
+    if (!multiple) return;
+    pointerStart.current = event.clientX;
     moved.current = false;
     event.currentTarget.setPointerCapture(event.pointerId);
   };
 
   const onPointerMove = (event: ReactPointerEvent<HTMLDivElement>) => {
     if (!pointerStart.current) return;
-    const delta = event.clientX - pointerStart.current.x;
+    const delta = event.clientX - pointerStart.current;
     if (Math.abs(delta) > 4) moved.current = true;
-    event.currentTarget.scrollLeft = pointerStart.current.scrollLeft - delta;
   };
 
   const onPointerUp = (event: ReactPointerEvent<HTMLDivElement>) => {
     if (!pointerStart.current) return;
-    const delta = event.clientX - pointerStart.current.x;
+    const delta = event.clientX - pointerStart.current;
     pointerStart.current = null;
     if (Math.abs(delta) > 48) goTo(active + (delta < 0 ? 1 : -1));
-    else goTo(active);
   };
 
   if (!slides.length) return null;
@@ -106,14 +91,13 @@ export function HomepageHero({ slides }: { slides: HomepageHeroSlide[] }) {
       }}
     >
       <div
-        ref={viewportRef}
-        className={`hero-track flex gap-3 overflow-x-auto overscroll-x-contain ${multiple ? "cursor-grab active:cursor-grabbing" : ""}`}
+        className={`hero-stage relative min-h-[39rem] overflow-hidden sm:min-h-[42rem] md:min-h-[clamp(38rem,72vh,49rem)] ${multiple ? "cursor-grab active:cursor-grabbing" : ""}`}
         tabIndex={multiple ? 0 : undefined}
-        onScroll={updateActiveFromScroll}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
         onPointerCancel={() => { pointerStart.current = null; }}
+        data-direction={direction}
       >
         {slides.map(({ article, selection }, index) => {
           const credit = slideAttribution(article);
@@ -123,12 +107,13 @@ export function HomepageHero({ slides }: { slides: HomepageHeroSlide[] }) {
           return (
             <article
               key={selection.articleId}
-              className={`hero-slide relative shrink-0 bg-background ${multiple ? "w-[calc(100%-1.25rem)] lg:w-[calc(100%-5.5rem)]" : "w-full"}`}
+              className="hero-slide absolute inset-0 bg-ink-deep"
+              data-active={index === active}
               aria-roledescription={multiple ? "slide" : undefined}
               aria-label={multiple ? `Slide ${index + 1} of ${slides.length}` : undefined}
               aria-hidden={multiple && index !== active}
             >
-              <div className="relative md:min-h-[35rem] lg:min-h-[clamp(38rem,78vh,50rem)]">
+              <div className="relative h-full">
                 <img
                   src={selection.image || article.image}
                   alt={article.imageAlt}
@@ -137,28 +122,28 @@ export function HomepageHero({ slides }: { slides: HomepageHeroSlide[] }) {
                   fetchPriority={index === 0 ? "high" : "auto"}
                   loading={index === 0 ? "eager" : "lazy"}
                   draggable={false}
-                  className={`relative h-[clamp(18rem,52vh,26rem)] w-full select-none object-cover md:absolute md:inset-0 md:h-full ${positionClass[focalPoint]}`}
+                  className={`hero-image absolute inset-0 h-full w-full select-none object-cover ${positionClass[focalPoint]}`}
                 />
-                <div className="pointer-events-none absolute inset-0 hidden bg-gradient-to-r from-ink-deep/95 via-ink-deep/62 to-transparent md:block" />
-                <div className="pointer-events-none absolute inset-0 hidden bg-gradient-to-t from-ink-deep/65 via-transparent to-transparent md:block" />
-                <div className="relative flex items-end bg-background px-5 pt-8 pb-20 sm:px-8 md:absolute md:inset-y-0 md:left-0 md:w-[64%] md:items-center md:bg-transparent md:px-10 md:pt-8 md:pb-24 lg:w-[61%] lg:px-[max(4rem,7vw)]">
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-ink-deep/95 via-ink-deep/58 to-ink-deep/5" />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink-deep/75 via-transparent to-ink-deep/15" />
+                <div className="relative flex h-full items-end px-5 pt-24 pb-10 sm:px-8 md:w-[68%] md:items-center md:px-10 md:pt-12 md:pb-20 lg:w-[62%] lg:px-[max(4rem,7vw)]">
                   <div className="hero-copy max-w-3xl" data-active={index === active}>
-                    <p className="eyebrow text-primary md:text-pink">
+                    <p className="eyebrow text-pink">
                       {article.topics?.[0] ?? "Indonesia"} <span aria-hidden="true">·</span> {publicFormat(article)}
                     </p>
-                    <h1 className="mt-4 text-[clamp(2.125rem,5.2vw,4.5rem)] leading-[0.98] font-medium text-ink md:text-primary-foreground">
+                    <h1 className="mt-4 text-[clamp(2.25rem,5.2vw,4.5rem)] leading-[0.98] font-medium text-primary-foreground">
                       {headline}
                     </h1>
-                    <p className="mt-5 max-w-2xl text-[clamp(1rem,1.35vw,1.25rem)] leading-relaxed text-muted-foreground md:text-primary-foreground/85">
+                    <p className="mt-5 max-w-2xl text-[clamp(1rem,1.35vw,1.25rem)] leading-relaxed text-primary-foreground/85">
                       {summary}
                     </p>
-                    <p className="mt-4 text-xs text-muted-foreground md:text-primary-foreground/70">
+                    <p className="mt-4 text-xs text-primary-foreground/70">
                       {credit.primary}{credit.secondary ? ` · ${credit.secondary.replace("Edited and curated", "Curated")}` : ""}
                     </p>
                     <Link
                       to="/stories/$slug"
                       params={{ slug: article.slug }}
-                      className="group mt-7 inline-flex min-h-11 items-center gap-2 border-b border-primary pb-1 text-sm font-semibold text-ink md:border-pink md:text-primary-foreground"
+                      className="group mt-7 inline-flex min-h-11 items-center gap-2 border-b border-pink pb-1 text-sm font-semibold text-primary-foreground"
                       tabIndex={multiple && index !== active ? -1 : undefined}
                       onClick={(event) => { if (moved.current) event.preventDefault(); }}
                     >
@@ -171,21 +156,48 @@ export function HomepageHero({ slides }: { slides: HomepageHeroSlide[] }) {
             </article>
           );
         })}
-      </div>
 
-      {multiple ? (
-        <div className="pointer-events-none absolute right-5 bottom-5 left-5 z-10 flex items-center justify-between md:right-10 md:bottom-7 md:left-auto md:justify-end md:gap-5 lg:right-[calc(5.5rem+2rem)]">
-          <p className="pointer-events-auto bg-background/92 px-3 py-2 text-xs font-semibold text-ink tabular-nums" aria-live="polite">
-            {String(active + 1).padStart(2, "0")} <span className="mx-2 text-muted-foreground">/</span> {String(slides.length).padStart(2, "0")}
-          </p>
-          <div className="pointer-events-auto flex gap-1.5">
-            <Button type="button" variant="outline" size="icon" className="min-h-11 min-w-11 rounded-none border-primary-foreground/35 bg-ink-deep/78 text-primary-foreground shadow-none hover:bg-primary hover:text-primary-foreground" aria-label="Previous article" onClick={() => goTo(active - 1)}>
+        {multiple ? (
+          <div className="absolute right-5 bottom-6 z-20 flex items-center gap-3 sm:right-8 md:right-10 md:bottom-9 lg:right-[max(4rem,7vw)]">
+            <p className="mr-1 text-xs font-semibold text-primary-foreground tabular-nums" aria-live="polite">
+              {String(active + 1).padStart(2, "0")} <span className="mx-1.5 text-primary-foreground/55">/</span> {String(slides.length).padStart(2, "0")}
+            </p>
+            <Button type="button" variant="outline" size="icon" className="min-h-11 min-w-11 rounded-none border-primary-foreground/45 bg-ink-deep/55 text-primary-foreground shadow-none backdrop-blur-sm hover:bg-primary hover:text-primary-foreground" aria-label="Previous article" onClick={() => goTo(active - 1)}>
               <ArrowLeft />
             </Button>
-            <Button type="button" variant="outline" size="icon" className="min-h-11 min-w-11 rounded-none border-primary-foreground/35 bg-ink-deep/78 text-primary-foreground shadow-none hover:bg-primary hover:text-primary-foreground" aria-label="Next article" onClick={() => goTo(active + 1)}>
+            <Button type="button" variant="outline" size="icon" className="min-h-11 min-w-11 rounded-none border-primary-foreground/45 bg-ink-deep/55 text-primary-foreground shadow-none backdrop-blur-sm hover:bg-primary hover:text-primary-foreground" aria-label="Next article" onClick={() => goTo(active + 1)}>
               <ArrowRight />
             </Button>
           </div>
+        ) : null}
+      </div>
+
+      {multiple ? (
+        <div ref={railRef} className="hero-rail scroll-strip flex border-t border-primary-foreground/15 bg-ink-deep px-5 sm:px-8 md:px-10 lg:px-[max(4rem,7vw)]" aria-label="Choose a featured article">
+          {slides.map(({ article, selection }, index) => (
+            <Button
+              key={selection.articleId}
+              type="button"
+              variant="ghost"
+              className="hero-selector group relative h-auto min-h-[8.25rem] min-w-[14.5rem] flex-1 items-start justify-start rounded-none px-0 py-5 pr-8 text-left text-primary-foreground hover:bg-transparent hover:text-primary-foreground md:min-w-0 md:pr-6"
+              data-active={index === active}
+              aria-current={index === active ? "true" : undefined}
+              aria-label={`Show article ${index + 1}: ${selection.headline || article.title}`}
+              onClick={() => goTo(index)}
+            >
+              <span className="block min-w-0 whitespace-normal">
+                <span className="flex items-center gap-2 text-[0.66rem] font-semibold uppercase text-primary-foreground/55">
+                  <span className="tabular-nums">{String(index + 1).padStart(2, "0")}</span>
+                  <span aria-hidden="true">·</span>
+                  <span className="truncate">{article.topics?.[0] ?? publicFormat(article)}</span>
+                </span>
+                <span className="mt-3 line-clamp-2 block max-w-[15rem] text-sm leading-snug font-medium text-primary-foreground/70 transition-colors group-hover:text-primary-foreground md:max-w-[12rem] lg:max-w-[15rem]">
+                  {selection.headline || article.title}
+                </span>
+                <span className="hero-selector-line mt-4 block h-px w-full bg-primary-foreground/25" aria-hidden="true" />
+              </span>
+            </Button>
+          ))}
         </div>
       ) : null}
     </section>
