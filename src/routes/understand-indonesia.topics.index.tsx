@@ -7,7 +7,7 @@ import { stories } from "@/data/content";
 import { TOPIC_CATEGORIES, useTopics, type TopicCategory } from "@/lib/topics";
 import { cn } from "@/lib/utils";
 
-export const Route = createFileRoute("/understand-indonesia/topics")({
+export const Route = createFileRoute("/understand-indonesia/topics/")({
   head: () => ({ meta: [
     { title: "Explore Indonesia by Topic — Indonesia Vibes" },
     { name: "description", content: "Browse a searchable catalogue of Indonesian cultural subjects, from music and textiles to maritime culture and cinema." },

@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { useCollections } from "@/lib/collections";
 import { cn } from "@/lib/utils";
 
-export const Route = createFileRoute("/understand-indonesia/collections")({
+export const Route = createFileRoute("/understand-indonesia/collections/")({
   head: () => ({ meta: [
     { title: "Collections — Indonesia Vibes" }, { name: "description", content: "Curated reading journeys through the stories, ideas and people shaping Indonesia." },
     { property: "og:title", content: "Collections — Indonesia Vibes" }, { property: "og:description", content: "Follow editorially curated journeys through Indonesian culture." },

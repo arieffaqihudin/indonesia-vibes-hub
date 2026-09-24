@@ -3,7 +3,7 @@ import { useState } from "react";
 import { FilterToolbar, PageHeading, SearchInput, SelectFilter, StatusIndicator, Table, Td, abtn, dateFmt } from "@/components/admin/primitives";
 import { useCollections } from "@/lib/collections";
 
-export const Route = createFileRoute("/admin/collections")({ component: Collections });
+export const Route = createFileRoute("/admin/collections/")({ component: Collections });
 function Collections() {
   const [collections] = useCollections();
   const [query, setQuery] = useState("");

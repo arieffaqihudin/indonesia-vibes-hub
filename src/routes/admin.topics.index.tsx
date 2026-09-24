@@ -5,7 +5,7 @@ import { FilterToolbar, PageHeading, SearchInput, SelectFilter, StatusIndicator,
 import { useAdmin } from "@/lib/admin/store";
 import { TOPIC_CATEGORIES, useTopics } from "@/lib/topics";
 
-export const Route = createFileRoute("/admin/topics")({
+export const Route = createFileRoute("/admin/topics/")({
   head: () => ({ meta: [{ title: "Topics — Indonesia Vibes CMS" }, { name: "description", content: "Manage the cultural topic catalogue." }, { property: "og:title", content: "Topics — Indonesia Vibes CMS" }, { property: "og:description", content: "Manage the cultural topic catalogue." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }),
   component: Topics,
 });
