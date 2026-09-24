@@ -23,12 +23,12 @@ const positionClass: Record<NonNullable<HeroItem["focalPoint"]>, string> = {
 
 function slideAttribution(article: Story) {
   return attribution({
-    contentSource: article.contentSource,
-    curationModel: article.curationModel,
-    author: article.author,
-    authorRole: article.authorRole,
-    sourceOrganisation: article.sourceAttribution,
-    coContributors: article.coContributors,
+    ...(article.contentSource ? { contentSource: article.contentSource } : {}),
+    ...(article.curationModel ? { curationModel: article.curationModel } : {}),
+    ...(article.author ? { author: article.author } : {}),
+    ...(article.authorRole ? { authorRole: article.authorRole } : {}),
+    ...(article.sourceAttribution ? { sourceOrganisation: article.sourceAttribution } : {}),
+    ...(article.coContributors ? { coContributors: article.coContributors } : {}),
   });
 }
 
