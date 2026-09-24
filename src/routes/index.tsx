@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { useEffect, useState } from "react";
 
 import { Reveal } from "@/components/motion/Reveal";
 import { InFocus } from "@/components/editorial/InFocus";
@@ -38,7 +39,11 @@ export const Route = createFileRoute("/")({
 
 function Home() {
   const [homepage] = useHomepageSettings(stories.map((item) => item.id));
-  const heroSelection = homepage.hero[0];
+  const [activeHero, setActiveHero] = useState(0);
+  useEffect(() => {
+    if (activeHero >= homepage.hero.length) setActiveHero(0);
+  }, [activeHero, homepage.hero.length]);
+  const heroSelection = homepage.hero[activeHero] ?? homepage.hero[0];
   const heroArticleId = heroSelection?.articleId.replace(/^c-/, "");
   const lead = stories.find((item) => item.id === heroArticleId) ?? stories[0]!;
   const rest = stories.slice(1);
@@ -48,6 +53,10 @@ function Home() {
   const otherCollections = collections.slice(1);
   const peopleToKnow = people.slice(0, 4);
   const collaborations = ongoingCollaborations().slice(0, 2);
+  const sectionStyle = (id: (typeof homepage.sections)[number]["id"]) => {
+    const section = homepage.sections.find((item) => item.id === id);
+    return { className: section?.visible === false ? "hidden" : "contents", style: { order: section?.order ?? 0 } };
+  };
 
   return (
     <>
@@ -92,7 +101,7 @@ function Home() {
 
           <Reveal as="figure" variant="mask" className="media-zoom relative">
             <img
-              src={lead.image}
+              src={heroSelection?.image || lead.image}
               alt={lead.imageAlt}
               width={1600}
               height={1104}
@@ -110,17 +119,29 @@ function Home() {
               </Link>
             </figcaption>
           </Reveal>
+          {homepage.hero.length > 1 ? (
+            <div className="flex flex-wrap gap-2 lg:col-span-2" aria-label="Featured articles">
+              {homepage.hero.map((item, index) => {
+                const article = stories.find((story) => story.id === item.articleId.replace(/^c-/, ""));
+                return article ? <button key={item.articleId} type="button" aria-pressed={index === activeHero} onClick={() => setActiveHero(index)} className={`min-h-9 rounded-full border px-4 text-xs ${index === activeHero ? "border-primary bg-blush text-clay" : "border-border text-muted-foreground hover:border-primary"}`}>{index + 1}. {item.headline || article.title}</button> : null;
+              })}
+            </div>
+          ) : null}
         </div>
       </section>
 
-      <InFocus />
+      <div className="flex flex-col">
+      <div {...sectionStyle("in-focus")}><InFocus /></div>
 
+      <div {...sectionStyle("understand")}>
       <section className="container-editorial py-16 md:py-24">
          <Reveal><SectionHeading eyebrow="Understand Indonesia" title="Featured articles" intro="Three ways into Indonesian knowledge: begin with the essentials, go deeper, or follow a perspective." action="/understand-indonesia" actionLabel="View all articles" /></Reveal>
         <div className="mt-10 grid gap-8 md:grid-cols-3">{(["Essentials", "Deep Dive", "Perspectives"] as const).map((format, i) => { const story = stories.find((item) => publicFormat(item) === format) ?? stories[i]!; return <Reveal key={format} delay={i * 70}><StoryCard story={story} size="sm" /></Reveal>; })}</div>
       </section>
+      </div>
 
       {/* Around the world */}
+      <div {...sectionStyle("around-world")}>
       <section className="container-editorial py-16 md:py-24">
         <Reveal>
           <SectionHeading
@@ -135,8 +156,10 @@ function Home() {
           <WorldMap />
         </Reveal>
       </section>
+      </div>
 
       {/* Featured collection */}
+      <div {...sectionStyle("collection")}>
       <section className="border-y border-border bg-blush">
         <div className="container-editorial py-16 md:py-24">
           <Reveal>
@@ -196,8 +219,10 @@ function Home() {
           </Reveal>
         </div>
       </section>
+      </div>
 
       {/* Browse by topic */}
+      <div {...sectionStyle("topics")}>
       <section className="container-editorial py-16 md:py-24">
         <Reveal>
           <SectionHeading
@@ -234,8 +259,10 @@ function Home() {
           ))}
         </div>
       </section>
+      </div>
 
       {/* People to know */}
+      <div {...sectionStyle("people")}>
       <section className="border-y border-border bg-sand">
         <div className="container-editorial py-16 md:py-24">
           <Reveal>
@@ -256,10 +283,12 @@ function Home() {
           </div>
         </div>
       </section>
+      </div>
 
-      <ComingUpAroundWorld />
+      <div {...sectionStyle("coming-up")}><ComingUpAroundWorld /></div>
 
       {/* Current collaborations */}
+      <div {...sectionStyle("collaborations")}>
       <section className="border-y border-border bg-blush">
         <div className="container-editorial py-16 md:py-24">
           <Reveal>
@@ -280,8 +309,10 @@ function Home() {
           </div>
         </div>
       </section>
+      </div>
 
       {/* Latest stories */}
+      <div {...sectionStyle("latest")}>
       <section className="border-y border-border bg-sand">
         <div className="container-editorial py-16 md:py-24">
           <Reveal>
@@ -309,6 +340,8 @@ function Home() {
           </div>
         </div>
       </section>
+      </div>
+      </div>
 
       {/* Newsletter / connect */}
       <section className="container-editorial py-16 md:py-24">
