@@ -1,12 +1,14 @@
-# Product architecture and admin workspace roadmap
+# Final product architecture roadmap
 
-- [x] Add the compatible Editorial Content dimensions and central Topic model
-- [x] Migrate seeded stories and add the three requested topic examples
-- [x] Replace public navigation with Explore, Experience, Connect, About, Search
-- [x] Build Explore, Topics, Topic detail, Experience, Inquiry, and Partners routes
-- [x] Update homepage, cards, search, collections, freshness, metadata, and legacy routes
-- [x] Simplify CMS navigation and preserve advanced One Data capabilities
-- [x] Apply the selected flat, minimalist admin system to priority operational pages
-- [x] Verify admin responsiveness, interactions, TypeScript, and preview rendering
-- [x] Hard-reset the admin shell, shared operational components, dashboard, lists, forms, and detail layouts
-- [x] Validate the rebuilt admin across desktop, tablet, and mobile without touching public or contributor presentation
+- [ ] Replace public navigation and sitemap with Understand Indonesia, Experience, Connect, About, Search
+- [ ] Consolidate public directories into People & Organisations and Events & Places
+- [ ] Consolidate collaboration examples and requests under Collaborate with Indonesia
+- [ ] Remove Opportunities from public content, search, homepage, CMS, mock data, and related surfaces
+- [ ] Redirect legacy public routes without losing useful content or breaking bookmarks
+- [ ] Rebuild homepage sections and connect them to the final architecture
+- [ ] Replace the CMS sidebar with the final mirrored product structure
+- [ ] Add Articles, Homepage Hero, Homepage Sections, merged directories, collaboration requests, and simple About editors
+- [ ] Add 1–5 published-article Hero selection, ordering, overrides, limit handling, and preview
+- [ ] Rebuild dashboard statistics and operational lists from live CMS state
+- [ ] Preserve sources, claims, rights, review history, relationships, roles, and One Data beneath simplified screens
+- [ ] Audit route metadata, desktop/tablet/mobile layouts, core public journeys, and CMS workflows
