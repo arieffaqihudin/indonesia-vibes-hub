@@ -118,6 +118,7 @@ interface AdminContextValue extends AdminState {
   updateClaim: (id: string, patch: Partial<Claim>) => void;
   addClaim: (claim: Omit<Claim, "id">) => void;
   updateMedia: (id: string, patch: Partial<MediaAsset>) => void;
+  addMedia: (asset: MediaAsset) => void;
   /* partnership */
   updateInquiry: (id: string, patch: Partial<Inquiry>, activity?: string) => void;
   addClarification: (id: string, message: string) => void;
@@ -307,6 +308,11 @@ export function AdminProvider({ children }: { children: ReactNode }) {
           const asset = state.media.find((m) => m.id === id);
           log({ action: `changed media rights to ${patch.permission}`, recordType: "Media", recordId: id, recordTitle: asset?.fileName ?? id });
         }
+      },
+
+      addMedia: (asset) => {
+        setState((s) => ({ ...s, media: [asset, ...s.media] }));
+        log({ action: "added article media", recordType: "Media", recordId: asset.id, recordTitle: asset.fileName });
       },
 
       updateInquiry: (id, patch, activity) => {

@@ -27,6 +27,7 @@ import {
 } from "@/lib/admin/types";
 import { CONTENT_SOURCES, DELIVERY_HELP, DELIVERY_TYPES, SOURCE_HELP, type ContentSource, type DeliveryType } from "@/lib/editorial";
 import { TOPICS } from "@/lib/topics";
+import { ArticleEditorWorkspace } from "@/components/admin/article/ArticleEditorWorkspace";
 import {
   Card,
   EmptyState,
@@ -78,6 +79,8 @@ function ContentWorkspace() {
       />
     );
   }
+
+  if (item.kind === "story") return <ArticleEditorWorkspace id={id} />;
 
   const readiness = networkReadiness(item);
   const actions = actionsFor(item.status, item.kind).filter((a) => can(admin.role, a.capability));

@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageHeading } from "@/components/admin/primitives";
 import { CONTENT_KINDS } from "@/lib/admin/types";
 
-export const Route = createFileRoute("/admin/create")({ component: CreateChooser });
+export const Route = createFileRoute("/admin/create")({ head: () => ({ meta: [{ title: "Create — Indonesia Vibes CMS" }, { name: "description", content: "Create an Indonesia Vibes article or connected cultural record." }, { property: "og:title", content: "Create — Indonesia Vibes CMS" }, { property: "og:description", content: "Create an Indonesia Vibes article or connected cultural record." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }), component: CreateChooser });
 
 function CreateChooser() {
   return <>

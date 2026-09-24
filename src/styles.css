@@ -238,6 +238,11 @@
     padding-left: 1.25rem;
     margin-bottom: 1.5rem;
   }
+  & ol {
+    list-style: decimal;
+    padding-left: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
   & li {
     margin-bottom: 0.5rem;
     line-height: 1.7;
@@ -246,6 +251,118 @@
     color: var(--color-primary);
     text-decoration: underline;
     text-underline-offset: 3px;
+  }
+}
+
+/* ---------- Article authoring ---------- */
+
+.article-editor-content > * {
+  position: relative;
+}
+
+.article-editor-content p.is-editor-empty:first-child::before {
+  color: color-mix(in oklab, var(--color-muted-foreground) 58%, transparent);
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+.article-editor-content blockquote,
+.article-document blockquote {
+  margin-block: 2rem;
+  border-left: 2px solid var(--color-primary);
+  padding-left: 1.25rem;
+  color: var(--color-clay);
+}
+
+.article-editor-content blockquote[data-pull-quote],
+.article-pull-quote {
+  margin-block: 2.75rem;
+  border: 0;
+  padding-left: 0;
+  font-size: 1.65rem;
+  line-height: 1.35;
+  font-weight: 500;
+}
+
+.article-editor-content aside[data-callout],
+.article-callout {
+  margin-block: 2rem;
+  border-left: 3px solid var(--color-primary);
+  background: var(--color-blush);
+  padding: 1rem 1.25rem;
+  color: var(--color-ink);
+}
+
+.article-editor-content figure,
+.article-document figure {
+  margin-block: 2.5rem;
+}
+
+.article-editor-content figure img,
+.article-document figure img {
+  width: 100%;
+  max-height: 36rem;
+  object-fit: cover;
+}
+
+.article-editor-content figcaption,
+.article-document figcaption {
+  margin-top: 0.625rem;
+  font-size: 0.75rem;
+  line-height: 1.45;
+  color: var(--color-muted-foreground);
+}
+
+.article-editor-content [data-videoEmbed],
+.article-editor-content [data-externalEmbed],
+.article-embed {
+  margin-block: 2rem;
+  border-block: 1px solid var(--color-border);
+  padding-block: 1.5rem;
+  color: var(--color-primary);
+}
+
+.article-editor-content hr,
+.article-document hr {
+  margin-block: 3rem;
+  border: 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.article-editor-content table,
+.article-document table {
+  margin-block: 2rem;
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.article-editor-content th,
+.article-editor-content td,
+.article-document th,
+.article-document td {
+  border: 1px solid var(--color-border);
+  padding: 0.625rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.article-editor-content th,
+.article-document th {
+  background: var(--color-muted);
+  font-weight: 600;
+}
+
+@media (max-width: 79.99rem) {
+  .article-workspace::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    pointer-events: none;
+    background: transparent;
   }
 }
 

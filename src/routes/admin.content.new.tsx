@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import { adminHead } from "@/lib/admin/head";
 import { useAdmin } from "@/lib/admin/store";
@@ -8,6 +8,7 @@ import { CONTENT_FIELDS, CONTENT_KINDS, emptyRelationships, kindLabel, type Cont
 import { CONTENT_SOURCES, DELIVERY_HELP, DELIVERY_TYPES, SOURCE_HELP, type ContentSource, type DeliveryType } from "@/lib/editorial";
 import { TOPICS } from "@/lib/topics";
 import { PageHeading, PrototypeNote, abtn, field } from "@/components/admin/primitives";
+import { ArticleEditorWorkspace } from "@/components/admin/article/ArticleEditorWorkspace";
 
 export const Route = createFileRoute("/admin/content/new")({
   head: adminHead("Create content", "Start a new record inside the editorial workflow."),
@@ -26,6 +27,47 @@ function NewContent() {
   const [topic, setTopic] = useState("");
   const [sourceAttribution, setSourceAttribution] = useState("");
   const [ignoreDuplicates, setIgnoreDuplicates] = useState(false);
+  const creatingArticle = useRef(false);
+  const [newArticleId, setNewArticleId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (kind !== "story" || creatingArticle.current) return;
+    creatingArticle.current = true;
+    const id = `c-new-${Math.random().toString(36).slice(2, 8)}`;
+    const now = new Date().toISOString();
+    admin.createContent({
+      id,
+      kind: "story",
+      deliveryType: "Knowledge",
+      contentSource: "Internal",
+      topics: [],
+      title: "Untitled article",
+      slug: "",
+      status: "draft",
+      priority: "Normal",
+      assignedTo: admin.user.name,
+      themes: [],
+      countries: ["Indonesia"],
+      createdAt: now,
+      updatedAt: now,
+      stageSince: now,
+      fields: { title: "", standfirst: "", narrative: "", author: admin.user.name, heroMedia: "" },
+      relationships: emptyRelationships(),
+      culturalReview: { flags: [] },
+      languageReview: { complete: false },
+      feedback: [],
+      notes: [],
+      versions: [],
+      prototype: true,
+    });
+    setNewArticleId(id);
+  }, [admin, kind]);
+
+  if (kind === "story") {
+    return newArticleId && admin.content.some((entry) => entry.id === newArticleId)
+      ? <ArticleEditorWorkspace id={newArticleId} />
+      : <div className="flex min-h-[60vh] items-center justify-center text-sm text-muted-foreground">Opening article editor…</div>;
+  }
 
   const duplicates = useMemo(() => (title.length > 3 ? possibleDuplicates(title, admin.content) : []), [title, admin.content]);
 
