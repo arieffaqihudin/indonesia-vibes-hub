@@ -10,10 +10,9 @@ const SECTIONS: CurationSlot["section"][] = [
   "Hero",
   "In Focus",
   "Featured Collection",
-  "People to Know",
-  "Upcoming Experiences",
-  "Current Collaborations",
-  "Opportunities",
+  "People & Organisations",
+  "Coming Up",
+  "Collaborations",
 ];
 
 export const Route = createFileRoute("/admin/curation/homepage")({

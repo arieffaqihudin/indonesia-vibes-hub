@@ -27,7 +27,7 @@ export const defaultHomepageSettings = (articleIds: string[]): HomepageSettings 
     ["in-focus", "In Focus"], ["understand", "Understand Indonesia"], ["topics", "Topics"],
     ["collection", "Featured Collection"], ["people", "People & Organisations"], ["coming-up", "Coming Up"],
     ["around-world", "Around the World"], ["collaborations", "Collaborate with Indonesia"], ["latest", "Latest Content"],
-  ].map(([id, label], order) => ({ id: id as HomepageSection["id"], label, visible: true, order })),
+  ].map(([id, label], order) => ({ id: id as HomepageSection["id"], label: label!, visible: true, order })),
 });
 
 export function readHomepageSettings(articleIds: string[]) {

@@ -3,7 +3,7 @@
  * attention" is computed from record state, never stored as a separate flag.
  */
 
-import { collections, events, forms, opportunities, papers, people, places, stories } from "@/data/content";
+import { collections, events, forms, papers, people, places, stories } from "@/data/content";
 import { institutions } from "@/data/institutions";
 import { collaborations } from "@/data/collaborations";
 import {
@@ -45,7 +45,6 @@ const entries: GraphEntry[] = [
   ...institutions.map((i) => ({ id: i.id, label: i.name, group: "institutions" as const, detail: `${i.type} · ${i.city}`, path: `/institutions/${i.slug}` })),
   ...places.map((p) => ({ id: p.id, label: p.name, group: "places" as const, detail: p.country, path: `/places/${p.slug}` })),
   ...events.map((e) => ({ id: e.id, label: e.title, group: "events" as const, detail: e.type ?? "Event", path: `/events/${e.slug}` })),
-  ...opportunities.map((o) => ({ id: o.id, label: o.title, group: "opportunities" as const, detail: o.type, path: `/opportunities` })),
   ...collaborations.map((c) => ({ id: c.id, label: c.title, group: "collaborations" as const, detail: (c.countries ?? []).join(", "), path: `/collaborations/${c.slug}` })),
   ...collections.map((c) => ({ id: c.id, label: c.title, group: "collections" as const, path: `/collections/${c.slug}` })),
   ...papers.map((p) => ({ id: p.id, label: p.title, group: "research" as const, detail: p.discipline })),
@@ -64,7 +63,6 @@ export const relationshipGroups: { key: keyof Relationships; label: string }[] =
   { key: "institutions", label: "Institutions" },
   { key: "places", label: "Places" },
   { key: "events", label: "Events" },
-  { key: "opportunities", label: "Opportunities" },
   { key: "collaborations", label: "Collaborations" },
   { key: "collections", label: "Collections" },
   { key: "research", label: "Knowledge resources" },
@@ -164,7 +162,6 @@ export interface CountryRow {
   events: number;
   collaborations: number;
   institutions: number;
-  opportunities: number;
   inquiries: number;
   partners: number;
   total: number;
@@ -185,7 +182,6 @@ export function countryRows(
         events: 0,
         collaborations: 0,
         institutions: 0,
-        opportunities: 0,
         inquiries: 0,
         partners: 0,
         total: 0,
@@ -201,7 +197,6 @@ export function countryRows(
       if (item.kind === "event") row.events += 1;
       if (item.kind === "collaboration") row.collaborations += 1;
       if (item.kind === "institution") row.institutions += 1;
-      if (item.kind === "opportunity") row.opportunities += 1;
       row.total += 1;
     }
   }

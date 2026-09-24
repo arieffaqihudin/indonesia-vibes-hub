@@ -571,7 +571,6 @@ export interface Relationships {
   institutions: string[];
   places: string[];
   events: string[];
-  opportunities: string[];
   collaborations: string[];
   collections: string[];
   research: string[];
@@ -584,7 +583,6 @@ export const emptyRelationships = (): Relationships => ({
   institutions: [],
   places: [],
   events: [],
-  opportunities: [],
   collaborations: [],
   collections: [],
   research: [],
@@ -754,15 +752,6 @@ export const CONTENT_FIELDS: Record<ContentKind, FieldDef[]> = {
     { name: "format", label: "Format", type: "text" },
     { name: "officialLink", label: "Official source", type: "text" },
     { name: "admission", label: "Admission", type: "text" },
-  ],
-  opportunity: [
-    { name: "title", label: "Opportunity title", type: "text" },
-    { name: "type", label: "Type", type: "text" },
-    { name: "deadline", label: "Deadline", type: "text" },
-    { name: "forWhom", label: "Who it is for", type: "textarea" },
-    { name: "support", label: "What is offered", type: "textarea" },
-    { name: "eligibility", label: "Eligibility", type: "textarea" },
-    { name: "officialLink", label: "Official source", type: "text" },
   ],
   collaboration: [
     { name: "title", label: "Title", type: "text" },
