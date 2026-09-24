@@ -46,7 +46,7 @@ const finalSections: HomepageSection[] = [
 ];
 
 export const defaultHomepageSettings = (articleIds: string[]): HomepageSettings => ({
-  hero: articleIds.slice(0, 3).map((articleId) => ({ articleId })),
+  hero: articleIds.slice(0, 5).map((articleId) => ({ articleId })),
   sections: finalSections,
   featuredTopicIds: ["Music", "Textiles", "Film", "History & Civilization", "Maritime Culture", "Culinary Culture", "Heritage & Traditions", "Contemporary Culture"],
   featuredCollectionId: "co-1",
