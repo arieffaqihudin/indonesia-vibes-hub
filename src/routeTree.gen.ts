@@ -99,6 +99,7 @@ import { Route as AdminCurationHomepageRouteImport } from './routes/admin.curati
 import { Route as AdminCurationInFocusRouteImport } from './routes/admin.curation.in-focus'
 import { Route as AdminFaqIndexRouteImport } from './routes/admin.faq.index'
 import { Route as AdminFaqIdRouteImport } from './routes/admin.faq.$id'
+import { Route as AdminHomepageIndexRouteImport } from './routes/admin.homepage.index'
 import { Route as AdminHomepageHeroRouteImport } from './routes/admin.homepage.hero'
 import { Route as AdminHomepageSectionsRouteImport } from './routes/admin.homepage.sections'
 import { Route as AdminInquiriesIndexRouteImport } from './routes/admin.inquiries.index'
@@ -574,6 +575,11 @@ const AdminFaqIdRoute = AdminFaqIdRouteImport.update({
   path: '/faq/$id',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminHomepageIndexRoute = AdminHomepageIndexRouteImport.update({
+  id: '/homepage/',
+  path: '/homepage/',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminHomepageHeroRoute = AdminHomepageHeroRouteImport.update({
   id: '/homepage/hero',
   path: '/homepage/hero',
@@ -782,6 +788,7 @@ export interface FileRoutesByFullPath {
   '/admin/collections/': typeof AdminCollectionsIndexRoute
   '/admin/content/': typeof AdminContentIndexRoute
   '/admin/faq/': typeof AdminFaqIndexRoute
+  '/admin/homepage/': typeof AdminHomepageIndexRoute
   '/admin/inquiries/': typeof AdminInquiriesIndexRoute
   '/admin/partners/': typeof AdminPartnersIndexRoute
   '/admin/review/': typeof AdminReviewIndexRoute
@@ -893,6 +900,7 @@ export interface FileRoutesByTo {
   '/admin/collections': typeof AdminCollectionsIndexRoute
   '/admin/content': typeof AdminContentIndexRoute
   '/admin/faq': typeof AdminFaqIndexRoute
+  '/admin/homepage': typeof AdminHomepageIndexRoute
   '/admin/inquiries': typeof AdminInquiriesIndexRoute
   '/admin/partners': typeof AdminPartnersIndexRoute
   '/admin/review': typeof AdminReviewIndexRoute
@@ -1006,6 +1014,7 @@ export interface FileRoutesById {
   '/admin/collections/': typeof AdminCollectionsIndexRoute
   '/admin/content/': typeof AdminContentIndexRoute
   '/admin/faq/': typeof AdminFaqIndexRoute
+  '/admin/homepage/': typeof AdminHomepageIndexRoute
   '/admin/inquiries/': typeof AdminInquiriesIndexRoute
   '/admin/partners/': typeof AdminPartnersIndexRoute
   '/admin/review/': typeof AdminReviewIndexRoute
@@ -1120,6 +1129,7 @@ export interface FileRouteTypes {
     | '/admin/collections/'
     | '/admin/content/'
     | '/admin/faq/'
+    | '/admin/homepage/'
     | '/admin/inquiries/'
     | '/admin/partners/'
     | '/admin/review/'
@@ -1231,6 +1241,7 @@ export interface FileRouteTypes {
     | '/admin/collections'
     | '/admin/content'
     | '/admin/faq'
+    | '/admin/homepage'
     | '/admin/inquiries'
     | '/admin/partners'
     | '/admin/review'
@@ -1343,6 +1354,7 @@ export interface FileRouteTypes {
     | '/admin/collections/'
     | '/admin/content/'
     | '/admin/faq/'
+    | '/admin/homepage/'
     | '/admin/inquiries/'
     | '/admin/partners/'
     | '/admin/review/'
@@ -2051,6 +2063,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminFaqIdRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/homepage/': {
+      id: '/admin/homepage/'
+      path: '/homepage'
+      fullPath: '/admin/homepage/'
+      preLoaderRoute: typeof AdminHomepageIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/homepage/hero': {
       id: '/admin/homepage/hero'
       path: '/homepage/hero'
@@ -2249,6 +2268,7 @@ interface AdminRouteChildren {
   AdminCollectionsIndexRoute: typeof AdminCollectionsIndexRoute
   AdminContentIndexRoute: typeof AdminContentIndexRoute
   AdminFaqIndexRoute: typeof AdminFaqIndexRoute
+  AdminHomepageIndexRoute: typeof AdminHomepageIndexRoute
   AdminInquiriesIndexRoute: typeof AdminInquiriesIndexRoute
   AdminPartnersIndexRoute: typeof AdminPartnersIndexRoute
   AdminReviewIndexRoute: typeof AdminReviewIndexRoute
@@ -2298,6 +2318,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminCollectionsIndexRoute: AdminCollectionsIndexRoute,
   AdminContentIndexRoute: AdminContentIndexRoute,
   AdminFaqIndexRoute: AdminFaqIndexRoute,
+  AdminHomepageIndexRoute: AdminHomepageIndexRoute,
   AdminInquiriesIndexRoute: AdminInquiriesIndexRoute,
   AdminPartnersIndexRoute: AdminPartnersIndexRoute,
   AdminReviewIndexRoute: AdminReviewIndexRoute,
