@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 import { Reveal } from "@/components/motion/Reveal";
 import { InFocus } from "@/components/editorial/InFocus";

@@ -128,7 +128,7 @@ export function HomepageHero({ slides }: { slides: HomepageHeroSlide[] }) {
               aria-label={multiple ? `Slide ${index + 1} of ${slides.length}` : undefined}
               aria-hidden={multiple && index !== active}
             >
-              <div className="relative min-h-[28rem] md:min-h-[35rem] lg:min-h-[clamp(38rem,78vh,50rem)]">
+              <div className="relative md:min-h-[35rem] lg:min-h-[clamp(38rem,78vh,50rem)]">
                 <img
                   src={selection.image || article.image}
                   alt={article.imageAlt}
@@ -137,11 +137,11 @@ export function HomepageHero({ slides }: { slides: HomepageHeroSlide[] }) {
                   fetchPriority={index === 0 ? "high" : "auto"}
                   loading={index === 0 ? "eager" : "lazy"}
                   draggable={false}
-                  className={`absolute inset-0 h-[54%] w-full select-none object-cover md:h-full ${positionClass[focalPoint]}`}
+                  className={`relative h-[clamp(18rem,52vh,26rem)] w-full select-none object-cover md:absolute md:inset-0 md:h-full ${positionClass[focalPoint]}`}
                 />
                 <div className="pointer-events-none absolute inset-0 hidden bg-gradient-to-r from-ink-deep/95 via-ink-deep/62 to-transparent md:block" />
                 <div className="pointer-events-none absolute inset-0 hidden bg-gradient-to-t from-ink-deep/65 via-transparent to-transparent md:block" />
-                <div className="absolute inset-x-0 bottom-0 flex min-h-[47%] items-end bg-background px-5 pt-14 pb-20 sm:px-8 md:inset-y-0 md:right-auto md:w-[64%] md:min-h-0 md:items-center md:bg-transparent md:px-10 md:pt-8 md:pb-24 lg:w-[61%] lg:px-[max(4rem,7vw)]">
+                <div className="relative flex items-end bg-background px-5 pt-8 pb-20 sm:px-8 md:absolute md:inset-y-0 md:left-0 md:w-[64%] md:items-center md:bg-transparent md:px-10 md:pt-8 md:pb-24 lg:w-[61%] lg:px-[max(4rem,7vw)]">
                   <div className="hero-copy max-w-3xl" data-active={index === active}>
                     <p className="eyebrow text-primary md:text-pink">
                       {article.topics?.[0] ?? "Indonesia"} <span aria-hidden="true">·</span> {publicFormat(article)}
@@ -159,6 +159,7 @@ export function HomepageHero({ slides }: { slides: HomepageHeroSlide[] }) {
                       to="/stories/$slug"
                       params={{ slug: article.slug }}
                       className="group mt-7 inline-flex min-h-11 items-center gap-2 border-b border-primary pb-1 text-sm font-semibold text-ink md:border-pink md:text-primary-foreground"
+                      tabIndex={multiple && index !== active ? -1 : undefined}
                       onClick={(event) => { if (moved.current) event.preventDefault(); }}
                     >
                       {selection.cta || "Read Story"}
