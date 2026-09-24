@@ -116,7 +116,7 @@ export function ArticleEditorWorkspace({ id }: { id: string }) {
   const blocking = checks.some((check) => check.required && !check.ok);
   const savedLabel = savedState === "Saving…" ? savedState : `Saved ${Math.max(0, Math.floor((Date.now() - savedAt.getTime()) / 60000)) < 1 ? "just now" : `${Math.floor((Date.now() - savedAt.getTime()) / 60000)} min ago`}`;
 
-  return <div className={cn("article-workspace -mx-4 -my-5 min-h-[calc(100vh-4.25rem)] bg-card sm:-mx-6 lg:-mx-8 lg:-my-6", focusMode && "min-h-screen")}>
+  return <div className={cn("article-workspace -mx-4 -my-6 min-h-[calc(100vh-4.25rem)] bg-card sm:-mx-6 lg:-mx-7", focusMode && "min-h-screen")}>
     <header className="sticky top-0 z-20 flex min-h-14 flex-wrap items-center gap-2 border-b border-border bg-card/95 px-3 py-2 backdrop-blur-sm sm:px-5">
       <Link to="/admin/articles" className="inline-flex min-h-10 items-center gap-2 rounded px-2 text-sm text-ink hover:bg-muted"><ArrowLeft className="h-4 w-4" /> <span className="hidden sm:inline">Articles</span></Link>
       <span className="hidden h-5 border-l border-border sm:block" />
