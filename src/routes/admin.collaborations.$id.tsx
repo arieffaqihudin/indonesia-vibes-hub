@@ -49,7 +49,7 @@ function CollaborationDetail() {
         }
       />
 
-      <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_20rem]">
+      <div className="grid gap-7 xl:grid-cols-[minmax(0,1fr)_19rem]">
         <div className="space-y-4">
           <Card title="How this started" description="The trail from public content to a working collaboration.">
             <ol className="space-y-2 text-sm">
@@ -165,7 +165,7 @@ function CollaborationDetail() {
           </Card>
         </div>
 
-        <aside className="space-y-4">
+        <aside className="space-y-4 border-t border-border pt-5 xl:border-t-0 xl:border-l xl:pt-0 xl:pl-6">
           <Card title="Stage">
             <label className="block text-xs text-muted-foreground">
               <span className="mb-1 block">Current stage</span>

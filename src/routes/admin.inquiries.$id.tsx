@@ -54,7 +54,7 @@ function InquiryDetail() {
         }
       />
 
-      <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_20rem]">
+      <div className="grid gap-7 xl:grid-cols-[minmax(0,1fr)_19rem]">
         <div className="space-y-4">
           <Card title="What was asked">
             <dl className="grid gap-3 text-sm sm:grid-cols-2">
@@ -166,7 +166,7 @@ function InquiryDetail() {
           ) : null}
         </div>
 
-        <aside className="space-y-4">
+        <aside className="space-y-4 border-t border-border pt-5 xl:border-t-0 xl:border-l xl:pt-0 xl:pl-6">
           <Card title="Handling">
             <label className="block text-xs text-muted-foreground">
               <span className="mb-1 block">Status</span>

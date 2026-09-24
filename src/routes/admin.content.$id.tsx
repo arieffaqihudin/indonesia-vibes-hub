@@ -100,7 +100,7 @@ function ContentWorkspace() {
         }
       />
 
-      <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_20rem]">
+       <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_19rem]">
         <div className="min-w-0">
           <div role="tablist" aria-label="Content workspace sections" className="mb-4 flex flex-wrap gap-1 border-b border-border">
             {TABS.map((t) => (
@@ -127,7 +127,7 @@ function ContentWorkspace() {
         </div>
 
         {/* Workflow and collaboration panel */}
-        <aside className="space-y-4 border-l border-border pl-5">
+         <aside className="space-y-4 border-t border-border pt-5 xl:border-t-0 xl:border-l xl:pt-0 xl:pl-6">
           <Card title="Workflow">
             <dl className="space-y-2 text-sm">
               <div className="flex items-center justify-between gap-2">
