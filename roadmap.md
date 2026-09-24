@@ -1,24 +1,20 @@
 # Final product architecture roadmap
 
-## Article authoring redesign
+## Current: Connect + curated attribution + FAQ
 
-- [x] Replace new-article metadata entry with an immediate editor-first draft
-- [x] Use one shared article editor for create and edit, without changing operational list pages
-- [x] Add rich block writing, compact inline formatting, slash insertion, reorder, duplicate, and delete controls
-- [x] Move article metadata, sources, connections, Hero settings, and pragmatic review tools into collapsible settings
-- [x] Add inline cover/media handling, quiet autosave, focus mode, responsive settings drawer, realistic preview, and publication checks
-- [x] Preserve the existing editor for non-article records and legacy article links
-- [x] Validate desktop, tablet, and mobile authoring journeys plus build and runtime health
+- [ ] Connect as direct link to /connect (desktop, mobile, active state); redirect /collaborate, /collaborations, /inquiry, /opportunities
+- [ ] Connect landing page structure with Start a Collaboration CTA
+- [ ] Curation Model (External Author / External Material / Co-created) with progressive fields in article settings
+- [ ] Human-readable public attribution on article detail (no raw source labels)
+- [ ] Articles table: Source + Author columns, Content Source filter; dashboard Content Source stats
+- [ ] Curated review checks inside article editor
+- [ ] Canonical FAQ library: public /faq under About, search, categories, accordion
+- [ ] Contextual FAQ on Collaborate with Indonesia (+ Editorial Standards, Contact)
+- [ ] CMS About → FAQ list + simple editor (status, category, placements, ordering)
+- [ ] FAQ in public search as secondary result type; FAQ drafts in Needs Attention
+- [ ] QA desktop/tablet/mobile, keyboard, back navigation
 
-- [x] Replace public navigation and sitemap with Understand Indonesia, Experience, Connect, About, Search
-- [x] Consolidate public directories into People & Organisations and Events & Places
-- [x] Consolidate collaboration examples and requests under Collaborate with Indonesia
-- [x] Remove Opportunities from public content, search, homepage, CMS, mock data, and related surfaces
-- [x] Redirect legacy public routes without losing useful content or breaking bookmarks
-- [x] Rebuild homepage sections and connect them to the final architecture
-- [x] Replace the CMS sidebar with the final mirrored product structure
-- [x] Add Articles, Homepage Hero, Homepage Sections, merged directories, collaboration requests, and simple About editors
-- [x] Add 1–5 published-article Hero selection, ordering, overrides, limit handling, and preview
-- [x] Rebuild dashboard statistics and operational lists from live CMS state
-- [x] Preserve sources, claims, rights, review history, relationships, roles, and One Data beneath simplified screens
-- [x] Audit route metadata, desktop/tablet/mobile layouts, core public journeys, and CMS workflows
+## Done
+
+- [x] Article authoring redesign (editor-first, blocks, settings, autosave, preview, focus)
+- [x] Final public/CMS architecture, Opportunities removed, Hero management, dashboards
