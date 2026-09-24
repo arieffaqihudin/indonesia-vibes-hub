@@ -15,7 +15,7 @@ import {
   stories,
   worldNodes,
 } from "@/data/content";
-import { ongoingCollaborations, openOpportunities } from "@/lib/freshness";
+import { ongoingCollaborations } from "@/lib/freshness";
 import { ComingUpAroundWorld } from "@/components/editorial/ComingUpAroundWorld";
 import { brand } from "@/lib/brand";
 import { publicFormat } from "@/lib/editorial";
@@ -44,7 +44,6 @@ function Home() {
   const otherCollections = collections.slice(1);
   const peopleToKnow = people.slice(0, 4);
   const collaborations = ongoingCollaborations().slice(0, 2);
-  const openCalls = openOpportunities().slice(0, 3);
 
   return (
     <>
@@ -72,10 +71,10 @@ function Home() {
               style={{ ["--reveal-delay" as string]: "270ms" }}
             >
               <Link
-                to="/explore"
+                 to="/understand-indonesia"
                 className="press group inline-flex min-h-11 items-center gap-2 rounded-full bg-primary px-6 text-sm font-medium text-primary-foreground hover:bg-deep-red"
               >
-                Explore Indonesia
+                 Understand Indonesia
                 <ArrowRight className="h-4 w-4 transition-transform duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-1" />
               </Link>
               <Link
@@ -115,7 +114,7 @@ function Home() {
       <InFocus />
 
       <section className="container-editorial py-16 md:py-24">
-        <Reveal><SectionHeading eyebrow="Explore" title="Featured content" intro="Three ways into Indonesian knowledge: begin with the essentials, go deeper, or follow a perspective." action="/explore" actionLabel="Explore all content" /></Reveal>
+         <Reveal><SectionHeading eyebrow="Understand Indonesia" title="Featured articles" intro="Three ways into Indonesian knowledge: begin with the essentials, go deeper, or follow a perspective." action="/understand-indonesia" actionLabel="View all articles" /></Reveal>
         <div className="mt-10 grid gap-8 md:grid-cols-3">{(["Essentials", "Deep Dive", "Perspectives"] as const).map((format, i) => { const story = stories.find((item) => publicFormat(item) === format) ?? stories[i]!; return <Reveal key={format} delay={i * 70}><StoryCard story={story} size="sm" /></Reveal>; })}</div>
       </section>
 
@@ -143,7 +142,7 @@ function Home() {
               eyebrow="Curated"
               title="Featured collection"
               intro="Sets that read as arguments, not folders."
-              action="/explore/collections"
+             action="/understand-indonesia/collections"
               actionLabel="All collections"
             />
           </Reveal>
@@ -200,10 +199,10 @@ function Home() {
       <section className="container-editorial py-16 md:py-24">
         <Reveal>
           <SectionHeading
-            eyebrow="Explore"
-            title="Explore by topic"
+             eyebrow="Understand Indonesia"
+             title="Browse by topic"
             intro="Follow connected knowledge across disciplines, communities and places."
-            action="/explore/topics"
+             action="/understand-indonesia/topics"
             actionLabel="All topics"
           />
         </Reveal>
@@ -211,7 +210,7 @@ function Home() {
           {TOPICS.filter((topic) => ["Music", "Textiles", "History & Civilization"].includes(topic.id)).map((topic, i) => (
             <Reveal key={topic.id} delay={i * 80} className="contents">
               <Link
-                to="/explore/topics/$slug"
+                 to="/understand-indonesia/topics/$slug"
                 params={{ slug: topic.slug }}
                 className="press group flex flex-col justify-between gap-10 bg-background p-8 hover:bg-blush"
               >
@@ -239,11 +238,11 @@ function Home() {
         <div className="container-editorial py-16 md:py-24">
           <Reveal>
             <SectionHeading
-              eyebrow="Connect"
-              title="People to know"
-              intro="Makers, masters, researchers and the communities who hold the practice."
-              action="/people"
-              actionLabel="All people & communities"
+               eyebrow="Understand Indonesia"
+               title="People & Organisations"
+               intro="Makers, communities and organisations who create, carry and support the work."
+               action="/people-organisations"
+               actionLabel="View all"
             />
           </Reveal>
           <div className="mt-10 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
@@ -264,10 +263,10 @@ function Home() {
           <Reveal>
             <SectionHeading
               eyebrow="Connect"
-              title="Ongoing collaborations"
-              intro="Long-running exchanges with museums, festivals, universities and independent spaces."
-              action="/collaborations"
-              actionLabel="All collaborations"
+               title="Collaborate with Indonesia"
+               intro="See how museums, festivals, universities and independent spaces work with Indonesia, then begin a conversation."
+               action="/collaborate"
+               actionLabel="Start a collaboration"
             />
           </Reveal>
           <div className="mt-10 grid gap-8 md:grid-cols-2">
@@ -280,49 +279,16 @@ function Home() {
         </div>
       </section>
 
-      {/* Opportunities */}
-      <section className="container-editorial py-16 md:py-24">
-        <Reveal>
-          <SectionHeading
-            eyebrow="Connect"
-            title="Open now"
-            intro="Grants, residencies and fellowships currently accepting applications."
-            action="/opportunities"
-            actionLabel="All opportunities"
-          />
-        </Reveal>
-        {openCalls.length ? (
-          <ul className="mt-10 grid gap-px overflow-hidden border border-border bg-border md:grid-cols-3">
-            {openCalls.map(({ o, s }, i) => (
-              <Reveal as="li" key={o.id} delay={i * 70} className="bg-background">
-                <Link to="/opportunities" className="flex h-full flex-col justify-between gap-8 p-6 hover:bg-blush">
-                  <span className="eyebrow text-primary">{o.type}</span>
-                  <span>
-                    <span className="block text-lg leading-snug font-medium text-ink">{o.title}</span>
-                    <span className="mt-2 block text-sm text-muted-foreground">{s.label}</span>
-                  </span>
-                </Link>
-              </Reveal>
-            ))}
-          </ul>
-        ) : (
-          <p className="mt-10 border-y border-border py-6 text-sm text-muted-foreground">
-            No open calls are currently listed for this selection. New rounds are announced through
-            the newsletter.
-          </p>
-        )}
-      </section>
-
       {/* Latest stories */}
       <section className="border-y border-border bg-sand">
         <div className="container-editorial py-16 md:py-24">
           <Reveal>
             <SectionHeading
-              eyebrow="Explore"
+               eyebrow="Understand Indonesia"
               title="Latest content"
               intro="Essentials, deep dives and perspectives — each connected to the people, topics and places it came from."
-              action="/explore"
-              actionLabel="All content"
+               action="/understand-indonesia"
+               actionLabel="All articles"
             />
           </Reveal>
           <div className="mt-10 grid gap-x-8 gap-y-12 md:grid-cols-2">
@@ -351,7 +317,7 @@ function Home() {
               A monthly letter on what is being made, researched and programmed.
             </h2>
             <p className="mt-5 max-w-xl text-[0.98rem] leading-relaxed text-[oklch(0.82_0.02_30)]">
-              One email a month: new stories, open calls and the programmes travelling abroad. We
+               One email a month: new articles and the programmes travelling abroad. We
               also work directly with museums, festivals and universities.
             </p>
           </div>

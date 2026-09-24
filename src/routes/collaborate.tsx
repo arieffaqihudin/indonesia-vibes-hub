@@ -1,7 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 
 import { PageHeader } from "@/components/editorial/Section";
+import { CollaborationCard } from "@/components/editorial/EntityCards";
 import { brand } from "@/lib/brand";
+import { collaborations } from "@/data/collaborations";
 
 const tracks = [
   { title: "Host a programme", body: "Museums, festivals and venues can take an existing exhibition, season or performance, with our team handling freight, translation and artist liaison." },
@@ -13,10 +15,12 @@ const tracks = [
 export const Route = createFileRoute("/collaborate")({
   head: () => ({
     meta: [
-      { title: "Collaborate — Indonesia Vibes" },
-      { name: "description", content: "How museums, festivals, universities and independent spaces work with Indonesia Vibes." },
-      { property: "og:title", content: "Collaborate — Indonesia Vibes" },
-      { property: "og:description", content: "How museums, festivals, universities and independent spaces work with Indonesia Vibes." },
+      { title: "Collaborate with Indonesia — Indonesia Vibes" },
+      { name: "description", content: "See cultural collaboration examples and start a conversation with Indonesia Vibes." },
+      { property: "og:title", content: "Collaborate with Indonesia — Indonesia Vibes" },
+      { property: "og:description", content: "See cultural collaboration examples and start a conversation with Indonesia Vibes." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { property: "og:url", content: "/collaborate" },
     ],
     links: [{ rel: "canonical", href: "/collaborate" }],
@@ -29,10 +33,16 @@ function CollaboratePage() {
     <>
       <PageHeader
         eyebrow="Connect"
-        title="Collaborate"
-        intro="Four ways institutions work with us. All of them start with a conversation and a clear position on credit."
+        title="Collaborate with Indonesia"
+        intro="Explore existing cultural exchanges and start a clear, human conversation about what we could do together."
       />
       <div className="container-editorial py-16">
+        <section className="mb-16">
+          <p className="eyebrow text-primary">Examples</p>
+          <h2 className="display-2 mt-3 text-ink">Past and current collaborations</h2>
+          <div className="mt-8 grid gap-8 md:grid-cols-2">{collaborations.slice(0, 4).map((item) => <CollaborationCard key={item.id} collaboration={item} />)}</div>
+        </section>
+        <h2 className="display-2 mb-8 text-ink">How Indonesia Vibes can help</h2>
         <ol className="grid gap-px overflow-hidden border border-border bg-border md:grid-cols-2">
           {tracks.map((t, i) => (
             <li key={t.title} className="bg-background p-8">
@@ -54,10 +64,10 @@ function CollaboratePage() {
             </p>
           </div>
           <Link
-            to="/contact" search={{}}
+             to="/contact" search={{ topic: "Collaboration proposal", subject: "Start a collaboration" }}
             className="inline-flex min-h-11 items-center justify-center rounded-full bg-primary px-6 text-sm font-medium text-primary-foreground transition-colors hover:bg-deep-red"
           >
-            Send an inquiry
+             Start a Collaboration
           </Link>
         </div>
       </div>
