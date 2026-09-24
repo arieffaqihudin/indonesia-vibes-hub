@@ -8,9 +8,17 @@
 
 # Understand Indonesia and Collections
 
-- [ ] Make Understand Indonesia a direct parent link on desktop and mobile while preserving its submenu
-- [ ] Rebuild `/understand-indonesia` as searchable, filterable, sortable published-article discovery
-- [ ] Rebuild Collections landing, detail, and homepage feature as visibly ordered reading journeys
-- [ ] Add collection reading time and collection-aware article navigation without persistent tracking
-- [ ] Refine the CMS Collections list/editor, preview, ordering, and publish warning
-- [ ] Verify all four public destinations and responsive navigation at desktop, tablet, mobile, and keyboard sizes
+- [x] Make Understand Indonesia a direct parent link on desktop and mobile while preserving its submenu
+- [x] Rebuild `/understand-indonesia` as searchable, filterable, sortable published-article discovery
+- [x] Rebuild Collections landing, detail, and homepage feature as visibly ordered reading journeys
+- [x] Add collection reading time and collection-aware article navigation without persistent tracking
+- [x] Refine the CMS Collections list/editor, preview, ordering, and publish warning
+- [x] Verify all four public destinations and responsive navigation at desktop, tablet, mobile, and keyboard sizes
+
+# Article authorship and related content
+
+- [ ] Establish a clear canonical author byline below title and standfirst
+- [ ] Group Topics, Related People, and Related Places under “Related to this Article”
+- [ ] Show canonical relationship context and avoid repeating the author
+- [ ] Separate Author from Connections in the CMS article editor
+- [ ] Verify desktop and mobile hierarchy, links, and attribution clarity
