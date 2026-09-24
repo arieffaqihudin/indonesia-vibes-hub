@@ -179,7 +179,7 @@ function candidates(now: Date): FreshItem[] {
         kind: "ongoing",
         headline: c.title,
         meta: `${c.type} · ${c.countries.join(" × ")} · ${c.years}`,
-        href: `/collaborations/${c.slug}`,
+        href: `/collaborate/${c.slug}`,
         family: "collaboration",
         image: c.image,
         score: 54 - i * 3,

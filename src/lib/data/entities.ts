@@ -299,7 +299,7 @@ const collaborationEntities = collaborations.map((c) =>
     placeIds: c.placeIds,
     publicationStatus: "published",
     visibility: "public",
-    publicPath: `/collaborations/${c.slug}`,
+    publicPath: `/collaborate/${c.slug}`,
     owner: "Partnership Owner",
   }),
 );

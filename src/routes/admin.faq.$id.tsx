@@ -82,7 +82,7 @@ function FaqEditor() {
             ))}
           </fieldset>
           <label className="block text-xs text-muted-foreground">Related page (optional)
-            <input className={`${field} mt-1`} value={draft.relatedPage ?? ""} onChange={(e) => update({ relatedPage: e.target.value })} placeholder="/connect" />
+            <input className={`${field} mt-1`} value={draft.relatedPage ?? ""} onChange={(e) => update({ relatedPage: e.target.value })} placeholder="/collaborate" />
           </label>
           <div className="flex items-center gap-3">
             <button className={abtn.primary} disabled={!draft.question.trim()}>Save FAQ</button>
