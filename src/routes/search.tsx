@@ -219,7 +219,7 @@ function SearchPage() {
               { to: "/understand-indonesia" as const, label: "Understand Indonesia", note: "Essentials, deep dives and perspectives" },
               { to: "/people-organisations" as const, label: "People & Organisations", note: "Makers, communities, museums and universities" },
               { to: "/events-places" as const, label: "Events & Places", note: "What is on, and where" },
-              { to: "/collaborate" as const, label: "Collaborate with Indonesia", note: "Examples and a way to begin" },
+              { to: "/connect" as const, label: "Collaborate with Indonesia", note: "Examples and a way to begin" },
               { to: "/around-the-world" as const, label: "Around the World", note: "The global map" },
             ].map((item) => (
               <li key={item.to} className="border-l-2 border-primary/30 pl-5">

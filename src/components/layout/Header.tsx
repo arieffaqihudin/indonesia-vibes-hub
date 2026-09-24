@@ -162,7 +162,7 @@ export function Header() {
 
 
           <Link
-            to="/collaborate"
+            to="/connect"
             className="press hidden h-9 items-center rounded-full bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-deep-red md:inline-flex"
           >
             Collaborate
@@ -280,7 +280,7 @@ export function Header() {
                 Search the platform
               </Link>
               <Link
-                to="/collaborate"
+                to="/connect"
                 className="inline-flex min-h-11 w-full items-center justify-center rounded-full bg-primary px-5 text-sm font-medium text-primary-foreground"
               >
                 Collaborate with us

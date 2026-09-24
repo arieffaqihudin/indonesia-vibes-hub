@@ -304,7 +304,7 @@ export const seedSubmissions = (): Submission[] => [
     submittedBy: "Maya Kusuma",
     submittedAt: at(-120),
     publishedAt: at(-21),
-    publicUrl: "/collaborations",
+    publicUrl: "/connect",
     prototype: true,
     data: {
       title: "Indonesia–Portugal Maritime Heritage",

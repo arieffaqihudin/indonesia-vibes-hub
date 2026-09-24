@@ -41,7 +41,7 @@ export const navigation: NavGroup[] = [
     stage: "Connect",
     intro: "Begin a cultural collaboration with Indonesia.",
     items: [
-      { label: "Collaborate with Indonesia", to: "/collaborate", description: "See existing exchanges and start a conversation with the team." },
+      { label: "Collaborate with Indonesia", to: "/connect", description: "See existing exchanges and start a conversation with the team." },
     ],
   },
   {
