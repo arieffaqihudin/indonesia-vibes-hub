@@ -1,3 +1,4 @@
+import { authors } from "@/data/team";
 /**
  * Derived views over the content graph: relationship lookups shared by the
  * directory and detail pages, plus the global search index. Related content
@@ -430,3 +431,9 @@ export const popularSearches = [
   "residency",
   "Japan",
 ];
+
+/** Articles explicitly WRITTEN_BY an author linked to this profile. Never inferred from relevance. */
+export const storiesByPerson = (personId: string) => {
+  const names = new Set(authors.filter((a) => a.personId === personId).map((a) => a.name));
+  return names.size ? stories.filter((s) => s.author && names.has(s.author)) : [];
+};
