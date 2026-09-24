@@ -4,7 +4,7 @@ import { useState } from "react";
 import { adminHead } from "@/lib/admin/head";
 import { useAdmin } from "@/lib/admin/store";
 import { PARTNER_TYPES, RELATIONSHIP_STATUSES } from "@/lib/admin/types";
-import { Card, EmptyState, PageHeading, SearchInput, SelectFilter, Tag, abtn, dateFmt } from "@/components/admin/primitives";
+import { EmptyState, FilterToolbar, PageHeading, SearchInput, SelectFilter, SummaryStrip, Table, Tag, Td, abtn, dateFmt } from "@/components/admin/primitives";
 
 export const Route = createFileRoute("/admin/partners/")({
   head: adminHead("Partners", "Institutions, communities and organisations the team works with."),
@@ -25,47 +25,37 @@ function Partners() {
   return (
     <>
       <PageHeading
-        eyebrow="Partnerships"
+        eyebrow="Partnerships / Partners"
         title="Partners"
         description="A relationship record, not a sales pipeline: who they are, what they work on, and how contact is made."
       />
 
-      <div className="mb-4 flex flex-wrap gap-3">
-        <div className="w-full max-w-xs">
-          <SearchInput value={query} onChange={setQuery} label="Search partners" placeholder="Name, country or expertise" />
-        </div>
-        <div className="w-full max-w-xs">
-          <SelectFilter label="Type" value={type} onChange={setType} options={PARTNER_TYPES} />
-        </div>
-        <div className="w-full max-w-xs">
-          <SelectFilter label="Relationship" value={status} onChange={setStatus} options={RELATIONSHIP_STATUSES} />
-        </div>
-      </div>
+      <SummaryStrip items={[
+        { value: admin.partners.length, label: "Total partners" },
+        { value: admin.partners.filter((p) => p.relationshipStatus === "Active").length, label: "Active" },
+        { value: admin.partners.filter((p) => p.relationshipStatus === "Strategic").length, label: "Strategic" },
+        { value: admin.partners.filter((p) => p.nextFollowUp).length, label: "Follow-up recorded" },
+      ]} />
+
+      <FilterToolbar search={<SearchInput value={query} onChange={setQuery} label="Search partners" placeholder="Name, country or expertise" />}>
+        <SelectFilter label="Type" value={type} onChange={setType} options={PARTNER_TYPES} />
+        <SelectFilter label="Relationship" value={status} onChange={setStatus} options={RELATIONSHIP_STATUSES} />
+      </FilterToolbar>
 
       {partners.length ? (
-        <div className="grid gap-4 md:grid-cols-2">
+        <Table caption="Partner directory" head={["Partner", "Type", "Country", "Main focus", "Status", "Last interaction", ""]}>
           {partners.map((p) => (
-            <Card key={p.id}>
-              <div className="flex flex-wrap items-center gap-2">
-                <Tag tone="quiet">{p.type}</Tag>
-                <Tag tone={p.relationshipStatus === "Strategic" ? "alert" : "default"}>{p.relationshipStatus}</Tag>
-              </div>
-              <h2 className="mt-2 font-display text-lg text-ink">
-                <Link to="/admin/partners/$id" params={{ id: p.id }} className="hover:text-primary">
-                  {p.name}
-                </Link>
-              </h2>
-              <p className="mt-1 text-sm text-muted-foreground">
-                {p.city}, {p.country}
-              </p>
-              <p className="mt-2 text-sm text-ink">{p.expertise.slice(0, 3).join(" · ")}</p>
-              <p className="mt-2 text-xs text-muted-foreground">
-                Last interaction {p.lastInteraction ? dateFmt(p.lastInteraction) : "not recorded"}
-                {p.nextFollowUp ? ` · next follow-up ${dateFmt(p.nextFollowUp)}` : ""}
-              </p>
-            </Card>
+            <tr key={p.id} className="group hover:bg-muted/35">
+              <Td><Link to="/admin/partners/$id" params={{ id: p.id }} className="font-semibold hover:text-primary">{p.name}</Link><span className="block text-xs text-muted-foreground">{p.city}</span></Td>
+              <Td><Tag tone="quiet">{p.type}</Tag></Td>
+              <Td className="text-xs text-muted-foreground">{p.country}</Td>
+              <Td className="max-w-xs text-xs text-ink">{p.expertise.slice(0, 3).join(" · ") || "—"}</Td>
+              <Td><Tag tone={p.relationshipStatus === "Strategic" ? "alert" : "quiet"}>{p.relationshipStatus}</Tag></Td>
+              <Td className="text-xs text-muted-foreground">{p.lastInteraction ? dateFmt(p.lastInteraction) : "Not recorded"}</Td>
+              <Td><Link to="/admin/partners/$id" params={{ id: p.id }} className={abtn.quiet}>Open</Link></Td>
+            </tr>
           ))}
-        </div>
+        </Table>
       ) : (
         <EmptyState
           title="No partners match these filters."
