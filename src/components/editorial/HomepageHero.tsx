@@ -59,6 +59,7 @@ export function HomepageHero({ slides }: { slides: HomepageHeroSlide[] }) {
 
   const onPointerDown = (event: ReactPointerEvent<HTMLDivElement>) => {
     if (!multiple) return;
+    if (event.target instanceof Element && event.target.closest("a, button")) return;
     pointerStart.current = event.clientX;
     moved.current = false;
     event.currentTarget.setPointerCapture(event.pointerId);
