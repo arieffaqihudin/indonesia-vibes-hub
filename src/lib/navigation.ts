@@ -37,21 +37,22 @@ export const navigation: NavGroup[] = [
     ],
   },
   {
+    /** Direct link: no submenu. */
     label: "Connect",
+    to: "/connect",
     stage: "Connect",
     intro: "Begin a cultural collaboration with Indonesia.",
-    items: [
-      { label: "Collaborate with Indonesia", to: "/connect", description: "See existing exchanges and start a conversation with the team." },
-    ],
+    items: [],
   },
   {
     label: "About",
     to: "/about",
-    stage: "Collaborate",
+    stage: "About",
     intro: "Who we are and the principles we work under.",
     items: [
       { label: "About Indonesia Vibes", to: "/about", description: "Mission, method and the people behind the platform." },
       { label: "Editorial Standards", to: "/editorial-standards", description: "How we research, verify, attribute and correct." },
+      { label: "FAQ", to: "/faq", description: "Short answers to common questions." },
       { label: "Contact", to: "/contact", description: "Contact the Indonesia Vibes team." },
     ],
   },

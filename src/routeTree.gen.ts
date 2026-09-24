@@ -15,12 +15,14 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AroundTheWorldRouteImport } from './routes/around-the-world'
 import { Route as CollaborateRouteImport } from './routes/collaborate'
+import { Route as ConnectRouteImport } from './routes/connect'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as ContemporaryRouteImport } from './routes/contemporary'
 import { Route as ContributeRouteImport } from './routes/contribute'
 import { Route as EditorialStandardsRouteImport } from './routes/editorial-standards'
 import { Route as EventsPlacesRouteImport } from './routes/events-places'
 import { Route as ExperienceRouteImport } from './routes/experience'
+import { Route as FaqRouteImport } from './routes/faq'
 import { Route as HeritageRouteImport } from './routes/heritage'
 import { Route as InquiryRouteImport } from './routes/inquiry'
 import { Route as NowRouteImport } from './routes/now'
@@ -143,6 +145,11 @@ const CollaborateRoute = CollaborateRouteImport.update({
   path: '/collaborate',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ConnectRoute = ConnectRouteImport.update({
+  id: '/connect',
+  path: '/connect',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
@@ -171,6 +178,11 @@ const EventsPlacesRoute = EventsPlacesRouteImport.update({
 const ExperienceRoute = ExperienceRouteImport.update({
   id: '/experience',
   path: '/experience',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FaqRoute = FaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HeritageRoute = HeritageRouteImport.update({
@@ -647,12 +659,14 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteWithChildren
   '/around-the-world': typeof AroundTheWorldRoute
   '/collaborate': typeof CollaborateRoute
+  '/connect': typeof ConnectRoute
   '/contact': typeof ContactRoute
   '/contemporary': typeof ContemporaryRoute
   '/contribute': typeof ContributeRoute
   '/editorial-standards': typeof EditorialStandardsRoute
   '/events-places': typeof EventsPlacesRoute
   '/experience': typeof ExperienceRoute
+  '/faq': typeof FaqRoute
   '/heritage': typeof HeritageRoute
   '/inquiry': typeof InquiryRoute
   '/now': typeof NowRoute
@@ -751,12 +765,14 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/around-the-world': typeof AroundTheWorldRoute
   '/collaborate': typeof CollaborateRoute
+  '/connect': typeof ConnectRoute
   '/contact': typeof ContactRoute
   '/contemporary': typeof ContemporaryRoute
   '/contribute': typeof ContributeRoute
   '/editorial-standards': typeof EditorialStandardsRoute
   '/events-places': typeof EventsPlacesRoute
   '/experience': typeof ExperienceRoute
+  '/faq': typeof FaqRoute
   '/heritage': typeof HeritageRoute
   '/inquiry': typeof InquiryRoute
   '/now': typeof NowRoute
@@ -857,12 +873,14 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteWithChildren
   '/around-the-world': typeof AroundTheWorldRoute
   '/collaborate': typeof CollaborateRoute
+  '/connect': typeof ConnectRoute
   '/contact': typeof ContactRoute
   '/contemporary': typeof ContemporaryRoute
   '/contribute': typeof ContributeRoute
   '/editorial-standards': typeof EditorialStandardsRoute
   '/events-places': typeof EventsPlacesRoute
   '/experience': typeof ExperienceRoute
+  '/faq': typeof FaqRoute
   '/heritage': typeof HeritageRoute
   '/inquiry': typeof InquiryRoute
   '/now': typeof NowRoute
@@ -964,12 +982,14 @@ export interface FileRouteTypes {
     | '/admin'
     | '/around-the-world'
     | '/collaborate'
+    | '/connect'
     | '/contact'
     | '/contemporary'
     | '/contribute'
     | '/editorial-standards'
     | '/events-places'
     | '/experience'
+    | '/faq'
     | '/heritage'
     | '/inquiry'
     | '/now'
@@ -1068,12 +1088,14 @@ export interface FileRouteTypes {
     | '/about'
     | '/around-the-world'
     | '/collaborate'
+    | '/connect'
     | '/contact'
     | '/contemporary'
     | '/contribute'
     | '/editorial-standards'
     | '/events-places'
     | '/experience'
+    | '/faq'
     | '/heritage'
     | '/inquiry'
     | '/now'
@@ -1173,12 +1195,14 @@ export interface FileRouteTypes {
     | '/admin'
     | '/around-the-world'
     | '/collaborate'
+    | '/connect'
     | '/contact'
     | '/contemporary'
     | '/contribute'
     | '/editorial-standards'
     | '/events-places'
     | '/experience'
+    | '/faq'
     | '/heritage'
     | '/inquiry'
     | '/now'
@@ -1279,12 +1303,14 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRouteWithChildren
   AroundTheWorldRoute: typeof AroundTheWorldRoute
   CollaborateRoute: typeof CollaborateRoute
+  ConnectRoute: typeof ConnectRoute
   ContactRoute: typeof ContactRoute
   ContemporaryRoute: typeof ContemporaryRoute
   ContributeRoute: typeof ContributeRoute
   EditorialStandardsRoute: typeof EditorialStandardsRoute
   EventsPlacesRoute: typeof EventsPlacesRoute
   ExperienceRoute: typeof ExperienceRoute
+  FaqRoute: typeof FaqRoute
   HeritageRoute: typeof HeritageRoute
   InquiryRoute: typeof InquiryRoute
   NowRoute: typeof NowRoute
@@ -1376,6 +1402,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CollaborateRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/connect': {
+      id: '/connect'
+      path: '/connect'
+      fullPath: '/connect'
+      preLoaderRoute: typeof ConnectRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/contact': {
       id: '/contact'
       path: '/contact'
@@ -1416,6 +1449,13 @@ declare module '@tanstack/react-router' {
       path: '/experience'
       fullPath: '/experience'
       preLoaderRoute: typeof ExperienceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/faq': {
+      id: '/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof FaqRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/heritage': {
@@ -2196,12 +2236,14 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRouteWithChildren,
   AroundTheWorldRoute: AroundTheWorldRoute,
   CollaborateRoute: CollaborateRoute,
+  ConnectRoute: ConnectRoute,
   ContactRoute: ContactRoute,
   ContemporaryRoute: ContemporaryRoute,
   ContributeRoute: ContributeRoute,
   EditorialStandardsRoute: EditorialStandardsRoute,
   EventsPlacesRoute: EventsPlacesRoute,
   ExperienceRoute: ExperienceRoute,
+  FaqRoute: FaqRoute,
   HeritageRoute: HeritageRoute,
   InquiryRoute: InquiryRoute,
   NowRoute: NowRoute,

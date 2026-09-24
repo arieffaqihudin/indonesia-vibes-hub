@@ -7,6 +7,12 @@ import { navigation } from "@/lib/navigation";
 import { getFreshContent } from "@/lib/freshness";
 import { cn } from "@/lib/utils";
 
+/** Connect is also active on collaboration detail pages. */
+function isGroupActive(to: string, pathname: string) {
+  if (pathname === to || pathname.startsWith(`${to}/`)) return true;
+  return to === "/connect" && pathname.startsWith("/collaborations/");
+}
+
 export function Header() {
   const [open, setOpen] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -103,20 +109,26 @@ export function Header() {
           <ul className="flex items-center gap-1">
             {navigation.map((group) => {
               const isOpen = open === group.label;
-              const isSimple = group.items.length === 1 && group.to;
+              const isSimple = group.items.length === 0 && group.to;
+              const active = isSimple && isGroupActive(group.to!, pathname);
               return (
                 <li key={group.label} className="relative">
                   {isSimple ? (
                     <Link
                       to={group.to!}
+                      aria-current={active ? "page" : undefined}
                       onMouseEnter={() => {
                         cancelClose();
                         setOpen(null);
                       }}
-                      className="inline-flex h-9 items-center rounded-sm px-3 text-sm font-medium text-ink/80 transition-colors hover:text-primary"
-                      activeProps={{ className: "text-primary" }}
+                      onFocus={() => setOpen(null)}
+                      className={cn(
+                        "inline-flex h-9 items-center gap-1.5 rounded-sm px-3 text-sm font-medium transition-colors hover:text-primary",
+                        active ? "text-primary" : "text-ink/80",
+                      )}
                     >
                       {group.label}
+                      <span aria-hidden className={cn("h-1 w-1 rounded-full bg-primary", active ? "opacity-100" : "opacity-0")} />
                     </Link>
                   ) : (
                     <button
@@ -245,7 +257,19 @@ export function Header() {
       {mobileOpen ? (
         <div className="menu-in max-h-[calc(100dvh-3.5rem)] overflow-y-auto overscroll-contain border-t border-border bg-background lg:hidden">
           <nav aria-label="Mobile" className="container-editorial py-4 pb-safe">
-            {navigation.map((group) => (
+            {navigation.map((group) => group.items.length === 0 && group.to ? (
+              <Link
+                key={group.label}
+                to={group.to}
+                aria-current={isGroupActive(group.to, pathname) ? "page" : undefined}
+                className={cn(
+                  "flex min-h-12 items-center border-b border-border py-2 text-[1.05rem] font-medium",
+                  isGroupActive(group.to, pathname) ? "text-primary" : "text-ink",
+                )}
+              >
+                {group.label}
+              </Link>
+            ) : (
               <details key={group.label} className="group border-b border-border last:border-b-0">
                 <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-3 py-2 text-[1.05rem] font-medium text-ink marker:content-none">
                   {group.label}
