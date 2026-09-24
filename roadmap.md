@@ -1,5 +1,15 @@
 # Final product architecture roadmap
 
+## Article authoring redesign
+
+- [ ] Replace new-article metadata entry with an immediate editor-first draft
+- [ ] Use one shared article editor for create and edit, without changing operational list pages
+- [ ] Add rich block writing, compact inline formatting, slash insertion, reorder, duplicate, and delete controls
+- [ ] Move article metadata, sources, connections, Hero settings, and pragmatic review tools into collapsible settings
+- [ ] Add inline cover/media handling, quiet autosave, focus mode, responsive settings drawer, realistic preview, and publication checks
+- [ ] Preserve the existing editor for non-article records and legacy article links
+- [ ] Validate desktop, tablet, and mobile authoring journeys plus build and runtime health
+
 - [ ] Replace public navigation and sitemap with Understand Indonesia, Experience, Connect, About, Search
 - [ ] Consolidate public directories into People & Organisations and Events & Places
 - [ ] Consolidate collaboration examples and requests under Collaborate with Indonesia
