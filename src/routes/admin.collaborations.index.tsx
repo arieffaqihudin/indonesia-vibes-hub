@@ -6,7 +6,7 @@ import { useAdmin } from "@/lib/admin/store";
 import { EmptyState, PageHeading, RowLinkAction, SummaryStrip, Table, TabBar, Tag, Td, abtn, relative } from "@/components/admin/primitives";
 
 export const Route = createFileRoute("/admin/collaborations/")({
-  head: adminHead("Collaborations", "International collaborations from first idea to recorded outcome."),
+  head: adminHead("Collaborations", "Collaboration records and requests from first idea to recorded outcome."),
   component: Collaborations,
 });
 
