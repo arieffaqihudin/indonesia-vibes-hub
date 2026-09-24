@@ -19,7 +19,7 @@ import { CONTENT_STATUS, type ContentStatus } from "@/lib/admin/types";
 /* ---------------- form + button styles ---------------- */
 
 export const field =
-  "w-full min-h-10 rounded-lg border border-border bg-card px-3 py-2 text-sm text-ink placeholder:text-muted-foreground/60 outline-none transition-colors focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/20 disabled:opacity-60";
+  "w-full min-h-10 rounded-md border border-border bg-card px-3 py-2 text-sm text-ink placeholder:text-muted-foreground/60 outline-none transition-colors focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/20 disabled:opacity-60";
 
 const base =
   "inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:pointer-events-none disabled:opacity-50";
@@ -190,7 +190,7 @@ export function SummaryStrip({
   items: { label: string; value: ReactNode; hint?: string }[];
 }) {
   return (
-    <dl className="scroll-strip mb-4 flex min-w-full rounded-xl border border-border bg-card">
+    <dl className="scroll-strip mb-4 flex min-w-full border-y border-border bg-card">
       {items.map((item) => (
          <div key={item.label} className="min-w-40 flex-1 border-r border-border px-5 py-3.5 last:border-r-0 sm:min-w-0">
           <dt className="text-[0.68rem] font-medium text-muted-foreground uppercase">{item.label}</dt>
@@ -202,6 +202,15 @@ export function SummaryStrip({
       ))}
     </dl>
   );
+}
+
+export function SettingsSection({ title, children, open = false }: { title: string; children: ReactNode; open?: boolean }) {
+  return <details open={open} className="group border-b border-border py-1">
+    <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between text-xs font-semibold text-ink">
+      {title}<span className="text-muted-foreground transition-transform group-open:rotate-180" aria-hidden>⌄</span>
+    </summary>
+    <div className="space-y-3 pb-4">{children}</div>
+  </details>;
 }
 
 /** Compact filter row with controls left and search anchored right on wide screens. */

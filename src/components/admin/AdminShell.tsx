@@ -1,469 +1,145 @@
-import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
+import { Link, useRouterState } from "@tanstack/react-router";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
-
 import {
-  Activity,
-  BellRing,
-  BookOpen,
-  Building2,
-  CalendarDays,
-  CalendarRange,
-  ChevronLeft,
-  ChevronRight,
-  ClipboardCheck,
-  Drum,
-  FileText,
-  Handshake,
-  History,
-  Home,
-  Image,
-  Inbox,
-  Landmark,
-  Layers,
-  LayoutDashboard,
-  Library,
-  MapPin,
-  MenuIcon,
-  MessageSquare,
-  HelpCircle,
-  Search as SearchIcon,
-  Settings,
-  Sparkles,
-  Star,
-  Tags,
-  UserCog,
-  Users,
-  X,
+  BookOpen, ChevronDown, ChevronLeft, ChevronRight, CircleHelp, FileText,
+  Handshake, Home, Layers, LayoutDashboard, Library, MapPin, Menu, Settings,
+  Star, Tags, Users, X, CalendarDays, MessageSquare,
   type LucideIcon,
 } from "lucide-react";
 
-import { cn } from "@/lib/utils";
 import { useAdmin } from "@/lib/admin/store";
-import { adminSearch, inquiriesNeedingRouting, isInReview, overdueFollowUps } from "@/lib/admin/selectors";
-import { ADMIN_ROLES, can, type AdminRole } from "@/lib/admin/types";
-import { abtn, field, Modal } from "./primitives";
+import { cn } from "@/lib/utils";
+import { field } from "./primitives";
 
-interface NavItem {
-  to: string;
-  label: string;
-  badge?: number;
-  icon: LucideIcon;
-}
+type NavItem = { to: string; label: string; icon: LucideIcon };
+type NavGroup = { label?: string; items: NavItem[] };
 
-interface NavGroup {
-  label: string;
-  items: NavItem[];
-  /** Groups hidden from roles that never work in them. */
-  visibleTo?: (role: AdminRole) => boolean;
-}
-
-const editorialRole = (role: AdminRole) =>
-  can(role, "editorial") || can(role, "verify") || can(role, "subject") || can(role, "language") || can(role, "media") || can(role, "approve");
-
-export function useNavGroups(): NavGroup[] {
-  const { role } = useAdmin();
-
-  return [
-    { label: "", items: [{ to: "/admin", label: "Dashboard", icon: LayoutDashboard }] },
-    {
-      label: "Homepage",
-      visibleTo: editorialRole,
-      items: [
-        { to: "/admin/homepage/hero", label: "Hero", icon: Star },
-        { to: "/admin/homepage/sections", label: "Homepage Sections", icon: Layers },
-      ],
-    },
-    {
-      label: "Understand Indonesia",
-      visibleTo: editorialRole,
-      items: [
-        { to: "/admin/articles", label: "Articles", icon: FileText },
-        { to: "/admin/topics", label: "Topics", icon: Tags },
-        { to: "/admin/collections", label: "Collections", icon: Library },
-        { to: "/admin/people-organisations", label: "People & Organisations", icon: Users },
-      ],
-    },
-    {
-      label: "Experience",
-      visibleTo: editorialRole,
-      items: [
-        { to: "/admin/events-places", label: "Events & Places", icon: CalendarDays },
-        { to: "/admin/around-the-world", label: "Indonesia Around the World", icon: MapPin },
-      ],
-    },
-    { label: "Connect", visibleTo: (r: AdminRole) => can(r, "partnership") || editorialRole(r) || r === "Viewer / Leadership", items: [{ to: "/admin/collaborations", label: "Collaborations", icon: Handshake }] },
-    { label: "About", visibleTo: editorialRole, items: [
-      { to: "/admin/about", label: "About Indonesia Vibes", icon: Home },
-      { to: "/admin/editorial-standards", label: "Editorial Standards", icon: BookOpen },
-      { to: "/admin/faq", label: "FAQ", icon: HelpCircle },
-      { to: "/admin/contact", label: "Contact", icon: MessageSquare },
-    ] },
-    {
-      label: "Settings",
-      visibleTo: (r: AdminRole) => can(r, "configure") || r === "Managing Editor",
-      items: [
-        { to: "/admin/settings", label: "Settings", icon: Settings },
-      ],
-    },
-  ].filter((g) => !g.visibleTo || g.visibleTo(role));
-}
-
-const CREATE_OPTIONS: { kind: string; label: string }[] = [
-  { kind: "story", label: "Article" },
-  { kind: "person", label: "Person / Organisation" },
-  { kind: "event", label: "Event" },
-  { kind: "place", label: "Place" },
-  { kind: "collaboration", label: "Collaboration" },
-  { kind: "collection", label: "Collection" },
+const NAVIGATION: NavGroup[] = [
+  { items: [{ to: "/admin", label: "Dashboard", icon: LayoutDashboard }] },
+  { label: "Homepage", items: [
+    { to: "/admin/homepage/hero", label: "Hero", icon: Star },
+    { to: "/admin/homepage/sections", label: "Homepage Sections", icon: Layers },
+  ] },
+  { label: "Understand Indonesia", items: [
+    { to: "/admin/articles", label: "Articles", icon: FileText },
+    { to: "/admin/topics", label: "Topics", icon: Tags },
+    { to: "/admin/collections", label: "Collections", icon: Library },
+    { to: "/admin/people-organisations", label: "People & Organisations", icon: Users },
+  ] },
+  { label: "Experience", items: [
+    { to: "/admin/events-places", label: "Events & Places", icon: CalendarDays },
+    { to: "/admin/around-the-world", label: "Indonesia Around the World", icon: MapPin },
+  ] },
+  { label: "Connect", items: [{ to: "/admin/collaborations", label: "Collaborations", icon: Handshake }] },
+  { label: "About", items: [
+    { to: "/admin/about", label: "About Indonesia Vibes", icon: Home },
+    { to: "/admin/editorial-standards", label: "Editorial Standards", icon: BookOpen },
+    { to: "/admin/faq", label: "FAQ", icon: CircleHelp },
+    { to: "/admin/contact", label: "Contact", icon: MessageSquare },
+  ] },
+  { label: "Settings", items: [{ to: "/admin/settings", label: "Settings", icon: Settings }] },
 ];
 
-export function AdminShell({ children }: { children: ReactNode }) {
-  const { user, users, setCurrentUser, notifications, content, inquiries, partners, pipeline } = useAdmin();
-  const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const groups = useNavGroups();
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [collapsed, setCollapsed] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [createOpen, setCreateOpen] = useState(false);
-  const [query, setQuery] = useState("");
-  const [focusMode, setFocusMode] = useState(false);
-  const navigate = useNavigate();
+export function useNavGroups() { return NAVIGATION; }
 
-  useEffect(() => setMobileOpen(false), [pathname]);
-  useEffect(() => {
-    const stored = window.sessionStorage.getItem("iv-admin-sidebar");
-    setCollapsed(stored ? stored === "collapsed" : window.innerWidth < 1280);
-  }, []);
-  useEffect(() => {
-    window.sessionStorage.setItem("iv-admin-sidebar", collapsed ? "collapsed" : "expanded");
-  }, [collapsed]);
-  useEffect(() => {
-    const onFocusMode = (event: Event) => setFocusMode((event as CustomEvent<boolean>).detail);
-    window.addEventListener("iv-article-focus", onFocusMode);
-    return () => window.removeEventListener("iv-article-focus", onFocusMode);
-  }, []);
-
-  // The navigation drawer owns the screen while it is open.
-  useEffect(() => {
-    if (!mobileOpen) return;
-    const previous = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setMobileOpen(false);
-    document.addEventListener("keydown", onKey);
-    return () => {
-      document.body.style.overflow = previous;
-      document.removeEventListener("keydown", onKey);
-    };
-  }, [mobileOpen]);
-
-
-  const sectionLabel = useMemo(() => {
-    const flat = groups.flatMap((g) => g.items);
-    const match = flat
-      .filter((i) => pathname === i.to || (i.to !== "/admin" && pathname.startsWith(`${i.to}/`)))
-      .sort((a, b) => b.to.length - a.to.length)[0];
-    return match?.label ?? "Dashboard";
-  }, [groups, pathname]);
-
-  const unread = notifications.filter((n) => !n.read && (!n.roles || n.roles.includes(user.role))).length;
-  const results = useMemo(
-    () => adminSearch(query, { content, inquiries, partners, pipeline }),
-    [query, content, inquiries, partners, pipeline],
-  );
-
-  const nav = (collapsed: boolean) => (
-    <nav aria-label="Dashboard sections" className="space-y-6 pb-8">
-      {groups.map((group, gi) => (
-        <div key={group.label || `g${gi}`}>
-          {group.label && !collapsed ? (
-            <p className="px-3 pb-2 text-[0.625rem] font-semibold tracking-[0.12em] text-muted-foreground uppercase">
-              {group.label}
-            </p>
-          ) : null}
-          {group.label && collapsed ? <div className="mx-3 mb-2 border-t border-border" /> : null}
-          <ul className="space-y-0.5">
-            {group.items.map((item) => {
-              const active = pathname === item.to || (item.to !== "/admin" && pathname.startsWith(`${item.to}/`));
-              const Icon = item.icon;
-              return (
-                <li key={item.to}>
-                  <Link
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    to={item.to as any}
-                    aria-current={active ? "page" : undefined}
-                    title={collapsed ? item.label : undefined}
-                    className={cn(
-                       "flex min-h-10 items-center gap-3 rounded-lg px-3 py-2 text-[0.8125rem] transition-colors",
-                      collapsed && "justify-center px-0",
-                      active
-                         ? "bg-blush font-semibold text-deep-red"
-                        : "text-muted-foreground hover:bg-muted hover:text-ink",
-                    )}
-                  >
-                    <Icon className={cn("h-4 w-4 shrink-0", active && "text-primary")} aria-hidden />
-                    {!collapsed ? (
-                      <>
-                        <span className="truncate">{item.label}</span>
-                        {item.badge ? (
-                          <span className="ml-auto rounded-md bg-deep-red px-1.5 text-[0.625rem] tabular-nums text-primary-foreground">
-                            {item.badge}
-                          </span>
-                        ) : null}
-                      </>
-                    ) : item.badge ? (
-                      <span className="absolute ml-6 -mt-4 h-1.5 w-1.5 rounded-full bg-primary" aria-hidden />
-                    ) : null}
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-      ))}
-      {!collapsed ? (
-        <div className="space-y-1 border-t border-border px-3 pt-4 text-xs">
-          <a href="/" target="_blank" rel="noreferrer" className="block text-muted-foreground hover:text-primary">
-            View public platform ↗
-          </a>
-          <a href="/contributor" target="_blank" rel="noreferrer" className="block text-muted-foreground hover:text-primary">
-            Contributor workspace ↗
-          </a>
-        </div>
-      ) : null}
-    </nav>
-  );
-
-  return (
-    <div className="admin-shell min-h-screen bg-background [--admin-header:4.25rem]">
-      {/* Fixed sidebar */}
-      <aside
-        id="admin-nav"
-        className={cn(
-          "fixed inset-y-0 left-0 z-40 hidden border-r border-sidebar-border bg-sidebar lg:block",
-          focusMode && "lg:hidden",
-          "transition-[width] duration-[240ms] ease-[cubic-bezier(0.4,0,0.2,1)]",
-          collapsed ? "w-[72px]" : "w-[260px]",
-        )}
-      >
-        <div className={cn("flex h-[var(--admin-header)] items-center border-b border-sidebar-border", collapsed ? "justify-center" : "px-5")}>
-          <Link to="/admin" className="flex items-baseline gap-2 overflow-hidden">
-            <span className="text-sm font-bold text-primary">{collapsed ? "IV" : "Indonesia Vibes"}</span>
-          </Link>
-        </div>
-        <div className="h-[calc(100vh-var(--admin-header))] overflow-y-auto px-3 py-6">{nav(collapsed)}</div>
-
-        {/* Edge collapse trigger, vertically centred on the sidebar boundary */}
-        <button
-          type="button"
-          onClick={() => setCollapsed((v) => !v)}
-          aria-expanded={!collapsed}
-          aria-controls="admin-nav"
-          title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-          aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-          className="absolute top-1/2 -right-4 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-card text-muted-foreground shadow-md transition-colors hover:border-primary hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
-        >
-          {collapsed ? <ChevronRight className="h-3.5 w-3.5" aria-hidden /> : <ChevronLeft className="h-3.5 w-3.5" aria-hidden />}
-        </button>
-      </aside>
-
-      <div
-        className={cn(
-          "transition-[padding] duration-[240ms] ease-[cubic-bezier(0.4,0,0.2,1)]",
-          focusMode ? "lg:pl-0" : collapsed ? "lg:pl-[72px]" : "lg:pl-[260px]",
-        )}
-      >
-        <header className={cn("sticky top-0 z-30 border-b border-border bg-card/95 backdrop-blur-sm", focusMode && "hidden")}>
-          <div className="flex h-[var(--admin-header)] items-center gap-2 px-4 sm:gap-3 sm:px-6 lg:px-8">
-            <button
-              type="button"
-              className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-md text-ink transition-colors hover:bg-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary lg:hidden"
-              onClick={() => setMobileOpen((v) => !v)}
-              aria-expanded={mobileOpen}
-              aria-controls="admin-nav-mobile"
-              aria-label={mobileOpen ? "Close navigation" : "Open navigation"}
-            >
-              {mobileOpen ? <X className="h-5 w-5" aria-hidden /> : <MenuIcon className="h-5 w-5" aria-hidden />}
-            </button>
-            <div className="min-w-0">
-               <p className="hidden text-[0.65rem] font-medium tracking-[0.1em] text-muted-foreground uppercase sm:block">Editorial &amp; Partnership Workspace</p>
-               <p className="truncate text-sm font-semibold text-ink">{sectionLabel}</p>
-            </div>
-
-            <div className="ml-auto flex items-center gap-2">
-              <button
-                type="button"
-                 className={cn(abtn.small, "hidden lg:inline-flex")}
-                onClick={() => setSearchOpen(true)}
-              >
-                Search
-              </button>
-              <button
-                type="button"
-                className="inline-flex h-11 w-11 items-center justify-center rounded-md text-ink hover:bg-muted sm:hidden"
-                onClick={() => setSearchOpen(true)}
-                aria-label="Search the workspace"
-              >
-                <SearchIcon className="h-[1.05rem] w-[1.05rem]" aria-hidden />
-              </button>
-               <button type="button" className={cn(abtn.primary, "hidden sm:inline-flex")} onClick={() => setCreateOpen(true)}>
-                + Create
-              </button>
-               <Link to="/admin/notifications" className="relative hidden h-9 w-9 items-center justify-center rounded-md border border-border text-muted-foreground hover:border-primary hover:text-primary sm:inline-flex" aria-label={`Notifications${unread ? `, ${unread} unread` : ""}`}>
-                 <BellRing className="h-4 w-4" aria-hidden />
-                {unread ? (
-                   <span className="absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[0.6rem] tabular-nums text-primary-foreground">{unread}</span>
-                ) : null}
-              </Link>
-              <Link
-                to="/admin/notifications"
-                className="relative inline-flex h-11 w-11 items-center justify-center rounded-md text-ink hover:bg-muted sm:hidden"
-                aria-label={`Notifications${unread ? `, ${unread} unread` : ""}`}
-              >
-                <BellRing className="h-[1.05rem] w-[1.05rem]" aria-hidden />
-                {unread ? (
-                  <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-primary" aria-hidden />
-                ) : null}
-              </Link>
-               <details className="relative hidden border-l border-border pl-3 xl:block">
-                 <summary className="flex cursor-pointer list-none items-center gap-2 rounded-md px-1 py-1 hover:bg-muted">
-                <span className="flex h-7 w-7 items-center justify-center rounded-full bg-blush text-[0.7rem] font-semibold text-primary">
-                  {user.name.split(" ").map((n) => n[0]).join("").slice(0, 2)}
-                </span>
-                 <span className="max-w-36 text-left"><span className="block truncate text-xs font-medium text-ink">{user.name}</span><span className="block truncate text-[0.65rem] text-muted-foreground">{user.role}</span></span>
-                 <ChevronRight className="h-3.5 w-3.5 rotate-90 text-muted-foreground" aria-hidden />
-                 </summary>
-                 <div className="absolute top-11 right-0 z-40 w-72 border border-border bg-card p-3 shadow-md">
-                 <label className="block text-xs text-muted-foreground"><span className="mb-1 block">View workspace as</span>
-                <select
-                   className={cn(field, "min-h-8 py-1 text-xs")}
-                  value={user.id}
-                  onChange={(e) => setCurrentUser(e.target.value)}
-                  aria-label="Prototype role switcher"
-                >
-                  {users.map((u) => (
-                    <option key={u.id} value={u.id}>
-                      {u.name} — {u.role}
-                    </option>
-                  ))}
-                </select>
-                 </label>
-                 <Link to="/admin/settings" className="mt-2 block border-t border-border pt-2 text-xs text-primary hover:underline">Profile and settings</Link>
-                 </div>
-               </details>
-            </div>
-          </div>
-        </header>
-
-        {mobileOpen ? (
-          <div className="fixed inset-0 z-50 lg:hidden">
-            <div className="absolute inset-0 bg-ink/40" onClick={() => setMobileOpen(false)} aria-hidden />
-            <div
-              id="admin-nav-mobile"
-                 className="relative z-10 flex h-full w-[min(17rem,86vw)] flex-col border-r border-border bg-sidebar"
-            >
-              <div className="flex h-14 shrink-0 items-center justify-between gap-2 border-b border-border px-4">
-                <span className="text-sm font-semibold tracking-tight text-primary">Indonesia Vibes</span>
-                <button
-                  type="button"
-                  onClick={() => setMobileOpen(false)}
-                  aria-label="Close navigation"
-                  className="inline-flex h-11 w-11 items-center justify-center rounded-md text-ink hover:bg-muted"
-                >
-                  <X className="h-5 w-5" aria-hidden />
-                </button>
-              </div>
-              <div className="flex-1 overflow-y-auto p-4 pb-safe">
-                {nav(false)}
-                <div className="mt-2 border-t border-border pt-3 xl:hidden">
-                  <label className="block text-xs text-muted-foreground">
-                    <span className="mb-1 block">Signed in as</span>
-                    <select
-                      className={cn(field, "text-xs")}
-                      value={user.id}
-                      onChange={(e) => setCurrentUser(e.target.value)}
-                      aria-label="Prototype role switcher"
-                    >
-                      {users.map((u) => (
-                        <option key={u.id} value={u.id}>
-                          {u.name} — {u.role}
-                        </option>
-                      ))}
-                    </select>
-                  </label>
-                  <button
-                    type="button"
-                    className={cn(abtn.primary, "mt-3 w-full")}
-                    onClick={() => {
-                      setMobileOpen(false);
-                      setCreateOpen(true);
-                    }}
-                  >
-                    + Create
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        ) : null}
-
-
-        <main className={cn("w-full px-4 py-5 sm:px-6 lg:px-8 lg:py-6", focusMode && "p-0 sm:p-0 lg:p-0")}>{children}</main>
-      </div>
-
-      <Modal open={searchOpen} onClose={() => setSearchOpen(false)} title="Search the workspace">
-        <input
-          className={field}
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Title, alias, country, organisation or reference number"
-          aria-label="Search content, inquiries, partners and collaborations"
-        />
-        <ul className="max-h-80 space-y-1 overflow-auto">
-          {results.map((r) => (
-            <li key={`${r.type}-${r.id}`}>
-              <button
-                type="button"
-                className="w-full rounded px-2 py-1.5 text-left hover:bg-muted"
-                onClick={() => {
-                  setSearchOpen(false);
-                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                  navigate({ to: r.to as any, params: r.params as any });
-                }}
-              >
-                <span className="text-sm text-ink">{r.title}</span>
-                <span className="block text-xs text-muted-foreground">
-                  {r.type} · {r.detail}
-                </span>
-              </button>
-            </li>
-          ))}
-          {query.length >= 2 && !results.length ? (
-            <li className="px-2 py-3 text-sm text-muted-foreground">No records match that search.</li>
-          ) : null}
-        </ul>
-      </Modal>
-
-      <Modal open={createOpen} onClose={() => setCreateOpen(false)} title="Create a record">
-        <p className="text-xs text-muted-foreground">
-          New records start as drafts and follow the same editorial workflow as contributor submissions.
-        </p>
-        <ul className="grid gap-1.5 sm:grid-cols-2">
-          {CREATE_OPTIONS.map((opt) => (
-            <li key={opt.kind}>
-              <Link
-                to="/admin/content/new"
-                search={{ kind: opt.kind }}
-                className="block rounded border border-border px-3 py-2 text-sm text-ink hover:border-primary hover:text-primary"
-                onClick={() => setCreateOpen(false)}
-              >
-                {opt.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </Modal>
-    </div>
-  );
+function Navigation({ collapsed = false, onNavigate }: { collapsed?: boolean; onNavigate?: () => void }) {
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
+  return <nav aria-label="CMS sections" className="space-y-5 pb-8">
+    {NAVIGATION.map((group, index) => <section key={group.label ?? index}>
+      {group.label && !collapsed ? <p className="mb-1.5 px-3 text-[0.625rem] font-semibold uppercase text-muted-foreground">{group.label}</p> : null}
+      {group.label && collapsed ? <div className="mx-3 mb-2 border-t border-sidebar-border" /> : null}
+      <ul className="space-y-0.5">{group.items.map((item) => {
+        const active = pathname === item.to || (item.to !== "/admin" && pathname.startsWith(`${item.to}/`));
+        const Icon = item.icon;
+        return <li key={item.to}><Link
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          to={item.to as any}
+          onClick={onNavigate}
+          aria-current={active ? "page" : undefined}
+          title={collapsed ? item.label : undefined}
+          className={cn(
+            "relative flex min-h-9 items-center gap-2.5 rounded-md px-3 text-[0.8125rem] text-muted-foreground transition-colors hover:bg-muted hover:text-ink",
+            collapsed && "justify-center px-0",
+            active && "bg-blush font-medium text-ink before:absolute before:inset-y-1.5 before:left-0 before:w-0.5 before:bg-primary",
+          )}
+        ><Icon className={cn("h-4 w-4 shrink-0", active && "text-primary")} aria-hidden />{!collapsed ? <span className="truncate">{item.label}</span> : null}</Link></li>;
+      })}</ul>
+    </section>)}
+  </nav>;
 }
 
-export { ADMIN_ROLES };
+export function AdminShell({ children }: { children: ReactNode }) {
+  const { user, users, setCurrentUser } = useAdmin();
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
+  const [collapsed, setCollapsed] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [focusMode, setFocusMode] = useState(false);
+
+  useEffect(() => {
+    const stored = window.sessionStorage.getItem("iv-admin-sidebar");
+    setCollapsed(stored ? stored === "collapsed" : window.innerWidth < 1200);
+  }, []);
+  useEffect(() => window.sessionStorage.setItem("iv-admin-sidebar", collapsed ? "collapsed" : "expanded"), [collapsed]);
+  useEffect(() => setMobileOpen(false), [pathname]);
+  useEffect(() => {
+    const listener = (event: Event) => setFocusMode((event as CustomEvent<boolean>).detail);
+    window.addEventListener("iv-article-focus", listener);
+    return () => window.removeEventListener("iv-article-focus", listener);
+  }, []);
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const overflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const close = (event: KeyboardEvent) => event.key === "Escape" && setMobileOpen(false);
+    document.addEventListener("keydown", close);
+    return () => { document.body.style.overflow = overflow; document.removeEventListener("keydown", close); };
+  }, [mobileOpen]);
+
+  const current = useMemo(() => NAVIGATION.flatMap((group) => group.items)
+    .filter((item) => pathname === item.to || (item.to !== "/admin" && pathname.startsWith(`${item.to}/`)))
+    .sort((a, b) => b.to.length - a.to.length)[0]?.label ?? "Dashboard", [pathname]);
+
+  return <div className="admin-shell min-h-screen bg-background [--cms-header:3.75rem]">
+    <aside className={cn(
+      "fixed inset-y-0 left-0 z-40 hidden border-r border-sidebar-border bg-sidebar transition-[width] duration-200 lg:block",
+      focusMode && "lg:hidden", collapsed ? "w-[72px]" : "w-[248px]",
+    )}>
+      <div className={cn("flex h-[var(--cms-header)] items-center border-b border-sidebar-border", collapsed ? "justify-center" : "px-5")}>
+        <Link to="/admin" className="text-sm font-bold text-primary">{collapsed ? "IV" : "Indonesia Vibes"}</Link>
+      </div>
+      <div className="h-[calc(100vh-var(--cms-header))] overflow-y-auto px-3 py-5"><Navigation collapsed={collapsed} /></div>
+      <button type="button" onClick={() => setCollapsed((value) => !value)} title={collapsed ? "Expand sidebar" : "Collapse sidebar"} aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"} className="absolute top-5 right-[-13px] flex h-7 w-7 items-center justify-center rounded-full border border-border bg-card text-muted-foreground shadow-sm hover:text-primary">
+        {collapsed ? <ChevronRight className="h-3.5 w-3.5" /> : <ChevronLeft className="h-3.5 w-3.5" />}
+      </button>
+    </aside>
+
+    <div className={cn("transition-[padding] duration-200", focusMode ? "lg:pl-0" : collapsed ? "lg:pl-[72px]" : "lg:pl-[248px]")}>
+      {!focusMode ? <header className="sticky top-0 z-30 border-b border-border bg-card/95 backdrop-blur-sm">
+        <div className="flex h-[var(--cms-header)] items-center gap-3 px-4 sm:px-6 lg:px-7">
+          <button type="button" onClick={() => setMobileOpen(true)} aria-label="Open navigation" className="inline-flex h-10 w-10 items-center justify-center rounded-md text-ink hover:bg-muted lg:hidden"><Menu className="h-5 w-5" /></button>
+          <p className="truncate text-sm font-medium text-ink">{current}</p>
+          <details className="relative ml-auto">
+            <summary className="flex cursor-pointer list-none items-center gap-2 rounded-md px-1.5 py-1 hover:bg-muted">
+              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-blush text-xs font-semibold text-primary">{user.name.split(" ").map((part) => part[0]).join("").slice(0, 2)}</span>
+              <span className="hidden max-w-40 text-left sm:block"><span className="block truncate text-xs font-medium text-ink">{user.name}</span><span className="block truncate text-[0.68rem] text-muted-foreground">{user.role}</span></span>
+              <ChevronDown className="hidden h-3.5 w-3.5 text-muted-foreground sm:block" />
+            </summary>
+            <div className="absolute top-11 right-0 z-40 w-72 rounded-md border border-border bg-popover p-3 shadow-md">
+              <label className="text-xs text-muted-foreground">View CMS as<select className={cn(field, "mt-1 text-xs")} value={user.id} onChange={(event) => setCurrentUser(event.target.value)}>{users.map((entry) => <option key={entry.id} value={entry.id}>{entry.name} — {entry.role}</option>)}</select></label>
+              <Link to="/admin/settings" className="mt-3 block border-t border-border pt-3 text-xs text-primary">Profile and settings</Link>
+            </div>
+          </details>
+        </div>
+      </header> : null}
+      <main className={cn("w-full px-4 py-6 sm:px-6 lg:px-7", focusMode && "p-0 sm:p-0 lg:p-0")}>{children}</main>
+    </div>
+
+    {mobileOpen ? <div className="fixed inset-0 z-50 lg:hidden">
+      <button type="button" className="absolute inset-0 bg-ink/35" aria-label="Close navigation" onClick={() => setMobileOpen(false)} />
+      <aside className="relative flex h-full w-[min(17rem,88vw)] flex-col border-r border-border bg-sidebar">
+        <div className="flex h-14 items-center justify-between border-b border-border px-4"><span className="text-sm font-bold text-primary">Indonesia Vibes</span><button type="button" onClick={() => setMobileOpen(false)} aria-label="Close navigation" className="flex h-10 w-10 items-center justify-center rounded-md hover:bg-muted"><X className="h-5 w-5" /></button></div>
+        <div className="flex-1 overflow-y-auto p-3 pb-safe"><Navigation onNavigate={() => setMobileOpen(false)} /></div>
+      </aside>
+    </div> : null}
+  </div>;
+}

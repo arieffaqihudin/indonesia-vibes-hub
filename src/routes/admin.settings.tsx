@@ -1,94 +1,14 @@
-import { Link, createFileRoute } from "@tanstack/react-router";
-
-import { adminHead } from "@/lib/admin/head";
+import { createFileRoute } from "@tanstack/react-router";
+import { PageHeading, abtn, field, useConfirm } from "@/components/admin/primitives";
 import { useAdmin } from "@/lib/admin/store";
 import { can } from "@/lib/admin/types";
-import { Card, PageHeading, PrototypeNote, abtn, useConfirm } from "@/components/admin/primitives";
+import { adminHead } from "@/lib/admin/head";
 
-export const Route = createFileRoute("/admin/settings")({
-  head: adminHead("Settings", "Workflow, review and prototype settings for the internal dashboard."),
-  component: Settings,
-});
-
+export const Route = createFileRoute("/admin/settings")({ head: adminHead("Settings", "Manage your CMS preferences."), component: Settings });
 function Settings() {
-  const admin = useAdmin();
-  const configure = can(admin.role, "configure");
-  const { confirm, dialog } = useConfirm();
-
-  return (
-    <>
-      <PageHeading eyebrow="System" title="Settings" description="Nothing here is hidden logic: these are the rules the workflow already follows." />
-
-      <div className="max-w-5xl">
-        <Card title="Workflow rules">
-          <ul className="list-disc space-y-1.5 pl-5 text-sm text-ink">
-            <li>Contributors can propose and update content, but never publish it.</li>
-            <li>Cultural subjects and people always pass through cultural or subject review.</li>
-            <li>Nothing can be approved while a required media item has unresolved rights.</li>
-            <li>Every published record carries a review date so it can be checked again.</li>
-          </ul>
-        </Card>
-
-        <Card title="Review cadence">
-          <ul className="space-y-1.5 text-sm text-ink">
-            <li>Cultural subjects — reviewed every 12 months</li>
-            <li>People and institutions — every 12 months</li>
-            <li>Events — checked against their confirmed dates</li>
-            <li>Stories — every 24 months, or when a linked record changes</li>
-          </ul>
-        </Card>
-
-        <Card title="Public surfaces">
-          <p className="text-sm text-muted-foreground">
-            Published records appear on the public platform. Contributors work in a separate workspace.
-          </p>
-          <div className="mt-3 flex flex-wrap gap-2">
-            <Link to="/" className={abtn.secondary}>
-              Open public platform
-            </Link>
-            <Link to="/contributor" className={abtn.secondary}>
-              Open contributor workspace
-            </Link>
-          </div>
-        </Card>
-
-        <Card title="Advanced tools">
-          <p className="text-sm text-muted-foreground">Open specialist controls only when you need to manage the shared data model or platform governance.</p>
-          <div className="mt-3 flex flex-wrap gap-2">
-            <Link to="/admin/taxonomy" className={abtn.secondary}>Topics & taxonomy</Link>
-            <Link to="/admin/sources" className={abtn.secondary}>Sources & claims</Link>
-            <Link to="/admin/media" className={abtn.secondary}>Media rights</Link>
-            <Link to="/admin/data-health" className={abtn.secondary}>One Data health</Link>
-            <Link to="/admin/users" className={abtn.secondary}>Users & roles</Link>
-            <Link to="/admin/activity" className={abtn.secondary}>Activity history</Link>
-          </div>
-        </Card>
-
-        <Card title="Prototype data">
-          <p className="text-sm text-muted-foreground">
-            This dashboard runs entirely on prototype data held in your browser. Resetting restores the original demonstration state.
-          </p>
-          <button
-            type="button"
-            className={`${abtn.danger} mt-3`}
-            disabled={!configure}
-            onClick={() =>
-              confirm(
-                "Reset the prototype? All changes made in this session — workflow moves, notes, curation and partnership records — will be discarded.",
-                () => admin.resetPrototype(),
-              )
-            }
-          >
-            Reset prototype data
-          </button>
-          {!configure ? <p className="mt-2 text-xs text-muted-foreground">Only a Super Admin can reset the prototype.</p> : null}
-        </Card>
-      </div>
-
-      <div className="mt-4">
-        <PrototypeNote>Settings are illustrative and are not connected to a live configuration service.</PrototypeNote>
-      </div>
-      {dialog}
-    </>
-  );
+  const admin = useAdmin(); const { confirm, dialog } = useConfirm();
+  return <div className="max-w-3xl"><PageHeading title="Settings" description="Profile and CMS preferences." />
+    <section className="border-t border-border py-5"><h2 className="mb-4 text-sm font-semibold text-ink">Profile</h2><div className="grid gap-4 sm:grid-cols-2"><label className="text-xs text-muted-foreground">Name<input className={`${field} mt-1`} value={admin.user.name} onChange={(event) => admin.updateUser(admin.user.id, { name: event.target.value })} /></label><label className="text-xs text-muted-foreground">Role<input className={`${field} mt-1`} value={admin.user.role} readOnly /></label></div></section>
+    <section className="border-t border-border py-5"><h2 className="text-sm font-semibold text-ink">Demo content</h2><p className="mt-1 text-sm text-muted-foreground">Restore the original CMS records and discard changes made in this browser.</p><button type="button" className={`${abtn.danger} mt-4`} disabled={!can(admin.role, "configure")} onClick={() => confirm("Reset all demo content to its original state?", admin.resetPrototype)}>Reset demo content</button></section>{dialog}
+  </div>;
 }

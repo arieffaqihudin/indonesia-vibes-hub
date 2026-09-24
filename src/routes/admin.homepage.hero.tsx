@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { GripVertical, Plus } from "lucide-react";
 import { useState, type DragEvent } from "react";
-import { PageHeading, SummaryStrip, RowLinkAction, abtn, field } from "@/components/admin/primitives";
+import { PageHeading, RowLinkAction, abtn, field } from "@/components/admin/primitives";
 import { Button } from "@/components/ui/button";
 import { useAdmin } from "@/lib/admin/store";
 import { HERO_LIMIT_MESSAGE, useHomepageSettings } from "@/lib/homepage";
@@ -47,7 +47,7 @@ function Hero() {
 
   return <>
     <PageHeading eyebrow="Homepage / Hero" title="Homepage Hero" description="Choose and order the featured articles shown in the homepage showcase. Three to five works best." actions={<Link to="/" className={abtn.secondary}>Preview homepage ↗</Link>} />
-    <SummaryStrip items={[{ label: "Selected", value: `${settings.hero.length} / 5` }, { label: "Available slots", value: 5 - settings.hero.length }, { label: "Recommended", value: "3–5" }]} />
+    <p className="mb-5 border-y border-border py-3 text-sm text-ink"><strong>{settings.hero.length} / 5</strong> articles selected</p>
     <div className="mb-6 flex flex-col items-stretch gap-3 border-b border-border pb-5 sm:flex-row sm:items-end">
       <label className="min-w-0 flex-1 text-xs text-muted-foreground sm:max-w-md"><span className="mb-1 block">Published article</span><select className={field} value={selected} onChange={(event) => setSelected(event.target.value)}><option value="">Choose an article</option>{published.filter((item) => !settings.hero.some((hero) => hero.articleId === item.id || `c-${hero.articleId}` === item.id)).map((item) => <option key={item.id} value={item.id}>{item.title}</option>)}</select></label>
       <Button className="min-h-11 rounded-none" disabled={!selected} onClick={() => { if (settings.hero.length >= 5) { setError(HERO_LIMIT_MESSAGE); return; } update([...settings.hero, { articleId: selected }]); setSelected(""); setError(""); }}><Plus /> Add Article</Button>

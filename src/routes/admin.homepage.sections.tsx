@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { PageHeading, Table, Td, abtn, field } from "@/components/admin/primitives";
+ import { PageHeading, Table, Td, abtn, field } from "@/components/admin/primitives";
 import { useHomepageSettings } from "@/lib/homepage";
 import { stories } from "@/data/content";
 export const Route = createFileRoute("/admin/homepage/sections")({ head: () => ({ meta: [{ title: "Homepage Sections — Indonesia Vibes CMS" }, { name: "description", content: "Show, hide and order the homepage sections." }, { property: "og:title", content: "Homepage Sections — Indonesia Vibes CMS" }, { property: "og:description", content: "Show, hide and order the homepage sections." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }), component: Sections });
