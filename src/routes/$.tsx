@@ -16,12 +16,11 @@ export const Route = createFileRoute("/$")({
 });
 
 const ROUTES = [
-  { to: "/stories" as const, label: "Stories" },
-  { to: "/people" as const, label: "People & Communities" },
-  { to: "/institutions" as const, label: "Institutions" },
-  { to: "/places" as const, label: "Places" },
-  { to: "/events" as const, label: "Events" },
-  { to: "/collaborations" as const, label: "Collaborations" },
+  { to: "/understand-indonesia" as const, label: "Understand Indonesia" },
+  { to: "/events-places" as const, label: "Events & Places" },
+  { to: "/around-the-world" as const, label: "Indonesia Around the World" },
+  { to: "/collaborate" as const, label: "Collaborate with Indonesia" },
+  { to: "/about" as const, label: "About" },
 ];
 
 function NotFoundPage() {

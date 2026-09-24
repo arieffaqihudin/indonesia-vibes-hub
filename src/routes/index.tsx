@@ -84,7 +84,7 @@ function Home() {
                 hash="in-focus"
                 className="link-underline group inline-flex min-h-11 items-center gap-2 px-1 text-sm font-medium text-ink"
               >
-                Explore in focus
+                See what’s in focus
                 <ArrowUpRight className="arrow-nudge h-4 w-4 text-primary" />
               </Link>
             </div>
@@ -197,7 +197,7 @@ function Home() {
         </div>
       </section>
 
-      {/* Explore by topic */}
+      {/* Browse by topic */}
       <section className="container-editorial py-16 md:py-24">
         <Reveal>
           <SectionHeading
