@@ -63,7 +63,6 @@ import { Route as AdminUsersRouteImport } from './routes/admin.users'
 import { Route as CollaborationsIndexRouteImport } from './routes/collaborations.index'
 import { Route as CollaborationsSlugRouteImport } from './routes/collaborations.$slug'
 import { Route as CollectionsIndexRouteImport } from './routes/collections.index'
-import { Route as CollectionsSlugRouteImport } from './routes/collections.$slug'
 import { Route as ContributorIndexRouteImport } from './routes/contributor.index'
 import { Route as ContributorAccountRouteImport } from './routes/contributor.account'
 import { Route as ContributorForgotPasswordRouteImport } from './routes/contributor.forgot-password'
@@ -111,6 +110,7 @@ import { Route as AdminReviewIndexRouteImport } from './routes/admin.review.inde
 import { Route as ContributorSubmissionsIndexRouteImport } from './routes/contributor.submissions.index'
 import { Route as ExploreTopicsIndexRouteImport } from './routes/explore.topics.index'
 import { Route as ExploreTopicsSlugRouteImport } from './routes/explore.topics.$slug'
+import { Route as UnderstandIndonesiaCollectionsSlugRouteImport } from './routes/understand-indonesia.collections.$slug'
 import { Route as UnderstandIndonesiaTopicsSlugRouteImport } from './routes/understand-indonesia.topics.$slug'
 import { Route as AdminContentIdPreviewRouteImport } from './routes/admin.content.$id.preview'
 import { Route as ContributorSubmissionsIdIndexRouteImport } from './routes/contributor.submissions.$id.index'
@@ -388,11 +388,6 @@ const CollectionsIndexRoute = CollectionsIndexRouteImport.update({
   path: '/collections/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CollectionsSlugRoute = CollectionsSlugRouteImport.update({
-  id: '/collections/$slug',
-  path: '/collections/$slug',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ContributorIndexRoute = ContributorIndexRouteImport.update({
   id: '/contributor/',
   path: '/contributor/',
@@ -634,6 +629,12 @@ const ExploreTopicsSlugRoute = ExploreTopicsSlugRouteImport.update({
   path: '/explore/topics/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UnderstandIndonesiaCollectionsSlugRoute =
+  UnderstandIndonesiaCollectionsSlugRouteImport.update({
+    id: '/$slug',
+    path: '/$slug',
+    getParentRoute: () => UnderstandIndonesiaCollectionsRoute,
+  } as any)
 const UnderstandIndonesiaTopicsSlugRoute =
   UnderstandIndonesiaTopicsSlugRouteImport.update({
     id: '/$slug',
@@ -716,7 +717,6 @@ export interface FileRoutesByFullPath {
   '/admin/topics': typeof AdminTopicsRoute
   '/admin/users': typeof AdminUsersRoute
   '/collaborations/$slug': typeof CollaborationsSlugRoute
-  '/collections/$slug': typeof CollectionsSlugRoute
   '/contributor/account': typeof ContributorAccountRoute
   '/contributor/forgot-password': typeof ContributorForgotPasswordRoute
   '/contributor/help': typeof ContributorHelpRoute
@@ -736,7 +736,7 @@ export interface FileRoutesByFullPath {
   '/people/$slug': typeof PeopleSlugRoute
   '/places/$slug': typeof PlacesSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
-  '/understand-indonesia/collections': typeof UnderstandIndonesiaCollectionsRoute
+  '/understand-indonesia/collections': typeof UnderstandIndonesiaCollectionsRouteWithChildren
   '/understand-indonesia/topics': typeof UnderstandIndonesiaTopicsRouteWithChildren
   '/admin/': typeof AdminIndexRoute
   '/collaborations/': typeof CollaborationsIndexRoute
@@ -759,6 +759,7 @@ export interface FileRoutesByFullPath {
   '/admin/inquiries/$id': typeof AdminInquiriesIdRoute
   '/admin/partners/$id': typeof AdminPartnersIdRoute
   '/explore/topics/$slug': typeof ExploreTopicsSlugRoute
+  '/understand-indonesia/collections/$slug': typeof UnderstandIndonesiaCollectionsSlugRoute
   '/understand-indonesia/topics/$slug': typeof UnderstandIndonesiaTopicsSlugRoute
   '/admin/collaborations/': typeof AdminCollaborationsIndexRoute
   '/admin/content/': typeof AdminContentIndexRoute
@@ -824,7 +825,6 @@ export interface FileRoutesByTo {
   '/admin/topics': typeof AdminTopicsRoute
   '/admin/users': typeof AdminUsersRoute
   '/collaborations/$slug': typeof CollaborationsSlugRoute
-  '/collections/$slug': typeof CollectionsSlugRoute
   '/contributor/account': typeof ContributorAccountRoute
   '/contributor/forgot-password': typeof ContributorForgotPasswordRoute
   '/contributor/help': typeof ContributorHelpRoute
@@ -844,7 +844,7 @@ export interface FileRoutesByTo {
   '/people/$slug': typeof PeopleSlugRoute
   '/places/$slug': typeof PlacesSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
-  '/understand-indonesia/collections': typeof UnderstandIndonesiaCollectionsRoute
+  '/understand-indonesia/collections': typeof UnderstandIndonesiaCollectionsRouteWithChildren
   '/understand-indonesia/topics': typeof UnderstandIndonesiaTopicsRouteWithChildren
   '/admin': typeof AdminIndexRoute
   '/collaborations': typeof CollaborationsIndexRoute
@@ -867,6 +867,7 @@ export interface FileRoutesByTo {
   '/admin/inquiries/$id': typeof AdminInquiriesIdRoute
   '/admin/partners/$id': typeof AdminPartnersIdRoute
   '/explore/topics/$slug': typeof ExploreTopicsSlugRoute
+  '/understand-indonesia/collections/$slug': typeof UnderstandIndonesiaCollectionsSlugRoute
   '/understand-indonesia/topics/$slug': typeof UnderstandIndonesiaTopicsSlugRoute
   '/admin/collaborations': typeof AdminCollaborationsIndexRoute
   '/admin/content': typeof AdminContentIndexRoute
@@ -934,7 +935,6 @@ export interface FileRoutesById {
   '/admin/topics': typeof AdminTopicsRoute
   '/admin/users': typeof AdminUsersRoute
   '/collaborations/$slug': typeof CollaborationsSlugRoute
-  '/collections/$slug': typeof CollectionsSlugRoute
   '/contributor/account': typeof ContributorAccountRoute
   '/contributor/forgot-password': typeof ContributorForgotPasswordRoute
   '/contributor/help': typeof ContributorHelpRoute
@@ -954,7 +954,7 @@ export interface FileRoutesById {
   '/people/$slug': typeof PeopleSlugRoute
   '/places/$slug': typeof PlacesSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
-  '/understand-indonesia/collections': typeof UnderstandIndonesiaCollectionsRoute
+  '/understand-indonesia/collections': typeof UnderstandIndonesiaCollectionsRouteWithChildren
   '/understand-indonesia/topics': typeof UnderstandIndonesiaTopicsRouteWithChildren
   '/admin/': typeof AdminIndexRoute
   '/collaborations/': typeof CollaborationsIndexRoute
@@ -977,6 +977,7 @@ export interface FileRoutesById {
   '/admin/inquiries/$id': typeof AdminInquiriesIdRoute
   '/admin/partners/$id': typeof AdminPartnersIdRoute
   '/explore/topics/$slug': typeof ExploreTopicsSlugRoute
+  '/understand-indonesia/collections/$slug': typeof UnderstandIndonesiaCollectionsSlugRoute
   '/understand-indonesia/topics/$slug': typeof UnderstandIndonesiaTopicsSlugRoute
   '/admin/collaborations/': typeof AdminCollaborationsIndexRoute
   '/admin/content/': typeof AdminContentIndexRoute
@@ -1045,7 +1046,6 @@ export interface FileRouteTypes {
     | '/admin/topics'
     | '/admin/users'
     | '/collaborations/$slug'
-    | '/collections/$slug'
     | '/contributor/account'
     | '/contributor/forgot-password'
     | '/contributor/help'
@@ -1088,6 +1088,7 @@ export interface FileRouteTypes {
     | '/admin/inquiries/$id'
     | '/admin/partners/$id'
     | '/explore/topics/$slug'
+    | '/understand-indonesia/collections/$slug'
     | '/understand-indonesia/topics/$slug'
     | '/admin/collaborations/'
     | '/admin/content/'
@@ -1153,7 +1154,6 @@ export interface FileRouteTypes {
     | '/admin/topics'
     | '/admin/users'
     | '/collaborations/$slug'
-    | '/collections/$slug'
     | '/contributor/account'
     | '/contributor/forgot-password'
     | '/contributor/help'
@@ -1196,6 +1196,7 @@ export interface FileRouteTypes {
     | '/admin/inquiries/$id'
     | '/admin/partners/$id'
     | '/explore/topics/$slug'
+    | '/understand-indonesia/collections/$slug'
     | '/understand-indonesia/topics/$slug'
     | '/admin/collaborations'
     | '/admin/content'
@@ -1262,7 +1263,6 @@ export interface FileRouteTypes {
     | '/admin/topics'
     | '/admin/users'
     | '/collaborations/$slug'
-    | '/collections/$slug'
     | '/contributor/account'
     | '/contributor/forgot-password'
     | '/contributor/help'
@@ -1305,6 +1305,7 @@ export interface FileRouteTypes {
     | '/admin/inquiries/$id'
     | '/admin/partners/$id'
     | '/explore/topics/$slug'
+    | '/understand-indonesia/collections/$slug'
     | '/understand-indonesia/topics/$slug'
     | '/admin/collaborations/'
     | '/admin/content/'
@@ -1345,7 +1346,6 @@ export interface RootRouteChildren {
   SearchRoute: typeof SearchRoute
   UnderstandIndonesiaRoute: typeof UnderstandIndonesiaRouteWithChildren
   CollaborationsSlugRoute: typeof CollaborationsSlugRoute
-  CollectionsSlugRoute: typeof CollectionsSlugRoute
   ContributorAccountRoute: typeof ContributorAccountRoute
   ContributorForgotPasswordRoute: typeof ContributorForgotPasswordRoute
   ContributorHelpRoute: typeof ContributorHelpRoute
@@ -1762,13 +1762,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CollectionsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/collections/$slug': {
-      id: '/collections/$slug'
-      path: '/collections/$slug'
-      fullPath: '/collections/$slug'
-      preLoaderRoute: typeof CollectionsSlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/contributor/': {
       id: '/contributor/'
       path: '/contributor'
@@ -2098,6 +2091,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ExploreTopicsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/understand-indonesia/collections/$slug': {
+      id: '/understand-indonesia/collections/$slug'
+      path: '/$slug'
+      fullPath: '/understand-indonesia/collections/$slug'
+      preLoaderRoute: typeof UnderstandIndonesiaCollectionsSlugRouteImport
+      parentRoute: typeof UnderstandIndonesiaCollectionsRoute
+    }
     '/understand-indonesia/topics/$slug': {
       id: '/understand-indonesia/topics/$slug'
       path: '/$slug'
@@ -2244,6 +2244,21 @@ const AdminRouteChildren: AdminRouteChildren = {
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
+interface UnderstandIndonesiaCollectionsRouteChildren {
+  UnderstandIndonesiaCollectionsSlugRoute: typeof UnderstandIndonesiaCollectionsSlugRoute
+}
+
+const UnderstandIndonesiaCollectionsRouteChildren: UnderstandIndonesiaCollectionsRouteChildren =
+  {
+    UnderstandIndonesiaCollectionsSlugRoute:
+      UnderstandIndonesiaCollectionsSlugRoute,
+  }
+
+const UnderstandIndonesiaCollectionsRouteWithChildren =
+  UnderstandIndonesiaCollectionsRoute._addFileChildren(
+    UnderstandIndonesiaCollectionsRouteChildren,
+  )
+
 interface UnderstandIndonesiaTopicsRouteChildren {
   UnderstandIndonesiaTopicsSlugRoute: typeof UnderstandIndonesiaTopicsSlugRoute
 }
@@ -2259,12 +2274,13 @@ const UnderstandIndonesiaTopicsRouteWithChildren =
   )
 
 interface UnderstandIndonesiaRouteChildren {
-  UnderstandIndonesiaCollectionsRoute: typeof UnderstandIndonesiaCollectionsRoute
+  UnderstandIndonesiaCollectionsRoute: typeof UnderstandIndonesiaCollectionsRouteWithChildren
   UnderstandIndonesiaTopicsRoute: typeof UnderstandIndonesiaTopicsRouteWithChildren
 }
 
 const UnderstandIndonesiaRouteChildren: UnderstandIndonesiaRouteChildren = {
-  UnderstandIndonesiaCollectionsRoute: UnderstandIndonesiaCollectionsRoute,
+  UnderstandIndonesiaCollectionsRoute:
+    UnderstandIndonesiaCollectionsRouteWithChildren,
   UnderstandIndonesiaTopicsRoute: UnderstandIndonesiaTopicsRouteWithChildren,
 }
 
@@ -2296,7 +2312,6 @@ const rootRouteChildren: RootRouteChildren = {
   SearchRoute: SearchRoute,
   UnderstandIndonesiaRoute: UnderstandIndonesiaRouteWithChildren,
   CollaborationsSlugRoute: CollaborationsSlugRoute,
-  CollectionsSlugRoute: CollectionsSlugRoute,
   ContributorAccountRoute: ContributorAccountRoute,
   ContributorForgotPasswordRoute: ContributorForgotPasswordRoute,
   ContributorHelpRoute: ContributorHelpRoute,
