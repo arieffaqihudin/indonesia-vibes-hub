@@ -9,7 +9,7 @@ import { abtn, field, Modal, StatusPill } from "@/components/admin/primitives";
 import { useAdmin } from "@/lib/admin/store";
 import { allGraphEntries, blockedForPublication, graphEntry, relationshipGroups } from "@/lib/admin/selectors";
 import { CONTENT_STATUS, RIGHTS_STATUSES, can, type ContentItem, type RightsStatus } from "@/lib/admin/types";
-import { DELIVERY_HELP, DELIVERY_PUBLIC_LABEL, DELIVERY_TYPES, type DeliveryType } from "@/lib/editorial";
+import { DELIVERY_HELP, DELIVERY_PUBLIC_LABEL, DELIVERY_TYPES, contentSourceOf, type DeliveryType } from "@/lib/editorial";
 import { AttributionSettings, CURATION_CHECKS } from "./AttributionSettings";
 import { TOPICS } from "@/lib/topics";
 import { articleDocument, articleSlug, documentText } from "@/lib/article-editor";
@@ -109,7 +109,7 @@ export function ArticleEditorWorkspace({ id }: { id: string }) {
     { label: "Article content", ok: documentText(document).trim().length > 20, required: true },
     { label: "Hero image", ok: Boolean(cover), required: true },
     { label: "Source requirements", ok: item.contentSource !== "By Curation" || Boolean(item.fields["originalSource"] || item.fields["originalSubmission"] || item.fields["coContributors"] || articleSources.length), required: true },
-    ...(item.contentSource === "By Curation" ? [{ label: "Curation checks complete", ok: CURATION_CHECKS.every((key) => item.fields[key] === "yes"), required: true }] : []),
+    ...(contentSourceOf(item) === "By Curation" ? [{ label: "Curation checks complete", ok: CURATION_CHECKS.every((key) => item.fields[key] === "yes"), required: true }] : []),
     { label: "Media permission", ok: blockedForPublication(item, admin.media).length === 0, required: true },
     { label: "Connection recommended", ok: Object.values(item.relationships).some((values) => values.length), required: false },
   ];

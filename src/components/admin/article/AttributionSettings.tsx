@@ -1,7 +1,7 @@
 import { field } from "@/components/admin/primitives";
 import type { ContentItem } from "@/lib/admin/types";
 import { attribution, CURATION_HELP, CURATION_MODELS, type CurationModel } from "@/lib/attribution";
-import { CONTENT_SOURCES, SOURCE_HELP, type ContentSource } from "@/lib/editorial";
+import { CONTENT_SOURCES, SOURCE_HELP, contentSourceOf, type ContentSource } from "@/lib/editorial";
 
 const input = `${field} mt-1 min-h-9 text-sm`;
 
@@ -40,7 +40,7 @@ export function curationModelOf(item: ContentItem): CurationModel {
 export function previewAttribution(item: ContentItem) {
   const f = item.fields;
   return attribution({
-    contentSource: item.contentSource ?? "Internal",
+    contentSource: contentSourceOf(item),
     curationModel: curationModelOf(item),
     ...(f["author"] ? { author: f["author"] } : {}),
     ...(f["authorRole"] ? { authorRole: f["authorRole"] } : {}),
@@ -61,7 +61,7 @@ export function AttributionSettings({
   patchFields: (patch: Record<string, string>) => void;
   setSource: (source: ContentSource) => void;
 }) {
-  const source = item.contentSource ?? "Internal";
+  const source = contentSourceOf(item);
   const model = curationModelOf(item);
   const credit = previewAttribution(item);
   const f = item.fields;
