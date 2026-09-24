@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
-import { useEffect, useState } from "react";
 
 import { Reveal } from "@/components/motion/Reveal";
 import { InFocus } from "@/components/editorial/InFocus";
@@ -22,6 +21,7 @@ import { ComingUpAroundWorld } from "@/components/editorial/ComingUpAroundWorld"
 import { brand } from "@/lib/brand";
 import { publicFormat } from "@/lib/editorial";
 import { TOPICS } from "@/lib/topics";
+import { HomepageHero } from "@/components/editorial/HomepageHero";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -39,13 +39,11 @@ export const Route = createFileRoute("/")({
 
 function Home() {
   const [homepage] = useHomepageSettings(stories.map((item) => item.id));
-  const [activeHero, setActiveHero] = useState(0);
-  useEffect(() => {
-    if (activeHero >= homepage.hero.length) setActiveHero(0);
-  }, [activeHero, homepage.hero.length]);
-  const heroSelection = homepage.hero[activeHero] ?? homepage.hero[0];
-  const heroArticleId = heroSelection?.articleId.replace(/^c-/, "");
-  const lead = stories.find((item) => item.id === heroArticleId) ?? stories[0]!;
+  const heroSlides = homepage.hero.slice(0, 5).flatMap((selection) => {
+    const article = stories.find((item) => item.id === selection.articleId.replace(/^c-/, ""));
+    return article ? [{ article, selection }] : [];
+  });
+  if (!heroSlides.length && stories[0]) heroSlides.push({ article: stories[0], selection: { articleId: stories[0].id } });
   const rest = stories.slice(1);
   const secondary = rest.slice(0, 2);
   const grid = rest.slice(2, 6);
@@ -60,75 +58,7 @@ function Home() {
 
   return (
     <>
-      {/* Hero — layered entrance: label, headline, standfirst, CTA */}
-      <section className="wave-field border-b border-border" style={{ ["--wave-x" as string]: "78%", ["--wave-y" as string]: "24%" }}>
-        <div className="container-editorial grid gap-12 py-14 md:py-20 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:items-end lg:gap-16">
-          <div>
-            <p className="eyebrow stagger-item text-primary">{brand.journey.join(" · ")}</p>
-            <h1
-               className="display-1 stagger-item mt-6 text-ink"
-              style={{ ["--reveal-delay" as string]: "90ms" }}
-            >
-               {heroSelection?.headline || "Culture in motion, from the archipelago to the world."}
-            </h1>
-            <p
-              className="standfirst stagger-item mt-7 max-w-xl"
-              style={{ ["--reveal-delay" as string]: "180ms" }}
-            >
-               {heroSelection?.summary || `${brand.name} is the front door to Indonesian cultural diplomacy in English: 17,000 islands of practice, told by the people who hold it, and programmed into rooms on six continents.`}
-            </p>
-            <div
-              className="stagger-item mt-9 flex flex-wrap items-center gap-3"
-              style={{ ["--reveal-delay" as string]: "270ms" }}
-            >
-              <Link
-                 to="/understand-indonesia"
-                className="press group inline-flex min-h-11 items-center gap-2 rounded-full bg-primary px-6 text-sm font-medium text-primary-foreground hover:bg-deep-red"
-              >
-                 {heroSelection?.cta || "Understand Indonesia"}
-                <ArrowRight className="h-4 w-4 transition-transform duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-1" />
-              </Link>
-              <Link
-                to="/"
-                hash="in-focus"
-                className="link-underline group inline-flex min-h-11 items-center gap-2 px-1 text-sm font-medium text-ink"
-              >
-                See what’s in focus
-                <ArrowUpRight className="arrow-nudge h-4 w-4 text-primary" />
-              </Link>
-            </div>
-          </div>
-
-          <Reveal as="figure" variant="mask" className="media-zoom relative">
-            <img
-              src={heroSelection?.image || lead.image}
-              alt={lead.imageAlt}
-              width={1600}
-              height={1104}
-              fetchPriority="high"
-              className="aspect-[4/3] w-full object-cover"
-            />
-            <figcaption className="absolute right-0 bottom-0 left-0 bg-gradient-to-t from-ink-deep/90 to-transparent p-6 pt-16">
-              <p className="eyebrow text-pink">Featured · {publicFormat(lead)}</p>
-              <Link
-                to="/stories/$slug"
-                params={{ slug: lead.slug }}
-                className="link-underline mt-2 block text-xl leading-snug font-medium tracking-tight text-primary-foreground sm:text-2xl"
-              >
-                {lead.title}
-              </Link>
-            </figcaption>
-          </Reveal>
-          {homepage.hero.length > 1 ? (
-            <div className="flex flex-wrap gap-2 lg:col-span-2" aria-label="Featured articles">
-              {homepage.hero.map((item, index) => {
-                const article = stories.find((story) => story.id === item.articleId.replace(/^c-/, ""));
-                return article ? <button key={item.articleId} type="button" aria-pressed={index === activeHero} onClick={() => setActiveHero(index)} className={`min-h-9 rounded-full border px-4 text-xs ${index === activeHero ? "border-primary bg-blush text-clay" : "border-border text-muted-foreground hover:border-primary"}`}>{index + 1}. {item.headline || article.title}</button> : null;
-              })}
-            </div>
-          ) : null}
-        </div>
-      </section>
+      <HomepageHero slides={heroSlides} />
 
       <div className="flex flex-col">
       <div {...sectionStyle("in-focus")}><InFocus /></div>
