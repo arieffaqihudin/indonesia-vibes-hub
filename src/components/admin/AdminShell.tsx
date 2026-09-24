@@ -304,10 +304,10 @@ export function AdminShell({ children }: { children: ReactNode }) {
               <button type="button" className={cn(abtn.primary, "hidden sm:inline-flex")} onClick={() => setCreateOpen(true)}>
                 + Create
               </button>
-              <Link to="/admin/notifications" className={cn(abtn.small, "relative hidden sm:inline-flex")}>
-                Notifications
+               <Link to="/admin/notifications" className="relative hidden h-9 w-9 items-center justify-center rounded-md border border-border text-muted-foreground hover:border-primary hover:text-primary sm:inline-flex" aria-label={`Notifications${unread ? `, ${unread} unread` : ""}`}>
+                 <BellRing className="h-4 w-4" aria-hidden />
                 {unread ? (
-                  <span className="rounded bg-primary px-1.5 text-[0.65rem] tabular-nums text-primary-foreground">{unread}</span>
+                   <span className="absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[0.6rem] tabular-nums text-primary-foreground">{unread}</span>
                 ) : null}
               </Link>
               <Link
@@ -320,13 +320,18 @@ export function AdminShell({ children }: { children: ReactNode }) {
                   <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-primary" aria-hidden />
                 ) : null}
               </Link>
-              <label className="hidden items-center gap-2 border-l border-border pl-3 text-xs text-muted-foreground xl:flex">
+               <details className="relative hidden border-l border-border pl-3 xl:block">
+                 <summary className="flex cursor-pointer list-none items-center gap-2 rounded-md px-1 py-1 hover:bg-muted">
                 <span className="flex h-7 w-7 items-center justify-center rounded-full bg-blush text-[0.7rem] font-semibold text-primary">
                   {user.name.split(" ").map((n) => n[0]).join("").slice(0, 2)}
                 </span>
-                <span className="sr-only">Signed in as</span>
+                 <span className="max-w-36 text-left"><span className="block truncate text-xs font-medium text-ink">{user.name}</span><span className="block truncate text-[0.65rem] text-muted-foreground">{user.role}</span></span>
+                 <ChevronRight className="h-3.5 w-3.5 rotate-90 text-muted-foreground" aria-hidden />
+                 </summary>
+                 <div className="absolute top-11 right-0 z-40 w-72 border border-border bg-card p-3 shadow-md">
+                 <label className="block text-xs text-muted-foreground"><span className="mb-1 block">View workspace as</span>
                 <select
-                  className={cn(field, "min-h-8 w-auto max-w-[14rem] py-1 text-xs")}
+                   className={cn(field, "min-h-8 py-1 text-xs")}
                   value={user.id}
                   onChange={(e) => setCurrentUser(e.target.value)}
                   aria-label="Prototype role switcher"
@@ -337,7 +342,10 @@ export function AdminShell({ children }: { children: ReactNode }) {
                     </option>
                   ))}
                 </select>
-              </label>
+                 </label>
+                 <Link to="/admin/settings" className="mt-2 block border-t border-border pt-2 text-xs text-primary hover:underline">Profile and settings</Link>
+                 </div>
+               </details>
             </div>
           </div>
         </header>
@@ -395,7 +403,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
         ) : null}
 
 
-        <main className="mx-auto w-full max-w-[92rem] px-4 py-6 lg:px-8">{children}</main>
+        <main className="mx-auto w-full max-w-[92rem] px-4 py-5 lg:px-8 lg:py-7">{children}</main>
       </div>
 
       <Modal open={searchOpen} onClose={() => setSearchOpen(false)} title="Search the workspace">
