@@ -73,4 +73,4 @@ export function useTopics() {
 }
 
 export const topicBySlug = (slug: string) => readTopics().find((topic) => topic.slug === slug);
-export const topicById = (id: string) => TOPICS.find((topic) => topic.id === id);
+export const topicById = (id: string) => readTopics().find((topic) => topic.id === id);
