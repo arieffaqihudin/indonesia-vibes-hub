@@ -5,7 +5,7 @@ import { adminHead } from "@/lib/admin/head";
 import { useAdmin } from "@/lib/admin/store";
 import { averageQueueAge, queueBuckets } from "@/lib/admin/selectors";
 import { kindLabel } from "@/lib/admin/types";
-import { EmptyState, PageHeading, StatusPill, SummaryStrip, TabBar, Table, Tag, Td, abtn, relative } from "@/components/admin/primitives";
+import { EmptyState, PageHeading, RowLinkAction, StatusPill, SummaryStrip, TabBar, Table, Tag, Td, relative } from "@/components/admin/primitives";
 
 export const Route = createFileRoute("/admin/review/")({
   head: adminHead("Needs review", "Work waiting on the team, grouped by what it is actually waiting for."),
@@ -26,13 +26,6 @@ function ReviewQueue() {
         description="Grouped by what each record is waiting for, so nothing sits in an unnamed pile."
       />
 
-      <SummaryStrip items={[
-        { value: admin.content.filter((c) => queueBuckets.some((b) => b.match(c, admin.role, admin.user.name))).length, label: "Total items" },
-        { value: items.length, label: "Current group" },
-        { value: `${averageQueueAge(admin.content)} days`, label: "Average age" },
-        { value: admin.content.filter((c) => c.priority === "High").length, label: "High priority" },
-      ]} />
-
       <TabBar
         label="Queue groups"
         tabs={queueBuckets.map((b) => ({
@@ -45,6 +38,16 @@ function ReviewQueue() {
       />
 
       <div className="mt-4">
+        <SummaryStrip items={[
+          { value: admin.content.filter((c) => queueBuckets.some((b) => b.match(c, admin.role, admin.user.name))).length, label: "Total" },
+          { value: admin.content.filter((c) => ["submitted", "initial_review", "verification", "subject_review", "english_editing", "media_rights"].includes(c.status)).length, label: "Needs review" },
+          { value: admin.content.filter((c) => c.status === "verification").length, label: "Needs verification" },
+          { value: admin.content.filter((c) => c.status === "ready_for_approval").length, label: "Ready" },
+        ]} />
+        <p className="mb-3 text-xs text-muted-foreground">Showing {items.length} review item{items.length === 1 ? "" : "s"}</p>
+      </div>
+
+      <div>
         {items.length ? (
           <Table caption="Review queue" head={["Title", "Type", "Issue", "Assigned to", "Updated", "Status", ""]}>
             {items.map((item) => (
@@ -55,7 +58,7 @@ function ReviewQueue() {
                 <Td className="text-xs text-muted-foreground">{item.assignedTo ?? "Unassigned"}</Td>
                 <Td className="text-xs text-muted-foreground">{relative(item.updatedAt)}</Td>
                 <Td><StatusPill status={item.status} /></Td>
-                <Td><Link to="/admin/content/$id" params={{ id: item.id }} className={abtn.quiet}>Open</Link></Td>
+                <Td><RowLinkAction to="/admin/content/$id" params={{ id: item.id }} label={`Open ${item.title}`} /></Td>
               </tr>
             ))}
           </Table>
