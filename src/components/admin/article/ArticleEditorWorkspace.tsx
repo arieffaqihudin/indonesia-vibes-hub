@@ -108,7 +108,7 @@ export function ArticleEditorWorkspace({ id }: { id: string }) {
     { label: "Topic", ok: Boolean(item.topics?.length), required: true },
     { label: "Article content", ok: documentText(document).trim().length > 20, required: true },
     { label: "Hero image", ok: Boolean(cover), required: true },
-    { label: "Source requirements", ok: item.contentSource !== "By Curation" || Boolean(item.fields["originalSource"] || item.fields["originalSubmission"] || item.fields["coContributors"] || articleSources.length), required: true },
+    { label: "Source requirements", ok: contentSourceOf(item) !== "By Curation" || Boolean(item.fields["originalSource"] || item.fields["originalSubmission"] || item.fields["coContributors"] || articleSources.length), required: true },
     ...(contentSourceOf(item) === "By Curation" ? [{ label: "Curation checks complete", ok: CURATION_CHECKS.every((key) => item.fields[key] === "yes"), required: true }] : []),
     { label: "Media permission", ok: blockedForPublication(item, admin.media).length === 0, required: true },
     { label: "Connection recommended", ok: Object.values(item.relationships).some((values) => values.length), required: false },
