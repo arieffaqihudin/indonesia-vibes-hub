@@ -31,7 +31,7 @@
 
 # Homepage Hero redesign
 
-- [ ] Recompose the homepage Hero as the selected cinematic editorial spread
-- [ ] Add calm autoplay, pause states, numbered navigation, arrows, keyboard, and swipe
-- [ ] Refine CMS Hero rows with thumbnail, publication status, ordering, and preview
-- [ ] Verify active content updates and responsive behavior at desktop, tablet, and mobile
+- [x] Recompose the homepage Hero as the selected cinematic editorial spread
+- [x] Add calm autoplay, pause states, numbered navigation, arrows, keyboard, and swipe
+- [x] Refine CMS Hero rows with thumbnail, publication status, ordering, and preview
+- [x] Verify active content updates and responsive behavior at desktop, tablet, and mobile
