@@ -85,12 +85,14 @@ export function PageHeading({
   eyebrow?: string;
 }) {
   return (
-    <header className="mb-5 flex flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between sm:gap-4">
+    <header className="mb-6 flex flex-col items-stretch gap-3 border-b border-border pb-5 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between sm:gap-4">
       <div className="min-w-0 max-w-2xl">
         {eyebrow ? (
-          <p className="text-[0.68rem] font-semibold tracking-[0.18em] text-muted-foreground uppercase">{eyebrow}</p>
+          <p className="flex items-center gap-1.5 text-[0.7rem] font-medium text-muted-foreground">
+            <span>Dashboard</span><span aria-hidden>/</span><span className="text-clay">{eyebrow}</span>
+          </p>
         ) : null}
-        <h1 className="mt-1 text-[1.375rem] leading-tight font-semibold tracking-tight text-ink sm:text-2xl">{title}</h1>
+        <h1 className="mt-2 text-[1.5rem] leading-tight font-semibold text-ink sm:text-[1.75rem]">{title}</h1>
         {description ? <p className="mt-1.5 text-sm text-muted-foreground">{description}</p> : null}
       </div>
       {actions ? (
@@ -171,6 +173,37 @@ export function Metric({ value, label, hint }: { value: ReactNode; label: string
       <p className="text-xl font-semibold tracking-tight text-ink tabular-nums">{value}</p>
       <p className="mt-0.5 text-xs font-medium text-ink">{label}</p>
       {hint ? <p className="mt-0.5 text-[0.7rem] leading-snug text-muted-foreground">{hint}</p> : null}
+    </div>
+  );
+}
+
+/** One continuous operational summary row, rather than a set of KPI cards. */
+export function SummaryStrip({
+  items,
+}: {
+  items: { label: string; value: ReactNode; hint?: string }[];
+}) {
+  return (
+    <dl className="scroll-strip mb-5 flex min-w-full border-y border-border bg-card">
+      {items.map((item) => (
+        <div key={item.label} className="min-w-36 flex-1 border-r border-border px-4 py-3 last:border-r-0 sm:min-w-0">
+          <dt className="text-[0.68rem] font-medium text-muted-foreground uppercase">{item.label}</dt>
+          <dd className="mt-1 flex items-baseline gap-2 text-lg font-semibold text-ink tabular-nums">
+            {item.value}
+            {item.hint ? <span className="text-[0.68rem] font-normal text-muted-foreground">{item.hint}</span> : null}
+          </dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
+
+/** Compact filter row with controls left and search anchored right on wide screens. */
+export function FilterToolbar({ children, search }: { children?: ReactNode; search: ReactNode }) {
+  return (
+    <div className="mb-5 flex flex-col gap-3 border-y border-border bg-muted/35 px-3 py-3 lg:flex-row lg:items-center">
+      {children ? <div className="scroll-strip flex items-center gap-3 lg:flex-1">{children}</div> : null}
+      <div className="w-full lg:ml-auto lg:max-w-sm">{search}</div>
     </div>
   );
 }
@@ -331,7 +364,7 @@ export function Table({
   });
 
   return (
-    <div className={cn(alwaysTable ? "overflow-x-auto" : "md:overflow-x-auto")}>
+    <div className={cn("border-y border-border bg-card", alwaysTable ? "overflow-x-auto" : "md:overflow-x-auto")}>
       <table
         className={cn(
           "w-full border-collapse text-left text-sm",
@@ -339,13 +372,13 @@ export function Table({
         )}
       >
         {caption ? <caption className="sr-only">{caption}</caption> : null}
-        <thead className="sticky top-0 z-10 bg-background">
-          <tr className="border-b border-border">
+        <thead className="sticky top-0 z-10 bg-muted/45">
+          <tr>
             {head.map((h, i) => (
               <th
                 key={h || `col-${i}`}
                 scope="col"
-                className="border-b border-border px-3 pb-2 text-[0.68rem] font-medium tracking-[0.12em] text-muted-foreground uppercase"
+                className="border-b border-border px-3 py-3 text-[0.66rem] font-semibold tracking-[0.08em] text-muted-foreground uppercase"
               >
                 {h}
               </th>
@@ -374,7 +407,7 @@ export function Td({
     <td
       data-label={label}
       colSpan={colSpan}
-      className={cn("border-b border-border/70 px-3 py-3 align-middle text-ink md:border-b", className)}
+      className={cn("border-b border-border/70 px-3 py-3 align-middle text-ink transition-colors group-hover:bg-muted/35 md:border-b", className)}
     >
       {children}
     </td>

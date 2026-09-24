@@ -5,7 +5,7 @@ import { adminHead } from "@/lib/admin/head";
 import { useAdmin } from "@/lib/admin/store";
 import { averageQueueAge, queueBuckets } from "@/lib/admin/selectors";
 import { kindLabel } from "@/lib/admin/types";
-import { Card, EmptyState, Metric, PageHeading, StatusPill, TabBar, Tag, abtn, relative } from "@/components/admin/primitives";
+import { EmptyState, PageHeading, StatusPill, SummaryStrip, TabBar, Table, Tag, Td, abtn, relative } from "@/components/admin/primitives";
 
 export const Route = createFileRoute("/admin/review/")({
   head: adminHead("Needs review", "Work waiting on the team, grouped by what it is actually waiting for."),
@@ -21,16 +21,17 @@ function ReviewQueue() {
   return (
     <>
       <PageHeading
-        eyebrow="Editorial"
+        eyebrow="Editorial / Review"
         title="Needs review"
         description="Grouped by what each record is waiting for, so nothing sits in an unnamed pile."
       />
 
-      <div className="mb-5 grid gap-3 sm:grid-cols-3">
-        <Metric value={admin.content.filter((c) => queueBuckets.some((b) => b.match(c, admin.role, admin.user.name))).length} label="In the queue" />
-        <Metric value={`${averageQueueAge(admin.content)} days`} label="Average time in stage" hint="Across everything currently in review." />
-        <Metric value={admin.content.filter((c) => c.priority === "High").length} label="High priority" />
-      </div>
+      <SummaryStrip items={[
+        { value: admin.content.filter((c) => queueBuckets.some((b) => b.match(c, admin.role, admin.user.name))).length, label: "Total items" },
+        { value: items.length, label: "Current group" },
+        { value: `${averageQueueAge(admin.content)} days`, label: "Average age" },
+        { value: admin.content.filter((c) => c.priority === "High").length, label: "High priority" },
+      ]} />
 
       <TabBar
         label="Queue groups"
@@ -43,32 +44,21 @@ function ReviewQueue() {
         onChange={setBucketId}
       />
 
-      <div className="mt-4 space-y-3">
+      <div className="mt-4">
         {items.length ? (
-          items.map((item) => (
-            <Card key={item.id}>
-              <div className="flex flex-wrap items-start justify-between gap-3">
-                <div className="min-w-0">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <StatusPill status={item.status} />
-                    <Tag tone="quiet">{kindLabel(item.kind)}</Tag>
-                    {item.priority !== "Normal" ? <Tag tone="alert">{item.priority}</Tag> : null}
-                  </div>
-                  <h2 className="mt-2 font-display text-lg text-ink">
-                    <Link to="/admin/content/$id" params={{ id: item.id }} className="hover:text-primary">
-                      {item.title}
-                    </Link>
-                  </h2>
-                  <p className="mt-1 text-sm text-muted-foreground">
-                    {item.assignedTo ? `Assigned to ${item.assignedTo}` : "Unassigned"} · in this stage {relative(item.stageSince)}
-                  </p>
-                </div>
-                <Link to="/admin/content/$id" params={{ id: item.id }} className={abtn.secondary}>
-                  Open
-                </Link>
-              </div>
-            </Card>
-          ))
+          <Table caption="Review queue" head={["Title", "Type", "Issue", "Assigned to", "Updated", "Status", ""]}>
+            {items.map((item) => (
+              <tr key={item.id} className="group hover:bg-muted/35">
+                <Td><Link to="/admin/content/$id" params={{ id: item.id }} className="font-semibold hover:text-primary">{item.title}</Link></Td>
+                <Td className="text-xs text-muted-foreground">{kindLabel(item.kind)}</Td>
+                <Td><Tag tone={item.priority === "High" ? "alert" : "quiet"}>{bucket.label}</Tag></Td>
+                <Td className="text-xs text-muted-foreground">{item.assignedTo ?? "Unassigned"}</Td>
+                <Td className="text-xs text-muted-foreground">{relative(item.updatedAt)}</Td>
+                <Td><StatusPill status={item.status} /></Td>
+                <Td><Link to="/admin/content/$id" params={{ id: item.id }} className={abtn.quiet}>Open</Link></Td>
+              </tr>
+            ))}
+          </Table>
         ) : (
           <EmptyState title="Nothing waiting in this group." hint="Work appears here as it reaches this stage." />
         )}

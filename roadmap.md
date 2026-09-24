@@ -1,10 +1,10 @@
-# Explore architecture roadmap
+# Product architecture and admin workspace roadmap
 
-- [ ] Add the compatible Editorial Content dimensions and central Topic model
-- [ ] Migrate seeded stories and add the three requested topic examples
-- [ ] Replace public navigation with Explore, Experience, Connect, About, Search
-- [ ] Build Explore, Topics, Topic detail, Experience, Inquiry, and Partners routes
-- [ ] Update homepage, cards, search, collections, freshness, metadata, and legacy routes
-- [ ] Simplify CMS sidebar, All Content, Create New, editor, review, submissions, and preview
-- [ ] Preserve advanced One Data, source/reference, rights, relationships, roles, and history capabilities
-- [ ] Verify terminology, responsive layouts, routes, TypeScript, build, and key journeys
+- [x] Add the compatible Editorial Content dimensions and central Topic model
+- [x] Migrate seeded stories and add the three requested topic examples
+- [x] Replace public navigation with Explore, Experience, Connect, About, Search
+- [x] Build Explore, Topics, Topic detail, Experience, Inquiry, and Partners routes
+- [x] Update homepage, cards, search, collections, freshness, metadata, and legacy routes
+- [x] Simplify CMS navigation and preserve advanced One Data capabilities
+- [ ] Apply the selected flat, minimalist admin system to priority operational pages
+- [ ] Verify admin responsiveness, interactions, TypeScript, and preview rendering

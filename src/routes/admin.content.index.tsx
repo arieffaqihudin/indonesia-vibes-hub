@@ -10,6 +10,8 @@ import {
   PageHeading,
   SearchInput,
   SelectFilter,
+  SummaryStrip,
+  FilterToolbar,
   StatusPill,
   Table,
   Tag,
@@ -58,7 +60,7 @@ function ContentLibrary() {
   return (
     <>
       <PageHeading
-        eyebrow="Editorial"
+        eyebrow="Content / All Content"
         title="All Content"
         description="Find, edit, review and publish every public record from one place."
         actions={
@@ -70,19 +72,25 @@ function ContentLibrary() {
         }
       />
 
+      <SummaryStrip items={[
+        { label: "Total content", value: content.length },
+        { label: "Published", value: content.filter((item) => simpleStatus(item.status) === "Published").length },
+        { label: "In review", value: content.filter((item) => simpleStatus(item.status) === "In review").length },
+        { label: "Needs changes", value: content.filter((item) => simpleStatus(item.status) === "Needs changes").length },
+      ]} />
+
       <div className="scroll-strip mb-4 flex gap-1 border-b border-border" role="tablist" aria-label="Content types">
         {[{ kind: "", label: "", plural: "All" }, ...CONTENT_KINDS.filter((entry) => entry.kind !== "community")].map((entry) => (
           <button key={entry.kind || "all"} type="button" role="tab" aria-selected={kind === entry.label || (!kind && !entry.kind)} onClick={() => setKind(entry.kind ? entry.label : "")} className={`min-h-10 whitespace-nowrap border-b-2 px-3 text-xs font-medium ${kind === entry.label || (!kind && !entry.kind) ? "border-primary text-ink" : "border-transparent text-muted-foreground"}`}>{entry.kind === "story" ? "Stories" : entry.kind === "culture" ? "Culture" : entry.plural}</button>
         ))}
       </div>
 
-      <div className="scroll-strip mb-4 flex items-center gap-3 rounded-lg border border-border bg-card px-4 py-3 md:flex-wrap md:overflow-visible">
-        <SearchInput value={query} onChange={setQuery} label="Search content" placeholder="Search title, people, institution or theme" />
+      <FilterToolbar search={<SearchInput value={query} onChange={setQuery} label="Search content" placeholder="Search title, people, institution or theme" />}>
         <SelectFilter label="Status" value={status} onChange={setStatus} options={SIMPLE_STATUSES} />
         <SelectFilter label="Editor" value={editor} onChange={setEditor} options={users.map((u) => u.name)} />
         <SelectFilter label="Theme" value={theme} onChange={setTheme} options={themes} />
         <SelectFilter label="Country" value={country} onChange={setCountry} options={countries} />
-      </div>
+      </FilterToolbar>
 
       <p className="mb-3 text-xs text-muted-foreground">
         {rows.length} record{rows.length === 1 ? "" : "s"}
@@ -97,7 +105,7 @@ function ContentLibrary() {
             head={["Title", "Type", "Status", "Editor", "Themes", "Updated", "Next review"]}
           >
             {rows.map((item) => (
-              <tr key={item.id} className="hover:bg-muted/50">
+              <tr key={item.id} className="group hover:bg-muted/35">
                 <Td>
                   <Link to="/admin/content/$id" params={{ id: item.id }} className="font-medium underline-offset-4 hover:text-primary hover:underline">
                     {item.title}
