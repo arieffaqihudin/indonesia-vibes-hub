@@ -8,6 +8,13 @@
       "when": 1790236305664,
       "tag": "0000_create_cms_profiles_and_roles",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1790236500194,
+      "tag": "0001_remove_auth_schema_profile_trigger",
+      "breakpoints": true
     }
   ]
 }

@@ -1,0 +1,2 @@
+DROP TRIGGER IF EXISTS on_auth_user_created_profile ON auth.users;
+COMMENT ON FUNCTION public.handle_new_user_profile() IS 'DEPRECATED: profiles are created from authenticated application code to avoid modifying the managed auth schema.';
