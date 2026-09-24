@@ -1,4 +1,5 @@
-import { Link, useRouterState } from "@tanstack/react-router";
+import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
+import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import {
   BookOpen, ChevronDown, ChevronLeft, ChevronRight, CircleHelp, FileText,
@@ -10,12 +11,13 @@ import {
 import { useAdmin } from "@/lib/admin/store";
 import { cn } from "@/lib/utils";
 import { field } from "./primitives";
+import { supabase } from "@/integrations/supabase/client";
 
 type NavItem = { to: string; label: string; icon: LucideIcon };
 type NavGroup = { label?: string; items: NavItem[] };
 
 const NAVIGATION: NavGroup[] = [
-  { items: [{ to: "/admin", label: "Dashboard", icon: LayoutDashboard }] },
+  { items: [{ to: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard }] },
   { label: "Homepage", items: [
     { to: "/admin/homepage/hero", label: "Hero", icon: Star },
     { to: "/admin/homepage/sections", label: "Homepage Sections", icon: Layers },
@@ -70,10 +72,13 @@ function Navigation({ collapsed = false, onNavigate }: { collapsed?: boolean; on
 
 export function AdminShell({ children }: { children: ReactNode }) {
   const { user, users, setCurrentUser } = useAdmin();
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [focusMode, setFocusMode] = useState(false);
+  const [accountEmail, setAccountEmail] = useState("");
 
   useEffect(() => {
     const stored = window.sessionStorage.getItem("iv-admin-sidebar");
@@ -94,6 +99,14 @@ export function AdminShell({ children }: { children: ReactNode }) {
     document.addEventListener("keydown", close);
     return () => { document.body.style.overflow = overflow; document.removeEventListener("keydown", close); };
   }, [mobileOpen]);
+  useEffect(() => { void supabase.auth.getUser().then(({ data }) => setAccountEmail(data.user?.email ?? "")); }, []);
+
+  async function handleSignOut() {
+    await queryClient.cancelQueries();
+    queryClient.clear();
+    await supabase.auth.signOut();
+    await navigate({ to: "/admin/login", replace: true });
+  }
 
   const current = useMemo(() => NAVIGATION.flatMap((group) => group.items)
     .filter((item) => pathname === item.to || (item.to !== "/admin" && pathname.startsWith(`${item.to}/`)))
@@ -105,7 +118,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
       focusMode && "lg:hidden", collapsed ? "w-[72px]" : "w-[248px]",
     )}>
       <div className={cn("flex h-[var(--cms-header)] items-center border-b border-sidebar-border", collapsed ? "justify-center" : "px-5")}>
-        <Link to="/admin" className="text-sm font-bold text-primary">{collapsed ? "IV" : "Indonesia Vibes"}</Link>
+        <Link to="/admin/dashboard" className="text-sm font-bold text-primary">{collapsed ? "IV" : "Indonesia Vibes"}</Link>
       </div>
       <div className="h-[calc(100vh-var(--cms-header))] overflow-y-auto px-3 py-5"><Navigation collapsed={collapsed} /></div>
       <button type="button" onClick={() => setCollapsed((value) => !value)} title={collapsed ? "Expand sidebar" : "Collapse sidebar"} aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"} className="absolute top-5 right-[-13px] flex h-7 w-7 items-center justify-center rounded-full border border-border bg-card text-muted-foreground shadow-sm hover:text-primary">
@@ -121,12 +134,12 @@ export function AdminShell({ children }: { children: ReactNode }) {
           <details className="relative ml-auto">
             <summary className="flex cursor-pointer list-none items-center gap-2 rounded-md px-1.5 py-1 hover:bg-muted">
               <span className="flex h-8 w-8 items-center justify-center rounded-full bg-blush text-xs font-semibold text-primary">{user.name.split(" ").map((part) => part[0]).join("").slice(0, 2)}</span>
-              <span className="hidden max-w-40 text-left sm:block"><span className="block truncate text-xs font-medium text-ink">{user.name}</span><span className="block truncate text-[0.68rem] text-muted-foreground">{user.role}</span></span>
+              <span className="hidden max-w-40 text-left sm:block"><span className="block truncate text-xs font-medium text-ink">{user.name}</span><span className="block truncate text-[0.68rem] text-muted-foreground">{accountEmail || user.role}</span></span>
               <ChevronDown className="hidden h-3.5 w-3.5 text-muted-foreground sm:block" />
             </summary>
             <div className="absolute top-11 right-0 z-40 w-72 rounded-md border border-border bg-popover p-3 shadow-md">
               <label className="text-xs text-muted-foreground">View CMS as<select className={cn(field, "mt-1 text-xs")} value={user.id} onChange={(event) => setCurrentUser(event.target.value)}>{users.map((entry) => <option key={entry.id} value={entry.id}>{entry.name} — {entry.role}</option>)}</select></label>
-              <Link to="/admin/settings" className="mt-3 block border-t border-border pt-3 text-xs text-primary">Profile and settings</Link>
+               <div className="mt-3 flex items-center justify-between gap-3 border-t border-border pt-3"><Link to="/admin/settings" className="text-xs text-primary">Profile and settings</Link><button type="button" onClick={handleSignOut} className="text-xs text-muted-foreground hover:text-primary">Sign out</button></div>
             </div>
           </details>
         </div>

@@ -32,6 +32,7 @@ import { Route as PeopleOrganisationsRouteImport } from './routes/people-organis
 import { Route as ResearchRouteImport } from './routes/research'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as UnderstandIndonesiaRouteImport } from './routes/understand-indonesia'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminAboutRouteImport } from './routes/admin.about'
 import { Route as AdminActivityRouteImport } from './routes/admin.activity'
 import { Route as AdminAroundTheWorldRouteImport } from './routes/admin.around-the-world'
@@ -46,12 +47,15 @@ import { Route as AdminEditorialStandardsRouteImport } from './routes/admin.edit
 import { Route as AdminEventsRouteImport } from './routes/admin.events'
 import { Route as AdminEventsPlacesRouteImport } from './routes/admin.events-places'
 import { Route as AdminFollowUpsRouteImport } from './routes/admin.follow-ups'
+import { Route as AdminForgotPasswordRouteImport } from './routes/admin.forgot-password'
 import { Route as AdminInstitutionsRouteImport } from './routes/admin.institutions'
+import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AdminMediaRouteImport } from './routes/admin.media'
 import { Route as AdminNotificationsRouteImport } from './routes/admin.notifications'
 import { Route as AdminPeopleRouteImport } from './routes/admin.people'
 import { Route as AdminPeopleOrganisationsRouteImport } from './routes/admin.people-organisations'
 import { Route as AdminPlacesRouteImport } from './routes/admin.places'
+import { Route as AdminResetPasswordRouteImport } from './routes/admin.reset-password'
 import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as AdminSourcesRouteImport } from './routes/admin.sources'
 import { Route as AdminStoriesRouteImport } from './routes/admin.stories'
@@ -236,6 +240,11 @@ const UnderstandIndonesiaRoute = UnderstandIndonesiaRouteImport.update({
   path: '/understand-indonesia',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminAboutRoute = AdminAboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -306,9 +315,19 @@ const AdminFollowUpsRoute = AdminFollowUpsRouteImport.update({
   path: '/follow-ups',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminForgotPasswordRoute = AdminForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminInstitutionsRoute = AdminInstitutionsRouteImport.update({
   id: '/institutions',
   path: '/institutions',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminLoginRoute = AdminLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminMediaRoute = AdminMediaRouteImport.update({
@@ -335,6 +354,11 @@ const AdminPeopleOrganisationsRoute =
 const AdminPlacesRoute = AdminPlacesRouteImport.update({
   id: '/places',
   path: '/places',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminResetPasswordRoute = AdminResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminSettingsRoute = AdminSettingsRouteImport.update({
@@ -727,12 +751,15 @@ export interface FileRoutesByFullPath {
   '/admin/events': typeof AdminEventsRoute
   '/admin/events-places': typeof AdminEventsPlacesRoute
   '/admin/follow-ups': typeof AdminFollowUpsRoute
+  '/admin/forgot-password': typeof AdminForgotPasswordRoute
   '/admin/institutions': typeof AdminInstitutionsRoute
+  '/admin/login': typeof AdminLoginRoute
   '/admin/media': typeof AdminMediaRoute
   '/admin/notifications': typeof AdminNotificationsRoute
   '/admin/people': typeof AdminPeopleRoute
   '/admin/people-organisations': typeof AdminPeopleOrganisationsRoute
   '/admin/places': typeof AdminPlacesRoute
+  '/admin/reset-password': typeof AdminResetPasswordRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/sources': typeof AdminSourcesRoute
   '/admin/stories': typeof AdminStoriesRoute
@@ -760,6 +787,7 @@ export interface FileRoutesByFullPath {
   '/people/$slug': typeof PeopleSlugRoute
   '/places/$slug': typeof PlacesSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
+  '/admin/': typeof AdminIndexRoute
   '/collaborations/': typeof CollaborationsIndexRoute
   '/collections/': typeof CollectionsIndexRoute
   '/contributor/': typeof ContributorIndexRoute
@@ -806,7 +834,6 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
   '/about': typeof AboutRoute
-  '/admin': typeof AdminRouteWithChildren
   '/around-the-world': typeof AroundTheWorldRoute
   '/collaborate': typeof CollaborateRoute
   '/connect': typeof ConnectRoute
@@ -840,12 +867,15 @@ export interface FileRoutesByTo {
   '/admin/events': typeof AdminEventsRoute
   '/admin/events-places': typeof AdminEventsPlacesRoute
   '/admin/follow-ups': typeof AdminFollowUpsRoute
+  '/admin/forgot-password': typeof AdminForgotPasswordRoute
   '/admin/institutions': typeof AdminInstitutionsRoute
+  '/admin/login': typeof AdminLoginRoute
   '/admin/media': typeof AdminMediaRoute
   '/admin/notifications': typeof AdminNotificationsRoute
   '/admin/people': typeof AdminPeopleRoute
   '/admin/people-organisations': typeof AdminPeopleOrganisationsRoute
   '/admin/places': typeof AdminPlacesRoute
+  '/admin/reset-password': typeof AdminResetPasswordRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/sources': typeof AdminSourcesRoute
   '/admin/stories': typeof AdminStoriesRoute
@@ -873,6 +903,7 @@ export interface FileRoutesByTo {
   '/people/$slug': typeof PeopleSlugRoute
   '/places/$slug': typeof PlacesSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
+  '/admin': typeof AdminIndexRoute
   '/collaborations': typeof CollaborationsIndexRoute
   '/collections': typeof CollectionsIndexRoute
   '/contributor': typeof ContributorIndexRoute
@@ -954,12 +985,15 @@ export interface FileRoutesById {
   '/admin/events': typeof AdminEventsRoute
   '/admin/events-places': typeof AdminEventsPlacesRoute
   '/admin/follow-ups': typeof AdminFollowUpsRoute
+  '/admin/forgot-password': typeof AdminForgotPasswordRoute
   '/admin/institutions': typeof AdminInstitutionsRoute
+  '/admin/login': typeof AdminLoginRoute
   '/admin/media': typeof AdminMediaRoute
   '/admin/notifications': typeof AdminNotificationsRoute
   '/admin/people': typeof AdminPeopleRoute
   '/admin/people-organisations': typeof AdminPeopleOrganisationsRoute
   '/admin/places': typeof AdminPlacesRoute
+  '/admin/reset-password': typeof AdminResetPasswordRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/sources': typeof AdminSourcesRoute
   '/admin/stories': typeof AdminStoriesRoute
@@ -987,6 +1021,7 @@ export interface FileRoutesById {
   '/people/$slug': typeof PeopleSlugRoute
   '/places/$slug': typeof PlacesSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
+  '/admin/': typeof AdminIndexRoute
   '/collaborations/': typeof CollaborationsIndexRoute
   '/collections/': typeof CollectionsIndexRoute
   '/contributor/': typeof ContributorIndexRoute
@@ -1069,12 +1104,15 @@ export interface FileRouteTypes {
     | '/admin/events'
     | '/admin/events-places'
     | '/admin/follow-ups'
+    | '/admin/forgot-password'
     | '/admin/institutions'
+    | '/admin/login'
     | '/admin/media'
     | '/admin/notifications'
     | '/admin/people'
     | '/admin/people-organisations'
     | '/admin/places'
+    | '/admin/reset-password'
     | '/admin/settings'
     | '/admin/sources'
     | '/admin/stories'
@@ -1102,6 +1140,7 @@ export interface FileRouteTypes {
     | '/people/$slug'
     | '/places/$slug'
     | '/stories/$slug'
+    | '/admin/'
     | '/collaborations/'
     | '/collections/'
     | '/contributor/'
@@ -1148,7 +1187,6 @@ export interface FileRouteTypes {
     | '/'
     | '/$'
     | '/about'
-    | '/admin'
     | '/around-the-world'
     | '/collaborate'
     | '/connect'
@@ -1182,12 +1220,15 @@ export interface FileRouteTypes {
     | '/admin/events'
     | '/admin/events-places'
     | '/admin/follow-ups'
+    | '/admin/forgot-password'
     | '/admin/institutions'
+    | '/admin/login'
     | '/admin/media'
     | '/admin/notifications'
     | '/admin/people'
     | '/admin/people-organisations'
     | '/admin/places'
+    | '/admin/reset-password'
     | '/admin/settings'
     | '/admin/sources'
     | '/admin/stories'
@@ -1215,6 +1256,7 @@ export interface FileRouteTypes {
     | '/people/$slug'
     | '/places/$slug'
     | '/stories/$slug'
+    | '/admin'
     | '/collaborations'
     | '/collections'
     | '/contributor'
@@ -1295,12 +1337,15 @@ export interface FileRouteTypes {
     | '/admin/events'
     | '/admin/events-places'
     | '/admin/follow-ups'
+    | '/admin/forgot-password'
     | '/admin/institutions'
+    | '/admin/login'
     | '/admin/media'
     | '/admin/notifications'
     | '/admin/people'
     | '/admin/people-organisations'
     | '/admin/places'
+    | '/admin/reset-password'
     | '/admin/settings'
     | '/admin/sources'
     | '/admin/stories'
@@ -1328,6 +1373,7 @@ export interface FileRouteTypes {
     | '/people/$slug'
     | '/places/$slug'
     | '/stories/$slug'
+    | '/admin/'
     | '/collaborations/'
     | '/collections/'
     | '/contributor/'
@@ -1596,6 +1642,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UnderstandIndonesiaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/about': {
       id: '/admin/about'
       path: '/about'
@@ -1694,11 +1747,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminFollowUpsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/forgot-password': {
+      id: '/admin/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/admin/forgot-password'
+      preLoaderRoute: typeof AdminForgotPasswordRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/institutions': {
       id: '/admin/institutions'
       path: '/institutions'
       fullPath: '/admin/institutions'
       preLoaderRoute: typeof AdminInstitutionsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/login': {
+      id: '/admin/login'
+      path: '/login'
+      fullPath: '/admin/login'
+      preLoaderRoute: typeof AdminLoginRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/media': {
@@ -1734,6 +1801,13 @@ declare module '@tanstack/react-router' {
       path: '/places'
       fullPath: '/admin/places'
       preLoaderRoute: typeof AdminPlacesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/reset-password': {
+      id: '/admin/reset-password'
+      path: '/reset-password'
+      fullPath: '/admin/reset-password'
+      preLoaderRoute: typeof AdminResetPasswordRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/settings': {
@@ -2242,18 +2316,22 @@ interface AdminRouteChildren {
   AdminEventsRoute: typeof AdminEventsRoute
   AdminEventsPlacesRoute: typeof AdminEventsPlacesRoute
   AdminFollowUpsRoute: typeof AdminFollowUpsRoute
+  AdminForgotPasswordRoute: typeof AdminForgotPasswordRoute
   AdminInstitutionsRoute: typeof AdminInstitutionsRoute
+  AdminLoginRoute: typeof AdminLoginRoute
   AdminMediaRoute: typeof AdminMediaRoute
   AdminNotificationsRoute: typeof AdminNotificationsRoute
   AdminPeopleRoute: typeof AdminPeopleRoute
   AdminPeopleOrganisationsRoute: typeof AdminPeopleOrganisationsRoute
   AdminPlacesRoute: typeof AdminPlacesRoute
+  AdminResetPasswordRoute: typeof AdminResetPasswordRoute
   AdminSettingsRoute: typeof AdminSettingsRoute
   AdminSourcesRoute: typeof AdminSourcesRoute
   AdminStoriesRoute: typeof AdminStoriesRoute
   AdminSubmissionsRoute: typeof AdminSubmissionsRoute
   AdminTaxonomyRoute: typeof AdminTaxonomyRoute
   AdminUsersRoute: typeof AdminUsersRoute
+  AdminIndexRoute: typeof AdminIndexRoute
   AdminCollaborationsIdRoute: typeof AdminCollaborationsIdRoute
   AdminCollectionsIdRoute: typeof AdminCollectionsIdRoute
   AdminContentIdRoute: typeof AdminContentIdRouteWithChildren
@@ -2292,18 +2370,22 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminEventsRoute: AdminEventsRoute,
   AdminEventsPlacesRoute: AdminEventsPlacesRoute,
   AdminFollowUpsRoute: AdminFollowUpsRoute,
+  AdminForgotPasswordRoute: AdminForgotPasswordRoute,
   AdminInstitutionsRoute: AdminInstitutionsRoute,
+  AdminLoginRoute: AdminLoginRoute,
   AdminMediaRoute: AdminMediaRoute,
   AdminNotificationsRoute: AdminNotificationsRoute,
   AdminPeopleRoute: AdminPeopleRoute,
   AdminPeopleOrganisationsRoute: AdminPeopleOrganisationsRoute,
   AdminPlacesRoute: AdminPlacesRoute,
+  AdminResetPasswordRoute: AdminResetPasswordRoute,
   AdminSettingsRoute: AdminSettingsRoute,
   AdminSourcesRoute: AdminSourcesRoute,
   AdminStoriesRoute: AdminStoriesRoute,
   AdminSubmissionsRoute: AdminSubmissionsRoute,
   AdminTaxonomyRoute: AdminTaxonomyRoute,
   AdminUsersRoute: AdminUsersRoute,
+  AdminIndexRoute: AdminIndexRoute,
   AdminCollaborationsIdRoute: AdminCollaborationsIdRoute,
   AdminCollectionsIdRoute: AdminCollectionsIdRoute,
   AdminContentIdRoute: AdminContentIdRouteWithChildren,
