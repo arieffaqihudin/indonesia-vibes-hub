@@ -6,11 +6,14 @@ import { AdminAuthLayout } from "@/components/admin/AdminAuthLayout";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 
-type LoginSearch = { redirect: string };
+type LoginSearch = { redirect?: string };
 function safeDestination(value: string | undefined) { return value?.startsWith("/admin/") && !value.startsWith("//") ? value : "/admin/dashboard"; }
 
 export const Route = createFileRoute("/admin/login")({
-  validateSearch: (search: Record<string, unknown>): LoginSearch => ({ redirect: typeof search["redirect"] === "string" ? search["redirect"] : "/admin/dashboard" }),
+  validateSearch: (search: Record<string, unknown>): LoginSearch => {
+    const redirectTo = search["redirect"];
+    return typeof redirectTo === "string" ? { redirect: redirectTo } : {};
+  },
   beforeLoad: async ({ search }) => { const { data } = await supabase.auth.getUser(); if (data.user) throw redirect({ to: safeDestination(search.redirect) }); },
   head: () => ({ meta: [
     { title: "CMS Sign In — Indonesia Vibes" }, { name: "description", content: "Sign in to manage Indonesia Vibes." },
@@ -31,9 +34,18 @@ function AdminLogin() {
     const nextErrors: typeof errors = {}; if (!email.trim()) nextErrors.email = "Please enter your email."; if (!password) nextErrors.password = "Please enter your password.";
     if (Object.keys(nextErrors).length) { setErrors(nextErrors); return; }
     setSubmitting(true); setErrors({});
-    const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
+    const { data, error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
     if (error) { setErrors({ form: "Incorrect email or password." }); setSubmitting(false); return; }
-    if (!remember) window.sessionStorage.setItem("iv-cms-session-only", "true");
+    window.localStorage.setItem("iv-cms-remember", remember ? "true" : "false");
+    window.sessionStorage.setItem("iv-cms-session-active", "true");
+    if (data.user) {
+      await supabase.from("profiles").upsert({
+        id: data.user.id,
+        display_name: data.user.user_metadata["display_name"] as string | undefined ?? data.user.user_metadata["full_name"] as string | undefined ?? null,
+        avatar_url: data.user.user_metadata["avatar_url"] as string | undefined ?? null,
+        updated_at: new Date().toISOString(),
+      });
+    }
     await navigate({ to: safeDestination(search.redirect), replace: true });
   }
 

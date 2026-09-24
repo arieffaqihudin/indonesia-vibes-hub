@@ -10,6 +10,10 @@ export const Route = createFileRoute("/admin")({
   ssr: false,
   beforeLoad: async ({ location }) => {
     if (PUBLIC_ADMIN_PATHS.has(location.pathname)) return;
+    if (window.localStorage.getItem("iv-cms-remember") === "false" && !window.sessionStorage.getItem("iv-cms-session-active")) {
+      await supabase.auth.signOut();
+      throw redirect({ to: "/admin/login", search: { redirect: location.href } });
+    }
     const { data, error } = await supabase.auth.getUser();
     if (error || !data.user) throw redirect({ to: "/admin/login", search: { redirect: location.href } });
   },
