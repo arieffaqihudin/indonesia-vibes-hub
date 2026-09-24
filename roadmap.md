@@ -22,3 +22,9 @@
 - [x] Show canonical relationship context and avoid repeating the author
 - [x] Separate Author from Connections in the CMS article editor
 - [x] Verify desktop and mobile hierarchy, links, and attribution clarity
+
+# Responsive UX audit (full product)
+
+- [x] Automated overflow/tap-target audit across public + CMS routes at mobile/tablet/desktop widths
+- [x] Fix every page-level overflow, clipped text, and cramped layout found
+- [x] Re-verify and deliver audit summary

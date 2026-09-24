@@ -123,7 +123,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
 
   const current = useMemo(() => NAVIGATION.flatMap((group) => group.items)
     .filter((item) => pathname === item.to || (item.to !== "/admin" && pathname.startsWith(`${item.to}/`)))
-    .sort((a, b) => b.to.length - a.to.length)[0]?.label ?? "Dashboard", [pathname]);
+    .sort((a, b) => b.to.length - a.to.length)[0]?.label ?? (pathname.startsWith("/admin/content") ? "Articles" : "Dashboard"), [pathname]);
 
   return <div className="admin-shell min-h-screen bg-background [--cms-header:3.75rem]">
     <aside className={cn(

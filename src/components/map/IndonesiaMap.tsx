@@ -92,7 +92,7 @@ export function IndonesiaMap({
                 }
               }}
             >
-              <circle cx={cluster.x} cy={cluster.y} r="16" fill="transparent" />
+              <circle cx={cluster.x} cy={cluster.y} r="22" fill="transparent" />
               {isActive ? (
                 <>
                   <circle cx={cluster.x} cy={cluster.y} r="34" fill="url(#idn-glow)" />

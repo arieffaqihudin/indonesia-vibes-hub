@@ -25,12 +25,12 @@ export function Footer() {
             {navigation.map((group) => (
               <div key={group.label}>
                 <p className="eyebrow text-pink">{group.label}</p>
-                <ul className="mt-4 space-y-2.5">
+                <ul className="mt-3 space-y-0.5 md:space-y-1">
                   {group.items.map((item) => (
                     <li key={item.to}>
                       <Link
                         to={item.to}
-                        className="text-sm text-[oklch(0.88_0.015_30)] transition-colors hover:text-pink"
+                        className="inline-flex min-h-11 items-center text-sm text-[oklch(0.88_0.015_30)] transition-colors hover:text-pink md:min-h-8"
                       >
                         {item.label}
                       </Link>
@@ -61,13 +61,13 @@ export function Footer() {
             © {new Date().getFullYear()} {brand.organisation}. Published in English for a global
             audience.
           </p>
-          <div className="flex flex-wrap items-center gap-5">
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-1">
             {brand.social.map((s) => (
-              <a key={s.label} href={s.href} className="transition-colors hover:text-pink">
+              <a key={s.label} href={s.href} className="inline-flex min-h-11 items-center transition-colors hover:text-pink">
                 {s.label}
               </a>
             ))}
-            <a href={`mailto:${brand.email}`} className="transition-colors hover:text-pink">
+            <a href={`mailto:${brand.email}`} className="inline-flex min-h-11 min-w-0 items-center break-all transition-colors hover:text-pink">
               {brand.email}
             </a>
           </div>
