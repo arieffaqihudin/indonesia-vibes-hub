@@ -4,7 +4,7 @@ import { useState } from "react";
 import { adminHead } from "@/lib/admin/head";
 import { useAdmin } from "@/lib/admin/store";
 import { INQUIRY_STATUSES } from "@/lib/admin/types";
-import { EmptyState, FilterToolbar, PageHeading, SearchInput, SelectFilter, SummaryStrip, Table, Tag, Td, abtn, relative } from "@/components/admin/primitives";
+import { EmptyState, FilterToolbar, PageHeading, RowLinkAction, SearchInput, SelectFilter, SummaryStrip, Table, Tag, Td, abtn, relative } from "@/components/admin/primitives";
 
 export const Route = createFileRoute("/admin/inquiries/")({
   head: adminHead("Inquiries", "Public inquiries, qualified and routed to the right partner."),
@@ -29,16 +29,17 @@ function Inquiries() {
         description="Every inquiry ends somewhere: routed, answered or closed with a reason."
       />
 
+      <FilterToolbar search={<SearchInput value={query} onChange={setQuery} label="Search inquiries" placeholder="Subject, organisation, country" />}>
+        <SelectFilter label="Status" value={status === "All" ? "" : status} onChange={(value) => setStatus(value || "All")} options={INQUIRY_STATUSES} />
+      </FilterToolbar>
       <SummaryStrip items={[
         { value: admin.inquiries.length, label: "Total inquiries" },
         { value: admin.inquiries.filter((i) => i.status === "New").length, label: "New" },
         { value: admin.inquiries.filter((i) => ["Under review", "Ready to route", "Forwarded", "In discussion"].includes(i.status)).length, label: "In progress" },
+        { value: admin.inquiries.filter((i) => i.nextAction && !["Completed", "Closed"].includes(i.status)).length, label: "Needs follow-up" },
         { value: admin.inquiries.filter((i) => ["Completed", "Closed"].includes(i.status)).length, label: "Completed" },
       ]} />
-
-      <FilterToolbar search={<SearchInput value={query} onChange={setQuery} label="Search inquiries" placeholder="Subject, organisation, country" />}>
-        <SelectFilter label="Status" value={status === "All" ? "" : status} onChange={(value) => setStatus(value || "All")} options={INQUIRY_STATUSES} />
-      </FilterToolbar>
+      <p className="mb-3 text-xs text-muted-foreground">Showing {items.length} inquir{items.length === 1 ? "y" : "ies"}</p>
 
       {items.length ? (
         <Table caption="Partnership inquiries" head={["Requester", "Organisation", "Category", "Request", "Status", "Assigned to", "Next action", ""]}>
@@ -51,7 +52,7 @@ function Inquiries() {
               <Td><Tag tone={i.status === "New" ? "alert" : "quiet"}>{i.status}</Tag></Td>
               <Td className="text-xs text-muted-foreground">{i.assignedTo ?? "Unassigned"}</Td>
               <Td className="max-w-xs text-xs text-muted-foreground">{i.nextAction ?? "Decide how this should be handled"}</Td>
-              <Td><Link to="/admin/inquiries/$id" params={{ id: i.id }} className={abtn.quiet}>Open</Link></Td>
+              <Td><RowLinkAction to="/admin/inquiries/$id" params={{ id: i.id }} label={`Open inquiry from ${i.requesterName}`} /></Td>
             </tr>
           ))}
         </Table>

@@ -5,7 +5,7 @@ import { adminHead } from "@/lib/admin/head";
 import { useAdmin } from "@/lib/admin/store";
 import { daysUntil } from "@/lib/admin/types";
 import { eventsNeedingVerification } from "@/data/content";
-import { EmptyState, FilterToolbar, PageHeading, SearchInput, SelectFilter, StatusPill, SummaryStrip, Table, Tag, Td, abtn, dateFmt } from "@/components/admin/primitives";
+import { EmptyState, FilterToolbar, PageHeading, RowLinkAction, SearchInput, SelectFilter, StatusPill, SummaryStrip, Table, Tag, Td, abtn, dateFmt } from "@/components/admin/primitives";
 
 export const Route = createFileRoute("/admin/events")({
   head: adminHead("Events", "Event records, their dates and what still needs checking before they go live."),
@@ -40,16 +40,17 @@ function Events() {
         }
       />
 
+      <FilterToolbar search={<SearchInput value={query} onChange={setQuery} label="Search events" placeholder="Search event, venue or location" />}>
+        <SelectFilter label="Status" value={status} onChange={setStatus} options={["draft", "submitted", "initial_review", "verification", "approved", "scheduled", "published"]} />
+      </FilterToolbar>
+
       <SummaryStrip items={[
         { value: allEvents.length, label: "Total events" },
         { value: allEvents.filter((e) => !e.fields['startDate'] || daysUntil(e.fields['startDate']) >= 0).length, label: "Upcoming" },
         { value: Math.max(0, allEvents.length - unverified.length), label: "Verified" },
         { value: unverified.length, label: "Needs review" },
       ]} />
-
-      <FilterToolbar search={<SearchInput value={query} onChange={setQuery} label="Search events" placeholder="Search event, venue or location" />}>
-        <SelectFilter label="Status" value={status} onChange={setStatus} options={["draft", "submitted", "initial_review", "verification", "approved", "scheduled", "published"]} />
-      </FilterToolbar>
+      <p className="mb-3 text-xs text-muted-foreground">Showing {events.length} event{events.length === 1 ? "" : "s"}</p>
 
       {events.length ? (
         <Table caption="Events" head={["Event", "Date", "Location", "Related topic", "Status", "Public status", ""]}>
@@ -63,7 +64,7 @@ function Events() {
                 <Td className="text-xs text-muted-foreground">{event.topics?.[0] ?? event.themes[0] ?? "—"}</Td>
                 <Td>{needsReview ? <Tag tone="alert">Needs verification</Tag> : <Tag tone="quiet">Verified</Tag>}</Td>
                 <Td><StatusPill status={event.status} /></Td>
-                <Td><Link to="/admin/content/$id" params={{ id: event.id }} className={abtn.quiet}>Open</Link></Td>
+                <Td><RowLinkAction to="/admin/content/$id" params={{ id: event.id }} label={`Open ${event.title}`} /></Td>
               </tr>
             );
           })}
