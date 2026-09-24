@@ -19,7 +19,7 @@ const ROUTES = [
   { to: "/understand-indonesia" as const, label: "Understand Indonesia" },
   { to: "/events-places" as const, label: "Events & Places" },
   { to: "/around-the-world" as const, label: "Indonesia Around the World" },
-  { to: "/connect" as const, label: "Collaborate with Indonesia" },
+  { to: "/collaborate" as const, label: "Collaborate with Indonesia" },
   { to: "/about" as const, label: "About" },
 ];
 

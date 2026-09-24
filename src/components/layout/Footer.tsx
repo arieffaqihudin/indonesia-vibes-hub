@@ -39,6 +39,16 @@ export function Footer() {
                 </ul>
               </div>
             ))}
+            <div>
+              <p className="eyebrow text-pink">Collaborate</p>
+              <ul className="mt-3 space-y-0.5 md:space-y-1">
+                <li>
+                  <Link to="/collaborate" className="inline-flex min-h-11 items-center text-sm text-[oklch(0.88_0.015_30)] transition-colors hover:text-pink md:min-h-8">
+                    Collaborate with Indonesia
+                  </Link>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
 

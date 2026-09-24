@@ -81,7 +81,7 @@ function FaqPage() {
             </div>
             <div className="flex flex-wrap gap-2">
               <Link to="/contact" className="inline-flex min-h-11 items-center rounded-full border border-clay/30 px-5 text-sm font-medium text-clay hover:border-primary hover:text-primary">Contact us</Link>
-              <Link to="/connect" className="inline-flex min-h-11 items-center rounded-full bg-primary px-5 text-sm font-medium text-primary-foreground hover:bg-deep-red">Start a Collaboration</Link>
+              <Link to="/collaborate" className="inline-flex min-h-11 items-center rounded-full bg-primary px-5 text-sm font-medium text-primary-foreground hover:bg-deep-red">Start a Collaboration</Link>
             </div>
           </div>
         </div>
