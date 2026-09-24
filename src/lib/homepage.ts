@@ -9,6 +9,7 @@ export interface HeroItem {
   summary?: string;
   image?: string;
   cta?: string;
+  focalPoint?: "Center" | "Top" | "Bottom" | "Left" | "Right";
 }
 
 export interface HomepageSection {

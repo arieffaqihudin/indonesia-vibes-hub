@@ -214,6 +214,46 @@
   color: var(--color-muted-foreground);
 }
 
+/* ---------- Homepage editorial carousel ---------- */
+
+.hero-track {
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  touch-action: pan-y pinch-zoom;
+}
+
+.hero-track::-webkit-scrollbar {
+  display: none;
+}
+
+.hero-slide {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+.hero-copy {
+  opacity: 0.68;
+  transform: translateX(1rem);
+  transition: opacity 520ms cubic-bezier(0.22, 1, 0.36, 1), transform 620ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hero-copy[data-active="true"] {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-track {
+    scroll-behavior: auto;
+  }
+
+  .hero-copy {
+    transform: none;
+    transition-duration: 1ms;
+  }
+}
+
 @utility prose-editorial {
   & p {
     font-size: 1.125rem;
