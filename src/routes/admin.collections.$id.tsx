@@ -2,7 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ArrowDown, ArrowUp, Eye, GripVertical, Plus, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 
-import { PageHeading, StatusIndicator, abtn, field } from "@/components/admin/primitives";
+import { InlineNote, PageHeading, StatusIndicator, abtn, field } from "@/components/admin/primitives";
 import { Button } from "@/components/ui/button";
 import { stories } from "@/data/content";
 import { readCollections, useCollections, type EditorialCollection } from "@/lib/collections";
@@ -41,6 +41,10 @@ function CollectionEditor() {
     next.splice(next.indexOf(targetId), 0, dragId); update({ storyIds: next }); setDragId(null);
   };
   const save = () => {
+    if (draft.status === "Published" && draft.storyIds.length < 2) {
+      window.alert("A Collection should contain at least two stories.");
+      return;
+    }
     const next = { ...draft, slug: draft.slug.trim() || draft.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""), updatedAt: new Date().toISOString() };
     setCollections(collections.some((item) => item.id === next.id) ? collections.map((item) => item.id === next.id ? next : item) : [...collections, next]);
     setSaved(true); if (id === "new") navigate({ to: "/admin/collections/$id", params: { id: next.id }, replace: true });
@@ -49,7 +53,8 @@ function CollectionEditor() {
   const available = stories.filter((story) => !draft.storyIds.includes(story.id) && (!articleQuery.trim() || `${story.title} ${story.dek} ${story.topics?.join(" ")}`.toLowerCase().includes(articleQuery.toLowerCase())));
 
   return <>
-    <PageHeading eyebrow="Understand Indonesia / Collections" title={id === "new" ? "New Collection" : draft.title} description="Build a reading journey from existing published Articles. The order below controls the public sequence." actions={<><Link to="/admin/collections" className={abtn.secondary}>Back to Collections</Link>{draft.status === "Published" && draft.slug ? <Link to="/understand-indonesia/collections/$slug" params={{ slug: draft.slug }} className={abtn.secondary}><Eye className="h-4 w-4" /> Preview</Link> : null}<Button type="button" onClick={save} disabled={!draft.title.trim()}>Save Collection</Button></>} />
+    <PageHeading eyebrow="Understand Indonesia / Collections" title={id === "new" ? "New Collection" : draft.title} description="Build a reading journey from existing published Articles. The order below controls the public sequence." actions={<><Link to="/admin/collections" className={abtn.secondary}>Back to Collections</Link>{draft.slug ? <Link to="/understand-indonesia/collections/$slug" params={{ slug: draft.slug }} className={abtn.secondary}><Eye className="h-4 w-4" /> Preview Collection</Link> : null}<Button type="button" onClick={save} disabled={!draft.title.trim()}>Save Collection</Button></>} />
+    {draft.status === "Published" && draft.storyIds.length < 2 ? <InlineNote tone="attention">A Collection should contain at least two stories. Save it as a Draft until the journey is ready.</InlineNote> : null}
     <div className="grid gap-8 xl:grid-cols-[minmax(0,1fr)_19rem]">
       <div className="min-w-0 space-y-9">
         <section className="space-y-5 border-t border-border pt-6">
@@ -66,8 +71,8 @@ function CollectionEditor() {
           <ol className="mt-6 border-t border-border">
             {selectedStories.map((story, index) => <li key={story.id} draggable onDragStart={() => setDragId(story.id)} onDragOver={(event) => event.preventDefault()} onDrop={() => dropAt(story.id)} className={cn("grid grid-cols-[2.5rem_minmax(0,1fr)_auto] items-center gap-3 border-b border-border py-4", dragId === story.id && "opacity-50")}>
               <span className="text-lg font-semibold text-primary tabular-nums">{String(index + 1).padStart(2, "0")}</span>
-              <span className="min-w-0"><span className="flex items-center gap-2"><GripVertical aria-hidden className="h-4 w-4 shrink-0 cursor-grab text-muted-foreground" /><span className="truncate text-sm font-medium text-ink">{story.title}</span></span><span className="mt-1 block pl-6 text-xs text-muted-foreground">{publicFormat(story)} · {story.topics?.[0] ?? "No topic"}</span></span>
-              <span className="flex items-center"><Button type="button" variant="ghost" size="icon" disabled={index === 0} onClick={() => move(story.id, -1)} aria-label={`Move ${story.title} up`}><ArrowUp className="h-4 w-4" /></Button><Button type="button" variant="ghost" size="icon" disabled={index === selectedStories.length - 1} onClick={() => move(story.id, 1)} aria-label={`Move ${story.title} down`}><ArrowDown className="h-4 w-4" /></Button><Button type="button" variant="ghost" size="icon" onClick={() => update({ storyIds: draft.storyIds.filter((storyId) => storyId !== story.id) })} aria-label={`Remove ${story.title}`}><Trash2 className="h-4 w-4" /></Button></span>
+               <span className="min-w-0"><span className="flex items-center gap-2"><GripVertical aria-hidden className="h-4 w-4 shrink-0 cursor-grab text-muted-foreground" /><span className="truncate text-sm font-medium text-ink">{story.title}</span></span><span className="mt-1 block pl-6 text-xs text-muted-foreground">{publicFormat(story)} · {story.topics?.[0] ?? "No topic"} · {story.readingMinutes} min</span></span>
+               <span className="flex items-center"><Link to="/stories/$slug" params={{ slug: story.slug }} search={{ collection: draft.slug || undefined }} className={abtn.quiet} aria-label={`Preview ${story.title}`}><Eye className="h-4 w-4" /></Link><Button type="button" variant="ghost" size="icon" disabled={index === 0} onClick={() => move(story.id, -1)} aria-label={`Move ${story.title} up`}><ArrowUp className="h-4 w-4" /></Button><Button type="button" variant="ghost" size="icon" disabled={index === selectedStories.length - 1} onClick={() => move(story.id, 1)} aria-label={`Move ${story.title} down`}><ArrowDown className="h-4 w-4" /></Button><Button type="button" variant="ghost" size="icon" onClick={() => update({ storyIds: draft.storyIds.filter((storyId) => storyId !== story.id) })} aria-label={`Remove ${story.title}`}><Trash2 className="h-4 w-4" /></Button></span>
             </li>)}
           </ol>
           {!selectedStories.length ? <p className="border-b border-border py-10 text-center text-sm text-muted-foreground">No stories yet. Add published Articles to begin the journey.</p> : null}

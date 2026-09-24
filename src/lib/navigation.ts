@@ -19,10 +19,10 @@ export const navigation: NavGroup[] = [
     label: "Understand Indonesia",
     to: "/understand-indonesia",
     stage: "Understand Indonesia",
-    intro: "Articles, topics, people, organisations and connected cultural knowledge.",
+    intro: "Browse Articles, choose a subject, follow a reading journey, or discover who carries the culture.",
     items: [
       { label: "Topics", to: "/understand-indonesia/topics", description: "Enter through music, textiles, history, film and more." },
-      { label: "Collections", to: "/understand-indonesia/collections", description: "Curated journeys connecting articles, people, places and activity." },
+      { label: "Collections", to: "/understand-indonesia/collections", description: "Follow a deliberate sequence of stories selected to be read together." },
       { label: "People & Organisations", to: "/people-organisations", description: "The people, communities and organisations who carry culture." },
     ],
   },
