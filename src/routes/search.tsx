@@ -165,21 +165,6 @@ function SearchPage() {
               <span className="font-medium text-ink">“{q}”</span>
             </p>
 
-            {faqHits.length ? (
-              <section aria-labelledby="faq-results" className="order-last mt-12 max-w-3xl border-t border-border pt-6">
-                <h2 id="faq-results" className="eyebrow text-muted-foreground">FAQ</h2>
-                <ul className="mt-3 divide-y divide-border">
-                  {faqHits.map((f) => (
-                    <li key={f.id} className="py-3">
-                      <Link to="/faq" className="group block">
-                        <span className="text-[0.7rem] font-medium tracking-wide text-primary uppercase">FAQ · {f.category}</span>
-                        <span className="mt-1 block font-medium text-ink group-hover:text-primary">{f.question}</span>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </section>
-            ) : null}
             {visible.length ? (
               <ul key={`${q}-${visible.length}`} className="list-swap mt-6 max-w-3xl">
                 {visible.map((hit) => (
@@ -230,6 +215,21 @@ function SearchPage() {
                 </p>
               </div>
             )}
+            {faqHits.length ? (
+              <section aria-labelledby="faq-results" className="order-last mt-12 max-w-3xl border-t border-border pt-6">
+                <h2 id="faq-results" className="eyebrow text-muted-foreground">FAQ</h2>
+                <ul className="mt-3 divide-y divide-border">
+                  {faqHits.map((f) => (
+                    <li key={f.id} className="py-3">
+                      <Link to="/faq" className="group block">
+                        <span className="text-[0.7rem] font-medium tracking-wide text-primary uppercase">FAQ · {f.category}</span>
+                        <span className="mt-1 block font-medium text-ink group-hover:text-primary">{f.question}</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ) : null}
           </div>
         </>
       ) : (
