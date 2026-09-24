@@ -66,13 +66,13 @@ export function HomepageHero({ slides }: { slides: HomepageHeroSlide[] }) {
   };
 
   const onPointerMove = (event: ReactPointerEvent<HTMLDivElement>) => {
-    if (!pointerStart.current) return;
+    if (pointerStart.current === null) return;
     const delta = event.clientX - pointerStart.current;
     if (Math.abs(delta) > 4) moved.current = true;
   };
 
   const onPointerUp = (event: ReactPointerEvent<HTMLDivElement>) => {
-    if (!pointerStart.current) return;
+    if (pointerStart.current === null) return;
     const delta = event.clientX - pointerStart.current;
     pointerStart.current = null;
     if (Math.abs(delta) > 48) goTo(active + (delta < 0 ? 1 : -1));

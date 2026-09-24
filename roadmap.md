@@ -2,10 +2,10 @@
 
 ## Current: Homepage Hero editorial showcase
 
-- [ ] Replace hidden-slide Hero with one active cinematic stage and a visible article rail
-- [ ] Add click, arrow, keyboard, swipe, drag, progress, and reduced-motion transitions
-- [ ] Add CMS drag ordering, 1–5 enforcement, article context, and preview access
-- [ ] Verify desktop, tablet, mobile, and CMS ordering behavior
+- [x] Replace hidden-slide Hero with one active cinematic stage and a visible article rail
+- [x] Add click, arrow, keyboard, swipe, drag, progress, and reduced-motion transitions
+- [x] Add CMS drag ordering, 1–5 enforcement, article context, and preview access
+- [x] Verify desktop, tablet, mobile, and CMS ordering behavior
 
 ## Current: Connect + curated attribution + FAQ
 
