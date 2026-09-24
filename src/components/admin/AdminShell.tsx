@@ -95,7 +95,7 @@ export function useNavGroups(): NavGroup[] {
       ],
     },
     {
-      label: "",
+      label: "Settings",
       visibleTo: (r: AdminRole) => can(r, "configure") || r === "Managing Editor",
       items: [
         { to: "/admin/settings", label: "Settings", icon: Settings },
@@ -167,11 +167,11 @@ export function AdminShell({ children }: { children: ReactNode }) {
   );
 
   const nav = (collapsed: boolean) => (
-    <nav aria-label="Dashboard sections" className="space-y-5 pb-8">
+    <nav aria-label="Dashboard sections" className="space-y-6 pb-8">
       {groups.map((group, gi) => (
         <div key={group.label || `g${gi}`}>
           {group.label && !collapsed ? (
-            <p className="px-3 pb-1.5 text-[0.62rem] font-medium tracking-[0.16em] text-muted-foreground uppercase">
+            <p className="px-3 pb-2 text-[0.625rem] font-semibold tracking-[0.12em] text-muted-foreground uppercase">
               {group.label}
             </p>
           ) : null}
@@ -188,10 +188,10 @@ export function AdminShell({ children }: { children: ReactNode }) {
                     aria-current={active ? "page" : undefined}
                     title={collapsed ? item.label : undefined}
                     className={cn(
-                      "flex items-center gap-2.5 rounded px-3 py-2 text-sm transition-colors",
+                       "flex min-h-10 items-center gap-3 rounded-lg px-3 py-2 text-[0.8125rem] transition-colors",
                       collapsed && "justify-center px-0",
                       active
-                        ? "bg-blush font-medium text-primary"
+                         ? "bg-blush font-semibold text-deep-red"
                         : "text-muted-foreground hover:bg-muted hover:text-ink",
                     )}
                   >
@@ -200,7 +200,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
                       <>
                         <span className="truncate">{item.label}</span>
                         {item.badge ? (
-                          <span className="ml-auto rounded bg-ink px-1.5 text-[0.65rem] tabular-nums text-background">
+                          <span className="ml-auto rounded-md bg-deep-red px-1.5 text-[0.625rem] tabular-nums text-primary-foreground">
                             {item.badge}
                           </span>
                         ) : null}
@@ -229,22 +229,22 @@ export function AdminShell({ children }: { children: ReactNode }) {
   );
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background [--admin-header:4.25rem]">
       {/* Fixed sidebar */}
       <aside
         id="admin-nav"
         className={cn(
-          "fixed inset-y-0 left-0 z-40 hidden border-r border-border bg-card lg:block",
+          "fixed inset-y-0 left-0 z-40 hidden border-r border-sidebar-border bg-sidebar lg:block",
           "transition-[width] duration-[240ms] ease-[cubic-bezier(0.4,0,0.2,1)]",
-          collapsed ? "w-[76px]" : "w-[268px]",
+          collapsed ? "w-[72px]" : "w-[260px]",
         )}
       >
-        <div className={cn("flex h-14 items-center border-b border-border", collapsed ? "justify-center" : "px-4")}>
+        <div className={cn("flex h-[var(--admin-header)] items-center border-b border-sidebar-border", collapsed ? "justify-center" : "px-5")}>
           <Link to="/admin" className="flex items-baseline gap-2 overflow-hidden">
-            <span className="text-sm font-semibold tracking-tight text-primary">{collapsed ? "IV" : "Indonesia Vibes"}</span>
+            <span className="text-sm font-bold text-primary">{collapsed ? "IV" : "Indonesia Vibes"}</span>
           </Link>
         </div>
-        <div className="h-[calc(100vh-3.5rem)] overflow-y-auto px-3 py-4">{nav(collapsed)}</div>
+        <div className="h-[calc(100vh-var(--admin-header))] overflow-y-auto px-3 py-6">{nav(collapsed)}</div>
 
         {/* Edge collapse trigger, vertically centred on the sidebar boundary */}
         <button
@@ -254,7 +254,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
           aria-controls="admin-nav"
           title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
           aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-          className="absolute top-1/2 -right-3 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-card text-muted-foreground shadow-sm transition-colors hover:border-primary hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+          className="absolute top-1/2 -right-4 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-card text-muted-foreground shadow-md transition-colors hover:border-primary hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
         >
           {collapsed ? <ChevronRight className="h-3.5 w-3.5" aria-hidden /> : <ChevronLeft className="h-3.5 w-3.5" aria-hidden />}
         </button>
@@ -263,11 +263,11 @@ export function AdminShell({ children }: { children: ReactNode }) {
       <div
         className={cn(
           "transition-[padding] duration-[240ms] ease-[cubic-bezier(0.4,0,0.2,1)]",
-          collapsed ? "lg:pl-[76px]" : "lg:pl-[268px]",
+          collapsed ? "lg:pl-[72px]" : "lg:pl-[260px]",
         )}
       >
-        <header className="sticky top-0 z-30 border-b border-border bg-card">
-          <div className="flex h-14 items-center gap-2 px-3 sm:gap-3 sm:px-4 lg:px-6">
+        <header className="sticky top-0 z-30 border-b border-border bg-card/95 backdrop-blur-sm">
+          <div className="flex h-[var(--admin-header)] items-center gap-2 px-4 sm:gap-3 sm:px-6 lg:px-8">
             <button
               type="button"
               className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-md text-ink transition-colors hover:bg-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary lg:hidden"
@@ -279,16 +279,14 @@ export function AdminShell({ children }: { children: ReactNode }) {
               {mobileOpen ? <X className="h-5 w-5" aria-hidden /> : <MenuIcon className="h-5 w-5" aria-hidden />}
             </button>
             <div className="min-w-0">
-              <p className="truncate text-sm font-semibold tracking-tight text-ink">{sectionLabel}</p>
-              <p className="hidden text-[0.68rem] tracking-[0.14em] text-muted-foreground uppercase lg:block">
-                Editorial &amp; Partnership Workspace
-              </p>
+               <p className="hidden text-[0.65rem] font-medium tracking-[0.1em] text-muted-foreground uppercase sm:block">Editorial &amp; Partnership Workspace</p>
+               <p className="truncate text-sm font-semibold text-ink">{sectionLabel}</p>
             </div>
 
             <div className="ml-auto flex items-center gap-2">
               <button
                 type="button"
-                className={cn(abtn.small, "hidden sm:inline-flex")}
+                 className={cn(abtn.small, "hidden lg:inline-flex")}
                 onClick={() => setSearchOpen(true)}
               >
                 Search
@@ -301,7 +299,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
               >
                 <SearchIcon className="h-[1.05rem] w-[1.05rem]" aria-hidden />
               </button>
-              <button type="button" className={cn(abtn.primary, "hidden sm:inline-flex")} onClick={() => setCreateOpen(true)}>
+               <button type="button" className={cn(abtn.primary, "hidden sm:inline-flex")} onClick={() => setCreateOpen(true)}>
                 + Create
               </button>
                <Link to="/admin/notifications" className="relative hidden h-9 w-9 items-center justify-center rounded-md border border-border text-muted-foreground hover:border-primary hover:text-primary sm:inline-flex" aria-label={`Notifications${unread ? `, ${unread} unread` : ""}`}>
@@ -355,7 +353,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
             <div className="absolute inset-0 bg-ink/40" onClick={() => setMobileOpen(false)} aria-hidden />
             <div
               id="admin-nav-mobile"
-              className="relative z-10 flex h-full w-[min(19rem,86vw)] flex-col border-r border-border bg-card"
+                 className="relative z-10 flex h-full w-[min(17rem,86vw)] flex-col border-r border-border bg-sidebar"
             >
               <div className="flex h-14 shrink-0 items-center justify-between gap-2 border-b border-border px-4">
                 <span className="text-sm font-semibold tracking-tight text-primary">Indonesia Vibes</span>
@@ -403,7 +401,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
         ) : null}
 
 
-        <main className="mx-auto w-full max-w-[92rem] px-4 py-5 lg:px-8 lg:py-7">{children}</main>
+        <main className="w-full px-4 py-5 sm:px-6 lg:px-8 lg:py-6">{children}</main>
       </div>
 
       <Modal open={searchOpen} onClose={() => setSearchOpen(false)} title="Search the workspace">
