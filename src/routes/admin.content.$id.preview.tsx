@@ -25,8 +25,8 @@ function PreviewRoute() {
       <EmptyState
         title="That record no longer exists."
         action={
-          <Link to="/admin/content" className={abtn.secondary}>
-            Back to the content library
+          <Link to="/admin/articles" className={abtn.secondary}>
+            Back to Articles
           </Link>
         }
       />
@@ -43,7 +43,7 @@ function PreviewRoute() {
         description={`How this ${kindLabel(item.kind).toLowerCase()} will read on the public platform.`}
         actions={
           <Link to="/admin/content/$id" params={{ id }} className={abtn.secondary}>
-            Back to the workspace
+            Back to editor
           </Link>
         }
       />

@@ -3,6 +3,7 @@ import { EditorContent, useEditor } from "@tiptap/react";
 import { BubbleMenu } from "@tiptap/react/menus";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
+import TextAlign from "@tiptap/extension-text-align";
 import Link from "@tiptap/extension-link";
 import Image from "@tiptap/extension-image";
 import Placeholder from "@tiptap/extension-placeholder";
@@ -11,8 +12,8 @@ import TableRow from "@tiptap/extension-table-row";
 import TableHeader from "@tiptap/extension-table-header";
 import TableCell from "@tiptap/extension-table-cell";
 import {
-  Bold, ChevronUp, ChevronDown, Copy, Heading2, Heading3, ImageIcon, Italic, Link2,
-  Minus, PanelTop, Plus, Quote, Redo2, Rows3, Table2, Trash2, UnderlineIcon, Undo2, Video,
+  AlignCenter, AlignLeft, AlignRight, Bold, ChevronUp, ChevronDown, Copy, Heading2, Heading3, ImageIcon, Italic, Link2,
+  List, ListOrdered, Minus, PanelTop, Plus, Quote, Redo2, Rows3, Strikethrough, Table2, Trash2, UnderlineIcon, Undo2, Video,
 } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 
@@ -32,7 +33,7 @@ export function RichBlockEditor({ value, onChange, onAddMedia }: { value: JSONCo
   const [dragIndex, setDragIndex] = useState<number | null>(null);
   const editor = useEditor({
     immediatelyRender: false,
-    extensions: [StarterKit.configure({ heading: { levels: [2, 3] } }), Underline, Link.configure({ openOnClick: false }), Image.configure({ allowBase64: true }), Placeholder.configure({ placeholder: "Start writing… Press / to add a block" }), Table.configure({ resizable: true }), TableRow, TableHeader, TableCell, PullQuote, Callout, MediaFigure, Gallery, Embed("videoEmbed", "Video"), Embed("externalEmbed", "Embed")],
+    extensions: [StarterKit.configure({ heading: { levels: [2, 3] } }), Underline, TextAlign.configure({ types: ["heading", "paragraph"] }), Link.configure({ openOnClick: false }), Image.configure({ allowBase64: true }), Placeholder.configure({ placeholder: "Start writing… Press / to add a block" }), Table.configure({ resizable: true }), TableRow, TableHeader, TableCell, PullQuote, Callout, MediaFigure, Gallery, Embed("videoEmbed", "Video"), Embed("externalEmbed", "Embed")],
     content: value,
     editorProps: { attributes: { class: "article-editor-content prose-editorial min-h-[34rem] outline-none" } },
     onUpdate: ({ editor }) => {
@@ -72,10 +73,26 @@ export function RichBlockEditor({ value, onChange, onAddMedia }: { value: JSONCo
   ] as const;
 
   return <div className="relative">
-    <div className="mb-3 flex items-center justify-between border-y border-border py-2">
-      <div className="flex items-center gap-0.5" aria-label="Writing history">
+    <div className="sticky top-14 z-10 -mx-2 mb-5 flex items-center justify-between gap-2 overflow-x-auto border-y border-border bg-card/95 px-2 py-2 backdrop-blur-sm">
+      <div className="flex shrink-0 items-center gap-0.5" aria-label="Rich text formatting">
         <button type="button" className={menuButton} onClick={() => editor.chain().focus().undo().run()} disabled={!editor.can().undo()} title="Undo"><Undo2 className="h-4 w-4" /></button>
         <button type="button" className={menuButton} onClick={() => editor.chain().focus().redo().run()} disabled={!editor.can().redo()} title="Redo"><Redo2 className="h-4 w-4" /></button>
+        <select aria-label="Text style" defaultValue="paragraph" onChange={(event) => { if (event.target.value === "h2") editor.chain().focus().setHeading({ level: 2 }).run(); else if (event.target.value === "h3") editor.chain().focus().setHeading({ level: 3 }).run(); else editor.chain().focus().setParagraph().run(); }} className="mx-1 h-8 rounded-md border border-border bg-card px-2 text-xs text-ink"><option value="paragraph">Paragraph</option><option value="h2">Heading 2</option><option value="h3">Heading 3</option></select>
+        <button type="button" className={cn(menuButton, editor.isActive("bold") && "bg-blush text-primary")} onClick={() => editor.chain().focus().toggleBold().run()} title="Bold"><Bold className="h-4 w-4" /></button>
+        <button type="button" className={cn(menuButton, editor.isActive("italic") && "bg-blush text-primary")} onClick={() => editor.chain().focus().toggleItalic().run()} title="Italic"><Italic className="h-4 w-4" /></button>
+        <button type="button" className={cn(menuButton, editor.isActive("underline") && "bg-blush text-primary")} onClick={() => editor.chain().focus().toggleUnderline().run()} title="Underline"><UnderlineIcon className="h-4 w-4" /></button>
+        <button type="button" className={cn(menuButton, editor.isActive("strike") && "bg-blush text-primary")} onClick={() => editor.chain().focus().toggleStrike().run()} title="Strike"><Strikethrough className="h-4 w-4" /></button>
+        <button type="button" className={menuButton} onClick={addLink} title="Link"><Link2 className="h-4 w-4" /></button>
+        <button type="button" className={menuButton} onClick={() => editor.chain().focus().toggleBulletList().run()} title="Bullet list"><List className="h-4 w-4" /></button>
+        <button type="button" className={menuButton} onClick={() => editor.chain().focus().toggleOrderedList().run()} title="Numbered list"><ListOrdered className="h-4 w-4" /></button>
+        <button type="button" className={menuButton} onClick={() => editor.chain().focus().toggleBlockquote().run()} title="Quote"><Quote className="h-4 w-4" /></button>
+        <button type="button" className={menuButton} onClick={() => insert("image")} title="Image"><ImageIcon className="h-4 w-4" /></button>
+        <button type="button" className={menuButton} onClick={() => insert("gallery")} title="Gallery"><Rows3 className="h-4 w-4" /></button>
+        <button type="button" className={menuButton} onClick={() => insert("video")} title="Video"><Video className="h-4 w-4" /></button>
+        <button type="button" className={menuButton} onClick={() => insert("table")} title="Table"><Table2 className="h-4 w-4" /></button>
+        <button type="button" className={menuButton} onClick={() => editor.chain().focus().setTextAlign("left").run()} title="Align left"><AlignLeft className="h-4 w-4" /></button>
+        <button type="button" className={menuButton} onClick={() => editor.chain().focus().setTextAlign("center").run()} title="Align centre"><AlignCenter className="h-4 w-4" /></button>
+        <button type="button" className={menuButton} onClick={() => editor.chain().focus().setTextAlign("right").run()} title="Align right"><AlignRight className="h-4 w-4" /></button>
       </div>
       <button type="button" className="inline-flex min-h-9 items-center gap-2 rounded px-2 text-xs text-muted-foreground hover:bg-muted hover:text-ink" onClick={() => setBlocksOpen((open) => !open)}><Rows3 className="h-4 w-4" /> Blocks</button>
     </div>

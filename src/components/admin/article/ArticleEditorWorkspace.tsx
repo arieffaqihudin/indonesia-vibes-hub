@@ -20,7 +20,7 @@ import { RichBlockEditor } from "./RichBlockEditor";
 import { ArticleDocument } from "./ArticleDocument";
 
 type SaveState = "Saved" | "Saving…";
-type MediaDraft = { kind: "image" | "gallery"; url: string; caption: string; credit: string; alt: string; permission: RightsStatus };
+type MediaDraft = { kind: "image" | "gallery"; target: "cover" | "body"; url: string; caption: string; credit: string; alt: string; permission: RightsStatus };
 
 const settingInput = cn(field, "mt-1 min-h-9 py-1.5 text-xs");
 
@@ -116,7 +116,7 @@ export function ArticleEditorWorkspace({ id }: { id: string }) {
   const blocking = checks.some((check) => check.required && !check.ok);
   const savedLabel = savedState === "Saving…" ? savedState : `Saved ${Math.max(0, Math.floor((Date.now() - savedAt.getTime()) / 60000)) < 1 ? "just now" : `${Math.floor((Date.now() - savedAt.getTime()) / 60000)} min ago`}`;
 
-  return <div className={cn("article-workspace -mx-4 -my-5 min-h-[calc(100vh-4.25rem)] bg-card sm:-mx-6 lg:-mx-8 lg:-my-6", focusMode && "min-h-screen")}>
+  return <div className={cn("article-workspace -mx-4 -my-6 min-h-[calc(100vh-4.25rem)] bg-card sm:-mx-6 lg:-mx-7", focusMode && "min-h-screen")}>
     <header className="sticky top-0 z-20 flex min-h-14 flex-wrap items-center gap-2 border-b border-border bg-card/95 px-3 py-2 backdrop-blur-sm sm:px-5">
       <Link to="/admin/articles" className="inline-flex min-h-10 items-center gap-2 rounded px-2 text-sm text-ink hover:bg-muted"><ArrowLeft className="h-4 w-4" /> <span className="hidden sm:inline">Articles</span></Link>
       <span className="hidden h-5 border-l border-border sm:block" />
@@ -124,10 +124,10 @@ export function ArticleEditorWorkspace({ id }: { id: string }) {
       <span className="text-xs text-muted-foreground" aria-live="polite">{savedLabel}</span>
       <div className="ml-auto flex items-center gap-1.5">
         <button type="button" className={cn(abtn.small, "hidden md:inline-flex")} onClick={() => setFocusMode((value) => !value)}><Focus className="h-4 w-4" /> {focusMode ? "Exit focus" : "Focus"}</button>
-        <button type="button" className={abtn.small} onClick={() => setPreviewOpen(true)}><Eye className="h-4 w-4" /><span className="hidden sm:inline">Preview</span></button>
+         <a href={item.publicPath ?? `/admin/content/${id}/preview`} target="_blank" rel="noreferrer" className={abtn.small}><Eye className="h-4 w-4" /><span className="hidden sm:inline">Preview</span></a>
         <button type="button" className={cn(abtn.small, "hidden sm:inline-flex")} onClick={manualSave}><Save className="h-4 w-4" /> Save Draft</button>
         <button type="button" className={cn(abtn.small, "xl:hidden")} onClick={() => setSettingsOpen(true)}><Settings className="h-4 w-4" /><span className="hidden sm:inline">Settings</span></button>
-        <button type="button" className={abtn.primary} onClick={() => setPublishOpen(true)}>{item.status === "ready_for_approval" && can(admin.role, "publish") ? "Publish" : "Submit for Review"}</button>
+         <button type="button" className={abtn.primary} onClick={() => setPublishOpen(true)}>{can(admin.role, "publish") ? item.status === "published" ? "Update" : "Publish" : "Submit for Review"}</button>
       </div>
     </header>
 
@@ -138,14 +138,14 @@ export function ArticleEditorWorkspace({ id }: { id: string }) {
           <textarea aria-label="Standfirst" rows={2} value={standfirst} onChange={(event) => setStandfirst(event.target.value)} placeholder="Add a short introduction…" className="mt-5 w-full resize-none border-0 bg-transparent text-lg leading-relaxed text-muted-foreground outline-none placeholder:text-muted-foreground/45 sm:text-xl" />
 
           <div className="mt-8">
-            {cover ? <figure className="group relative"><img src={cover} alt={item.fields["heroAlt"] ?? ""} className="aspect-[16/9] w-full object-cover" /><div className="absolute top-3 right-3 hidden gap-1 group-hover:flex"><button type="button" className={abtn.small} onClick={() => setMediaDraft({ kind: "image", url: cover, caption: item.fields["heroCaption"] ?? "", credit: item.fields["heroCredit"] ?? "", alt: item.fields["heroAlt"] ?? "", permission: (item.fields["heroPermission"] as RightsStatus) || "Needs confirmation" })}>Change</button></div><figcaption className="mt-2 text-xs text-muted-foreground">{item.fields["heroCaption"] || "Cover image"}{item.fields["heroCredit"] ? ` — ${item.fields["heroCredit"]}` : ""}</figcaption></figure> : <button type="button" className="flex aspect-[16/7] w-full flex-col items-center justify-center border border-dashed border-border bg-muted/35 text-sm text-muted-foreground hover:border-primary hover:text-primary" onClick={() => setMediaDraft({ kind: "image", url: "", caption: "", credit: "", alt: "", permission: "Needs confirmation" })}><ImageIcon className="mb-2 h-5 w-5" /> Add cover image</button>}
+            {cover ? <figure className="group relative"><img src={cover} alt={item.fields["heroAlt"] ?? ""} className="aspect-[16/9] w-full object-cover" /><div className="absolute top-3 right-3 hidden gap-1 group-hover:flex"><button type="button" className={abtn.small} onClick={() => setMediaDraft({ kind: "image", target: "cover", url: cover, caption: item.fields["heroCaption"] ?? "", credit: item.fields["heroCredit"] ?? "", alt: item.fields["heroAlt"] ?? "", permission: (item.fields["heroPermission"] as RightsStatus) || "Needs confirmation" })}>Change</button></div><figcaption className="mt-2 text-xs text-muted-foreground">{item.fields["heroCaption"] || "Cover image"}{item.fields["heroCredit"] ? ` — ${item.fields["heroCredit"]}` : ""}</figcaption></figure> : <button type="button" className="flex aspect-[16/7] w-full flex-col items-center justify-center border border-dashed border-border bg-muted/35 text-sm text-muted-foreground hover:border-primary hover:text-primary" onClick={() => setMediaDraft({ kind: "image", target: "cover", url: "", caption: "", credit: "", alt: "", permission: "Needs confirmation" })}><ImageIcon className="mb-2 h-5 w-5" /> Add cover image</button>}
           </div>
 
-          <div className="mt-10"><RichBlockEditor value={document} onChange={setDocument} onAddMedia={(kind) => setMediaDraft({ kind, url: "", caption: "", credit: "", alt: "", permission: "Needs confirmation" })} /></div>
+          <div className="mt-10"><RichBlockEditor value={document} onChange={setDocument} onAddMedia={(kind) => setMediaDraft({ kind, target: "body", url: "", caption: "", credit: "", alt: "", permission: "Needs confirmation" })} /></div>
         </div>
       </main>
 
-      {!focusMode ? <aside className={cn("border-l border-border bg-background", "max-xl:fixed max-xl:inset-y-0 max-xl:right-0 max-xl:z-50 max-xl:w-[min(320px,90vw)] max-xl:shadow-lg", !settingsOpen && "max-xl:hidden")}>
+      {!focusMode && settingsOpen ? <><button type="button" aria-label="Close article settings" className="fixed inset-0 z-40 bg-ink/25 xl:hidden" onClick={() => setSettingsOpen(false)} /><aside className={cn("border-l border-border bg-background", "max-xl:fixed max-xl:inset-y-0 max-xl:right-0 max-xl:z-50 max-xl:w-[min(320px,90vw)] max-xl:shadow-lg")}>
         <div className="sticky top-14 max-h-[calc(100vh-3.5rem)] overflow-y-auto px-5 pb-10">
           <div className="flex min-h-14 items-center justify-between border-b border-border"><h2 className="text-sm font-semibold text-ink">Article Settings</h2><button type="button" className="inline-flex h-9 w-9 items-center justify-center rounded text-muted-foreground hover:bg-muted hover:text-ink" onClick={() => setSettingsOpen(false)} title="Collapse settings"><X className="h-4 w-4" /></button></div>
           <SettingsGroup title="Article" open>
@@ -163,7 +163,8 @@ export function ArticleEditorWorkspace({ id }: { id: string }) {
           </SettingsGroup>
 
           <SettingsGroup title="Cover image">
-            <button type="button" className={abtn.small} onClick={() => setMediaDraft({ kind: "image", url: cover, caption: item.fields["heroCaption"] ?? "", credit: item.fields["heroCredit"] ?? "", alt: item.fields["heroAlt"] ?? "", permission: (item.fields["heroPermission"] as RightsStatus) || "Needs confirmation" })}>{cover ? "Change cover" : "Add cover"}</button>
+            {cover ? <img src={cover} alt="" className="aspect-[16/9] w-full rounded-sm object-cover" /> : null}
+            <div className="flex gap-2"><button type="button" className={abtn.small} onClick={() => setMediaDraft({ kind: "image", target: "cover", url: cover, caption: item.fields["heroCaption"] ?? "", credit: item.fields["heroCredit"] ?? "", alt: item.fields["heroAlt"] ?? "", permission: (item.fields["heroPermission"] as RightsStatus) || "Needs confirmation" })}>{cover ? "Change" : "Upload"}</button>{cover ? <button type="button" className={abtn.quiet} onClick={() => patchFields({ heroMedia: "", heroCaption: "", heroCredit: "", heroAlt: "" })}>Remove</button> : null}</div>
             <label className="block text-xs text-muted-foreground">Focal point<select className={settingInput} value={item.fields["heroFocal"] ?? "Center"} onChange={(event) => patchFields({ heroFocal: event.target.value })}><option>Center</option><option>Top</option><option>Bottom</option><option>Left</option><option>Right</option></select></label>
           </SettingsGroup>
 
@@ -185,17 +186,17 @@ export function ArticleEditorWorkspace({ id }: { id: string }) {
           </SettingsGroup>
 
           {item.deliveryType === "Pragmatic" ? <SettingsGroup title="Editorial Review"><label className="block text-xs text-muted-foreground">Main Claim<textarea className={settingInput} rows={3} value={item.fields["mainClaim"] ?? ""} onChange={(event) => patchFields({mainClaim:event.target.value})} /></label><label className="block text-xs text-muted-foreground">Evidence<textarea className={settingInput} rows={3} value={item.fields["evidence"] ?? ""} onChange={(event) => patchFields({evidence:event.target.value})} /></label><label className="block text-xs text-muted-foreground">Context / Nuance<textarea className={settingInput} rows={3} value={item.fields["contextNuance"] ?? ""} onChange={(event) => patchFields({contextNuance:event.target.value})} /></label></SettingsGroup> : null}
-          <SettingsGroup title="Workflow & history"><p className="text-xs text-muted-foreground">{CONTENT_STATUS[item.status].meaning}</p><p className="text-xs text-muted-foreground">Assigned to <span className="text-ink">{item.assignedTo ?? "Unassigned"}</span></p><Link to="/admin/review" className="text-xs font-medium text-primary hover:underline">Open review queue</Link></SettingsGroup>
+          <SettingsGroup title="History"><p className="text-xs text-muted-foreground">{CONTENT_STATUS[item.status].meaning}</p><p className="text-xs text-muted-foreground">Assigned to <span className="text-ink">{item.assignedTo ?? "Unassigned"}</span></p><p className="text-xs text-muted-foreground">{item.versions.length} saved version{item.versions.length === 1 ? "" : "s"}</p></SettingsGroup>
         </div>
-      </aside> : null}
+      </aside></> : null}
       {!focusMode && !settingsOpen ? <button type="button" className="fixed right-4 bottom-4 z-20 inline-flex h-11 w-11 items-center justify-center rounded-full border border-border bg-card text-ink shadow-md xl:right-6" onClick={() => setSettingsOpen(true)} title="Open article settings"><PanelRight className="h-4 w-4" /></button> : null}
     </div>
 
     <Modal open={previewOpen} onClose={() => setPreviewOpen(false)} title="Article preview"><div className="max-h-[75vh] overflow-y-auto bg-card"><div className="border-b border-border bg-blush/50 px-5 py-2 text-center text-xs font-semibold text-deep-red">Preview — {item.status === "published" ? "Published" : "Not Published"}</div><article className="mx-auto max-w-3xl px-5 py-10 sm:px-10"><p className="text-xs font-semibold text-primary uppercase">{DELIVERY_PUBLIC_LABEL[item.deliveryType ?? "Semantic"]} · {item.topics?.[0] ?? "Topic not set"}</p><h1 className="mt-4 text-4xl font-semibold text-ink sm:text-5xl">{title || "Untitled article"}</h1><p className="mt-5 text-xl leading-relaxed text-muted-foreground">{standfirst}</p>{cover ? <img src={cover} alt={item.fields["heroAlt"] ?? ""} className="mt-8 aspect-[16/9] w-full object-cover" /> : null}<div className="mt-10"><ArticleDocument document={document} /></div></article></div></Modal>
 
-    <Modal open={publishOpen} onClose={() => setPublishOpen(false)} title="Ready to publish"><ul className="space-y-2">{checks.map((check) => <li key={check.label} className="flex items-center gap-2 text-sm"><span className={check.ok ? "text-ink" : "text-primary"}>{check.ok ? "✓" : "○"}</span><span className={check.ok ? "text-ink" : check.required ? "text-primary" : "text-muted-foreground"}>{check.label}</span>{!check.required ? <span className="ml-auto text-xs text-muted-foreground">Recommended</span> : null}</li>)}</ul><div className="mt-5 flex justify-end gap-2"><button type="button" className={abtn.secondary} onClick={() => setPublishOpen(false)}>Continue editing</button><button type="button" className={abtn.primary} disabled={blocking} onClick={() => { manualSave(); admin.transition(id, item.status === "ready_for_approval" && can(admin.role,"publish") ? "published" : "editorial_review"); setPublishOpen(false); }}>{item.status === "ready_for_approval" && can(admin.role,"publish") ? "Publish" : "Submit for Review"}</button></div></Modal>
+    <Modal open={publishOpen} onClose={() => setPublishOpen(false)} title={can(admin.role, "publish") ? item.status === "published" ? "Update article" : "Publish article" : "Submit for review"}><ul className="space-y-2">{checks.map((check) => <li key={check.label} className="flex items-center gap-2 text-sm"><span className={check.ok ? "text-ink" : "text-primary"}>{check.ok ? "✓" : "○"}</span><span className={check.ok ? "text-ink" : check.required ? "text-primary" : "text-muted-foreground"}>{check.label}</span>{!check.required ? <span className="ml-auto text-xs text-muted-foreground">Recommended</span> : null}</li>)}</ul><div className="mt-5 flex justify-end gap-2"><button type="button" className={abtn.secondary} onClick={() => setPublishOpen(false)}>Continue editing</button><button type="button" className={abtn.primary} disabled={blocking} onClick={() => { manualSave(); admin.transition(id, can(admin.role,"publish") ? "published" : "editorial_review"); setPublishOpen(false); }}>{can(admin.role,"publish") ? item.status === "published" ? "Update" : "Publish" : "Submit for Review"}</button></div></Modal>
 
-    <Modal open={Boolean(mediaDraft)} onClose={() => setMediaDraft(null)} title={mediaDraft?.kind === "gallery" ? "Insert gallery" : cover ? "Edit image" : "Insert image"}>{mediaDraft ? <MediaEditor draft={mediaDraft} setDraft={setMediaDraft} existing={admin.media.filter((asset) => asset.preview)} onDone={(draft) => { if (draft.kind === "image" && (!cover || draft.url === cover)) { patchFields({heroMedia:draft.url,heroCaption:draft.caption,heroCredit:draft.credit,heroAlt:draft.alt,heroPermission:draft.permission}); setMediaDraft(null); } else addMedia(draft); }} /> : null}</Modal>
+    <Modal open={Boolean(mediaDraft)} onClose={() => setMediaDraft(null)} title={mediaDraft?.kind === "gallery" ? "Insert gallery" : mediaDraft?.target === "cover" ? "Cover image" : "Insert image"}>{mediaDraft ? <MediaEditor draft={mediaDraft} setDraft={setMediaDraft} existing={admin.media.filter((asset) => asset.preview)} onDone={(draft) => { if (draft.target === "cover") { patchFields({heroMedia:draft.url,heroCaption:draft.caption,heroCredit:draft.credit,heroAlt:draft.alt,heroPermission:draft.permission}); setMediaDraft(null); } else addMedia(draft); }} /> : null}</Modal>
   </div>;
 }
 

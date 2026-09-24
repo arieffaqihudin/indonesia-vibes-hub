@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { GripVertical } from "lucide-react";
 import { useState } from "react";
 
-import { FilterToolbar, PageHeading, RowLinkAction, SearchInput, SelectFilter, SummaryStrip, Table, Td, abtn, relative } from "@/components/admin/primitives";
+import { FilterToolbar, PageHeading, RowLinkAction, SearchInput, SelectFilter, Table, Td, abtn, relative } from "@/components/admin/primitives";
 import { adminHead } from "@/lib/admin/head";
 import { FAQ_CATEGORIES, FAQ_PLACEMENTS, FAQ_STATUSES, faqText, sortFaqs, useFaqs, type Faq } from "@/lib/faq";
 import { cn } from "@/lib/utils";
@@ -53,12 +53,6 @@ function FaqAdmin() {
         <SelectFilter label="Status" value={status} onChange={setStatus} options={[...FAQ_STATUSES]} />
         <SelectFilter label="Context" value={context} onChange={setContext} options={FAQ_PLACEMENTS.map((p) => placementLabel(p.id))} />
       </FilterToolbar>
-      <SummaryStrip items={[
-        { label: "Total", value: faqs.length },
-        { label: "Published", value: faqs.filter((f) => f.status === "Published").length },
-        { label: "Draft", value: faqs.filter((f) => f.status === "Draft").length },
-        { label: "Archived", value: faqs.filter((f) => f.status === "Archived").length },
-      ]} />
       <p className="mb-3 text-xs text-muted-foreground">{visible.length} question{visible.length === 1 ? "" : "s"} · Drag rows to reorder within a category.</p>
       <Table caption="FAQ" head={["Question", "Category", "Used On", "Status", "Updated", "Action"]}>
         {visible.map((f) => (

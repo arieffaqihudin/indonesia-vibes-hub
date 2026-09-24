@@ -1,240 +1,45 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 
-import { adminHead } from "@/lib/admin/head";
+import { PageHeading, relative } from "@/components/admin/primitives";
 import { useAdmin } from "@/lib/admin/store";
-import {
-  blockedForPublication,
-  contentSourceIssues,
-  dueTodayFollowUps,
-  inquiriesNeedingRouting,
-  isInReview,
-  overdueFollowUps,
-  rightsIssues,
-  staleContent,
-} from "@/lib/admin/selectors";
-import { daysUntil } from "@/lib/admin/types";
-import { stories } from "@/data/content";
+import { simpleStatus } from "@/lib/admin/types";
 import { useHomepageSettings } from "@/lib/homepage";
-import { contentSourceOf } from "@/lib/editorial";
 import { useFaqs } from "@/lib/faq";
-import { EmptyState, PageHeading, abtn, dateFmt, relative, timeFmt } from "@/components/admin/primitives";
+import { adminHead } from "@/lib/admin/head";
 
-export const Route = createFileRoute("/admin/")({
-  head: adminHead("Dashboard", "What needs attention across editorial and partnership work today."),
-  component: OverviewPage,
-});
+export const Route = createFileRoute("/admin/")({ head: adminHead("Dashboard", "Recent content and items needing editorial attention."), component: Dashboard });
 
-function greeting() {
-  const hour = new Date().getHours();
-  if (hour < 12) return "Good morning";
-  if (hour < 18) return "Good afternoon";
-  return "Good evening";
+function Section({ title, children, action }: { title: string; children: React.ReactNode; action?: React.ReactNode }) {
+  return <section className="border-t border-border pt-4"><header className="mb-2 flex items-center justify-between gap-3"><h2 className="text-xs font-semibold uppercase text-muted-foreground">{title}</h2>{action}</header>{children}</section>;
 }
 
-/** One flat row in the attention list — never a KPI tile. */
-function AttentionRow({
-  count,
-  label,
-  hint,
-  to,
-  cta,
-}: {
-  count: number;
-  label: string;
-  hint: string;
-  to: string;
-  cta: string;
-}) {
-  return (
-    <li className="flex flex-wrap items-center gap-x-4 gap-y-1 border-b border-border/70 py-3 last:border-0">
-      <span className="w-8 shrink-0 text-base font-semibold tabular-nums text-ink">{count}</span>
-      <span className="min-w-0 flex-1">
-        <span className="block text-sm text-ink">{label}</span>
-        <span className="block text-xs text-muted-foreground">{hint}</span>
-      </span>
-      <Link
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        to={to as any}
-        className="text-xs font-medium text-primary underline-offset-4 hover:underline"
-      >
-        {cta} →
-      </Link>
-    </li>
-  );
-}
-
-function OverviewPage() {
+function Dashboard() {
   const admin = useAdmin();
-  const [homepage] = useHomepageSettings(stories.map((item) => item.id));
-  const { content, inquiries, followUps, media, sources, claims, activity, user, role } = admin;
-
-  const inReview = content.filter(isInReview);
-  const awaitingReview = content.filter((c) => c.status === "submitted" || c.status === "initial_review");
-  const sourceIssues = contentSourceIssues(content, sources, claims);
-  const unresolvedClaims = sourceIssues.flatMap((i) => i.unsupported);
-  const rights = rightsIssues(media);
-  const routing = inquiriesNeedingRouting(inquiries);
-  const overdue = overdueFollowUps(followUps);
-  const dueToday = dueTodayFollowUps(followUps);
-  const scheduled = content.filter((c) => c.status === "scheduled");
-  const revisionsReturned = content.filter((c) => c.status === "revision_requested");
-  const stale = staleContent(content);
-
-  const articles = content.filter((c) => c.kind === "story");
-  const publishedArticles = articles.filter((c) => c.status === "published");
-  const internalCount = articles.filter((c) => contentSourceOf(c) === "Internal").length;
-  const curatedCount = articles.length - internalCount;
-  const pct = (n: number) => (articles.length ? Math.round((n / articles.length) * 100) : 0);
+  const articles = admin.content.filter((item) => item.kind === "story");
+  const events = admin.content.filter((item) => item.kind === "event");
+  const [homepage] = useHomepageSettings(articles.filter((item) => item.status === "published").map((item) => item.id));
   const [faqs] = useFaqs();
-  const faqDrafts = faqs.filter((f) => f.status === "Draft");
-
-  const todayEvents = content.filter((c) => {
-    if (c.kind !== "event") return false;
-    const dates = c.fields["dates"] ?? "";
-    const [start] = dates.split("–").map((s) => s.trim());
-    return start ? daysUntil(start) >= 0 && daysUntil(start) <= 7 : false;
-  });
-
-  /* Role-based ordering: each role sees its own work first. */
-  const partnershipFirst = role === "Partnership Officer";
-  const languageFirst = role === "English Editor";
-  const leadership = role === "Viewer / Leadership";
-
+  const recent = [...admin.content].sort((a, b) => b.updatedAt.localeCompare(a.updatedAt)).slice(0, 6);
   const attention = [
-    ...(languageFirst
-      ? [
-          {
-            count: content.filter((c) => c.status === "english_editing").length,
-            label: "language reviews waiting",
-            hint: "Content held for international readability",
-            to: "/admin/review", cta: "Review",
-          },
-        ]
-      : []),
-    ...(partnershipFirst
-      ? [
-          { count: routing.length, label: "inquiries need routing", hint: "New or qualified and waiting for a partner", to: "/admin/inquiries", cta: "Route" },
-          { count: overdue.length, label: "partner follow-ups overdue", hint: "Past their due date", to: "/admin/follow-ups", cta: "View" },
-        ]
-      : []),
-    { count: awaitingReview.length, label: "submissions awaiting editorial review", hint: "Arrived from the Contributor Workspace", to: "/admin/submissions", cta: "Review" },
-    { count: unresolvedClaims.length, label: "claims waiting for source verification", hint: "Flagged by an editor as requiring evidence", to: "/admin/sources", cta: "Verify" },
-    { count: rights.length, label: "media assets missing usage rights", hint: "Publication is blocked while rights are unresolved", to: "/admin/media", cta: "Resolve" },
-    ...(partnershipFirst
-      ? []
-      : [
-          { count: routing.length, label: "inquiries need routing", hint: "New or qualified and waiting for a partner", to: "/admin/inquiries", cta: "Route" },
-          { count: overdue.length, label: "partner follow-ups overdue", hint: "Past their due date", to: "/admin/follow-ups", cta: "View" },
-        ]),
-    { count: homepage.hero.length ? 0 : 1, label: "homepage Hero has no article", hint: "Choose one to five published articles", to: "/admin/homepage/hero", cta: "Manage" },
-    { count: faqDrafts.length, label: `FAQ draft${faqDrafts.length === 1 ? "" : "s"} waiting to publish`, hint: "Only published FAQs appear on the site", to: "/admin/faq", cta: "Open" },
-    { count: stale.length, label: "published records overdue for review", hint: "Sent to the review queue, never unpublished automatically", to: "/admin/review", cta: "Review" },
-  ].filter((a) => a.count > 0);
+    { count: articles.filter((item) => simpleStatus(item.status) === "In review").length, label: "articles need review", to: "/admin/articles" },
+    { count: events.filter((item) => !item.fields["dates"] || !item.location).length, label: "events are missing information", to: "/admin/events-places" },
+    { count: Math.max(0, 5 - homepage.hero.length), label: "Homepage Hero slots available", to: "/admin/homepage/hero" },
+    { count: admin.inquiries.filter((item) => ["New", "Under review"].includes(item.status)).length, label: "collaboration requests need a response", to: "/admin/collaborations" },
+    { count: faqs.filter((item) => item.status === "Draft").length, label: "FAQ drafts need publishing", to: "/admin/faq" },
+  ].filter((item) => item.count > 0);
 
-  return (
-    <>
-      <PageHeading
-        eyebrow="Dashboard"
-        title="Dashboard"
-        description={
-          leadership
-            ? "A read-only view of publication status, inquiries and the collaboration pipeline."
-            : `${greeting()}, ${user.name.split(" ")[0]}. Here is what needs attention today.`
-        }
-        actions={
-          <Link to="/admin/review" className={abtn.secondary}>
-            Open review queue
-          </Link>
-        }
-      />
+  return <div className="max-w-6xl">
+    <PageHeading title="Dashboard" description="What needs your attention today." />
+    <dl className="mb-8 grid grid-cols-2 border-y border-border sm:grid-cols-3 lg:grid-cols-6">{[
+      [articles.length, "Articles"], [articles.filter((item) => item.status === "published").length, "Published"], [articles.filter((item) => item.status === "draft").length, "Draft"], [articles.filter((item) => simpleStatus(item.status) === "In review").length, "In Review"], [`${homepage.hero.length} / 5`, "Hero"], [events.filter((item) => item.status !== "archived").length, "Upcoming Events"],
+    ].map(([value, label]) => <div key={label} className="border-r border-border px-4 py-3 last:border-r-0"><dd className="text-lg font-semibold text-ink">{value}</dd><dt className="text-xs text-muted-foreground">{label}</dt></div>)}</dl>
 
-      <section aria-label="Content overview" className="mb-9 max-w-5xl border-y border-border">
-        <dl className="grid grid-cols-2 divide-x divide-y divide-border sm:grid-cols-4 sm:divide-y-0">
-          {[
-            [articles.length, "Total articles"], [publishedArticles.length, "Published"],
-            [inReview.filter((item) => item.kind === "story").length, "In review"], [`${homepage.hero.length}/5`, "Homepage Hero"],
-          ].map(([value, label]) => <div key={label} className="px-4 py-4"><dd className="text-xl font-semibold text-ink">{value}</dd><dt className="mt-1 text-xs text-muted-foreground">{label}</dt></div>)}
-        </dl>
-      </section>
-
-      <section aria-labelledby="content-source" className="mb-9 max-w-5xl">
-        <h2 id="content-source" className="border-b border-border pb-2 text-[0.68rem] font-semibold tracking-[0.12em] text-clay uppercase">Content source</h2>
-        <dl className="grid grid-cols-2 divide-x divide-border border-b border-border">
-          {[["Internal", internalCount], ["By Curation", curatedCount]].map(([label, value]) => (
-            <div key={label} className="px-4 py-4"><dd className="text-xl font-semibold text-ink">{value} <span className="text-xs font-normal text-muted-foreground">{pct(value as number)}%</span></dd><dt className="mt-1 text-xs text-muted-foreground">{label}</dt></div>
-          ))}
-        </dl>
-      </section>
-
-      <section aria-labelledby="attention" className="mb-9 max-w-5xl">
-        <h2 id="attention" className="border-b border-border pb-2 text-[0.68rem] font-semibold tracking-[0.12em] text-clay uppercase">
-          Needs your attention
-        </h2>
-        {attention.length ? (
-          <ul>
-            {attention.map((a) => (
-              <AttentionRow key={a.label} {...a} />
-            ))}
-          </ul>
-        ) : (
-          <EmptyState title="Nothing is waiting on the team right now." hint="New submissions and inquiries will appear here." />
-        )}
-      </section>
-
-      <section aria-labelledby="today" className="mb-9 max-w-5xl">
-        <h2 id="today" className="border-b border-border pb-2 text-[0.68rem] font-semibold tracking-[0.12em] text-clay uppercase">
-          Coming up
-        </h2>
-        <ul>
-          {scheduled.map((item) => (
-            <li key={item.id} className="flex flex-wrap items-baseline gap-x-4 border-b border-border/70 py-2.5 last:border-0">
-              <span className="w-24 shrink-0 text-xs text-muted-foreground">{dateFmt(item.scheduledFor)}</span>
-              <Link to="/admin/content/$id" params={{ id: item.id }} className="text-sm text-ink underline-offset-4 hover:text-primary hover:underline">
-                {item.title}
-              </Link>
-              <span className="text-xs text-muted-foreground">
-                Publication · {timeFmt(item.scheduledFor)} {item.scheduleTimeZone ?? ""}
-              </span>
-            </li>
-          ))}
-          {todayEvents.map((item) => (
-            <li key={item.id} className="flex flex-wrap items-baseline gap-x-4 border-b border-border/70 py-2.5 last:border-0">
-              <span className="w-24 shrink-0 text-xs text-muted-foreground">{item.fields["dates"] ?? "Date to confirm"}</span>
-              <Link to="/admin/content/$id" params={{ id: item.id }} className="text-sm text-ink underline-offset-4 hover:text-primary hover:underline">
-                {item.title}
-              </Link>
-              <span className="text-xs text-muted-foreground">Event · {item.location ?? item.countries.join(", ")}</span>
-            </li>
-          ))}
-          {!scheduled.length && !todayEvents.length ? (
-            <li className="py-3 text-sm text-muted-foreground">Nothing is scheduled in the next week.</li>
-          ) : null}
-        </ul>
-
-      </section>
-
-      <section aria-labelledby="activity" className="mb-8 max-w-5xl">
-        <div className="flex items-center justify-between border-b border-border pb-2">
-          <h2 id="activity" className="text-[0.68rem] font-semibold tracking-[0.12em] text-clay uppercase">Recent activity</h2>
-          <Link to="/admin/activity" className={abtn.quiet}>Full log →</Link>
-        </div>
-          <ul>
-            {activity
-              .filter((a) => !a.sensitive)
-              .slice(0, 7)
-              .map((entry) => (
-                <li key={entry.id} className="flex gap-4 border-b border-border/70 py-3 text-sm">
-                  <span className="w-24 shrink-0 text-xs text-muted-foreground">
-                    {relative(entry.date) === "today" ? timeFmt(entry.date) : relative(entry.date)}
-                  </span>
-                  <span className="text-ink">
-                    {entry.actor} {entry.action}
-                    {entry.recordTitle ? ` — “${entry.recordTitle}”` : ""}.
-                  </span>
-                </li>
-              ))}
-          </ul>
-      </section>
-    </>
-  );
+    <div className="grid gap-9 lg:grid-cols-2">
+      <Section title="Needs Attention">{attention.length ? <ul>{attention.map((item) => <li key={item.label} className="flex items-center gap-3 border-b border-border py-3"><strong className="w-6 text-base text-primary">{item.count}</strong><span className="flex-1 text-sm text-ink">{item.label}</span><Link to={item.to} className="text-xs text-primary">Open →</Link></li>)}</ul> : <p className="py-4 text-sm text-muted-foreground">Nothing needs attention right now.</p>}</Section>
+      <Section title="Recent Content" action={<Link to="/admin/articles" className="text-xs text-primary">View all →</Link>}><ul>{recent.map((item) => <li key={item.id} className="flex items-center gap-3 border-b border-border py-3"><Link to="/admin/content/$id" params={{ id: item.id }} className="min-w-0 flex-1 truncate text-sm font-medium text-ink hover:text-primary">{item.title}</Link><span className="text-xs text-muted-foreground">{simpleStatus(item.status)} · {relative(item.updatedAt)}</span></li>)}</ul></Section>
+      <Section title="Homepage Hero" action={<Link to="/admin/homepage/hero" className="text-xs text-primary">Manage Hero →</Link>}><ol>{homepage.hero.map((hero, index) => { const item = admin.getContent(hero.articleId) ?? admin.getContent(`c-${hero.articleId}`); return <li key={hero.articleId} className="flex gap-3 border-b border-border py-3 text-sm"><span className="w-5 text-muted-foreground">{index + 1}.</span><span className="text-ink">{item?.title ?? "Missing article"}</span></li>; })}</ol></Section>
+      <Section title="Coming Events" action={<Link to="/admin/events-places" className="text-xs text-primary">Manage →</Link>}><ul>{events.slice(0, 5).map((item) => <li key={item.id} className="flex items-center gap-3 border-b border-border py-3"><span className="w-28 text-xs text-muted-foreground">{item.fields["dates"] ?? "Date needed"}</span><Link to="/admin/content/$id" params={{ id: item.id }} className="text-sm text-ink hover:text-primary">{item.title}</Link></li>)}</ul></Section>
+      <Section title="Recent Activity"><ul>{admin.activity.filter((item) => !item.sensitive).slice(0, 6).map((item) => <li key={item.id} className="flex gap-3 border-b border-border py-3 text-sm"><span className="w-24 shrink-0 text-xs text-muted-foreground">{relative(item.date)}</span><span className="text-ink">{item.actor} {item.action}</span></li>)}</ul></Section>
+    </div>
+  </div>;
 }

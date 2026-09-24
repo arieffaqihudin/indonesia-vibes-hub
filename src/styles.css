@@ -337,6 +337,20 @@
   position: relative;
 }
 
+.admin-shell h1,
+.admin-shell h2,
+.admin-shell h3,
+.admin-shell h4 {
+  letter-spacing: 0;
+}
+
+.admin-shell button,
+.admin-shell input,
+.admin-shell select,
+.admin-shell textarea {
+  letter-spacing: 0;
+}
+
 .article-editor-content p.is-editor-empty:first-child::before {
   color: color-mix(in oklab, var(--color-muted-foreground) 58%, transparent);
   content: attr(data-placeholder);
