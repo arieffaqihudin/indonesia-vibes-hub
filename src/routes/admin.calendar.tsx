@@ -4,7 +4,7 @@ import { adminHead } from "@/lib/admin/head";
 import { useAdmin } from "@/lib/admin/store";
 import { upcomingReviews } from "@/lib/admin/selectors";
 import { kindLabel } from "@/lib/admin/types";
-import { Card, EmptyState, PageHeading, StatusPill, Tag, abtn, dateFmt, timeFmt } from "@/components/admin/primitives";
+import { EmptyState, PageHeading, RowLinkAction, StatusPill, SummaryStrip, Table, Tag, Td, abtn, dateFmt, timeFmt } from "@/components/admin/primitives";
 
 export const Route = createFileRoute("/admin/calendar")({
   head: adminHead("Editorial calendar", "What is scheduled, what is due for review, and where the gaps are."),
@@ -37,35 +37,12 @@ function Calendar() {
         description="Scheduled publication alongside content that is due for review, so quiet weeks are visible early."
       />
 
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_20rem]">
-        <div className="space-y-4">
+      <SummaryStrip items={[{ label: "Scheduled", value: scheduled.length }, { label: "Weeks planned", value: weeks.size }, { label: "Due for review", value: reviews.length }, { label: "Coverage", value: weeks.size < 3 ? "Needs planning" : "On track" }]} />
+      <div>
           {weeks.size ? (
-            [...weeks.entries()].map(([week, items]) => (
-              <Card key={week} title={`Week of ${dateFmt(week)}`} description={`${items.length} scheduled`}>
-                <ul className="space-y-2">
-                  {items.map((item) => (
-                    <li key={item.id} className="flex flex-wrap items-center justify-between gap-2 border-b border-border pb-2 last:border-0 last:pb-0">
-                      <div className="min-w-0">
-                        <Link to="/admin/content/$id" params={{ id: item.id }} className="text-sm text-ink hover:text-primary">
-                          {item.title}
-                        </Link>
-                        <p className="text-xs text-muted-foreground">
-                          {kindLabel(item.kind)} · {dateFmt(item.scheduledFor)} at {timeFmt(item.scheduledFor)} ({item.scheduleTimeZone})
-                        </p>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        {item.featured?.map((f) => (
-                          <Tag key={f} tone="quiet">
-                            {f}
-                          </Tag>
-                        ))}
-                        <StatusPill status={item.status} />
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </Card>
-            ))
+            <Table caption="Editorial calendar" head={["Content", "Week", "Publication date", "Placement", "Status", ""]}>
+              {scheduled.map((item) => <tr key={item.id} className="group"><Td><Link to="/admin/content/$id" params={{ id: item.id }} className="font-semibold hover:text-primary">{item.title}</Link><span className="block text-xs text-muted-foreground">{kindLabel(item.kind)}</span></Td><Td className="text-xs text-muted-foreground">Week of {dateFmt(weekKey(item.scheduledFor!))}</Td><Td className="text-xs text-muted-foreground">{dateFmt(item.scheduledFor)} · {timeFmt(item.scheduledFor)}</Td><Td>{item.featured?.[0] ? <Tag tone="quiet">{item.featured[0]}</Tag> : "—"}</Td><Td><StatusPill status={item.status} /></Td><Td><RowLinkAction to="/admin/content/$id" params={{ id: item.id }} label={`Open ${item.title}`} /></Td></tr>)}
+            </Table>
           ) : (
             <EmptyState
               title="Nothing is scheduled yet."
@@ -77,10 +54,8 @@ function Calendar() {
               }
             />
           )}
-        </div>
-
-        <aside className="space-y-4">
-          <Card title="Due for review" description="Published content with a review date in the next six weeks.">
+        <section className="mt-8 border-t border-border pt-5">
+          <h2 className="mb-3 text-[0.7rem] font-semibold tracking-[0.1em] text-clay uppercase">Due for review</h2>
             <ul className="space-y-2 text-sm">
               {reviews.length ? (
                 reviews.map((item) => (
@@ -95,16 +70,7 @@ function Calendar() {
                 <li className="text-muted-foreground">Nothing due in the next six weeks.</li>
               )}
             </ul>
-          </Card>
-
-          <Card title="Coverage gaps" description="A prompt, not a rule.">
-            <p className="text-sm text-muted-foreground">
-              {weeks.size < 3
-                ? "Fewer than three weeks of scheduled publication are planned. Consider moving an approved record forward."
-                : "Publication is planned across several weeks ahead."}
-            </p>
-          </Card>
-        </aside>
+        </section>
       </div>
     </>
   );

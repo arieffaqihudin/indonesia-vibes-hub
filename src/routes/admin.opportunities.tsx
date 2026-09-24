@@ -3,7 +3,7 @@ import { Link, createFileRoute } from "@tanstack/react-router";
 import { adminHead } from "@/lib/admin/head";
 import { useAdmin } from "@/lib/admin/store";
 import { daysUntil } from "@/lib/admin/types";
-import { EmptyState, InlineNote, PageHeading, StatusPill, SummaryStrip, Table, Tag, Td, abtn, dateFmt } from "@/components/admin/primitives";
+import { EmptyState, InlineNote, PageHeading, RowLinkAction, StatusPill, SummaryStrip, Table, Tag, Td, abtn, dateFmt } from "@/components/admin/primitives";
 
 export const Route = createFileRoute("/admin/opportunities")({
   head: adminHead("Opportunities", "Open calls and programmes, with deadline accuracy treated as a duty of care."),
@@ -37,6 +37,7 @@ function Opportunities() {
         { value: items.filter((o) => o.fields['deadline'] && daysUntil(o.fields['deadline']) >= 0).length, label: "Open" },
         { value: expired.length, label: "Needs update" },
       ]} />
+      <p className="mb-3 text-xs text-muted-foreground">Showing {items.length} opportunit{items.length === 1 ? "y" : "ies"}</p>
       {expired.length ? <InlineNote tone="attention">{expired.length} published opportunities have passed their deadline and need an update.</InlineNote> : null}
 
       {items.length ? (
@@ -50,7 +51,7 @@ function Opportunities() {
                   <Td className="text-xs text-muted-foreground">{dateFmt(o.fields['deadline'])}</Td>
                   <Td>{typeof days === "number" && days >= 0 ? <Tag tone={days <= 10 ? "alert" : "quiet"}>{days} days</Tag> : <Tag tone="quiet">Closed</Tag>}</Td>
                   <Td><StatusPill status={o.status} /></Td>
-                  <Td><Link to="/admin/content/$id" params={{ id: o.id }} className={abtn.quiet}>Open</Link></Td>
+                  <Td><RowLinkAction to="/admin/content/$id" params={{ id: o.id }} label={`Open ${o.title}`} /></Td>
                 </tr>
               );
             })}

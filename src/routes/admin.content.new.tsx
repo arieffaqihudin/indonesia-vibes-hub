@@ -7,7 +7,7 @@ import { possibleDuplicates } from "@/lib/admin/selectors";
 import { CONTENT_FIELDS, CONTENT_KINDS, emptyRelationships, kindLabel, type ContentKind } from "@/lib/admin/types";
 import { CONTENT_SOURCES, DELIVERY_HELP, DELIVERY_TYPES, SOURCE_HELP, type ContentSource, type DeliveryType } from "@/lib/editorial";
 import { TOPICS } from "@/lib/topics";
-import { Card, PageHeading, PrototypeNote, abtn, field } from "@/components/admin/primitives";
+import { PageHeading, PrototypeNote, abtn, field } from "@/components/admin/primitives";
 
 export const Route = createFileRoute("/admin/content/new")({
   head: adminHead("Create content", "Start a new record inside the editorial workflow."),
@@ -64,8 +64,8 @@ function NewContent() {
     <>
       <PageHeading eyebrow="Content" title={`Create ${type === "story" ? "Editorial Content" : kindLabel(type)}`} description="Start with the basics. You can add relationships, evidence and media inside the draft." />
 
-      <Card className="max-w-2xl">
-        <div className="space-y-4">
+      <section className="max-w-3xl border-t border-border pt-5">
+        <div className="space-y-5">
           <div>
             <label htmlFor="kind" className="mb-1 block text-xs font-medium text-ink">
               Content type
@@ -131,7 +131,7 @@ function NewContent() {
             and still requires approval before publication.
           </PrototypeNote>
         </div>
-      </Card>
+      </section>
     </>
   );
 }

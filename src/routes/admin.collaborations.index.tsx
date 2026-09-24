@@ -2,7 +2,7 @@ import { Link, createFileRoute } from "@tanstack/react-router";
 
 import { adminHead } from "@/lib/admin/head";
 import { useAdmin } from "@/lib/admin/store";
-import { EmptyState, PageHeading, SummaryStrip, Table, Tag, Td, abtn, relative } from "@/components/admin/primitives";
+import { EmptyState, PageHeading, RowLinkAction, SummaryStrip, Table, Tag, Td, abtn, relative } from "@/components/admin/primitives";
 
 export const Route = createFileRoute("/admin/collaborations/")({
   head: adminHead("Collaborations", "International collaborations from first idea to recorded outcome."),
@@ -26,6 +26,7 @@ function Collaborations() {
         { value: admin.pipeline.filter((item) => item.stage === "Ongoing").length, label: "Ongoing" },
         { value: admin.pipeline.filter((item) => item.stage === "Completed").length, label: "Completed" },
       ]} />
+      <p className="mb-3 text-xs text-muted-foreground">Showing {admin.pipeline.length} collaboration{admin.pipeline.length === 1 ? "" : "s"}</p>
 
       {admin.pipeline.length ? (
         <Table caption="Collaborations" head={["Collaboration", "Stage", "Origin", "Countries", "Lead", "Updated", "Next action", ""]}>
@@ -38,7 +39,7 @@ function Collaborations() {
               <Td className="text-xs text-muted-foreground">{item.leadOfficer}</Td>
               <Td className="text-xs text-muted-foreground">{relative(item.updatedAt)}</Td>
               <Td className="max-w-xs text-xs text-ink">{item.nextActions[0] ?? "—"}</Td>
-              <Td><Link to="/admin/collaborations/$id" params={{ id: item.id }} className={abtn.quiet}>Open</Link></Td>
+              <Td><RowLinkAction to="/admin/collaborations/$id" params={{ id: item.id }} label={`Open ${item.title}`} /></Td>
             </tr>
           ))}
         </Table>

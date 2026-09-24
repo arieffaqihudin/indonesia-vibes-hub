@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { MoreHorizontal } from "lucide-react";
 import {
   Children,
   cloneElement,
@@ -18,7 +19,7 @@ import { CONTENT_STATUS, type ContentStatus } from "@/lib/admin/types";
 /* ---------------- form + button styles ---------------- */
 
 export const field =
-  "w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-ink placeholder:text-muted-foreground/60 outline-none transition-colors focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/25 disabled:opacity-60";
+  "w-full min-h-10 rounded-lg border border-border bg-card px-3 py-2 text-sm text-ink placeholder:text-muted-foreground/60 outline-none transition-colors focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/20 disabled:opacity-60";
 
 const base =
   "inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:pointer-events-none disabled:opacity-50";
@@ -71,6 +72,10 @@ export function Tag({ children, tone = "default" }: { children: ReactNode; tone?
   );
 }
 
+export function StatusIndicator({ children, attention = false }: { children: ReactNode; attention?: boolean }) {
+  return <span className="inline-flex items-center gap-1.5 text-xs whitespace-nowrap text-ink"><span className={cn("h-1.5 w-1.5 rounded-full", attention ? "bg-primary" : "bg-muted-foreground")} aria-hidden />{children}</span>;
+}
+
 /* ---------------- layout blocks ---------------- */
 
 export function PageHeading({
@@ -84,16 +89,17 @@ export function PageHeading({
   actions?: ReactNode;
   eyebrow?: string;
 }) {
+  const crumbs = eyebrow?.split("/").map((item) => item.trim()).filter(Boolean) ?? [];
   return (
-    <header className="mb-6 flex flex-col items-stretch gap-3 border-b border-border pb-5 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between sm:gap-4">
+    <header className="mb-5 flex flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between sm:gap-4">
       <div className="min-w-0 max-w-2xl">
-        {eyebrow ? (
-          <p className="flex items-center gap-1.5 text-[0.7rem] font-medium text-muted-foreground">
-            <span>Dashboard</span><span aria-hidden>/</span><span className="text-clay">{eyebrow}</span>
+        {crumbs.length ? (
+          <p className="flex items-center gap-1.5 text-[0.7rem] font-medium text-muted-foreground" aria-label="Breadcrumb">
+            {crumbs.map((crumb, index) => <span key={`${crumb}-${index}`} className="flex items-center gap-1.5"><span className={index === crumbs.length - 1 ? "text-clay" : undefined}>{crumb}</span>{index < crumbs.length - 1 ? <span aria-hidden>›</span> : null}</span>)}
           </p>
         ) : null}
-        <h1 className="mt-2 text-[1.5rem] leading-tight font-semibold text-ink sm:text-[1.75rem]">{title}</h1>
-        {description ? <p className="mt-1.5 text-sm text-muted-foreground">{description}</p> : null}
+        <h1 className="mt-2 text-2xl leading-tight font-semibold text-ink">{title}</h1>
+        {description ? <p className="mt-1 max-w-3xl text-sm text-muted-foreground">{description}</p> : null}
       </div>
       {actions ? (
         <div className="flex flex-wrap items-center gap-2 [&>*]:max-sm:flex-1 [&>*]:max-sm:justify-center">{actions}</div>
@@ -119,11 +125,11 @@ export function Card({
   bodyClass?: string;
 }) {
   return (
-    <section className={cn("mb-8", className)}>
+    <section className={cn("mb-7 border-b border-border pb-7 last:border-b-0", className)}>
       {title ? (
-        <header className="mb-3 flex flex-wrap items-end justify-between gap-3 border-b border-border pb-2">
+        <header className="mb-4 flex flex-wrap items-end justify-between gap-3">
           <div>
-            <h2 className="text-[0.72rem] font-semibold tracking-[0.14em] text-muted-foreground uppercase">{title}</h2>
+            <h2 className="text-[0.7rem] font-semibold tracking-[0.1em] text-clay uppercase">{title}</h2>
             {description ? <p className="mt-1 text-xs text-muted-foreground">{description}</p> : null}
           </div>
           {action}
@@ -184,11 +190,11 @@ export function SummaryStrip({
   items: { label: string; value: ReactNode; hint?: string }[];
 }) {
   return (
-    <dl className="scroll-strip mb-5 flex min-w-full border-y border-border bg-card">
+    <dl className="scroll-strip mb-4 flex min-w-full rounded-xl border border-border bg-card">
       {items.map((item) => (
-        <div key={item.label} className="min-w-36 flex-1 border-r border-border px-4 py-3 last:border-r-0 sm:min-w-0">
+         <div key={item.label} className="min-w-40 flex-1 border-r border-border px-5 py-3.5 last:border-r-0 sm:min-w-0">
           <dt className="text-[0.68rem] font-medium text-muted-foreground uppercase">{item.label}</dt>
-          <dd className="mt-1 flex items-baseline gap-2 text-lg font-semibold text-ink tabular-nums">
+           <dd className="mt-1 flex items-baseline gap-2 text-xl font-semibold text-ink tabular-nums">
             {item.value}
             {item.hint ? <span className="text-[0.68rem] font-normal text-muted-foreground">{item.hint}</span> : null}
           </dd>
@@ -201,8 +207,8 @@ export function SummaryStrip({
 /** Compact filter row with controls left and search anchored right on wide screens. */
 export function FilterToolbar({ children, search }: { children?: ReactNode; search: ReactNode }) {
   return (
-    <div className="mb-5 flex flex-col gap-3 border-y border-border bg-muted/35 px-3 py-3 lg:flex-row lg:items-center">
-      {children ? <div className="scroll-strip flex items-center gap-3 lg:flex-1">{children}</div> : null}
+    <div className="mb-4 flex flex-col gap-3 border-y border-border py-3 lg:flex-row lg:items-center">
+      {children ? <div className="scroll-strip flex items-center gap-2 lg:flex-1"><span className="mr-1 shrink-0 text-xs font-semibold text-ink">Filter</span>{children}</div> : null}
       <div className="w-full lg:ml-auto lg:max-w-sm">{search}</div>
     </div>
   );
@@ -284,7 +290,7 @@ export function SelectFilter({
   return (
     <label htmlFor={id} className="flex shrink-0 items-center gap-1.5 text-xs text-muted-foreground">
       <span>{label}</span>
-      <select id={id} className={cn(field, "min-h-8 w-auto py-1 text-xs")} value={value} onChange={(e) => onChange(e.target.value)}>
+       <select id={id} className={cn(field, "h-10 min-h-10 w-auto py-1 text-xs")} value={value} onChange={(e) => onChange(e.target.value)}>
         <option value="">{allLabel}</option>
         {options.map((opt) => (
           <option key={opt} value={opt}>
@@ -316,7 +322,7 @@ export function SearchInput({
       <input
         id={id}
         type="search"
-        className={cn(field, "min-h-8 py-1.5 text-xs")}
+       className={cn(field, "h-10 min-h-10 py-1.5 text-xs")}
         value={value}
         placeholder={placeholder}
         onChange={(e) => onChange(e.target.value)}
@@ -372,13 +378,13 @@ export function Table({
         )}
       >
         {caption ? <caption className="sr-only">{caption}</caption> : null}
-        <thead className="sticky top-0 z-10 bg-muted/45">
+        <thead className="sticky top-0 z-10 bg-sand">
           <tr>
             {head.map((h, i) => (
               <th
                 key={h || `col-${i}`}
                 scope="col"
-                className="border-b border-border px-3 py-3 text-[0.66rem] font-semibold tracking-[0.08em] text-muted-foreground uppercase"
+                 className="border-b border-border px-4 py-3 text-[0.65rem] font-semibold tracking-[0.08em] text-muted-foreground uppercase"
               >
                 {h}
               </th>
@@ -407,7 +413,7 @@ export function Td({
     <td
       data-label={label}
       colSpan={colSpan}
-      className={cn("border-b border-border/70 px-3 py-3 align-middle text-ink transition-colors group-hover:bg-muted/35 md:border-b", className)}
+      className={cn("h-16 border-b border-border/70 px-4 py-3 align-middle text-ink transition-colors group-hover:bg-blush/35 md:border-b", className)}
     >
       {children}
     </td>
@@ -583,6 +589,30 @@ export function RecordLink({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     <Link to={to as any} params={params as any} className="font-medium text-ink underline-offset-4 hover:text-primary hover:underline">
       {children}
+    </Link>
+  );
+}
+
+/** A single compact route action for the far-right table column. */
+export function RowLinkAction({
+  to,
+  params,
+  label,
+}: {
+  to: string;
+  params?: Record<string, string>;
+  label: string;
+}) {
+  return (
+    <Link
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      to={to as any}
+      params={params as any}
+      aria-label={label}
+      title={label}
+      className="ml-auto inline-flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-blush hover:text-primary"
+    >
+      <MoreHorizontal className="h-4 w-4" aria-hidden />
     </Link>
   );
 }

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { adminHead } from "@/lib/admin/head";
 import { useAdmin } from "@/lib/admin/store";
 import { PARTNER_TYPES, RELATIONSHIP_STATUSES } from "@/lib/admin/types";
-import { EmptyState, FilterToolbar, PageHeading, SearchInput, SelectFilter, SummaryStrip, Table, Tag, Td, abtn, dateFmt } from "@/components/admin/primitives";
+import { EmptyState, FilterToolbar, PageHeading, RowLinkAction, SearchInput, SelectFilter, SummaryStrip, Table, Tag, Td, abtn, dateFmt } from "@/components/admin/primitives";
 
 export const Route = createFileRoute("/admin/partners/")({
   head: adminHead("Partners", "Institutions, communities and organisations the team works with."),
@@ -30,17 +30,17 @@ function Partners() {
         description="A relationship record, not a sales pipeline: who they are, what they work on, and how contact is made."
       />
 
+      <FilterToolbar search={<SearchInput value={query} onChange={setQuery} label="Search partners" placeholder="Name, country or expertise" />}>
+        <SelectFilter label="Type" value={type} onChange={setType} options={PARTNER_TYPES} />
+        <SelectFilter label="Relationship" value={status} onChange={setStatus} options={RELATIONSHIP_STATUSES} />
+      </FilterToolbar>
       <SummaryStrip items={[
         { value: admin.partners.length, label: "Total partners" },
         { value: admin.partners.filter((p) => p.relationshipStatus === "Active").length, label: "Active" },
         { value: admin.partners.filter((p) => p.relationshipStatus === "Strategic").length, label: "Strategic" },
         { value: admin.partners.filter((p) => p.nextFollowUp).length, label: "Follow-up recorded" },
       ]} />
-
-      <FilterToolbar search={<SearchInput value={query} onChange={setQuery} label="Search partners" placeholder="Name, country or expertise" />}>
-        <SelectFilter label="Type" value={type} onChange={setType} options={PARTNER_TYPES} />
-        <SelectFilter label="Relationship" value={status} onChange={setStatus} options={RELATIONSHIP_STATUSES} />
-      </FilterToolbar>
+      <p className="mb-3 text-xs text-muted-foreground">Showing {partners.length} partner{partners.length === 1 ? "" : "s"}</p>
 
       {partners.length ? (
         <Table caption="Partner directory" head={["Partner", "Type", "Country", "Main focus", "Status", "Last interaction", ""]}>
@@ -52,7 +52,7 @@ function Partners() {
               <Td className="max-w-xs text-xs text-ink">{p.expertise.slice(0, 3).join(" · ") || "—"}</Td>
               <Td><Tag tone={p.relationshipStatus === "Strategic" ? "alert" : "quiet"}>{p.relationshipStatus}</Tag></Td>
               <Td className="text-xs text-muted-foreground">{p.lastInteraction ? dateFmt(p.lastInteraction) : "Not recorded"}</Td>
-              <Td><Link to="/admin/partners/$id" params={{ id: p.id }} className={abtn.quiet}>Open</Link></Td>
+              <Td><RowLinkAction to="/admin/partners/$id" params={{ id: p.id }} label={`Open ${p.name}`} /></Td>
             </tr>
           ))}
         </Table>

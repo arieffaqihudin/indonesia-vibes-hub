@@ -19,7 +19,7 @@ function Settings() {
     <>
       <PageHeading eyebrow="System" title="Settings" description="Nothing here is hidden logic: these are the rules the workflow already follows." />
 
-      <div className="grid gap-4 lg:grid-cols-2">
+      <div className="max-w-5xl">
         <Card title="Workflow rules">
           <ul className="list-disc space-y-1.5 pl-5 text-sm text-ink">
             <li>Contributors can propose and update content, but never publish it.</li>
