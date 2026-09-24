@@ -210,7 +210,7 @@ function PersonPage() {
           ) : null}
 
           {collaborations.length ? (
-            <DetailSection title="International collaborations">
+            <DetailSection title="Related collaborations">
               <ul className="grid gap-8 sm:grid-cols-2">
                 {collaborations.map((c) => (
                   <li key={c.id}>

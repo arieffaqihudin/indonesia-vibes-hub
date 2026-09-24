@@ -445,7 +445,7 @@ const storySteps = (): StepDef[] => [
     blurb: "Link this story to what already exists on Indonesia Vibes, or suggest something new.",
     fields: [
       { name: "linkSubjects", label: "Cultural subjects", type: "connections", entity: "Culture" },
-      { name: "linkPeople", label: "People", type: "connections", entity: "People & Communities" },
+      { name: "linkPeople", label: "People", type: "connections", entity: "People & Organisations" },
       { name: "linkInstitutions", label: "Institutions", type: "connections", entity: "Institutions" },
       { name: "linkPlaces", label: "Places", type: "connections", entity: "Places" },
       { name: "linkEvents", label: "Events", type: "connections", entity: "Events" },
@@ -541,7 +541,7 @@ const eventSteps = (): StepDef[] => [
     title: "Cultural connections",
     fields: [
       { name: "linkSubjects", label: "Cultural subjects", type: "connections", entity: "Culture" },
-      { name: "linkPeople", label: "People", type: "connections", entity: "People & Communities" },
+      { name: "linkPeople", label: "People", type: "connections", entity: "People & Organisations" },
       { name: "linkPlaces", label: "Places", type: "connections", entity: "Places" },
       { name: "linkInstitutions", label: "Institutions", type: "connections", entity: "Institutions" },
       { name: "linkStories", label: "Stories", type: "connections", entity: "Story" },
@@ -760,7 +760,7 @@ const profileSteps = (data: Record<string, unknown>): StepDef[] => {
       title: "Connections",
       fields: [
         { name: "linkSubjects", label: "Related cultural subjects", type: "connections", entity: "Culture" },
-        { name: "linkPeople", label: "Related people & communities", type: "connections", entity: "People & Communities" },
+        { name: "linkPeople", label: "Related people & organisations", type: "connections", entity: "People & Organisations" },
         { name: "linkPlaces", label: "Related places", type: "connections", entity: "Places" },
         { name: "linkInstitutions", label: "Related institutions", type: "connections", entity: "Institutions" },
         { name: "linkEvents", label: "Related events", type: "connections", entity: "Events" },
@@ -800,7 +800,7 @@ const collaborationSteps = (): StepDef[] => [
     fields: [
       { name: "linkInstitutions", label: "Indonesian institutions", type: "connections", entity: "Institutions" },
       { name: "intlInstitutions", label: "International institutions", type: "tags", required: true },
-      { name: "linkPeople", label: "People", type: "connections", entity: "People & Communities" },
+      { name: "linkPeople", label: "People", type: "connections", entity: "People & Organisations" },
       { name: "communities", label: "Communities", type: "tags" },
       { name: "supporters", label: "Supporting organisations", type: "tags" },
     ],

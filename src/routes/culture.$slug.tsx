@@ -184,7 +184,7 @@ function FormPage() {
           ) : null}
 
           {collaborations.length ? (
-            <DetailSection title="International collaborations">
+            <DetailSection title="Related collaborations">
               <ul className="space-y-4">
                 {collaborations.map((c) => (
                   <li key={c.id} className="border border-border p-5">

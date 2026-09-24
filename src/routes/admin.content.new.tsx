@@ -62,7 +62,7 @@ function NewContent() {
 
   return (
     <>
-      <PageHeading eyebrow="Content" title={`Create ${type === "story" ? "Editorial Content" : kindLabel(type)}`} description="Start with the basics. You can add relationships, evidence and media inside the draft." />
+       <PageHeading eyebrow="Create" title={`Create ${type === "story" ? "Article" : kindLabel(type)}`} description="Start with the basics. You can add relationships, evidence and media inside the draft." />
 
       <section className="max-w-3xl border-t border-border pt-5">
         <div className="space-y-5">
@@ -121,7 +121,7 @@ function NewContent() {
             <button type="button" className={abtn.primary} disabled={!title.trim() || blocked} onClick={create}>
               Create draft
             </button>
-            <button type="button" className={abtn.secondary} onClick={() => navigate({ to: "/admin/content" })}>
+             <button type="button" className={abtn.secondary} onClick={() => navigate({ to: type === "story" ? "/admin/articles" : "/admin" })}>
               Cancel
             </button>
           </div>

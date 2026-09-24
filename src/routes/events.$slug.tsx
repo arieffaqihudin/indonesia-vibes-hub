@@ -29,7 +29,7 @@ export const Route = createFileRoute("/events/$slug")({
   notFoundComponent: () => (
     <div className="container-editorial py-28 text-center">
       <h1 className="display-2 text-ink">Event not found</h1>
-      <Link to="/events" className="mt-6 inline-block text-primary underline underline-offset-4">
+      <Link to="/events-places" className="mt-6 inline-block text-primary underline underline-offset-4">
         All events
       </Link>
     </div>
