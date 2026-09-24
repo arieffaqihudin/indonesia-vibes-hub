@@ -279,7 +279,7 @@ const collaborationItems: ContentItem[] = collaborations.map((c, i) =>
 
 const collectionItems: ContentItem[] = collections.map((c, i) =>
   published("collection", c, c.title, {
-    path: `/collections/${c.slug}`,
+    path: `/understand-indonesia/collections/${c.slug}`,
     themes: [],
     editor: "Maya Rahardjo",
     offset: -90 - i * 15,

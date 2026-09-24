@@ -280,7 +280,7 @@ const collectionEntities = collections.map((c) =>
     placeIds: [],
     publicationStatus: "published",
     visibility: "public",
-    publicPath: `/collections/${c.slug}`,
+    publicPath: `/understand-indonesia/collections/${c.slug}`,
     owner: "Editorial Owner",
   }),
 );

@@ -108,6 +108,7 @@ import { Route as AdminInquiriesIdRouteImport } from './routes/admin.inquiries.$
 import { Route as AdminPartnersIndexRouteImport } from './routes/admin.partners.index'
 import { Route as AdminPartnersIdRouteImport } from './routes/admin.partners.$id'
 import { Route as AdminReviewIndexRouteImport } from './routes/admin.review.index'
+import { Route as AdminTopicsSlugRouteImport } from './routes/admin.topics.$slug'
 import { Route as ContributorSubmissionsIndexRouteImport } from './routes/contributor.submissions.index'
 import { Route as ExploreTopicsIndexRouteImport } from './routes/explore.topics.index'
 import { Route as ExploreTopicsSlugRouteImport } from './routes/explore.topics.$slug'
@@ -619,6 +620,11 @@ const AdminReviewIndexRoute = AdminReviewIndexRouteImport.update({
   path: '/review/',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminTopicsSlugRoute = AdminTopicsSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => AdminTopicsRoute,
+} as any)
 const ContributorSubmissionsIndexRoute =
   ContributorSubmissionsIndexRouteImport.update({
     id: '/contributor/submissions/',
@@ -720,7 +726,7 @@ export interface FileRoutesByFullPath {
   '/admin/stories': typeof AdminStoriesRoute
   '/admin/submissions': typeof AdminSubmissionsRoute
   '/admin/taxonomy': typeof AdminTaxonomyRoute
-  '/admin/topics': typeof AdminTopicsRoute
+  '/admin/topics': typeof AdminTopicsRouteWithChildren
   '/admin/users': typeof AdminUsersRoute
   '/collaborations/$slug': typeof CollaborationsSlugRoute
   '/collections/$slug': typeof CollectionsSlugRoute
@@ -765,6 +771,7 @@ export interface FileRoutesByFullPath {
   '/admin/homepage/sections': typeof AdminHomepageSectionsRoute
   '/admin/inquiries/$id': typeof AdminInquiriesIdRoute
   '/admin/partners/$id': typeof AdminPartnersIdRoute
+  '/admin/topics/$slug': typeof AdminTopicsSlugRoute
   '/explore/topics/$slug': typeof ExploreTopicsSlugRoute
   '/understand-indonesia/collections/$slug': typeof UnderstandIndonesiaCollectionsSlugRoute
   '/understand-indonesia/topics/$slug': typeof UnderstandIndonesiaTopicsSlugRoute
@@ -829,7 +836,7 @@ export interface FileRoutesByTo {
   '/admin/stories': typeof AdminStoriesRoute
   '/admin/submissions': typeof AdminSubmissionsRoute
   '/admin/taxonomy': typeof AdminTaxonomyRoute
-  '/admin/topics': typeof AdminTopicsRoute
+  '/admin/topics': typeof AdminTopicsRouteWithChildren
   '/admin/users': typeof AdminUsersRoute
   '/collaborations/$slug': typeof CollaborationsSlugRoute
   '/collections/$slug': typeof CollectionsSlugRoute
@@ -874,6 +881,7 @@ export interface FileRoutesByTo {
   '/admin/homepage/sections': typeof AdminHomepageSectionsRoute
   '/admin/inquiries/$id': typeof AdminInquiriesIdRoute
   '/admin/partners/$id': typeof AdminPartnersIdRoute
+  '/admin/topics/$slug': typeof AdminTopicsSlugRoute
   '/explore/topics/$slug': typeof ExploreTopicsSlugRoute
   '/understand-indonesia/collections/$slug': typeof UnderstandIndonesiaCollectionsSlugRoute
   '/understand-indonesia/topics/$slug': typeof UnderstandIndonesiaTopicsSlugRoute
@@ -940,7 +948,7 @@ export interface FileRoutesById {
   '/admin/stories': typeof AdminStoriesRoute
   '/admin/submissions': typeof AdminSubmissionsRoute
   '/admin/taxonomy': typeof AdminTaxonomyRoute
-  '/admin/topics': typeof AdminTopicsRoute
+  '/admin/topics': typeof AdminTopicsRouteWithChildren
   '/admin/users': typeof AdminUsersRoute
   '/collaborations/$slug': typeof CollaborationsSlugRoute
   '/collections/$slug': typeof CollectionsSlugRoute
@@ -985,6 +993,7 @@ export interface FileRoutesById {
   '/admin/homepage/sections': typeof AdminHomepageSectionsRoute
   '/admin/inquiries/$id': typeof AdminInquiriesIdRoute
   '/admin/partners/$id': typeof AdminPartnersIdRoute
+  '/admin/topics/$slug': typeof AdminTopicsSlugRoute
   '/explore/topics/$slug': typeof ExploreTopicsSlugRoute
   '/understand-indonesia/collections/$slug': typeof UnderstandIndonesiaCollectionsSlugRoute
   '/understand-indonesia/topics/$slug': typeof UnderstandIndonesiaTopicsSlugRoute
@@ -1097,6 +1106,7 @@ export interface FileRouteTypes {
     | '/admin/homepage/sections'
     | '/admin/inquiries/$id'
     | '/admin/partners/$id'
+    | '/admin/topics/$slug'
     | '/explore/topics/$slug'
     | '/understand-indonesia/collections/$slug'
     | '/understand-indonesia/topics/$slug'
@@ -1206,6 +1216,7 @@ export interface FileRouteTypes {
     | '/admin/homepage/sections'
     | '/admin/inquiries/$id'
     | '/admin/partners/$id'
+    | '/admin/topics/$slug'
     | '/explore/topics/$slug'
     | '/understand-indonesia/collections/$slug'
     | '/understand-indonesia/topics/$slug'
@@ -1316,6 +1327,7 @@ export interface FileRouteTypes {
     | '/admin/homepage/sections'
     | '/admin/inquiries/$id'
     | '/admin/partners/$id'
+    | '/admin/topics/$slug'
     | '/explore/topics/$slug'
     | '/understand-indonesia/collections/$slug'
     | '/understand-indonesia/topics/$slug'
@@ -2090,6 +2102,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminReviewIndexRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/topics/$slug': {
+      id: '/admin/topics/$slug'
+      path: '/$slug'
+      fullPath: '/admin/topics/$slug'
+      preLoaderRoute: typeof AdminTopicsSlugRouteImport
+      parentRoute: typeof AdminTopicsRoute
+    }
     '/contributor/submissions/': {
       id: '/contributor/submissions/'
       path: '/contributor/submissions'
@@ -2156,6 +2175,18 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AdminTopicsRouteChildren {
+  AdminTopicsSlugRoute: typeof AdminTopicsSlugRoute
+}
+
+const AdminTopicsRouteChildren: AdminTopicsRouteChildren = {
+  AdminTopicsSlugRoute: AdminTopicsSlugRoute,
+}
+
+const AdminTopicsRouteWithChildren = AdminTopicsRoute._addFileChildren(
+  AdminTopicsRouteChildren,
+)
+
 interface AdminContentIdRouteChildren {
   AdminContentIdPreviewRoute: typeof AdminContentIdPreviewRoute
 }
@@ -2194,7 +2225,7 @@ interface AdminRouteChildren {
   AdminStoriesRoute: typeof AdminStoriesRoute
   AdminSubmissionsRoute: typeof AdminSubmissionsRoute
   AdminTaxonomyRoute: typeof AdminTaxonomyRoute
-  AdminTopicsRoute: typeof AdminTopicsRoute
+  AdminTopicsRoute: typeof AdminTopicsRouteWithChildren
   AdminUsersRoute: typeof AdminUsersRoute
   AdminIndexRoute: typeof AdminIndexRoute
   AdminCollaborationsIdRoute: typeof AdminCollaborationsIdRoute
@@ -2241,7 +2272,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminStoriesRoute: AdminStoriesRoute,
   AdminSubmissionsRoute: AdminSubmissionsRoute,
   AdminTaxonomyRoute: AdminTaxonomyRoute,
-  AdminTopicsRoute: AdminTopicsRoute,
+  AdminTopicsRoute: AdminTopicsRouteWithChildren,
   AdminUsersRoute: AdminUsersRoute,
   AdminIndexRoute: AdminIndexRoute,
   AdminCollaborationsIdRoute: AdminCollaborationsIdRoute,

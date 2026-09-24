@@ -46,7 +46,7 @@ const entries: GraphEntry[] = [
   ...places.map((p) => ({ id: p.id, label: p.name, group: "places" as const, detail: p.country, path: `/places/${p.slug}` })),
   ...events.map((e) => ({ id: e.id, label: e.title, group: "events" as const, detail: e.type ?? "Event", path: `/events/${e.slug}` })),
   ...collaborations.map((c) => ({ id: c.id, label: c.title, group: "collaborations" as const, detail: (c.countries ?? []).join(", "), path: `/collaborations/${c.slug}` })),
-  ...collections.map((c) => ({ id: c.id, label: c.title, group: "collections" as const, path: `/collections/${c.slug}` })),
+  ...collections.map((c) => ({ id: c.id, label: c.title, group: "collections" as const, path: `/understand-indonesia/collections/${c.slug}` })),
   ...papers.map((p) => ({ id: p.id, label: p.title, group: "research" as const, detail: p.discipline })),
 ];
 
