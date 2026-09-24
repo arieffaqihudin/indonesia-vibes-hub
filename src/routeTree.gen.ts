@@ -32,6 +32,7 @@ import { Route as SearchRouteImport } from './routes/search'
 import { Route as UnderstandIndonesiaRouteImport } from './routes/understand-indonesia'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminActivityRouteImport } from './routes/admin.activity'
+import { Route as AdminArticlesRouteImport } from './routes/admin.articles'
 import { Route as AdminCalendarRouteImport } from './routes/admin.calendar'
 import { Route as AdminCollectionsRouteImport } from './routes/admin.collections'
 import { Route as AdminCreateRouteImport } from './routes/admin.create'
@@ -90,6 +91,8 @@ import { Route as AdminContentIdRouteImport } from './routes/admin.content.$id'
 import { Route as AdminContentNewRouteImport } from './routes/admin.content.new'
 import { Route as AdminCurationHomepageRouteImport } from './routes/admin.curation.homepage'
 import { Route as AdminCurationInFocusRouteImport } from './routes/admin.curation.in-focus'
+import { Route as AdminHomepageHeroRouteImport } from './routes/admin.homepage.hero'
+import { Route as AdminHomepageSectionsRouteImport } from './routes/admin.homepage.sections'
 import { Route as AdminInquiriesIndexRouteImport } from './routes/admin.inquiries.index'
 import { Route as AdminInquiriesIdRouteImport } from './routes/admin.inquiries.$id'
 import { Route as AdminPartnersIndexRouteImport } from './routes/admin.partners.index'
@@ -217,6 +220,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
 const AdminActivityRoute = AdminActivityRouteImport.update({
   id: '/activity',
   path: '/activity',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminArticlesRoute = AdminArticlesRouteImport.update({
+  id: '/articles',
+  path: '/articles',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminCalendarRoute = AdminCalendarRouteImport.update({
@@ -514,6 +522,16 @@ const AdminCurationInFocusRoute = AdminCurationInFocusRouteImport.update({
   path: '/curation/in-focus',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminHomepageHeroRoute = AdminHomepageHeroRouteImport.update({
+  id: '/homepage/hero',
+  path: '/homepage/hero',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminHomepageSectionsRoute = AdminHomepageSectionsRouteImport.update({
+  id: '/homepage/sections',
+  path: '/homepage/sections',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminInquiriesIndexRoute = AdminInquiriesIndexRouteImport.update({
   id: '/inquiries/',
   path: '/inquiries/',
@@ -608,6 +626,7 @@ export interface FileRoutesByFullPath {
   '/search': typeof SearchRoute
   '/understand-indonesia': typeof UnderstandIndonesiaRouteWithChildren
   '/admin/activity': typeof AdminActivityRoute
+  '/admin/articles': typeof AdminArticlesRoute
   '/admin/calendar': typeof AdminCalendarRoute
   '/admin/collections': typeof AdminCollectionsRoute
   '/admin/create': typeof AdminCreateRoute
@@ -665,6 +684,8 @@ export interface FileRoutesByFullPath {
   '/admin/content/new': typeof AdminContentNewRoute
   '/admin/curation/homepage': typeof AdminCurationHomepageRoute
   '/admin/curation/in-focus': typeof AdminCurationInFocusRoute
+  '/admin/homepage/hero': typeof AdminHomepageHeroRoute
+  '/admin/homepage/sections': typeof AdminHomepageSectionsRoute
   '/admin/inquiries/$id': typeof AdminInquiriesIdRoute
   '/admin/partners/$id': typeof AdminPartnersIdRoute
   '/explore/topics/$slug': typeof ExploreTopicsSlugRoute
@@ -703,6 +724,7 @@ export interface FileRoutesByTo {
   '/search': typeof SearchRoute
   '/understand-indonesia': typeof UnderstandIndonesiaRouteWithChildren
   '/admin/activity': typeof AdminActivityRoute
+  '/admin/articles': typeof AdminArticlesRoute
   '/admin/calendar': typeof AdminCalendarRoute
   '/admin/collections': typeof AdminCollectionsRoute
   '/admin/create': typeof AdminCreateRoute
@@ -760,6 +782,8 @@ export interface FileRoutesByTo {
   '/admin/content/new': typeof AdminContentNewRoute
   '/admin/curation/homepage': typeof AdminCurationHomepageRoute
   '/admin/curation/in-focus': typeof AdminCurationInFocusRoute
+  '/admin/homepage/hero': typeof AdminHomepageHeroRoute
+  '/admin/homepage/sections': typeof AdminHomepageSectionsRoute
   '/admin/inquiries/$id': typeof AdminInquiriesIdRoute
   '/admin/partners/$id': typeof AdminPartnersIdRoute
   '/explore/topics/$slug': typeof ExploreTopicsSlugRoute
@@ -800,6 +824,7 @@ export interface FileRoutesById {
   '/search': typeof SearchRoute
   '/understand-indonesia': typeof UnderstandIndonesiaRouteWithChildren
   '/admin/activity': typeof AdminActivityRoute
+  '/admin/articles': typeof AdminArticlesRoute
   '/admin/calendar': typeof AdminCalendarRoute
   '/admin/collections': typeof AdminCollectionsRoute
   '/admin/create': typeof AdminCreateRoute
@@ -857,6 +882,8 @@ export interface FileRoutesById {
   '/admin/content/new': typeof AdminContentNewRoute
   '/admin/curation/homepage': typeof AdminCurationHomepageRoute
   '/admin/curation/in-focus': typeof AdminCurationInFocusRoute
+  '/admin/homepage/hero': typeof AdminHomepageHeroRoute
+  '/admin/homepage/sections': typeof AdminHomepageSectionsRoute
   '/admin/inquiries/$id': typeof AdminInquiriesIdRoute
   '/admin/partners/$id': typeof AdminPartnersIdRoute
   '/explore/topics/$slug': typeof ExploreTopicsSlugRoute
@@ -898,6 +925,7 @@ export interface FileRouteTypes {
     | '/search'
     | '/understand-indonesia'
     | '/admin/activity'
+    | '/admin/articles'
     | '/admin/calendar'
     | '/admin/collections'
     | '/admin/create'
@@ -955,6 +983,8 @@ export interface FileRouteTypes {
     | '/admin/content/new'
     | '/admin/curation/homepage'
     | '/admin/curation/in-focus'
+    | '/admin/homepage/hero'
+    | '/admin/homepage/sections'
     | '/admin/inquiries/$id'
     | '/admin/partners/$id'
     | '/explore/topics/$slug'
@@ -993,6 +1023,7 @@ export interface FileRouteTypes {
     | '/search'
     | '/understand-indonesia'
     | '/admin/activity'
+    | '/admin/articles'
     | '/admin/calendar'
     | '/admin/collections'
     | '/admin/create'
@@ -1050,6 +1081,8 @@ export interface FileRouteTypes {
     | '/admin/content/new'
     | '/admin/curation/homepage'
     | '/admin/curation/in-focus'
+    | '/admin/homepage/hero'
+    | '/admin/homepage/sections'
     | '/admin/inquiries/$id'
     | '/admin/partners/$id'
     | '/explore/topics/$slug'
@@ -1089,6 +1122,7 @@ export interface FileRouteTypes {
     | '/search'
     | '/understand-indonesia'
     | '/admin/activity'
+    | '/admin/articles'
     | '/admin/calendar'
     | '/admin/collections'
     | '/admin/create'
@@ -1146,6 +1180,8 @@ export interface FileRouteTypes {
     | '/admin/content/new'
     | '/admin/curation/homepage'
     | '/admin/curation/in-focus'
+    | '/admin/homepage/hero'
+    | '/admin/homepage/sections'
     | '/admin/inquiries/$id'
     | '/admin/partners/$id'
     | '/explore/topics/$slug'
@@ -1384,6 +1420,13 @@ declare module '@tanstack/react-router' {
       path: '/activity'
       fullPath: '/admin/activity'
       preLoaderRoute: typeof AdminActivityRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/articles': {
+      id: '/admin/articles'
+      path: '/articles'
+      fullPath: '/admin/articles'
+      preLoaderRoute: typeof AdminArticlesRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/calendar': {
@@ -1792,6 +1835,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminCurationInFocusRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/homepage/hero': {
+      id: '/admin/homepage/hero'
+      path: '/homepage/hero'
+      fullPath: '/admin/homepage/hero'
+      preLoaderRoute: typeof AdminHomepageHeroRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/homepage/sections': {
+      id: '/admin/homepage/sections'
+      path: '/homepage/sections'
+      fullPath: '/admin/homepage/sections'
+      preLoaderRoute: typeof AdminHomepageSectionsRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/inquiries/': {
       id: '/admin/inquiries/'
       path: '/inquiries'
@@ -1900,6 +1957,7 @@ const AdminContentIdRouteWithChildren = AdminContentIdRoute._addFileChildren(
 
 interface AdminRouteChildren {
   AdminActivityRoute: typeof AdminActivityRoute
+  AdminArticlesRoute: typeof AdminArticlesRoute
   AdminCalendarRoute: typeof AdminCalendarRoute
   AdminCollectionsRoute: typeof AdminCollectionsRoute
   AdminCreateRoute: typeof AdminCreateRoute
@@ -1925,6 +1983,8 @@ interface AdminRouteChildren {
   AdminContentNewRoute: typeof AdminContentNewRoute
   AdminCurationHomepageRoute: typeof AdminCurationHomepageRoute
   AdminCurationInFocusRoute: typeof AdminCurationInFocusRoute
+  AdminHomepageHeroRoute: typeof AdminHomepageHeroRoute
+  AdminHomepageSectionsRoute: typeof AdminHomepageSectionsRoute
   AdminInquiriesIdRoute: typeof AdminInquiriesIdRoute
   AdminPartnersIdRoute: typeof AdminPartnersIdRoute
   AdminCollaborationsIndexRoute: typeof AdminCollaborationsIndexRoute
@@ -1936,6 +1996,7 @@ interface AdminRouteChildren {
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminActivityRoute: AdminActivityRoute,
+  AdminArticlesRoute: AdminArticlesRoute,
   AdminCalendarRoute: AdminCalendarRoute,
   AdminCollectionsRoute: AdminCollectionsRoute,
   AdminCreateRoute: AdminCreateRoute,
@@ -1961,6 +2022,8 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminContentNewRoute: AdminContentNewRoute,
   AdminCurationHomepageRoute: AdminCurationHomepageRoute,
   AdminCurationInFocusRoute: AdminCurationInFocusRoute,
+  AdminHomepageHeroRoute: AdminHomepageHeroRoute,
+  AdminHomepageSectionsRoute: AdminHomepageSectionsRoute,
   AdminInquiriesIdRoute: AdminInquiriesIdRoute,
   AdminPartnersIdRoute: AdminPartnersIdRoute,
   AdminCollaborationsIndexRoute: AdminCollaborationsIndexRoute,
