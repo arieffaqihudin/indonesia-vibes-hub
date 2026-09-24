@@ -10,7 +10,7 @@ import { Reveal } from "@/components/motion/Reveal";
 import { WorldMap } from "@/components/map/WorldMap";
 import { collaborations } from "@/data/collaborations";
 import { institutions } from "@/data/institutions";
-import { eventLocationLabel, formatDate, formatEventDates, people, places, stories, worldNodes } from "@/data/content";
+import { eventLocationLabel, formatEventDates, people, places, stories, worldNodes } from "@/data/content";
 import { brand } from "@/lib/brand";
 import { useCollections } from "@/lib/collections";
 import { publishedFor, useFaqs } from "@/lib/faq";
