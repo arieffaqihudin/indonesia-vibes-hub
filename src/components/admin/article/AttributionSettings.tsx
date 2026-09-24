@@ -1,3 +1,4 @@
+import { authors } from "@/data/team";
 import { field } from "@/components/admin/primitives";
 import type { ContentItem } from "@/lib/admin/types";
 import { attribution, CURATION_HELP, CURATION_MODELS, type CurationModel } from "@/lib/attribution";
@@ -76,7 +77,7 @@ export function AttributionSettings({
 
       {source === "Internal" ? (
         <>
-          <label className="block text-xs text-muted-foreground">Author<input className={input} value={f["author"] ?? ""} onChange={(e) => patchFields({ author: e.target.value })} placeholder="Leave empty for “Indonesia Vibes”" /></label>
+          <label className="block text-xs text-muted-foreground">Author<select className={input} value={f["author"] ?? ""} onChange={(e) => { const a = authors.find((x) => x.name === e.target.value); patchFields({ author: e.target.value, authorRole: a?.role ?? "" }); }}><option value="">Indonesia Vibes</option>{authors.map((a) => <option key={a.id} value={a.name}>{a.name}{a.role ? ` — ${a.role}` : ""}</option>)}{f["author"] && !authors.some((a) => a.name === f["author"]) ? <option value={f["author"]}>{f["author"]} (unlisted)</option> : null}</select><span className="mt-1 block text-[0.68rem]">Only authorised authors. People related to the subject go in Connections.</span></label>
           <label className="block text-xs text-muted-foreground">Editor<input className={input} value={f["editor"] ?? ""} onChange={(e) => patchFields({ editor: e.target.value })} /></label>
         </>
       ) : (

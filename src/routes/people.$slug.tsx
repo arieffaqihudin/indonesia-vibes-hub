@@ -10,6 +10,7 @@ import {
   papersForPerson,
   placesForPerson,
   resolve,
+  storiesByPerson,
   storiesForPerson,
 } from "@/data/graph";
 import { getForm, people } from "@/data/content";
@@ -46,6 +47,7 @@ function PersonPage() {
   const isCommunity = person.entity === "community";
   const forms = resolve(person.formIds, getForm);
   const stories = storiesForPerson(person.id);
+  const authored = storiesByPerson(person.id);
   const institutions = institutionsForPerson(person);
   const events = eventsForPerson(person);
   const papers = papersForPerson(person);
@@ -148,7 +150,7 @@ function PersonPage() {
           ) : null}
 
           {stories.length ? (
-            <DetailSection title="Stories">
+            <DetailSection title="Related articles">
               <ul className="grid gap-8 sm:grid-cols-2">
                 {stories.map((s) => (
                   <li key={s.id}>
@@ -169,6 +171,19 @@ function PersonPage() {
                       </h3>
                       <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{s.dek}</p>
                     </Link>
+                  </li>
+                ))}
+              </ul>
+            </DetailSection>
+          ) : null}
+
+          {authored.length ? (
+            <DetailSection title={`Articles by ${person.name}`}>
+              <ul className="divide-y divide-border border-y border-border">
+                {authored.map((s) => (
+                  <li key={s.id} className="py-4">
+                    <Link to="/stories/$slug" params={{ slug: s.slug }} className="link-underline font-medium text-ink">{s.title}</Link>
+                    <p className="mt-1 text-sm text-muted-foreground">{s.dek}</p>
                   </li>
                 ))}
               </ul>

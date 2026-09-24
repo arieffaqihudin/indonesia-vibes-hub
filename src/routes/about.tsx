@@ -5,6 +5,7 @@ import { Link } from "@tanstack/react-router";
 import { PageHeader } from "@/components/editorial/Section";
 import { brand } from "@/lib/brand";
 import { people } from "@/data/content";
+import { sortedTeam } from "@/data/team";
 import markRed from "@/assets/mark-red.png";
 
 export const Route = createFileRoute("/about")({
@@ -85,24 +86,29 @@ function AboutPage() {
         </aside>
       </div>
 
-      <section className="border-t border-border bg-sand">
+      <section className="border-t border-border bg-sand" aria-labelledby="our-team">
         <div className="container-editorial py-16">
-          <div className="flex flex-wrap items-end justify-between gap-6 border-b border-border pb-6">
-            <h2 className="display-3 text-ink">Voices on the platform</h2>
-            <Link to="/people-organisations" className="link-underline text-sm font-medium text-ink">
-              All people & organisations
-            </Link>
+          <div className="border-b border-border pb-6">
+            <h2 id="our-team" className="display-3 text-ink">Our Team</h2>
+            <p className="mt-2 text-sm text-muted-foreground">The people behind Indonesia Vibes — editing, curating and supporting the platform.</p>
           </div>
-          <ul className="mt-10 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
-            {people.slice(0, 4).map((p) => (
-              <li key={p.id}>
-                <img src={p.image} alt={p.name} width={400} height={400} loading="lazy" className="aspect-square w-full object-cover" />
-                <h3 className="mt-4 text-lg font-medium text-ink">{p.name}</h3>
-                <p className="text-sm text-primary">{p.role}</p>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{p.bio}</p>
-                <p className="mt-2 text-xs text-muted-foreground">{p.based}</p>
-              </li>
-            ))}
+          <ul className="mt-10 grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
+            {sortedTeam().map((m) => {
+              const profile = m.personId ? people.find((p) => p.id === m.personId) : undefined;
+              return (
+                <li key={m.id}>
+                  {m.photo ? <img src={m.photo} alt={m.name} width={400} height={400} loading="lazy" className="aspect-square w-full object-cover" /> : null}
+                  <h3 className="mt-4 text-lg font-medium text-ink">{m.name}</h3>
+                  <p className="text-sm text-primary">{m.role}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{m.bio}</p>
+                  {profile ? (
+                    <Link to="/people/$slug" params={{ slug: profile.slug }} className="mt-3 inline-block text-xs text-muted-foreground underline-offset-4 hover:text-ink hover:underline">
+                      View Cultural Profile →
+                    </Link>
+                  ) : null}
+                </li>
+              );
+            })}
           </ul>
         </div>
       </section>

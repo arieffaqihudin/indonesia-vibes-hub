@@ -42,3 +42,8 @@
 - [x] Make `/collaborate` the canonical collaboration page and redirect legacy entry routes
 - [x] Update public CTAs, shortcuts, copy, and related-content links to Collaborate
 - [x] Verify active states, redirects, spacing, keyboard, touch, and responsive behavior
+
+## People / Author / Team separation
+- [x] Our Team registry on About (not auto-linked to cultural profiles; optional View Cultural Profile)
+- [x] Authorised author registry; CMS Author select limited to it, separate from Connections
+- [x] Person profile: "Related articles" vs "Articles by" (explicit authorship only)
