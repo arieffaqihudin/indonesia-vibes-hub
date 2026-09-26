@@ -69,6 +69,6 @@ function Directory() {
         { label: "Location", value: location, options: uniq(all.map((r) => r.fields["location"])), onChange: setLocation },
         { label: "Status", value: status, options: [...CMS_STATUSES], onChange: setStatus },
       ]}
-      empty={<EmptyState title="Nothing here yet." text="Add a person, community or organisation." />} />
+      empty={<EmptyState filtered={Boolean(all.length && (tab === "all" || all.some((r) => r.type === tab)))} title={all.length && (tab === "all" || all.some((r) => r.type === tab)) ? "No records match these filters." : "Nothing here yet."} text={all.length && (tab === "all" || all.some((r) => r.type === tab)) ? "Try another search or adjust your filters." : "Add a person, community or organisation."} />} />
   </>;
 }

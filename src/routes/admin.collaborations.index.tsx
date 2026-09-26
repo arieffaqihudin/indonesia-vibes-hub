@@ -49,7 +49,7 @@ function List() {
   ];
   return <DataList rows={rows} columns={columns} onOpen={(r) => void navigate({ to: "/admin/collaborations/$id", params: { id: r.id } })} search={q} onSearch={setQ} searchPlaceholder="Search collaborations or partners…"
     filters={[{ label: "Status", value: status, options: [...CMS_STATUSES], onChange: setStatus }, { label: "Public Story", value: story, options: ["On", "Off"], onChange: setStory }]}
-    empty={<EmptyState title="No collaborations yet." />} />;
+    empty={<EmptyState filtered={Boolean(all.length)} title={all.length ? "No collaborations match these filters." : "No collaborations yet."} text={all.length ? "Try another search or adjust your filters." : "Add your first collaboration."} />} />;
 }
 
 function Requests() {
@@ -70,5 +70,5 @@ function Requests() {
   return <DataList rows={rows} columns={columns} onOpen={(r) => void navigate({ to: "/admin/collaborations/requests/$id", params: { id: r.id } })} search={q} onSearch={setQ} searchPlaceholder="Search requests…"
     mobileMeta={(r) => <><StatusBadge status={r.status} /><span>{r.organisation}</span><span>{formatWhen(r.receivedAt)}</span></>}
     filters={[{ label: "Status", value: status, options: [...REQUEST_STATUSES], onChange: setStatus }, { label: "Intent", value: intent, options: uniq(cms.requests.map((r) => r.intent)), onChange: setIntent }]}
-    empty={<EmptyState title="No requests yet." text="Requests sent from the Collaborate page appear here." />} />;
+    empty={<EmptyState filtered={Boolean(cms.requests.length)} title={cms.requests.length ? "No requests match these filters." : "No requests yet."} text={cms.requests.length ? "Try another search or adjust your filters." : "Requests sent from the Collaborate page appear here."} />} />;
 }

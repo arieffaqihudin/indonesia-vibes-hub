@@ -45,6 +45,6 @@ function Heritage() {
         { label: "Status", value: status, options: [...CMS_STATUSES], onChange: setStatus },
         { label: "Region", value: region, options: uniq(all.map((r) => r.fields["region"])), onChange: setRegion },
       ]}
-      empty={<EmptyState title={all.length ? "No heritage matches these filters." : "No heritage yet."} text={all.length ? undefined : "Add the first cultural tradition."} action={!all.length ? cta : undefined} />} />
+      empty={<EmptyState filtered={Boolean(all.length)} title={all.length ? "No heritage matches these filters." : "No heritage yet."} text={all.length ? "Try another search or adjust your filters." : "Add the first cultural tradition."} action={!all.length ? cta : undefined} />} />
   </>;
 }

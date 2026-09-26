@@ -10,6 +10,7 @@
 # CMS filter presentation
 - [x] Unify rounded search, selects, active states, clear actions, and mobile filter sheet across CMS lists
 - [x] Keep list options and filter behavior intact while aligning pagination controls
+- [x] Align empty and no-results states across CMS lists with the warm filter styling
 
 # Topic icons
 

@@ -64,7 +64,7 @@ function Events({ missingOnly }: { missingOnly: boolean }) {
       { label: "Type", value: type, options: uniq(all.map((r) => r.fields["eventType"])), onChange: setType },
       { label: "Status", value: status, options: [...CMS_STATUSES], onChange: setStatus },
     ]}
-    empty={<EmptyState title="No events found." />} />;
+    empty={<EmptyState filtered={Boolean(all.length)} title={all.length ? "No events match these filters." : "No events yet."} text={all.length ? "Try another search or adjust your filters." : "Add your first event."} />} />;
 }
 
 function Places() {
@@ -87,7 +87,7 @@ function Places() {
   ];
   return <DataList resetKey="places" rows={rows} columns={columns} onOpen={(r) => void navigate({ to: "/admin/experience/$id", params: { id: r.id } })} search={q} onSearch={setQ} searchPlaceholder="Search places…"
     filters={[{ label: "Type", value: type, options: uniq(all.map((r) => r.fields["placeType"])), onChange: setType }, { label: "Country", value: country, options: uniq(all.map((r) => r.fields["country"])), onChange: setCountry }]}
-    empty={<EmptyState title="No places found." />} />;
+    empty={<EmptyState filtered={Boolean(all.length)} title={all.length ? "No places match these filters." : "No places yet."} text={all.length ? "Try another search or adjust your filters." : "Add your first place."} />} />;
 }
 
 /** A management view over existing records outside Indonesia — no separate data. */
@@ -123,7 +123,7 @@ function World() {
         <button type="button" onClick={() => void navigate({ to: editPath(r.type), params: { id: r.id } } as never)} className="min-w-0 flex-1 text-left"><span className="block truncate text-sm font-medium text-ink hover:text-primary">{r.title}</span><span className="block text-xs text-muted-foreground">{TYPE_LABEL[r.type].one} · {countriesOf(r).join(", ")}</span></button>
         <div className="w-44"><Toggle label="Show on map" checked={visible(r)} onChange={(on) => cms.updateRecord(r.id, { fields: { ...r.fields, worldVisible: on ? "" : "hidden" } })} /></div>
       </li>)}
-      {!rows.length ? <li className="px-4 py-8 text-center text-sm text-muted-foreground">Nothing matches these filters.</li> : null}
+      {!rows.length ? <li><EmptyState filtered={Boolean(items.length)} title={items.length ? "No records match these filters." : "Nothing here yet."} text={items.length ? "Try another country or type." : "Records outside Indonesia will appear here."} /></li> : null}
     </ul>
     <Pagination total={rows.length} {...pagination} />
     </div>
