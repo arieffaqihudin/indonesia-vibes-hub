@@ -1,21 +1,38 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { MoreHorizontal } from "lucide-react";
+import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
+import { Plus } from "lucide-react";
 import { useState } from "react";
-import { FilterToolbar, PageHeading, SearchInput, SelectFilter, StatusIndicator, Table, Td, abtn, dateFmt } from "@/components/admin/primitives";
-import { useCollections } from "@/lib/collections";
 
-export const Route = createFileRoute("/admin/collections/")({ component: Collections });
+import { adminHead } from "@/lib/admin/head";
+import { useCollections, type EditorialCollection } from "@/lib/collections";
+import { formatWhen } from "@/lib/cms/store";
+import { matches } from "@/lib/cms/search";
+import { DataList, type Column } from "@/components/cms/DataList";
+import { EmptyState, NO_DATA, PageHeader, StatusBadge, btn } from "@/components/cms/ui";
+
+export const Route = createFileRoute("/admin/collections/")({
+  head: adminHead("Collections", "Curate reading journeys from existing articles."),
+  component: Collections,
+});
+
 function Collections() {
-  const [collections] = useCollections();
-  const [query, setQuery] = useState("");
+  const [items] = useCollections();
+  const navigate = useNavigate();
+  const [q, setQ] = useState("");
   const [status, setStatus] = useState("");
-  const needle = query.toLowerCase().trim();
-  const visible = collections.filter((item) => (!needle || `${item.title} ${item.introduction}`.toLowerCase().includes(needle)) && (!status || item.status === status));
+  const rows = items.filter((c) => (!q || matches(c.title, q)) && (!status || c.status === status));
+  const columns: Column<EditorialCollection>[] = [
+    { key: "title", label: "Collection", render: (c) => <span className="flex items-center gap-2.5">{c.image ? <img src={c.image} alt="" className="h-8 w-11 rounded object-cover" /> : null}{c.title || "Untitled"}</span> },
+    { key: "stories", label: "Stories", render: (c) => c.storyIds.length },
+    { key: "status", label: "Status", render: (c) => <StatusBadge status={c.status} /> },
+    { key: "featured", label: "Featured", render: (c) => (c.featured ? <span className="text-primary">Yes</span> : "—"), priority: 2 },
+    { key: "views", label: "Views", render: () => NO_DATA, priority: 3 },
+    { key: "updated", label: "Updated", render: (c) => formatWhen(c.updatedAt), priority: 3 },
+  ];
+  const cta = <Link to="/admin/collections/$id" params={{ id: "new" }} className={btn.primary}><Plus className="h-4 w-4" />New Collection</Link>;
   return <>
-    <PageHeading eyebrow="Understand Indonesia / Collections" title="Collections" description="Curate deliberate reading journeys from existing Articles." actions={<Link to="/admin/collections/$id" params={{ id: "new" }} className={abtn.primary}>+ New Collection</Link>} />
-    <FilterToolbar search={<SearchInput value={query} onChange={setQuery} label="Search collections" placeholder="Search collections" />}><SelectFilter label="Status" value={status} onChange={setStatus} options={["Draft", "Published", "Archived"]} /></FilterToolbar>
-    <Table caption="Collections" head={["Collection", "Stories", "Featured", "Status", "Updated", "Action"]}>
-      {visible.map((item) => <tr key={item.id} className="group"><Td><Link to="/admin/collections/$id" params={{ id: item.id }} className="font-medium hover:text-primary">{item.title}</Link><span className="mt-1 block max-w-lg truncate text-xs text-muted-foreground">{item.introduction}</span></Td><Td>{item.storyIds.length} {item.storyIds.length === 1 ? "story" : "stories"}</Td><Td><span aria-label={item.featured ? "Featured" : "Not featured"}>{item.featured ? "★" : "—"}</span></Td><Td><StatusIndicator attention={item.status !== "Published"}>{item.status}</StatusIndicator></Td><Td>{dateFmt(item.updatedAt)}</Td><Td><Link to="/admin/collections/$id" params={{ id: item.id }} className={abtn.quiet} aria-label={`Edit ${item.title}`}><MoreHorizontal className="h-4 w-4" /></Link></Td></tr>)}
-    </Table>
+    <PageHeader title="Collections" actions={cta} />
+    <DataList rows={rows} columns={columns} onOpen={(c) => void navigate({ to: "/admin/collections/$id", params: { id: c.id } })} search={q} onSearch={setQ} searchPlaceholder="Search collections…"
+      filters={[{ label: "Status", value: status, options: ["Draft", "Published", "Archived"], onChange: setStatus }]}
+      empty={<EmptyState title={items.length ? "No collections match." : "No Collections yet."} text={items.length ? undefined : "Create your first curated reading journey."} action={items.length ? undefined : cta} />} />
   </>;
 }

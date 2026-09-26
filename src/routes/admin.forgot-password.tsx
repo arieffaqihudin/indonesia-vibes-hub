@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, createFileRoute } from "@tanstack/react-router";
-import { AdminAuthLayout } from "@/components/admin/AdminAuthLayout";
+import { AdminAuthLayout } from "@/components/cms/AuthLayout";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 

@@ -8,3 +8,7 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+# Architecture rules
+- CMS state lives in a module-level store (`src/lib/cms/store.tsx`, useSyncExternalStore, persisted synchronously) — admin layout remounts on navigation, so React-state providers lost edits.
+- CMS UI is built only from `src/components/cms/*` (DataList for lists, EditorFrame/RecordEditor for edits); old `components/admin` CMS is gone and `/admin/*` legacy paths redirect via `admin.$.tsx`.

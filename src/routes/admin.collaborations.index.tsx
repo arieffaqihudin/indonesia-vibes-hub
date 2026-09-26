@@ -1,55 +1,73 @@
-import { Link, createFileRoute } from "@tanstack/react-router";
+import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
+import { Plus } from "lucide-react";
 import { useState } from "react";
 
 import { adminHead } from "@/lib/admin/head";
-import { useAdmin } from "@/lib/admin/store";
-import { EmptyState, PageHeading, RowLinkAction, Table, TabBar, Tag, Td, abtn, relative } from "@/components/admin/primitives";
+import { formatWhen, useCms } from "@/lib/cms/store";
+import { matches, stringSearch, uniq } from "@/lib/cms/search";
+import { CMS_STATUSES, REQUEST_STATUSES, type CmsRecord, type CmsRequest } from "@/lib/cms/types";
+import { DataList, type Column } from "@/components/cms/DataList";
+import { EmptyState, PageHeader, StatusBadge, Tabs, btn } from "@/components/cms/ui";
 
 export const Route = createFileRoute("/admin/collaborations/")({
-  head: adminHead("Collaborations", "Collaboration records and requests from first idea to recorded outcome."),
+  validateSearch: stringSearch,
+  head: adminHead("Collaborations", "Manage collaborations and respond to collaboration requests."),
   component: Collaborations,
 });
 
+type Tab = "collaborations" | "requests";
+
 function Collaborations() {
-  const admin = useAdmin();
-  const [tab, setTab] = useState("Collaborations");
+  const cms = useCms();
+  const search = Route.useSearch();
+  const [tab, setTab] = useState<Tab>(search["tab"] === "requests" ? "requests" : "collaborations");
+  const unread = cms.requests.filter((r) => r.status === "New").length;
+  return <>
+    <PageHeader title="Collaborations" actions={tab === "collaborations" ? <Link to="/admin/collaborations/$id" params={{ id: "new" }} className={btn.primary}><Plus className="h-4 w-4" />New Collaboration</Link> : null} />
+    <Tabs<Tab> value={tab} onChange={setTab} tabs={[{ id: "collaborations", label: "Collaborations" }, { id: "requests", label: "Requests", ...(unread ? { count: unread } : {}) }]} />
+    {tab === "collaborations" ? <List /> : <Requests />}
+  </>;
+}
 
-  return (
-    <>
-      <PageHeading
-        eyebrow="Connect / Collaborations"
-        title="Collaborations"
-        description="Grouped by stage. A collaboration only becomes public content once it is confirmed and written up."
-      />
-      <TabBar label="Connect records" active={tab} onChange={setTab} tabs={[{ id: "Collaborations", label: "Collaborations", count: admin.pipeline.length }, { id: "Requests", label: "Requests", count: admin.inquiries.length }]} />
+function List() {
+  const cms = useCms();
+  const navigate = useNavigate();
+  const [q, setQ] = useState("");
+  const [status, setStatus] = useState("");
+  const [story, setStory] = useState("");
+  const all = cms.byType("collaboration");
+  const rows = all.filter((r) => (!q || matches(`${r.title} ${r.fields["partners"] ?? ""}`, q)) && (!status || r.status === status) && (!story || (story === "On") === (r.fields["publicStory"] === "on"))).sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
+  const columns: Column<CmsRecord>[] = [
+    { key: "title", label: "Title", render: (r) => r.title || "Untitled" },
+    { key: "countries", label: "Countries", render: (r) => r.fields["countries"] || "—", priority: 2 },
+    { key: "partners", label: "Partners", render: (r) => <span className="line-clamp-1 whitespace-normal">{r.fields["partners"] || "—"}</span>, priority: 3 },
+    { key: "visibility", label: "Visibility", render: (r) => r.fields["visibility"] || "Public", priority: 3 },
+    { key: "story", label: "Public Story", render: (r) => (r.fields["publicStory"] === "on" ? <span className="font-medium text-primary">On</span> : "Off"), priority: 2 },
+    { key: "status", label: "Status", render: (r) => <StatusBadge status={r.status} /> },
+    { key: "updated", label: "Updated", render: (r) => formatWhen(r.updatedAt), priority: 3 },
+  ];
+  return <DataList rows={rows} columns={columns} onOpen={(r) => void navigate({ to: "/admin/collaborations/$id", params: { id: r.id } })} search={q} onSearch={setQ} searchPlaceholder="Search collaborations or partners…"
+    filters={[{ label: "Status", value: status, options: [...CMS_STATUSES], onChange: setStatus }, { label: "Public Story", value: story, options: ["On", "Off"], onChange: setStory }]}
+    empty={<EmptyState title="No collaborations yet." />} />;
+}
 
-      {tab === "Collaborations" ? <>
-      <p className="mb-3 text-xs text-muted-foreground">Showing {admin.pipeline.length} collaboration{admin.pipeline.length === 1 ? "" : "s"}</p>
-
-      {admin.pipeline.length ? (
-        <Table caption="Collaborations" head={["Collaboration", "Stage", "Origin", "Countries", "Public Story", "Lead", "Updated", "Next action", ""]}>
-          {admin.pipeline.map((item) => (
-            <tr key={item.id} className="group hover:bg-muted/35">
-              <Td><Link to="/admin/collaborations/$id" params={{ id: item.id }} className="font-semibold hover:text-primary">{item.title}</Link><span className="block max-w-sm text-xs text-muted-foreground">{item.objective}</span></Td>
-              <Td><Tag tone={item.stage === "Ongoing" ? "alert" : "quiet"}>{item.stage}</Tag></Td>
-              <Td className="text-xs text-muted-foreground">{item.origin}</Td>
-              <Td className="text-xs text-muted-foreground">{item.countries.join(", ")}</Td>
-              <Td className="text-xs">{item.publicStory ? "Yes" : "No"}</Td>
-              <Td className="text-xs text-muted-foreground">{item.leadOfficer}</Td>
-              <Td className="text-xs text-muted-foreground">{relative(item.updatedAt)}</Td>
-              <Td className="max-w-xs text-xs text-ink">{item.nextActions[0] ?? "—"}</Td>
-              <Td><RowLinkAction to="/admin/collaborations/$id" params={{ id: item.id }} label={`Open ${item.title}`} /></Td>
-            </tr>
-          ))}
-        </Table>
-      ) : (
-        <EmptyState
-          title="No collaborations recorded."
-          action={
-            <button type="button" className={abtn.secondary} onClick={() => setTab("Requests")}>Look at requests</button>
-          }
-        />
-      )}</> : <Table caption="Collaboration requests" head={["Requester", "Organisation", "Request", "Status", "Assigned to", ""]}>{admin.inquiries.map((item) => <tr key={item.id} className="hover:bg-muted/35"><Td className="font-medium">{item.requesterName}<span className="block text-xs text-muted-foreground">{item.country}</span></Td><Td>{item.organisation}</Td><Td>{item.subject}</Td><Td><Tag tone={item.status === "New" ? "alert" : "quiet"}>{item.status}</Tag></Td><Td>{item.assignedTo ?? "Unassigned"}</Td><Td><RowLinkAction to="/admin/inquiries/$id" params={{ id: item.id }} label={`Open request from ${item.requesterName}`} /></Td></tr>)}</Table>}
-    </>
-  );
+function Requests() {
+  const cms = useCms();
+  const navigate = useNavigate();
+  const [q, setQ] = useState("");
+  const [status, setStatus] = useState("");
+  const [intent, setIntent] = useState("");
+  const rows = cms.requests.filter((r) => (!q || matches(`${r.name} ${r.organisation} ${r.subject}`, q)) && (!status || r.status === status) && (!intent || r.intent === intent)).sort((a, b) => b.receivedAt.localeCompare(a.receivedAt));
+  const columns: Column<CmsRequest>[] = [
+    { key: "name", label: "Name", render: (r) => <span className={r.status === "New" ? "font-semibold" : ""}>{r.name}</span> },
+    { key: "org", label: "Organisation", render: (r) => r.organisation, priority: 2 },
+    { key: "country", label: "Country", render: (r) => r.country, priority: 3 },
+    { key: "intent", label: "Intent", render: (r) => r.intent, priority: 3 },
+    { key: "status", label: "Status", render: (r) => <StatusBadge status={r.status} /> },
+    { key: "received", label: "Received", render: (r) => formatWhen(r.receivedAt), priority: 2 },
+  ];
+  return <DataList rows={rows} columns={columns} onOpen={(r) => void navigate({ to: "/admin/collaborations/requests/$id", params: { id: r.id } })} search={q} onSearch={setQ} searchPlaceholder="Search requests…"
+    mobileMeta={(r) => <><StatusBadge status={r.status} /><span>{r.organisation}</span><span>{formatWhen(r.receivedAt)}</span></>}
+    filters={[{ label: "Status", value: status, options: [...REQUEST_STATUSES], onChange: setStatus }, { label: "Intent", value: intent, options: uniq(cms.requests.map((r) => r.intent)), onChange: setIntent }]}
+    empty={<EmptyState title="No requests yet." text="Requests sent from the Collaborate page appear here." />} />;
 }

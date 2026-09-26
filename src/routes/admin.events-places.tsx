@@ -1,6 +1,0 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
-import { ContentListing } from "@/components/admin/ContentListing";
-import { TabBar } from "@/components/admin/primitives";
-export const Route = createFileRoute("/admin/events-places")({ head: () => ({ meta: [{ title: "Events & Places — Indonesia Vibes CMS" }, { name: "description", content: "Manage events and places through one operational view." }, { property: "og:title", content: "Events & Places — Indonesia Vibes CMS" }, { property: "og:description", content: "Manage events and places through one operational view." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }), component: EventsPlaces });
-function EventsPlaces(){const[tab,setTab]=useState("All");return <><TabBar label="Record type" active={tab} onChange={setTab} tabs={["All","Events","Places"].map((id)=>({id,label:id}))}/><ContentListing title="Events & Places" description="Dates, locations, verification and public visibility in one place." kinds={tab==="Events"?["event"]:tab==="Places"?["place"]:["event","place"]} createKind={tab==="Places"?"place":"event"} showTypeColumn/></>}

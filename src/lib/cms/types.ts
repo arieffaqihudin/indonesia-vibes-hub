@@ -45,7 +45,7 @@ export interface CmsRecord {
   fields: Record<string, string>;
   relations: Partial<Record<RelationKey, string[]>>;
   /** Article author (who wrote it). Never inferred from related people. */
-  author?: string;
+  author?: string | undefined;
   createdAt: string;
   updatedAt: string;
   updatedBy: string;
@@ -92,7 +92,7 @@ export interface CmsTeamMember {
   bio: string;
   order: number;
   /** Optional link to an existing People & Organisations profile. */
-  personId?: string;
+  personId?: string | undefined;
 }
 
 export interface CmsSettings {

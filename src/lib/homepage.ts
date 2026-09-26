@@ -25,7 +25,7 @@ export interface HomepageSettings {
   hero: HeroItem[];
   sections: HomepageSection[];
   featuredTopicIds: string[];
-  featuredCollectionId?: string;
+  featuredCollectionId?: string | undefined;
   featuredProfileIds: string[];
   latestArticleLimit: number;
   excludeHeroFromLatest: boolean;
