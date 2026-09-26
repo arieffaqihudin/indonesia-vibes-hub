@@ -31,6 +31,7 @@ import { Route as PartnersRouteImport } from './routes/partners'
 import { Route as PeopleOrganisationsRouteImport } from './routes/people-organisations'
 import { Route as ResearchRouteImport } from './routes/research'
 import { Route as SearchRouteImport } from './routes/search'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as UnderstandIndonesiaRouteImport } from './routes/understand-indonesia'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminSplatRouteImport } from './routes/admin.$'
@@ -217,6 +218,11 @@ const ResearchRoute = ResearchRouteImport.update({
 const SearchRoute = SearchRouteImport.update({
   id: '/search',
   path: '/search',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const UnderstandIndonesiaRoute = UnderstandIndonesiaRouteImport.update({
@@ -645,6 +651,7 @@ export interface FileRoutesByFullPath {
   '/people-organisations': typeof PeopleOrganisationsRoute
   '/research': typeof ResearchRoute
   '/search': typeof SearchRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/understand-indonesia': typeof UnderstandIndonesiaRouteWithChildren
   '/admin/$': typeof AdminSplatRoute
   '/admin/access': typeof AdminAccessRoute
@@ -745,6 +752,7 @@ export interface FileRoutesByTo {
   '/people-organisations': typeof PeopleOrganisationsRoute
   '/research': typeof ResearchRoute
   '/search': typeof SearchRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/understand-indonesia': typeof UnderstandIndonesiaRouteWithChildren
   '/admin/$': typeof AdminSplatRoute
   '/admin/access': typeof AdminAccessRoute
@@ -847,6 +855,7 @@ export interface FileRoutesById {
   '/people-organisations': typeof PeopleOrganisationsRoute
   '/research': typeof ResearchRoute
   '/search': typeof SearchRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/understand-indonesia': typeof UnderstandIndonesiaRouteWithChildren
   '/admin/$': typeof AdminSplatRoute
   '/admin/access': typeof AdminAccessRoute
@@ -950,6 +959,7 @@ export interface FileRouteTypes {
     | '/people-organisations'
     | '/research'
     | '/search'
+    | '/sitemap.xml'
     | '/understand-indonesia'
     | '/admin/$'
     | '/admin/access'
@@ -1050,6 +1060,7 @@ export interface FileRouteTypes {
     | '/people-organisations'
     | '/research'
     | '/search'
+    | '/sitemap.xml'
     | '/understand-indonesia'
     | '/admin/$'
     | '/admin/access'
@@ -1151,6 +1162,7 @@ export interface FileRouteTypes {
     | '/people-organisations'
     | '/research'
     | '/search'
+    | '/sitemap.xml'
     | '/understand-indonesia'
     | '/admin/$'
     | '/admin/access'
@@ -1253,6 +1265,7 @@ export interface RootRouteChildren {
   PeopleOrganisationsRoute: typeof PeopleOrganisationsRoute
   ResearchRoute: typeof ResearchRoute
   SearchRoute: typeof SearchRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   UnderstandIndonesiaRoute: typeof UnderstandIndonesiaRouteWithChildren
   CollaborationsSlugRoute: typeof CollaborationsSlugRoute
   CollectionsSlugRoute: typeof CollectionsSlugRoute
@@ -1446,6 +1459,13 @@ declare module '@tanstack/react-router' {
       path: '/search'
       fullPath: '/search'
       preLoaderRoute: typeof SearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/understand-indonesia': {
@@ -2123,6 +2143,7 @@ const rootRouteChildren: RootRouteChildren = {
   PeopleOrganisationsRoute: PeopleOrganisationsRoute,
   ResearchRoute: ResearchRoute,
   SearchRoute: SearchRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   UnderstandIndonesiaRoute: UnderstandIndonesiaRouteWithChildren,
   CollaborationsSlugRoute: CollaborationsSlugRoute,
   CollectionsSlugRoute: CollectionsSlugRoute,

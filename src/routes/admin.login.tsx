@@ -19,6 +19,7 @@ export const Route = createFileRoute("/admin/login")({
     { title: "CMS Sign In — Indonesia Vibes" }, { name: "description", content: "Sign in to manage Indonesia Vibes." },
     { property: "og:title", content: "CMS Sign In — Indonesia Vibes" }, { property: "og:description", content: "Sign in to manage Indonesia Vibes." },
     { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" },
+    { name: "robots", content: "noindex, nofollow" },
   ] }), component: AdminLogin,
 });
 

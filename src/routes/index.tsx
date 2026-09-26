@@ -19,18 +19,20 @@ import { comingUpEvents, recentlyPublishedStories } from "@/lib/freshness";
 import { useHomepageSettings, type HomepageSectionId } from "@/lib/homepage";
 import { useTopics } from "@/lib/topics";
 import { heritageRecords, heritageType } from "@/lib/heritage";
+import { pageIdentity } from "@/lib/public-seo";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Indonesia Vibes — Indonesia, told through culture" },
+      { title: "Indonesia Vibes — Indonesia, Told Through Culture" },
       { name: "description", content: PROPOSITION },
-      { property: "og:title", content: "Indonesia Vibes — Indonesia, told through culture" },
+      { property: "og:title", content: "Indonesia Vibes — Indonesia, Told Through Culture" },
       { property: "og:description", content: PROPOSITION },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      ...pageIdentity("/").meta,
     ],
-    links: [{ rel: "canonical", href: "/" }],
+    links: pageIdentity("/").links,
   }),
   component: Home,
 });

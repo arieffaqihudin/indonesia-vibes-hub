@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 
 import { PageHeader } from "@/components/editorial/Section";
 import { ContextualFaq } from "@/components/editorial/FaqList";
+import { pageIdentity } from "@/lib/public-seo";
 
 export const Route = createFileRoute("/editorial-standards")({
   head: () => ({
@@ -19,8 +20,9 @@ export const Route = createFileRoute("/editorial-standards")({
       },
       { property: "og:type", content: "article" },
       { name: "twitter:card", content: "summary_large_image" },
+      ...pageIdentity("/editorial-standards").meta,
     ],
-    links: [{ rel: "canonical", href: "/editorial-standards" }],
+    links: pageIdentity("/editorial-standards").links,
   }),
   component: EditorialStandardsPage,
 });

@@ -8,6 +8,7 @@ export const Route = createFileRoute("/admin/forgot-password")({ head: () => ({ 
   { title: "Reset CMS Password — Indonesia Vibes" }, { name: "description", content: "Request password reset instructions for Indonesia Vibes CMS." },
   { property: "og:title", content: "Reset CMS Password — Indonesia Vibes" }, { property: "og:description", content: "Request password reset instructions for Indonesia Vibes CMS." },
   { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" },
+  { name: "robots", content: "noindex, nofollow" },
 ] }), component: ForgotPassword });
 function ForgotPassword() {
   const [email, setEmail] = useState(""); const [error, setError] = useState(""); const [submitting, setSubmitting] = useState(false); const [sent, setSent] = useState(false);

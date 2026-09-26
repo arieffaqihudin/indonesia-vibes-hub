@@ -6,6 +6,7 @@ import { ContextualFaq } from "@/components/editorial/FaqList";
 import { brand } from "@/lib/brand";
 import { INQUIRY_TOPICS, STRUCTURED_TOPICS, isInquiryTopic } from "@/lib/inquiry";
 import type { InquirySearch, InquiryTopic } from "@/lib/inquiry";
+import { pageIdentity } from "@/lib/public-seo";
 
 export const Route = createFileRoute("/contact")({
   validateSearch: (search: Record<string, unknown>): InquirySearch => {
@@ -30,8 +31,9 @@ export const Route = createFileRoute("/contact")({
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      ...pageIdentity("/contact").meta,
     ],
-    links: [{ rel: "canonical", href: "/contact" }],
+    links: pageIdentity("/contact").links,
   }),
   component: ContactPage,
 });

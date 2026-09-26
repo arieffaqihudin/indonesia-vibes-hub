@@ -40,6 +40,7 @@ export const Route = createFileRoute("/stories/$slug")({
         { property: "og:description", content: story.dek },
         { property: "og:type", content: "article" },
         { name: "twitter:card", content: "summary_large_image" },
+        ...(story.image?.startsWith("https://") ? [{ property: "og:image", content: story.image }, { name: "twitter:image", content: story.image }] : []),
         ...pageIdentity(path).meta,
       ],
       links: pageIdentity(path).links,
@@ -183,7 +184,7 @@ function StoryPage() {
                     {f.pillar === "heritage" ? (
                       <Link to="/understand-indonesia/heritage/$slug" params={{ slug: f.slug }} className="text-sm font-medium text-ink hover:text-primary">{f.name} <span className="font-normal text-muted-foreground">· {f.discipline}</span></Link>
                     ) : (
-                      <Link to="/culture/$slug" params={{ slug: f.slug }} className="text-sm font-medium text-ink hover:text-primary">{f.name} <span className="font-normal text-muted-foreground">· {f.discipline}</span></Link>
+                      <Link to="/understand-indonesia" className="text-sm font-medium text-ink hover:text-primary">{f.name} <span className="font-normal text-muted-foreground">· {f.discipline}</span></Link>
                     )}
                   </li>
                 ))}

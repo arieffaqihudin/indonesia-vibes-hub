@@ -20,6 +20,8 @@ import {
   storiesForPlace,
 } from "@/data/graph";
 import { formatEventDates } from "@/data/content";
+import { pageIdentity, publicUrl, breadcrumbSchema } from "@/lib/public-seo";
+import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 
 export const Route = createFileRoute("/places/$slug")({
   loader: ({ params }) => {
@@ -27,13 +29,14 @@ export const Route = createFileRoute("/places/$slug")({
     if (!place) throw notFound();
     return { place };
   },
-  head: ({ loaderData }) => {
+  head: ({ loaderData, params }) => {
     if (!loaderData) {
       return {
         meta: [{ title: "Place unavailable — Indonesia Vibes" }, { name: "robots", content: "noindex" }],
       };
     }
     const { place } = loaderData;
+    const path = `/places/${params.slug}`;
     return {
       meta: [
         { title: `${place.name} — Indonesia Vibes` },
@@ -42,7 +45,12 @@ export const Route = createFileRoute("/places/$slug")({
         { property: "og:description", content: place.summary },
         { property: "og:type", content: "website" },
         { name: "twitter:card", content: "summary_large_image" },
+        ...(place.image?.startsWith("https://") ? [{ property: "og:image", content: place.image }, { name: "twitter:image", content: place.image }] : []),
+        ...pageIdentity(path).meta,
+        ...(!place.whyMatters && !place.significance?.length ? [{ name: "robots", content: "noindex, follow" }] : []),
       ],
+      links: pageIdentity(path).links,
+      scripts: [breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Experience", path: "/experience" }, { name: "Events & Places", path: "/events-places" }, { name: place.name, path }]), { type: "application/ld+json", children: JSON.stringify({ "@context": "https://schema.org", "@type": "Place", name: place.name, description: place.summary, url: publicUrl(path), address: { "@type": "PostalAddress", addressLocality: place.city, addressRegion: place.province, addressCountry: place.country } }) }],
     };
   },
   component: PlacePage,
@@ -71,6 +79,7 @@ function PlacePage() {
           />
         ) : null}
         <div className="container-editorial py-14">
+          <Breadcrumbs className="mb-5" items={[{ label: "Experience", to: "/experience" }, { label: "Events & Places", to: "/events-places" }, { label: place.name }]} />
           <p className="eyebrow text-primary">{place.type ?? "Place"}</p>
           <h1 className="display-1 mt-4 max-w-4xl text-ink">{place.name}</h1>
           <p className="standfirst mt-5 max-w-2xl">{place.summary}</p>
@@ -113,7 +122,7 @@ function PlacePage() {
               <ul className="grid gap-8 sm:grid-cols-2">
                 {forms.map((f) => (
                   <li key={f.id}>
-                    <Link to="/culture/$slug" params={{ slug: f.slug }} className="group block">
+                    <Link to={f.pillar === "heritage" ? "/understand-indonesia/heritage/$slug" : "/understand-indonesia"} {...(f.pillar === "heritage" ? { params: { slug: f.slug } } : {})} className="group block">
                       <div className="media-zoom bg-muted">
                         <img
                           src={f.image}

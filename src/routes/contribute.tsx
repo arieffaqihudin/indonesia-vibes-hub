@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 
 import { PageHeader } from "@/components/editorial/Section";
 import { InquiryButton } from "@/components/editorial/ui";
+import { pageIdentity } from "@/lib/public-seo";
 
 export const Route = createFileRoute("/contribute")({
   head: () => ({
@@ -19,8 +20,9 @@ export const Route = createFileRoute("/contribute")({
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      ...pageIdentity("/contribute").meta,
     ],
-    links: [{ rel: "canonical", href: "/contribute" }],
+    links: pageIdentity("/contribute").links,
   }),
   component: ContributePage,
 });

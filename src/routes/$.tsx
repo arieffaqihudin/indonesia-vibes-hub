@@ -1,8 +1,9 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 
 import { popularSearches } from "@/data/graph";
 
 export const Route = createFileRoute("/$")({
+  loader: () => { throw notFound(); },
   head: () => ({
     meta: [
       { title: "Page not found — Indonesia Vibes" },
@@ -12,11 +13,12 @@ export const Route = createFileRoute("/$")({
       { property: "og:description", content: "This page does not exist." },
     ],
   }),
-  component: NotFoundPage,
+  notFoundComponent: NotFoundPage,
 });
 
 const ROUTES = [
   { to: "/understand-indonesia" as const, label: "Understand Indonesia" },
+  { to: "/understand-indonesia/heritage" as const, label: "Heritage" },
   { to: "/events-places" as const, label: "Events & Places" },
   { to: "/around-the-world" as const, label: "Indonesia Around the World" },
   { to: "/collaborate" as const, label: "Collaborate with Indonesia" },

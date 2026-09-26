@@ -1,2 +1,2 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
-export const Route = createFileRoute("/explore/topics/$slug")({ beforeLoad: ({ params }) => { throw redirect({ to: "/understand-indonesia/topics/$slug", params: { slug: params.slug } }); } });
+export const Route = createFileRoute("/explore/topics/$slug")({ beforeLoad: ({ params }) => { throw redirect({ to: "/understand-indonesia/topics/$slug", params: { slug: params.slug }, statusCode: 301 }); } });

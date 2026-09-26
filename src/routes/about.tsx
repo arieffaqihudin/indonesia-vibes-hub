@@ -7,6 +7,7 @@ import { brand } from "@/lib/brand";
 import { people } from "@/data/content";
 import { sortedTeam } from "@/data/team";
 import markRed from "@/assets/mark-red.png";
+import { pageIdentity } from "@/lib/public-seo";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -15,9 +16,11 @@ export const Route = createFileRoute("/about")({
       { name: "description", content: "The mission, method and principles behind Indonesia Vibes, a global cultural diplomacy platform." },
       { property: "og:title", content: "About — Indonesia Vibes" },
       { property: "og:description", content: "The mission, method and principles behind Indonesia Vibes, a global cultural diplomacy platform." },
-      { property: "og:url", content: "/about" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+      ...pageIdentity("/about").meta,
     ],
-    links: [{ rel: "canonical", href: "/about" }],
+    links: pageIdentity("/about").links,
   }),
   component: AboutPage,
 });
