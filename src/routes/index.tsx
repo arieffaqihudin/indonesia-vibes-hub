@@ -19,7 +19,7 @@ import { comingUpEvents, recentlyPublishedStories } from "@/lib/freshness";
 import { useHomepageSettings, type HomepageSectionId } from "@/lib/homepage";
 import { useTopics } from "@/lib/topics";
 import { heritageRecords, heritageType } from "@/lib/heritage";
-import { pageIdentity } from "@/lib/public-seo";
+import { pageIdentity, publicUrl } from "@/lib/public-seo";
 import { socialImageMeta } from "@/lib/social-image";
 
 export const Route = createFileRoute("/")({
@@ -35,6 +35,17 @@ export const Route = createFileRoute("/")({
       ...pageIdentity("/").meta,
     ],
     links: pageIdentity("/").links,
+    scripts: [{
+      type: "application/ld+json",
+      children: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        name: "Indonesia Vibes",
+        url: publicUrl("/"),
+        description: PROPOSITION,
+        publisher: { "@type": "Organization", name: "Indonesia Vibes", url: publicUrl("/") },
+      }),
+    }],
   }),
   component: Home,
 });
