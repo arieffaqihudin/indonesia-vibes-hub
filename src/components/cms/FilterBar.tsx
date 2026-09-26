@@ -23,10 +23,10 @@ export function FilterSearch({ value, onChange, placeholder, label }: { value: s
   </div>;
 }
 
-export function FilterSelect({ label, value, options, onChange, className }: FilterDef & { className?: string }) {
+export function FilterSelect({ label, value, options, onChange, className, emptyLabel, allowEmpty = true }: FilterDef & { className?: string; emptyLabel?: string; allowEmpty?: boolean }) {
   return <div className={cn("relative min-w-0", className)}>
     <select aria-label={label} value={value} onChange={(e) => onChange(e.target.value)} className={cn(control, "w-full cursor-pointer appearance-none truncate py-0 pr-9 pl-3", value && "border-primary/35 bg-blush text-deep-red hover:border-primary/50 hover:bg-blush")}>
-      <option value="">{label}: All</option>
+      {allowEmpty ? <option value="">{emptyLabel ?? `${label}: All`}</option> : null}
       {options.map((o) => typeof o === "string" ? <option key={o} value={o}>{o}</option> : <option key={o.value} value={o.value}>{o.label}</option>)}
     </select>
     <ChevronDown aria-hidden className={cn("pointer-events-none absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 text-muted-foreground", value && "text-deep-red")} />
