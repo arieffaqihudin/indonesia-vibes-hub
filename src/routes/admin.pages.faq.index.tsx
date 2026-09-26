@@ -35,6 +35,6 @@ function FaqList() {
     <PageHeader title="FAQ" actions={<Link to="/admin/pages/faq/$id" params={{ id: "new" }} className={btn.primary}><Plus className="h-4 w-4" />New FAQ</Link>} />
     <DataList rows={rows} columns={columns} onOpen={(f) => void navigate({ to: "/admin/pages/faq/$id", params: { id: f.id } })} search={q} onSearch={setQ} searchPlaceholder="Search questions…"
       filters={[{ label: "Category", value: category, options: [...FAQ_CATEGORIES], onChange: setCategory }, { label: "Status", value: status, options: [...FAQ_STATUSES], onChange: setStatus }]}
-      empty={<EmptyState title="No questions found." />} />
+      empty={<EmptyState filtered={Boolean(faqs.length)} title={faqs.length ? "No questions match these filters." : "No questions yet."} text={faqs.length ? "Try another search or adjust your filters." : "Add your first question."} />} />
   </>;
 }

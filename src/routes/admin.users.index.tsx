@@ -32,7 +32,7 @@ function UsersPage() {
   return <div>
     <PageHeader title="Users" description="People who can sign in to the CMS." actions={<button type="button" className={btn.primary} onClick={() => setAdding(true)}><Plus className="h-4 w-4" />Add User</button>} />
     <div className="mb-4 max-w-sm"><FilterSearch value={q} onChange={setQ} placeholder="Search users…" label="Search users" /></div>
-    {isLoading ? <p className="py-8 text-sm text-muted-foreground">Loading…</p> : !rows.length ? <EmptyState title={q ? "No users match your search" : "No users yet"} action={!q ? <button type="button" className={btn.primary} onClick={() => setAdding(true)}>Add User</button> : undefined} /> :
+    {isLoading ? <p className="py-8 text-sm text-muted-foreground">Loading…</p> : !rows.length ? <EmptyState filtered={Boolean(q && users.length)} title={q && users.length ? "No users match your search" : "No users yet"} text={q && users.length ? "Try a different name or email." : undefined} action={!users.length ? <button type="button" className={btn.primary} onClick={() => setAdding(true)}>Add User</button> : undefined} /> :
       <div className="divide-y divide-border border-y border-border">
         <div className={cn("hidden gap-4 px-2 py-2 text-xs font-medium text-muted-foreground md:grid", cols)}><span>User</span><span>Phone Number</span><span>Access</span><span>Account</span><span>Login Status</span><span>Last Login</span><span className="text-right">Action</span></div>
         {rows.map((u) => <button key={u.id} type="button" onClick={() => void navigate({ to: "/admin/users/$id", params: { id: u.id } })} className={cn("grid w-full gap-1 px-2 py-3 text-left transition-colors hover:bg-sand active:bg-blush md:items-center md:gap-4", cols)}>

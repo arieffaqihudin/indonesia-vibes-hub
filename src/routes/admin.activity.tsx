@@ -61,7 +61,7 @@ function ActivityPage() {
       { label: "Module", value: module, onChange: reset(setModule), options: MODULES, emptyLabel: "All modules" },
       { label: "Activity", value: action, onChange: reset(setAction), options: ACTIONS, emptyLabel: "All activity" },
     ]} />
-    {isLoading ? <p className="py-8 text-sm text-muted-foreground">Loading…</p> : !rows.length ? <EmptyState title="No activity found" text="Try a longer date range or clear the filters." /> :
+    {isLoading ? <p className="py-8 text-sm text-muted-foreground">Loading…</p> : !rows.length ? <EmptyState filtered={Boolean(q || range || user || module || action)} title="No activity found" text={q || range || user || module || action ? "Try a longer date range or clear the filters." : "Activity will appear here as changes are made."} /> :
       <div className={cn("divide-y divide-border border-y border-border transition-opacity", isFetching && "opacity-70")}>
         <div className={cn("hidden gap-4 px-2 py-2 text-xs font-medium text-muted-foreground md:grid", cols)}><span>Time</span><span>User</span><span>Activity</span><span>Module</span><span>Item</span><span>Device</span></div>
         {rows.map((r) => <button key={r.id} type="button" onClick={() => setOpen(r)} className={cn("grid w-full gap-0.5 px-2 py-2.5 text-left text-sm transition-colors hover:bg-sand active:bg-blush md:items-center md:gap-4", cols)}>

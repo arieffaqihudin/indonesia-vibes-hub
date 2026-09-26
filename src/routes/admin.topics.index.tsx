@@ -35,7 +35,7 @@ function Topics() {
     <PageHeader title="Topics" actions={<Link to="/admin/topics/$id" params={{ id: "new" }} className={btn.primary}><Plus className="h-4 w-4" />New Topic</Link>} />
     <DataList<Row> rows={rows} columns={columns} onOpen={(t) => void navigate({ to: "/admin/topics/$id", params: { id: t.slug } })} search={q} onSearch={setQ} searchPlaceholder="Search topics…"
       filters={[{ label: "Status", value: status, options: ["Draft", "Published", "Archived"], onChange: setStatus }]}
-      empty={<EmptyState title="No topics found." />} />
+      empty={<EmptyState filtered={Boolean(topics.length)} title={topics.length ? "No topics match these filters." : "No topics yet."} text={topics.length ? "Try another search or adjust your filters." : "Add your first topic."} />} />
   </>;
 }
 

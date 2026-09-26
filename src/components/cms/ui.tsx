@@ -1,4 +1,4 @@
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Inbox, SearchX } from "lucide-react";
 import { useState, type ReactNode } from "react";
 
 import { cn } from "@/lib/utils";
@@ -94,11 +94,13 @@ export function Tabs<T extends string>({ tabs, value, onChange }: { tabs: { id: 
   </div>;
 }
 
-export function EmptyState({ title, text, action }: { title: string; text?: string | undefined; action?: ReactNode }) {
-  return <div className="flex flex-col items-center justify-center px-6 py-14 text-center">
-    <p className="text-sm font-medium text-ink">{title}</p>
-    {text ? <p className="mt-1 max-w-sm text-sm text-muted-foreground">{text}</p> : null}
-    {action ? <div className="mt-4">{action}</div> : null}
+export function EmptyState({ title, text, action, filtered = false }: { title: string; text?: string | undefined; action?: ReactNode; filtered?: boolean }) {
+  const Icon = filtered ? SearchX : Inbox;
+  return <div role="status" className="flex min-h-56 flex-col items-center justify-center rounded-[var(--btn-radius)] bg-sand/40 px-5 py-10 text-center sm:min-h-64 sm:px-8">
+    <span className="flex h-12 w-12 items-center justify-center rounded-[var(--btn-radius)] border border-btn-border bg-background text-deep-red"><Icon aria-hidden="true" className="h-5 w-5" strokeWidth={1.6} /></span>
+    <p className="mt-4 text-base font-medium text-ink">{title}</p>
+    {text ? <p className="mt-1.5 max-w-sm text-sm leading-relaxed text-muted-foreground">{text}</p> : null}
+    {action ? <div className="mt-5">{action}</div> : null}
   </div>;
 }
 

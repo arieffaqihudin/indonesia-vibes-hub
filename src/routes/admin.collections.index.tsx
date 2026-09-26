@@ -33,6 +33,6 @@ function Collections() {
     <PageHeader title="Collections" actions={cta} />
     <DataList rows={rows} columns={columns} onOpen={(c) => void navigate({ to: "/admin/collections/$id", params: { id: c.id } })} search={q} onSearch={setQ} searchPlaceholder="Search collections…"
       filters={[{ label: "Status", value: status, options: ["Draft", "Published", "Archived"], onChange: setStatus }]}
-      empty={<EmptyState title={items.length ? "No collections match." : "No Collections yet."} text={items.length ? undefined : "Create your first curated reading journey."} action={items.length ? undefined : cta} />} />
+      empty={<EmptyState filtered={Boolean(items.length)} title={items.length ? "No collections match." : "No collections yet."} text={items.length ? "Try another search or adjust your filters." : "Create your first curated reading journey."} action={items.length ? undefined : cta} />} />
   </>;
 }

@@ -52,6 +52,6 @@ function Articles() {
         { label: "Author", value: author, options: uniq(all.map((r) => r.author)), onChange: setAuthor },
         { label: "Source", value: source, options: ["Internal", "By Curation"], onChange: setSource },
       ]}
-      empty={<EmptyState title={all.length ? "No articles match these filters." : "No articles yet."} text={all.length ? undefined : "Write your first article."} action={!all.length ? <Link to="/admin/articles/$id" params={{ id: "new" }} className={btn.primary}><Plus className="h-4 w-4" />New Article</Link> : undefined} />} />
+      empty={<EmptyState filtered={Boolean(all.length)} title={all.length ? "No articles match these filters." : "No articles yet."} text={all.length ? "Try another search or adjust your filters." : "Write your first article."} action={!all.length ? <Link to="/admin/articles/$id" params={{ id: "new" }} className={btn.primary}><Plus className="h-4 w-4" />New Article</Link> : undefined} />} />
   </>;
 }
