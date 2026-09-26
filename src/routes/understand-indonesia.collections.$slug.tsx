@@ -2,6 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowDown, ArrowRight } from "lucide-react";
 
 import { getStoryById } from "@/data/content";
+import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { collectionBySlug, collectionReadingMinutes, collectionStoryLabel } from "@/lib/collections";
 import { publicFormat } from "@/lib/editorial";
 import type { Story } from "@/types/content";

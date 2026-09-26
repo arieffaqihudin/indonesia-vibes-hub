@@ -1,4 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import type { ReactNode } from "react";
 
 import { formatEventDates } from "@/data/content";

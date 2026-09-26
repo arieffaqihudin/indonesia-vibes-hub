@@ -1,5 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { PageHeader } from "@/components/editorial/Section";
+import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { StoryCard } from "@/components/editorial/StoryCard";
 import { events, collections, people, stories } from "@/data/content";
 import { collaborations } from "@/data/collaborations";
