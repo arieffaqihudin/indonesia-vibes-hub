@@ -32,7 +32,7 @@ export function RichText({ value, onChange, placeholder = "Start writing…", mi
   const on = (active: boolean) => cn(tool, active && "bg-blush text-primary");
 
   return <div>
-    <div className="sticky top-28 z-10 -mx-1 mb-4 flex flex-wrap items-center gap-0.5 border-b border-border bg-background/95 px-1 py-1 backdrop-blur">
+    <div className="sticky top-28 z-10 lg:top-14 -mx-1 mb-4 flex flex-wrap items-center gap-0.5 border-b border-border bg-background/95 px-1 py-1 backdrop-blur">
       <button type="button" aria-label="Heading" className={on(editor.isActive("heading", { level: 2 }))} onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}><Heading2 className="h-4 w-4" /></button>
       <button type="button" aria-label="Subheading" className={on(editor.isActive("heading", { level: 3 }))} onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}><Heading3 className="h-4 w-4" /></button>
       <button type="button" aria-label="Bold" className={on(editor.isActive("bold"))} onClick={() => editor.chain().focus().toggleBold().run()}><Bold className="h-4 w-4" /></button>
