@@ -10,7 +10,7 @@
 # Executive CMS dashboard
 - [x] Replace record-count KPIs with four honest audience metrics and an audience trend placeholder
 - [x] Present content, cultural interest, countries and sources without invented analytics
-- [ ] Keep actionable CMS tasks, upcoming events and real recent activity compact and verify responsive layout
+- [x] Keep actionable CMS tasks, upcoming events and real recent activity compact and verify responsive layout
 
 # CMS filter presentation
 - [x] Unify rounded search, selects, active states, clear actions, and mobile filter sheet across CMS lists
