@@ -69,6 +69,7 @@ function PersonPage() {
             className="aspect-[4/5] w-full max-w-sm object-cover"
           />
           <div className="min-w-0">
+            <Breadcrumbs className="mb-5" items={[{ label: "Understand Indonesia", to: "/understand-indonesia" }, { label: "People & Organisations", to: "/understand-indonesia/people-organisations" }, { label: person.name }]} />
             <p className="eyebrow text-primary">
               {isCommunity ? "Community" : person.roles.join(" · ")}
             </p>

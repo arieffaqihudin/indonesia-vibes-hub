@@ -40,7 +40,8 @@ function HeritageDetail() {
       <img src={heritage.image} alt={heritage.name} className="absolute inset-0 -z-10 h-full w-full object-cover" />
       <div className="absolute inset-0 -z-10 bg-gradient-to-t from-ink/90 via-ink/50 to-ink/10" />
       <div className="container-editorial flex min-h-[26rem] flex-col justify-end py-12 text-background md:min-h-[32rem] md:py-16">
-        <p className="eyebrow text-background/80"><Link to="/understand-indonesia/heritage" className="hover:underline">Heritage</Link> · {heritageType(heritage)}{where ? ` · ${where.label}` : ""}</p>
+        <Breadcrumbs tone="light" className="mb-5" items={[{ label: "Understand Indonesia", to: "/understand-indonesia" }, { label: "Heritage", to: "/understand-indonesia/heritage" }, { label: heritage.name }]} />
+        <p className="eyebrow text-background/80">{heritageType(heritage)}{where ? ` · ${where.label}` : ""}</p>
         <h1 className="display-1 mt-4 max-w-4xl">{heritage.name}</h1>
         <p className="mt-4 max-w-2xl text-lg leading-relaxed text-background/85">{heritage.summary}</p>
         <div className="mt-6 flex flex-wrap gap-2 text-xs">

@@ -29,6 +29,7 @@ function CollectionPage() {
       <header className="bg-ink text-primary-foreground">
         <div className="container-editorial grid gap-8 py-10 lg:grid-cols-[minmax(20rem,0.8fr)_minmax(0,1.4fr)] lg:items-end lg:py-16">
           <div className="pb-2">
+            <Breadcrumbs tone="light" className="mb-5" items={[{ label: "Understand Indonesia", to: "/understand-indonesia" }, { label: "Collections", to: "/understand-indonesia/collections" }, { label: collection.title }]} />
             <p className="eyebrow text-pink">Curated collection</p>
             <h1 className="mt-5 text-[clamp(2.8rem,6vw,5.75rem)] leading-[0.98] font-medium">{collection.title}</h1>
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-primary-foreground/75">{collection.introduction}</p>
