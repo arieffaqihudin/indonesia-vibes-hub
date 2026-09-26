@@ -126,48 +126,56 @@ export function CollaborationCard({
   collaboration: Collaboration;
   size?: "sm" | "md" | "lg";
 }) {
+  const story = Boolean(collaboration.publicStory);
+  const partners = collaboration.internationalPartners?.map((p) => p.name) ?? [];
+  const image = (
+    <div className={cn("bg-muted", story && "media-zoom")}>
+      <img
+        src={collaboration.image}
+        alt={`${collaboration.title}: ${collaboration.countries.join(" and ")}`}
+        width={1600}
+        height={1104}
+        loading="lazy"
+        className={cn("w-full object-cover", size === "lg" ? "aspect-[16/9]" : size === "sm" ? "aspect-[4/3]" : "aspect-[3/2]")}
+      />
+    </div>
+  );
+  const body = (
+    <div className="pt-4">
+      <div className="flex flex-wrap items-center gap-2">
+        {story ? <Pill tone="brand">Collaboration Story</Pill> : <Pill tone={STATUS_TONE[collaboration.status]}>{collaboration.status}</Pill>}
+        <span className="text-xs text-muted-foreground">{collaboration.countries.join(" · ")}</span>
+      </div>
+      <h3 className={cn("mt-3 font-medium text-ink", size === "lg" ? "display-3" : "text-xl leading-snug")}>
+        {story ? <span className="link-underline">{collaboration.title}</span> : collaboration.title}
+      </h3>
+      <p className="mt-1.5 text-xs text-muted-foreground">{[collaboration.themes.join(" · "), collaboration.years].filter(Boolean).join(" · ")}</p>
+      <p className="mt-2.5 text-[0.95rem] leading-relaxed text-muted-foreground">{collaboration.intro}</p>
+      {partners.length ? <p className="mt-3 text-xs text-muted-foreground"><span className="font-medium text-ink">Partners:</span> {partners.join(" · ")}</p> : null}
+      {story ? <p className="mt-4 text-sm font-medium text-primary">Read the Collaboration Story →</p> : null}
+    </div>
+  );
+  if (!story) return <article className="min-w-0">{image}{body}</article>;
   return (
     <article className="group min-w-0">
-      <Link
-        to="/collaborate/$slug"
-        params={{ slug: collaboration.slug }}
-        className="block"
-      >
-        <div className="media-zoom bg-muted">
-          <img
-            src={collaboration.image}
-            alt={`${collaboration.title}: ${collaboration.countries.join(" and ")}`}
-            width={1600}
-            height={1104}
-            loading="lazy"
-            className={cn(
-              "w-full object-cover",
-              size === "lg" ? "aspect-[16/9]" : size === "sm" ? "aspect-[4/3]" : "aspect-[3/2]",
-            )}
-          />
-        </div>
-        <div className="pt-4">
-          <div className="flex flex-wrap items-center gap-2">
-            <Pill tone={STATUS_TONE[collaboration.status]}>{collaboration.status}</Pill>
-            <span className="text-xs text-muted-foreground">{collaboration.type}</span>
-          </div>
-          <h3
-            className={cn(
-              "mt-3 font-medium text-ink",
-              size === "lg" ? "display-3" : "text-xl leading-snug",
-            )}
-          >
-            <span className="link-underline">{collaboration.title}</span>
-          </h3>
-          <p className="mt-2.5 text-[0.95rem] leading-relaxed text-muted-foreground">
-            {collaboration.intro}
-          </p>
-          <p className="mt-3 text-xs text-muted-foreground">
-            {collaboration.countries.join(" · ")} · {collaboration.years}
-          </p>
-        </div>
+      <Link to="/collaborate/$slug" params={{ slug: collaboration.slug }} className="block rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
+        {image}
+        {body}
       </Link>
     </article>
+  );
+}
+
+/** Compact related-collaboration row: links only when a Collaboration Story exists. */
+export function CollaborationRow({ collaboration: c }: { collaboration: Collaboration }) {
+  return (
+    <div>
+      <p className="font-medium text-ink">
+        {c.publicStory ? <Link to="/collaborate/$slug" params={{ slug: c.slug }} className="link-underline">{c.title}</Link> : c.title}
+      </p>
+      <p className="mt-1 text-sm text-muted-foreground">{c.countries.join(" · ")} · {c.years}</p>
+      {c.publicStory ? <Link to="/collaborate/$slug" params={{ slug: c.slug }} className="mt-2 inline-block text-sm font-medium text-primary">Read the Collaboration Story →</Link> : null}
+    </div>
   );
 }
 
