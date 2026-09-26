@@ -19,14 +19,14 @@ type Category = (typeof CATEGORIES)[number]["id"];
 export const Route = createFileRoute("/understand-indonesia/people-organisations")({
   validateSearch: (search: Record<string, unknown>): { type?: Category } =>
     CATEGORIES.some((c) => c.id === search["type"]) ? { type: search["type"] as Category } : {},
-  head: ({ location }) => ({ meta: [
+  head: ({ match }) => ({ meta: [
     { title: "People & Organisations — Indonesia Vibes" },
     { name: "description", content: "Explore the people, communities and institutions shaping Indonesian culture." },
     { property: "og:title", content: "People & Organisations — Indonesia Vibes" },
     { property: "og:description", content: "Explore the people, communities and institutions shaping Indonesian culture." },
     { property: "og:type", content: "website" },
     { name: "twitter:card", content: "summary_large_image" },
-    ...(location.searchStr ? [{ name: "robots", content: "noindex, follow" }] : []),
+    ...(match.search.type ? [{ name: "robots", content: "noindex, follow" }] : []),
     ...pageIdentity("/understand-indonesia/people-organisations").meta,
   ], links: pageIdentity("/understand-indonesia/people-organisations").links }),
   component: Directory,
