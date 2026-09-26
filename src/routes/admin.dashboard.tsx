@@ -6,6 +6,7 @@ import { useState, type ReactNode } from "react";
 import { events as sourceEvents, stories } from "@/data/content";
 import { supabase } from "@/integrations/supabase/client";
 import { adminHead } from "@/lib/admin/head";
+import { seedRecords, seedRequests } from "@/lib/cms/seed";
 import { useHomepageSettings } from "@/lib/homepage";
 import { useCms } from "@/lib/cms/store";
 import { btn, inputClass } from "@/components/cms/ui";
@@ -28,6 +29,8 @@ const METRICS = [
   { label: "Avg. Engaged Time", tip: "Average time visitors actively interacted with content." },
   { label: "Returning Visitors", tip: "Share of visitors who came back during the selected period." },
 ];
+const exampleRecordIds = new Set(seedRecords().map((record) => record.id));
+const exampleRequestIds = new Set(seedRequests().map((request) => request.id));
 
 function Section({ title, action, children, className }: { title: string; action?: ReactNode; children: ReactNode; className?: string }) {
   return <section className={cn("min-w-0", className)}>
@@ -57,8 +60,8 @@ function Dashboard() {
   const [to, setTo] = useState("");
   const [compare, setCompare] = useState(false);
   const [trend, setTrend] = useState<"Visitors" | "Page Views">("Visitors");
-  const articles = cms.byType("article");
-  const events = cms.byType("event");
+  const articles = cms.byType("article").filter((record) => !exampleRecordIds.has(record.id));
+  const events = cms.byType("event").filter((record) => !exampleRecordIds.has(record.id));
   const today = new Date().toISOString().slice(0, 10);
   const sevenDays = new Date(Date.now() + 7 * 86_400_000).toISOString().slice(0, 10);
   // The sample calendar rolls forward; show only editorially fixed, verified events or complete new records.
@@ -74,11 +77,11 @@ function Dashboard() {
     return !article || article.status !== "Published" || !(item.image || article.image);
   }).length;
   const attention = [
-    { n: cms.requests.filter((request) => request.status === "New").length, label: "new collaboration requests", to: "/admin/collaborations", search: { tab: "requests" } },
+    { n: cms.requests.filter((request) => !exampleRequestIds.has(request.id) && request.status === "New").length, label: "new collaboration requests", to: "/admin/collaborations", search: { tab: "requests" } },
     { n: articles.filter((article) => article.status === "In Review").length, label: "articles waiting for review", to: "/admin/articles", search: { status: "In Review" } },
     { n: events.filter((event) => event.status === "Published" && (event.fields["startDate"] ?? "") >= today && (event.fields["startDate"] ?? "") <= sevenDays && (event.fields["missing"] || !event.image || !event.summary)).length, label: "upcoming events missing information", to: "/admin/experience", search: { tab: "events", missing: "1" } },
     { n: heroIncomplete, label: "homepage hero items incomplete", to: "/admin/homepage", search: {} },
-    { n: cms.byType("heritage").filter((record) => record.status === "Published" && !record.image).length, label: "published heritage pages missing a cover", to: "/admin/heritage", search: {} },
+    { n: cms.byType("heritage").filter((record) => !exampleRecordIds.has(record.id) && record.status === "Published" && !record.image).length, label: "published heritage pages missing a cover", to: "/admin/heritage", search: {} },
   ].filter((item) => item.n > 0);
   const { data: activity, isLoading: activityLoading, isError: activityError } = useQuery({
     queryKey: ["cms-dashboard-activity"],
