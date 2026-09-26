@@ -3,7 +3,7 @@ import { Outlet, createFileRoute, redirect, useRouterState } from "@tanstack/rea
 import { CmsProvider } from "@/lib/cms/store";
 import { CmsShell } from "@/components/cms/CmsShell";
 import { supabase } from "@/integrations/supabase/client";
-import { ALL_MENUS, menuForPath } from "@/lib/cms/access";
+import { menuForPath } from "@/lib/cms/access";
 import { clearAccountCache, loadAccount } from "@/lib/cms/role";
 
 const PUBLIC_STUDIO_PATHS = new Set(["/studio/login", "/studio/forgot-password", "/studio/reset-password"]);
@@ -35,10 +35,7 @@ export const Route = createFileRoute("/studio")({
     if (!menu) return;
     const account = await loadAccount(true);
     const menus = account?.menus ?? [];
-    if (!menus.includes(menu)) {
-      const first = ALL_MENUS.find((m) => menus.includes(m.key));
-      throw redirect({ to: (first?.to ?? "/studio/profile") as never, replace: true });
-    }
+    if (!menus.includes(menu)) throw redirect({ to: "/studio/unauthorized", replace: true });
   },
   component: StudioLayout,
 });
