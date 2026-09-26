@@ -1,10 +1,9 @@
-import { ChevronLeft, ChevronRight, Search } from "lucide-react";
-import { useEffect, useRef, type ReactNode } from "react";
-import { useRouterState } from "@tanstack/react-router";
-import { useKept } from "@/lib/cms/kept";
+import { Search } from "lucide-react";
+import { type ReactNode } from "react";
 
 import { cn } from "@/lib/utils";
-import { EmptyState, btn, inputClass } from "./ui";
+import { EmptyState, inputClass } from "./ui";
+import { Pagination, useListPagination } from "./Pagination";
 
 export interface Column<T> {
   key: string;
@@ -22,8 +21,6 @@ export interface FilterDef {
   onChange: (value: string) => void;
 }
 
-const PAGE_SIZE = 20;
-
 /** The one list pattern: search, filters, table (stacked rows on mobile), pagination. */
 export function DataList<T extends { id: string }>({ rows, columns, onOpen, search, onSearch, searchPlaceholder = "Search…", filters = [], empty, mobileMeta }: {
   rows: T[];
@@ -37,17 +34,12 @@ export function DataList<T extends { id: string }>({ rows, columns, onOpen, sear
   /** Secondary line for the compact mobile row. */
   mobileMeta?: (row: T) => ReactNode;
 }) {
-  const path = useRouterState({ select: (s) => s.location.pathname + String(s.location.search["tab"] ?? "") });
-  const [page, setPage] = useKept(`page:${path}`, 0);
-  const mounted = useRef(false);
-  useEffect(() => { if (mounted.current) setPage(0); else mounted.current = true; }, [search, rows.length]); // eslint-disable-line react-hooks/exhaustive-deps
-  const pages = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
-  const cur = Math.min(page, pages - 1);
-  const visible = rows.slice(cur * PAGE_SIZE, cur * PAGE_SIZE + PAGE_SIZE);
+  const pagination = useListPagination(rows.length, JSON.stringify([search, filters.map((f) => f.value)]));
+  const visible = rows.slice(pagination.visibleStart, pagination.visibleStart + pagination.size);
   const [first, ...rest] = columns;
   const hide = (p?: number) => (p === 2 ? "hidden md:table-cell" : p === 3 ? "hidden xl:table-cell" : "");
 
-  return <div className="rounded-lg border border-border bg-background">
+  return <div ref={pagination.anchor} className="scroll-mt-5 rounded-lg border border-border bg-background">
     <div className="flex flex-wrap items-center gap-2 border-b border-border p-3">
       <label className="relative min-w-[12rem] flex-1">
         <span className="sr-only">Search</span>
@@ -79,13 +71,7 @@ export function DataList<T extends { id: string }>({ rows, columns, onOpen, sear
       </li>)}</ul>
     </>}
 
-    {rows.length > PAGE_SIZE ? <div className="flex items-center justify-between border-t border-border px-3 py-2 text-xs text-muted-foreground">
-      <span>{page * PAGE_SIZE + 1}–{Math.min(rows.length, (page + 1) * PAGE_SIZE)} of {rows.length}</span>
-      <span className="flex gap-1">
-        <button type="button" aria-label="Previous page" disabled={page === 0} onClick={() => setPage(page - 1)} className={btn.iconSm}><ChevronLeft className="h-4 w-4" /></button>
-        <button type="button" aria-label="Next page" disabled={page >= pages - 1} onClick={() => setPage(page + 1)} className={btn.iconSm}><ChevronRight className="h-4 w-4" /></button>
-      </span>
-    </div> : <div className="border-t border-border px-3 py-2 text-xs text-muted-foreground">{rows.length} {rows.length === 1 ? "item" : "items"}</div>}
+    <Pagination total={rows.length} {...pagination} />
   </div>;
 }
 
