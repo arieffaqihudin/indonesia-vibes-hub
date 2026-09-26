@@ -1,0 +1,18 @@
+import { useEffect, useState } from "react";
+import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
+import { AdminAuthLayout } from "@/components/cms/AuthLayout";
+import { Button } from "@/components/ui/button";
+import { supabase } from "@/integrations/supabase/client";
+
+export const Route = createFileRoute("/studio/reset-password")({ head: () => ({ meta: [
+  { title: "Reset Password | Indonesia Vibes Studio" }, { name: "description", content: "Choose a new password for Indonesia Vibes Studio." },
+  { property: "og:title", content: "Reset Password | Indonesia Vibes Studio" }, { property: "og:description", content: "Choose a new password for Indonesia Vibes Studio." },
+  { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" },
+  { name: "robots", content: "noindex, nofollow" },
+] }), component: ResetPassword });
+function ResetPassword() {
+  const navigate = useNavigate(); const [password, setPassword] = useState(""); const [confirmPassword, setConfirmPassword] = useState(""); const [ready, setReady] = useState(false); const [error, setError] = useState(""); const [submitting, setSubmitting] = useState(false);
+  useEffect(() => { const recovery = window.location.hash.includes("type=recovery"); void supabase.auth.getSession().then(({ data }) => setReady(recovery || Boolean(data.session))); }, []);
+  async function submit(event: React.FormEvent<HTMLFormElement>) { event.preventDefault(); if (submitting) return; if (!password) { setError("Please enter your new password."); return; } if (password.length < 8) { setError("Use at least 8 characters."); return; } if (password !== confirmPassword) { setError("Passwords do not match."); return; } setSubmitting(true); setError(""); const { error: updateError } = await supabase.auth.updateUser({ password }); if (updateError) { setError("This reset link is invalid or has expired."); setSubmitting(false); return; } await navigate({ to: "/studio/dashboard", replace: true }); }
+  return <AdminAuthLayout>{ready ? <div><h1 className="text-3xl font-semibold text-ink">Choose a new password</h1><p className="mt-2 text-sm text-muted-foreground">Use a strong password you do not use elsewhere.</p><form className="mt-8 space-y-5" onSubmit={submit}><div><label htmlFor="new-password" className="mb-1.5 block text-sm font-medium text-ink">New password</label><input id="new-password" type="password" autoComplete="new-password" value={password} onChange={(event) => setPassword(event.target.value)} className="h-12 w-full rounded-md border border-input bg-background px-3.5 text-sm text-ink outline-none focus:border-primary focus:ring-2 focus:ring-primary/15" /></div><div><label htmlFor="confirm-password" className="mb-1.5 block text-sm font-medium text-ink">Confirm password</label><input id="confirm-password" type="password" autoComplete="new-password" value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} className="h-12 w-full rounded-md border border-input bg-background px-3.5 text-sm text-ink outline-none focus:border-primary focus:ring-2 focus:ring-primary/15" /></div>{error ? <p role="alert" className="rounded-md bg-blush px-3 py-2.5 text-sm text-deep-red">{error}</p> : null}<Button type="submit" disabled={submitting} className="h-12 w-full rounded-[var(--btn-radius)]">{submitting ? "Saving..." : "Save New Password"}</Button></form></div> : <div><h1 className="text-3xl font-semibold text-ink">Reset link unavailable</h1><p className="mt-3 text-sm text-muted-foreground">Request a new password reset link to continue.</p><Link to="/studio/forgot-password" className="mt-6 inline-flex text-sm font-medium text-primary hover:underline">Request a new link</Link></div>}</AdminAuthLayout>;
+}

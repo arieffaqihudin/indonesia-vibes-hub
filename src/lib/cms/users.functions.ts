@@ -13,14 +13,15 @@ async function assertCanManageUsers(context: Ctx) {
 /** Sends a real invitation (or a new one) so the user can set a password and sign in. */
 export const inviteCmsUser = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((d) => z.object({ id: z.string().uuid(), origin: z.string().url() }).parse(d))
+  .inputValidator((d) => z.object({ id: z.string().uuid() }).parse(d))
   .handler(async ({ data, context }) => {
     await assertCanManageUsers(context as unknown as Ctx);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data: user, error } = await supabaseAdmin.from("cms_users").select("id,name,email,auth_user_id,first_login_at,deleted_at").eq("id", data.id).single();
     if (error || !user || user.deleted_at) throw new Error("User not found.");
     if (user.first_login_at) throw new Error("This user has already connected.");
-    const redirectTo = `${new URL(data.origin).origin}/admin/reset-password`;
+    // Keep invitation links on the trusted published origin, never a caller-supplied domain.
+    const redirectTo = "https://indonesia-vibes-hub.lovable.app/studio/reset-password";
     const res = await supabaseAdmin.auth.admin.inviteUserByEmail(user.email, { redirectTo, data: { display_name: user.name } });
     if (res.error) {
       // Account already exists but was never confirmed/used: send a password setup link instead.
