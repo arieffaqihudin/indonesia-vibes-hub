@@ -82,8 +82,8 @@ export function DataList<T extends { id: string }>({ rows, columns, onOpen, sear
     {rows.length > PAGE_SIZE ? <div className="flex items-center justify-between border-t border-border px-3 py-2 text-xs text-muted-foreground">
       <span>{page * PAGE_SIZE + 1}–{Math.min(rows.length, (page + 1) * PAGE_SIZE)} of {rows.length}</span>
       <span className="flex gap-1">
-        <button type="button" aria-label="Previous page" disabled={page === 0} onClick={() => setPage(page - 1)} className="inline-flex h-8 w-8 items-center justify-center rounded hover:bg-muted disabled:opacity-30"><ChevronLeft className="h-4 w-4" /></button>
-        <button type="button" aria-label="Next page" disabled={page >= pages - 1} onClick={() => setPage(page + 1)} className="inline-flex h-8 w-8 items-center justify-center rounded hover:bg-muted disabled:opacity-30"><ChevronRight className="h-4 w-4" /></button>
+        <button type="button" aria-label="Previous page" disabled={page === 0} onClick={() => setPage(page - 1)} className={btn.iconSm}><ChevronLeft className="h-4 w-4" /></button>
+        <button type="button" aria-label="Next page" disabled={page >= pages - 1} onClick={() => setPage(page + 1)} className={btn.iconSm}><ChevronRight className="h-4 w-4" /></button>
       </span>
     </div> : <div className="border-t border-border px-3 py-2 text-xs text-muted-foreground">{rows.length} {rows.length === 1 ? "item" : "items"}</div>}
   </div>;
