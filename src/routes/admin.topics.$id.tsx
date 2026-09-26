@@ -51,7 +51,7 @@ function TopicEditor() {
 
   return <EditorFrame backTo="/admin/topics" backLabel="Topics" title={draft.id || "New topic"} status={draft.status === "Published" ? "Published" : draft.status === "Archived" ? "Archived" : "Draft"} saveState={save}
     onSaveDraft={() => { clearTimeout(timer.current); commit({ ...draft, status: "Draft" }); setDraft({ ...draft, status: "Draft" }); toast.success("Saved"); }}
-    onPreview={draft.slug ? () => window.open(`/understand-indonesia/topics/${draft.slug}`, "_blank") : undefined}
+    onPreview={draft.slug ? () => { window.open(`/understand-indonesia/topics/${draft.slug}`, "_blank"); } : undefined}
     onPublish={() => { if (!draft.id) { toast.error("Add a name first."); return; } clearTimeout(timer.current); const next = { ...draft, status: "Published" as const }; setDraft(next); commit(next); toast.success("Published"); }}
     main={<div className="mx-auto max-w-2xl space-y-6">
       <Field label="Name" htmlFor="name" hint={isNew ? undefined : "Names stay fixed so existing articles keep their topic."}>{isNew ? <TextInput id="name" value={draft.id} onChange={(v) => change({ id: v as ThemeId })} placeholder="e.g. Textiles" /> : <p className="text-2xl font-semibold text-ink">{draft.id}</p>}</Field>

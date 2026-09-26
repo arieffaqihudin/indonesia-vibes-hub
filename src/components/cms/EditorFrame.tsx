@@ -15,9 +15,9 @@ export function EditorFrame({ backTo, backLabel, title, status, saveState, onSav
   title: string;
   status?: CmsStatus;
   saveState: SaveState;
-  onSaveDraft?: () => void;
-  onPreview?: () => void;
-  onPublish?: () => void;
+  onSaveDraft?: (() => void) | undefined;
+  onPreview?: (() => void) | undefined;
+  onPublish?: (() => void) | undefined;
   canPublish?: boolean;
   main: ReactNode;
   sidebar: ReactNode;

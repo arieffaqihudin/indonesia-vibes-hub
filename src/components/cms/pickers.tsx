@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { useCms } from "@/lib/cms/store";
 import { btn, inputClass } from "./ui";
 
-export interface Option { id: string; label: string; meta?: string }
+export interface Option { id: string; label: string; meta?: string | undefined }
 
 /** Pick several existing items: chips + a search box. */
 export function MultiPicker({ label, options, value, onChange, placeholder }: { label: string; options: Option[]; value: string[]; onChange: (ids: string[]) => void; placeholder?: string }) {
@@ -31,7 +31,7 @@ export function MultiPicker({ label, options, value, onChange, placeholder }: { 
 }
 
 /** An ordered list with drag and keyboard-friendly up/down. */
-export function OrderedList({ items, onChange, render, max }: { items: string[]; onChange: (ids: string[]) => void; render: (id: string) => { title: string; meta?: string; image?: string }; max?: number }) {
+export function OrderedList({ items, onChange, render, max }: { items: string[]; onChange: (ids: string[]) => void; render: (id: string) => { title: string; meta?: string | undefined; image?: string | undefined }; max?: number }) {
   const drag = useRef<number | null>(null);
   const move = (from: number, to: number) => { if (to < 0 || to >= items.length) return; const next = [...items]; const [m] = next.splice(from, 1); next.splice(to, 0, m!); onChange(next); };
   return <ol className="divide-y divide-border rounded-md border border-border bg-background">

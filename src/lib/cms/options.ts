@@ -6,7 +6,7 @@ import { useTopics } from "@/lib/topics";
 import { useCms } from "./store";
 import type { CmsType, RelationKey } from "./types";
 
-export type Option = { id: string; label: string; meta?: string };
+export type Option = { id: string; label: string; meta?: string | undefined };
 
 const TYPE_FOR: Partial<Record<RelationKey, CmsType>> = {
   heritage: "heritage", people: "person", communities: "community", organisations: "organisation",

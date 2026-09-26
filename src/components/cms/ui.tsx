@@ -37,7 +37,7 @@ export function PageHeader({ title, description, actions }: { title: string; des
   </div>;
 }
 
-export function Field({ label, hint, children, htmlFor }: { label: string; hint?: string; children: ReactNode; htmlFor?: string }) {
+export function Field({ label, hint, children, htmlFor }: { label: string; hint?: string | undefined; children: ReactNode; htmlFor?: string | undefined }) {
   return <div className="space-y-1.5">
     <label htmlFor={htmlFor} className="block text-xs font-medium text-ink">{label}</label>
     {children}
@@ -86,7 +86,7 @@ export function Tabs<T extends string>({ tabs, value, onChange }: { tabs: { id: 
   </div>;
 }
 
-export function EmptyState({ title, text, action }: { title: string; text?: string; action?: ReactNode }) {
+export function EmptyState({ title, text, action }: { title: string; text?: string | undefined; action?: ReactNode }) {
   return <div className="flex flex-col items-center justify-center px-6 py-14 text-center">
     <p className="text-sm font-medium text-ink">{title}</p>
     {text ? <p className="mt-1 max-w-sm text-sm text-muted-foreground">{text}</p> : null}

@@ -86,6 +86,7 @@ import { Route as AdminPagesIndexRouteImport } from './routes/admin.pages.index'
 import { Route as AdminPagesPageRouteImport } from './routes/admin.pages.$page'
 import { Route as AdminPeopleOrganisationsIndexRouteImport } from './routes/admin.people-organisations.index'
 import { Route as AdminPeopleOrganisationsIdRouteImport } from './routes/admin.people-organisations.$id'
+import { Route as AdminPreviewIdRouteImport } from './routes/admin.preview.$id'
 import { Route as AdminTopicsIndexRouteImport } from './routes/admin.topics.index'
 import { Route as AdminTopicsIdRouteImport } from './routes/admin.topics.$id'
 import { Route as ContributorSubmissionsIndexRouteImport } from './routes/contributor.submissions.index'
@@ -495,6 +496,11 @@ const AdminPeopleOrganisationsIdRoute =
     path: '/people-organisations/$id',
     getParentRoute: () => AdminRoute,
   } as any)
+const AdminPreviewIdRoute = AdminPreviewIdRouteImport.update({
+  id: '/preview/$id',
+  path: '/preview/$id',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminTopicsIndexRoute = AdminTopicsIndexRouteImport.update({
   id: '/topics/',
   path: '/topics/',
@@ -663,6 +669,7 @@ export interface FileRoutesByFullPath {
   '/admin/heritage/$id': typeof AdminHeritageIdRoute
   '/admin/pages/$page': typeof AdminPagesPageRoute
   '/admin/people-organisations/$id': typeof AdminPeopleOrganisationsIdRoute
+  '/admin/preview/$id': typeof AdminPreviewIdRoute
   '/admin/topics/$id': typeof AdminTopicsIdRoute
   '/explore/topics/$slug': typeof ExploreTopicsSlugRoute
   '/understand-indonesia/collections/$slug': typeof UnderstandIndonesiaCollectionsSlugRoute
@@ -758,6 +765,7 @@ export interface FileRoutesByTo {
   '/admin/heritage/$id': typeof AdminHeritageIdRoute
   '/admin/pages/$page': typeof AdminPagesPageRoute
   '/admin/people-organisations/$id': typeof AdminPeopleOrganisationsIdRoute
+  '/admin/preview/$id': typeof AdminPreviewIdRoute
   '/admin/topics/$id': typeof AdminTopicsIdRoute
   '/explore/topics/$slug': typeof ExploreTopicsSlugRoute
   '/understand-indonesia/collections/$slug': typeof UnderstandIndonesiaCollectionsSlugRoute
@@ -855,6 +863,7 @@ export interface FileRoutesById {
   '/admin/heritage/$id': typeof AdminHeritageIdRoute
   '/admin/pages/$page': typeof AdminPagesPageRoute
   '/admin/people-organisations/$id': typeof AdminPeopleOrganisationsIdRoute
+  '/admin/preview/$id': typeof AdminPreviewIdRoute
   '/admin/topics/$id': typeof AdminTopicsIdRoute
   '/explore/topics/$slug': typeof ExploreTopicsSlugRoute
   '/understand-indonesia/collections/$slug': typeof UnderstandIndonesiaCollectionsSlugRoute
@@ -953,6 +962,7 @@ export interface FileRouteTypes {
     | '/admin/heritage/$id'
     | '/admin/pages/$page'
     | '/admin/people-organisations/$id'
+    | '/admin/preview/$id'
     | '/admin/topics/$id'
     | '/explore/topics/$slug'
     | '/understand-indonesia/collections/$slug'
@@ -1048,6 +1058,7 @@ export interface FileRouteTypes {
     | '/admin/heritage/$id'
     | '/admin/pages/$page'
     | '/admin/people-organisations/$id'
+    | '/admin/preview/$id'
     | '/admin/topics/$id'
     | '/explore/topics/$slug'
     | '/understand-indonesia/collections/$slug'
@@ -1144,6 +1155,7 @@ export interface FileRouteTypes {
     | '/admin/heritage/$id'
     | '/admin/pages/$page'
     | '/admin/people-organisations/$id'
+    | '/admin/preview/$id'
     | '/admin/topics/$id'
     | '/explore/topics/$slug'
     | '/understand-indonesia/collections/$slug'
@@ -1773,6 +1785,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminPeopleOrganisationsIdRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/preview/$id': {
+      id: '/admin/preview/$id'
+      path: '/preview/$id'
+      fullPath: '/admin/preview/$id'
+      preLoaderRoute: typeof AdminPreviewIdRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/topics/': {
       id: '/admin/topics/'
       path: '/topics'
@@ -1911,6 +1930,7 @@ interface AdminRouteChildren {
   AdminHeritageIdRoute: typeof AdminHeritageIdRoute
   AdminPagesPageRoute: typeof AdminPagesPageRoute
   AdminPeopleOrganisationsIdRoute: typeof AdminPeopleOrganisationsIdRoute
+  AdminPreviewIdRoute: typeof AdminPreviewIdRoute
   AdminTopicsIdRoute: typeof AdminTopicsIdRoute
   AdminArticlesIndexRoute: typeof AdminArticlesIndexRoute
   AdminCollaborationsIndexRoute: typeof AdminCollaborationsIndexRoute
@@ -1941,6 +1961,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminHeritageIdRoute: AdminHeritageIdRoute,
   AdminPagesPageRoute: AdminPagesPageRoute,
   AdminPeopleOrganisationsIdRoute: AdminPeopleOrganisationsIdRoute,
+  AdminPreviewIdRoute: AdminPreviewIdRoute,
   AdminTopicsIdRoute: AdminTopicsIdRoute,
   AdminArticlesIndexRoute: AdminArticlesIndexRoute,
   AdminCollaborationsIndexRoute: AdminCollaborationsIndexRoute,
