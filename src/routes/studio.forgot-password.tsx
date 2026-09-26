@@ -5,8 +5,8 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/studio/forgot-password")({ head: () => ({ meta: [
-  { title: "Reset CMS Password — Indonesia Vibes" }, { name: "description", content: "Request password reset instructions for Indonesia Vibes CMS." },
-  { property: "og:title", content: "Reset CMS Password — Indonesia Vibes" }, { property: "og:description", content: "Request password reset instructions for Indonesia Vibes CMS." },
+  { title: "Forgot Password | Indonesia Vibes Studio" }, { name: "description", content: "Request password reset instructions for Indonesia Vibes Studio." },
+  { property: "og:title", content: "Forgot Password | Indonesia Vibes Studio" }, { property: "og:description", content: "Request password reset instructions for Indonesia Vibes Studio." },
   { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" },
   { name: "robots", content: "noindex, nofollow" },
 ] }), component: ForgotPassword });

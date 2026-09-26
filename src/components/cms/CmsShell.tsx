@@ -58,6 +58,7 @@ export function useScrollLock(locked: boolean) {
   useEffect(() => {
     if (!locked) return;
     const els = [document.body, document.getElementById("cms-main")].filter(Boolean) as HTMLElement[];
+    const prev = els.map((el) => el.style.overflow);
     els.forEach((el) => { el.style.overflow = "hidden"; });
     return () => els.forEach((el, i) => { el.style.overflow = prev[i] ?? ""; });
   }, [locked]);
