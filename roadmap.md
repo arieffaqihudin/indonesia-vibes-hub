@@ -8,8 +8,8 @@
 - [ ] Measure LCP, INP and CLS on the published origin after publication; preview checks do not establish field performance
 
 # Executive CMS dashboard
-- [ ] Replace record-count KPIs with four honest audience metrics and an audience trend placeholder
-- [ ] Present content, cultural interest, countries and sources without invented analytics
+- [x] Replace record-count KPIs with four honest audience metrics and an audience trend placeholder
+- [x] Present content, cultural interest, countries and sources without invented analytics
 - [ ] Keep actionable CMS tasks, upcoming events and real recent activity compact and verify responsive layout
 
 # CMS filter presentation
