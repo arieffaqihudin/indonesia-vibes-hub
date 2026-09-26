@@ -1,3 +1,4 @@
+import { CollaborationRow } from "@/components/editorial/EntityCards";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import type { ReactNode } from "react";
@@ -95,7 +96,7 @@ function HeritageDetail() {
       {(c.collections.length || c.collaborations.length) ? <Section id="journeys" title="Collections & Collaborations">
         <div className="grid gap-10 md:grid-cols-2">
           {c.collections.length ? <Group title="Related Collections">{c.collections.map((col) => <li key={col.id} className="border-b border-border py-3 last:border-b-0"><Link to="/understand-indonesia/collections/$slug" params={{ slug: col.slug }} className="group block"><span className="font-medium text-ink group-hover:text-primary">{col.title}</span><span className="mt-1 block text-sm text-muted-foreground">{col.storyIds.length} stories · Follow the journey</span></Link></li>)}</Group> : null}
-          {c.collaborations.length ? <Group title="Related Collaborations">{c.collaborations.map((col) => <li key={col.id} className="border-b border-border py-3 last:border-b-0"><Link to="/collaborate/$slug" params={{ slug: col.slug }} className="group block"><span className="font-medium text-ink group-hover:text-primary">{col.title}</span><span className="mt-1 block text-sm text-muted-foreground">{col.countries.join(" · ")} · {col.years}</span></Link></li>)}</Group> : null}
+          {c.collaborations.length ? <Group title="Related Collaborations">{c.collaborations.map((col) => <li key={col.id} className="border-b border-border py-3 last:border-b-0"><CollaborationRow collaboration={col} /></li>)}</Group> : null}
         </div>
       </Section> : null}
 

@@ -190,15 +190,7 @@ function FormPage() {
                 {collaborations.map((c) => (
                   <li key={c.id} className="border border-border p-5">
                     <p className="eyebrow text-primary">{c.type}</p>
-                    <p className="mt-2 font-medium text-ink">
-                      <Link
-                        to="/collaborate/$slug"
-                        params={{ slug: c.slug }}
-                        className="link-underline"
-                      >
-                        {c.title}
-                      </Link>
-                    </p>
+                    <p className="mt-2 font-medium text-ink">{c.publicStory ? <Link to="/collaborate/$slug" params={{ slug: c.slug }} className="link-underline">{c.title}</Link> : c.title}</p>
                     <p className="mt-1.5 text-sm text-muted-foreground">
                       {c.countries.join(" · ")} · {c.years}
                     </p>
