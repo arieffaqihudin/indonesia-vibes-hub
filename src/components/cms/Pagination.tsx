@@ -15,7 +15,8 @@ function pageNumbers(current: number, total: number): (number | "…")[] {
   if (current >= total - 2) for (let i = Math.max(2, total - 4); i < total; i++) visible.add(i);
   const result: (number | "…")[] = [];
   [...visible].sort((a, b) => a - b).forEach((n, i, values) => {
-    if (i && n - values[i - 1] > 1) result.push("…");
+    const previous = values[i - 1];
+    if (previous !== undefined && n - previous > 1) result.push("…");
     result.push(n);
   });
   return result;
@@ -26,6 +27,7 @@ export function useListPagination(total: number, resetKey: string, section = "")
   const path = useRouterState({ select: (s) => s.location.pathname });
   const [page, setPage] = useKept(`page:${path}${section}`, 0);
   const [size, setSize] = useKept(`size:${path}`, 10);
+  const safeSize = SIZES.includes(size as (typeof SIZES)[number]) ? size : 10;
   const previousKey = useRef(resetKey);
   const anchor = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -34,7 +36,7 @@ export function useListPagination(total: number, resetKey: string, section = "")
       setPage(0);
     }
   }, [resetKey, setPage]);
-  const pages = Math.max(1, Math.ceil(total / size));
+  const pages = Math.max(1, Math.ceil(total / safeSize));
   const current = Math.min(Math.max(0, page), pages - 1);
   useEffect(() => { if (page !== current) setPage(current); }, [page, current, setPage]);
   const go = (next: number) => {
@@ -42,7 +44,7 @@ export function useListPagination(total: number, resetKey: string, section = "")
     anchor.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
   const changeSize = (next: number) => { setSize(next); setPage(0); };
-  return { anchor, current, pages, size, go, changeSize, visibleStart: current * size };
+  return { anchor, current, pages, size: safeSize, go, changeSize, visibleStart: current * safeSize };
 }
 
 export function Pagination({ total, current, pages, size, go, changeSize }: {
