@@ -119,6 +119,8 @@ import { Route as ExploreTopicsIndexRouteImport } from './routes/explore.topics.
 import { Route as ExploreTopicsSlugRouteImport } from './routes/explore.topics.$slug'
 import { Route as UnderstandIndonesiaCollectionsIndexRouteImport } from './routes/understand-indonesia.collections.index'
 import { Route as UnderstandIndonesiaCollectionsSlugRouteImport } from './routes/understand-indonesia.collections.$slug'
+import { Route as UnderstandIndonesiaHeritageIndexRouteImport } from './routes/understand-indonesia.heritage.index'
+import { Route as UnderstandIndonesiaHeritageSlugRouteImport } from './routes/understand-indonesia.heritage.$slug'
 import { Route as UnderstandIndonesiaTopicsIndexRouteImport } from './routes/understand-indonesia.topics.index'
 import { Route as UnderstandIndonesiaTopicsSlugRouteImport } from './routes/understand-indonesia.topics.$slug'
 import { Route as AdminContentIdPreviewRouteImport } from './routes/admin.content.$id.preview'
@@ -683,6 +685,18 @@ const UnderstandIndonesiaCollectionsSlugRoute =
     path: '/collections/$slug',
     getParentRoute: () => UnderstandIndonesiaRoute,
   } as any)
+const UnderstandIndonesiaHeritageIndexRoute =
+  UnderstandIndonesiaHeritageIndexRouteImport.update({
+    id: '/heritage/',
+    path: '/heritage/',
+    getParentRoute: () => UnderstandIndonesiaRoute,
+  } as any)
+const UnderstandIndonesiaHeritageSlugRoute =
+  UnderstandIndonesiaHeritageSlugRouteImport.update({
+    id: '/heritage/$slug',
+    path: '/heritage/$slug',
+    getParentRoute: () => UnderstandIndonesiaRoute,
+  } as any)
 const UnderstandIndonesiaTopicsIndexRoute =
   UnderstandIndonesiaTopicsIndexRouteImport.update({
     id: '/topics/',
@@ -818,6 +832,7 @@ export interface FileRoutesByFullPath {
   '/admin/topics/$slug': typeof AdminTopicsSlugRoute
   '/explore/topics/$slug': typeof ExploreTopicsSlugRoute
   '/understand-indonesia/collections/$slug': typeof UnderstandIndonesiaCollectionsSlugRoute
+  '/understand-indonesia/heritage/$slug': typeof UnderstandIndonesiaHeritageSlugRoute
   '/understand-indonesia/topics/$slug': typeof UnderstandIndonesiaTopicsSlugRoute
   '/admin/collaborations/': typeof AdminCollaborationsIndexRoute
   '/admin/collections/': typeof AdminCollectionsIndexRoute
@@ -831,6 +846,7 @@ export interface FileRoutesByFullPath {
   '/contributor/submissions/': typeof ContributorSubmissionsIndexRoute
   '/explore/topics/': typeof ExploreTopicsIndexRoute
   '/understand-indonesia/collections/': typeof UnderstandIndonesiaCollectionsIndexRoute
+  '/understand-indonesia/heritage/': typeof UnderstandIndonesiaHeritageIndexRoute
   '/understand-indonesia/topics/': typeof UnderstandIndonesiaTopicsIndexRoute
   '/admin/content/$id/preview': typeof AdminContentIdPreviewRoute
   '/contributor/submissions/$id/revise': typeof ContributorSubmissionsIdReviseRoute
@@ -935,6 +951,7 @@ export interface FileRoutesByTo {
   '/admin/topics/$slug': typeof AdminTopicsSlugRoute
   '/explore/topics/$slug': typeof ExploreTopicsSlugRoute
   '/understand-indonesia/collections/$slug': typeof UnderstandIndonesiaCollectionsSlugRoute
+  '/understand-indonesia/heritage/$slug': typeof UnderstandIndonesiaHeritageSlugRoute
   '/understand-indonesia/topics/$slug': typeof UnderstandIndonesiaTopicsSlugRoute
   '/admin/collaborations': typeof AdminCollaborationsIndexRoute
   '/admin/collections': typeof AdminCollectionsIndexRoute
@@ -948,6 +965,7 @@ export interface FileRoutesByTo {
   '/contributor/submissions': typeof ContributorSubmissionsIndexRoute
   '/explore/topics': typeof ExploreTopicsIndexRoute
   '/understand-indonesia/collections': typeof UnderstandIndonesiaCollectionsIndexRoute
+  '/understand-indonesia/heritage': typeof UnderstandIndonesiaHeritageIndexRoute
   '/understand-indonesia/topics': typeof UnderstandIndonesiaTopicsIndexRoute
   '/admin/content/$id/preview': typeof AdminContentIdPreviewRoute
   '/contributor/submissions/$id/revise': typeof ContributorSubmissionsIdReviseRoute
@@ -1054,6 +1072,7 @@ export interface FileRoutesById {
   '/admin/topics/$slug': typeof AdminTopicsSlugRoute
   '/explore/topics/$slug': typeof ExploreTopicsSlugRoute
   '/understand-indonesia/collections/$slug': typeof UnderstandIndonesiaCollectionsSlugRoute
+  '/understand-indonesia/heritage/$slug': typeof UnderstandIndonesiaHeritageSlugRoute
   '/understand-indonesia/topics/$slug': typeof UnderstandIndonesiaTopicsSlugRoute
   '/admin/collaborations/': typeof AdminCollaborationsIndexRoute
   '/admin/collections/': typeof AdminCollectionsIndexRoute
@@ -1067,6 +1086,7 @@ export interface FileRoutesById {
   '/contributor/submissions/': typeof ContributorSubmissionsIndexRoute
   '/explore/topics/': typeof ExploreTopicsIndexRoute
   '/understand-indonesia/collections/': typeof UnderstandIndonesiaCollectionsIndexRoute
+  '/understand-indonesia/heritage/': typeof UnderstandIndonesiaHeritageIndexRoute
   '/understand-indonesia/topics/': typeof UnderstandIndonesiaTopicsIndexRoute
   '/admin/content/$id/preview': typeof AdminContentIdPreviewRoute
   '/contributor/submissions/$id/revise': typeof ContributorSubmissionsIdReviseRoute
@@ -1174,6 +1194,7 @@ export interface FileRouteTypes {
     | '/admin/topics/$slug'
     | '/explore/topics/$slug'
     | '/understand-indonesia/collections/$slug'
+    | '/understand-indonesia/heritage/$slug'
     | '/understand-indonesia/topics/$slug'
     | '/admin/collaborations/'
     | '/admin/collections/'
@@ -1187,6 +1208,7 @@ export interface FileRouteTypes {
     | '/contributor/submissions/'
     | '/explore/topics/'
     | '/understand-indonesia/collections/'
+    | '/understand-indonesia/heritage/'
     | '/understand-indonesia/topics/'
     | '/admin/content/$id/preview'
     | '/contributor/submissions/$id/revise'
@@ -1291,6 +1313,7 @@ export interface FileRouteTypes {
     | '/admin/topics/$slug'
     | '/explore/topics/$slug'
     | '/understand-indonesia/collections/$slug'
+    | '/understand-indonesia/heritage/$slug'
     | '/understand-indonesia/topics/$slug'
     | '/admin/collaborations'
     | '/admin/collections'
@@ -1304,6 +1327,7 @@ export interface FileRouteTypes {
     | '/contributor/submissions'
     | '/explore/topics'
     | '/understand-indonesia/collections'
+    | '/understand-indonesia/heritage'
     | '/understand-indonesia/topics'
     | '/admin/content/$id/preview'
     | '/contributor/submissions/$id/revise'
@@ -1409,6 +1433,7 @@ export interface FileRouteTypes {
     | '/admin/topics/$slug'
     | '/explore/topics/$slug'
     | '/understand-indonesia/collections/$slug'
+    | '/understand-indonesia/heritage/$slug'
     | '/understand-indonesia/topics/$slug'
     | '/admin/collaborations/'
     | '/admin/collections/'
@@ -1422,6 +1447,7 @@ export interface FileRouteTypes {
     | '/contributor/submissions/'
     | '/explore/topics/'
     | '/understand-indonesia/collections/'
+    | '/understand-indonesia/heritage/'
     | '/understand-indonesia/topics/'
     | '/admin/content/$id/preview'
     | '/contributor/submissions/$id/revise'
@@ -2263,6 +2289,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UnderstandIndonesiaCollectionsSlugRouteImport
       parentRoute: typeof UnderstandIndonesiaRoute
     }
+    '/understand-indonesia/heritage/': {
+      id: '/understand-indonesia/heritage/'
+      path: '/heritage'
+      fullPath: '/understand-indonesia/heritage/'
+      preLoaderRoute: typeof UnderstandIndonesiaHeritageIndexRouteImport
+      parentRoute: typeof UnderstandIndonesiaRoute
+    }
+    '/understand-indonesia/heritage/$slug': {
+      id: '/understand-indonesia/heritage/$slug'
+      path: '/heritage/$slug'
+      fullPath: '/understand-indonesia/heritage/$slug'
+      preLoaderRoute: typeof UnderstandIndonesiaHeritageSlugRouteImport
+      parentRoute: typeof UnderstandIndonesiaRoute
+    }
     '/understand-indonesia/topics/': {
       id: '/understand-indonesia/topics/'
       path: '/topics'
@@ -2444,17 +2484,21 @@ const CollaborateRouteWithChildren = CollaborateRoute._addFileChildren(
 
 interface UnderstandIndonesiaRouteChildren {
   UnderstandIndonesiaCollectionsSlugRoute: typeof UnderstandIndonesiaCollectionsSlugRoute
+  UnderstandIndonesiaHeritageSlugRoute: typeof UnderstandIndonesiaHeritageSlugRoute
   UnderstandIndonesiaTopicsSlugRoute: typeof UnderstandIndonesiaTopicsSlugRoute
   UnderstandIndonesiaCollectionsIndexRoute: typeof UnderstandIndonesiaCollectionsIndexRoute
+  UnderstandIndonesiaHeritageIndexRoute: typeof UnderstandIndonesiaHeritageIndexRoute
   UnderstandIndonesiaTopicsIndexRoute: typeof UnderstandIndonesiaTopicsIndexRoute
 }
 
 const UnderstandIndonesiaRouteChildren: UnderstandIndonesiaRouteChildren = {
   UnderstandIndonesiaCollectionsSlugRoute:
     UnderstandIndonesiaCollectionsSlugRoute,
+  UnderstandIndonesiaHeritageSlugRoute: UnderstandIndonesiaHeritageSlugRoute,
   UnderstandIndonesiaTopicsSlugRoute: UnderstandIndonesiaTopicsSlugRoute,
   UnderstandIndonesiaCollectionsIndexRoute:
     UnderstandIndonesiaCollectionsIndexRoute,
+  UnderstandIndonesiaHeritageIndexRoute: UnderstandIndonesiaHeritageIndexRoute,
   UnderstandIndonesiaTopicsIndexRoute: UnderstandIndonesiaTopicsIndexRoute,
 }
 
