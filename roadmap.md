@@ -13,9 +13,9 @@
 - [x] Keep actionable CMS tasks, upcoming events and real recent activity compact and verify responsive layout
 
 # Indonesia Vibes Studio entry point
-- [ ] Move all CMS routes, links, authentication destinations, and branding to /studio
-- [ ] Make /admin and every old child a public 404 without revealing Studio
-- [ ] Verify signed-out redirect, signed-in Studio, invitation/reset destinations, noindex, sitemap, and public site
+- [x] Move all CMS routes, links, authentication destinations, and branding to /studio
+- [x] Make /admin and every old child a public 404 without revealing Studio
+- [ ] Verify signed-out redirect, signed-in Studio, invitation/reset destinations, noindex, sitemap, and public site (real invitation/reset delivery awaits a safe test account)
 
 # CMS filter presentation
 - [x] Unify rounded search, selects, active states, clear actions, and mobile filter sheet across CMS lists
