@@ -42,7 +42,8 @@ export function DataList<T extends { id: string }>({ rows, columns, onOpen, sear
   const mounted = useRef(false);
   useEffect(() => { if (mounted.current) setPage(0); else mounted.current = true; }, [search, rows.length]); // eslint-disable-line react-hooks/exhaustive-deps
   const pages = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
-  const visible = rows.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE);
+  const cur = Math.min(page, pages - 1);
+  const visible = rows.slice(cur * PAGE_SIZE, cur * PAGE_SIZE + PAGE_SIZE);
   const [first, ...rest] = columns;
   const hide = (p?: number) => (p === 2 ? "hidden md:table-cell" : p === 3 ? "hidden xl:table-cell" : "");
 
@@ -64,7 +65,7 @@ export function DataList<T extends { id: string }>({ rows, columns, onOpen, sear
         <thead><tr className="border-b border-border text-left text-[0.6875rem] uppercase tracking-wide text-muted-foreground">
           {columns.map((c) => <th key={c.key} scope="col" className={cn("px-3 py-2.5 font-medium", hide(c.priority), c.className)}>{c.label}</th>)}
         </tr></thead>
-        <tbody>{visible.map((row) => <tr key={row.id} onClick={() => onOpen(row)} className="cursor-pointer border-b border-border last:border-b-0 hover:bg-sand">
+        <tbody>{visible.map((row) => <tr key={row.id} onClick={() => onOpen(row)} className="cursor-pointer border-b border-border last:border-b-0 transition-colors hover:bg-sand active:bg-blush">
           {columns.map((c, i) => <td key={c.key} className={cn("px-3 py-2.5 align-middle text-muted-foreground", i === 0 ? "font-medium text-ink" : "whitespace-nowrap", hide(c.priority), c.className)}>
             {i === 0 ? <button type="button" onClick={(e) => { e.stopPropagation(); onOpen(row); }} className="text-left hover:text-primary">{c.render(row)}</button> : c.render(row)}
           </td>)}
