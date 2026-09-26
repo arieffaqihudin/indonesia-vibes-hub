@@ -21,7 +21,7 @@ function Articles() {
   const navigate = useNavigate();
   const search = Route.useSearch();
   const [q, setQ] = useKept("admin.articles.index:21", "");
-  const [status, setStatus] = useState(search["status"] ?? "");
+  const [status, setStatus] = useKept("status:" + (search["status"] ?? ""), search["status"] ?? "");
   const [topic, setTopic] = useKept("admin.articles.index:23", "");
   const [format, setFormat] = useKept("admin.articles.index:24", "");
   const [author, setAuthor] = useKept("admin.articles.index:25", "");
