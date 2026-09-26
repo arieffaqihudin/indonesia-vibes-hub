@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { SITE_URL, publicUrl } from "@/lib/public-seo";
+import { publicUrl } from "@/lib/public-seo";
 import { events, people, places, stories } from "@/data/content";
 import { institutions } from "@/data/institutions";
 import { collaborations } from "@/data/collaborations";

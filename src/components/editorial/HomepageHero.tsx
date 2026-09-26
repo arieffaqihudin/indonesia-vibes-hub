@@ -118,6 +118,7 @@ export function HomepageHero({ slides }: { slides: HomepageHeroSlide[] }) {
         <p className="pointer-events-none absolute top-6 left-5 z-20 flex items-center gap-3 text-[0.7rem] font-semibold tracking-[0.2em] text-primary-foreground/80 uppercase sm:left-8 md:top-8 md:left-12 lg:left-[max(4rem,8vw)]">
           Indonesia, told through culture <span aria-hidden="true" className="h-px w-8 bg-primary-foreground/40" /> <span className="text-pink">Culture for the future</span>
         </p>
+        <h1 className="sr-only">Indonesia, Told Through Culture</h1>
         {slides.map(({ article, selection }, index) => {
           const credit = slideAttribution(article);
           const headline = selection.headline || article.title;
@@ -151,11 +152,7 @@ export function HomepageHero({ slides }: { slides: HomepageHeroSlide[] }) {
                       <span className="h-px w-10 bg-primary" aria-hidden="true" />
                       {publicFormat(article)} <span aria-hidden="true">·</span> {article.topics?.[0] ?? "Indonesia"}
                     </p>
-                    {index === 0 ? <h1 className="mt-5 max-w-[13ch] text-[clamp(2.45rem,5.8vw,5.5rem)] leading-[0.94] font-medium text-primary-foreground">
-                      <Link to="/stories/$slug" params={{ slug: article.slug }} className="transition-colors hover:text-pink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink" tabIndex={multiple && index !== active ? -1 : undefined}>
-                        {headline}
-                      </Link>
-                    </h1> : <h2 className="mt-5 max-w-[13ch] text-[clamp(2.45rem,5.8vw,5.5rem)] leading-[0.94] font-medium text-primary-foreground"><Link to="/stories/$slug" params={{ slug: article.slug }} className="transition-colors hover:text-pink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink" tabIndex={multiple && index !== active ? -1 : undefined}>{headline}</Link></h2>}
+                    <h2 className="mt-5 max-w-[13ch] text-[clamp(2.45rem,5.8vw,5.5rem)] leading-[0.94] font-medium text-primary-foreground"><Link to="/stories/$slug" params={{ slug: article.slug }} className="transition-colors hover:text-pink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink" tabIndex={multiple && index !== active ? -1 : undefined}>{headline}</Link></h2>
                     <p className="mt-5 line-clamp-3 max-w-xl text-base leading-relaxed text-primary-foreground/82 sm:text-lg">
                       {summary}
                     </p>
