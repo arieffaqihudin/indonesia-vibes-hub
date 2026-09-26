@@ -25,7 +25,7 @@ function Topics() {
   type Row = (typeof rows)[number];
   const columns: Column<Row>[] = [
     { key: "name", label: "Name", render: (t) => t.name },
-    { key: "desc", label: "Description", render: (t) => <span className="line-clamp-1 max-w-md">{t.intro}</span>, priority: 3 },
+    { key: "desc", label: "Description", render: (t) => <span className="line-clamp-1 whitespace-normal max-w-md">{t.intro}</span>, priority: 3 },
     { key: "articles", label: "Articles", render: (t) => count(t.name, "article") },
     { key: "heritage", label: "Heritage", render: (t) => count(t.name, "heritage"), priority: 2 },
     { key: "status", label: "Status", render: (t) => <StatusBadge status={t.status} /> },

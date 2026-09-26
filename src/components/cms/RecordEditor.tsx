@@ -107,6 +107,7 @@ export function RecordEditor({ id, type: newType }: { id: string; type?: CmsType
   const saveDraft = () => { flush({ status: "Draft" }); toast.success("Draft saved"); };
   const publish = () => {
     if (!d.title.trim()) { toast.error("Add a title before publishing."); return; }
+    if (d.type === "article" && !d.author) { toast.error("Choose the author before publishing."); return; }
     if (!canPublish) { flush({ status: "In Review" }); toast.success("Sent for review"); return; }
     const wasPublished = d.status === "Published";
     flush({ status: "Published", publishedAt: d.publishedAt ?? new Date().toISOString() });

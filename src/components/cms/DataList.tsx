@@ -61,7 +61,7 @@ export function DataList<T extends { id: string }>({ rows, columns, onOpen, sear
           {columns.map((c) => <th key={c.key} scope="col" className={cn("px-3 py-2.5 font-medium", hide(c.priority), c.className)}>{c.label}</th>)}
         </tr></thead>
         <tbody>{visible.map((row) => <tr key={row.id} onClick={() => onOpen(row)} className="cursor-pointer border-b border-border last:border-b-0 hover:bg-sand">
-          {columns.map((c, i) => <td key={c.key} className={cn("px-3 py-2.5 align-middle text-muted-foreground", i === 0 && "font-medium text-ink", hide(c.priority), c.className)}>
+          {columns.map((c, i) => <td key={c.key} className={cn("px-3 py-2.5 align-middle text-muted-foreground", i === 0 ? "font-medium text-ink" : "whitespace-nowrap", hide(c.priority), c.className)}>
             {i === 0 ? <button type="button" onClick={(e) => { e.stopPropagation(); onOpen(row); }} className="text-left hover:text-primary">{c.render(row)}</button> : c.render(row)}
           </td>)}
         </tr>)}</tbody>

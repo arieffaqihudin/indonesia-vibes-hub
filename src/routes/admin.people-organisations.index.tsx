@@ -52,7 +52,7 @@ function Directory() {
   const columns: Column<CmsRecord>[] = [
     { key: "name", label: "Name", render: (r) => <span className="flex items-center gap-2.5">{r.image ? <img src={r.image} alt="" className="h-8 w-8 rounded-full object-cover" /> : <span className="h-8 w-8 rounded-full bg-muted" />}{r.title || "Untitled"}</span> },
     { key: "type", label: "Type", render: (r) => r.type === "organisation" ? (r.fields["orgType"] || "Organisation") : TYPE_LABEL[r.type].one, priority: 2 },
-    { key: "focus", label: "Focus", render: (r) => <span className="line-clamp-1">{r.fields["role"] || r.summary || "—"}</span>, priority: 3 },
+    { key: "focus", label: "Focus", render: (r) => <span className="line-clamp-1 whitespace-normal">{r.fields["role"] || r.summary || "—"}</span>, priority: 3 },
     { key: "location", label: "Location", render: (r) => r.fields["location"] || "—", priority: 3 },
     { key: "status", label: "Status", render: (r) => <StatusBadge status={r.status} /> },
     { key: "views", label: "Views", render: () => NO_DATA, priority: 3 },

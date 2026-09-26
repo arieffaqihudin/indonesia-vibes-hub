@@ -26,7 +26,7 @@ function FaqList() {
   const columns: Column<Faq>[] = [
     { key: "q", label: "Question", render: (f) => f.question || "Untitled question" },
     { key: "cat", label: "Category", render: (f) => f.category, priority: 2 },
-    { key: "used", label: "Used on", render: (f) => <span className="line-clamp-1">{f.placements.map(placementLabel).join(", ")}</span>, priority: 3 },
+    { key: "used", label: "Used on", render: (f) => <span className="line-clamp-1 whitespace-normal">{f.placements.map(placementLabel).join(", ")}</span>, priority: 3 },
     { key: "status", label: "Status", render: (f) => <StatusBadge status={f.status} /> },
     { key: "updated", label: "Updated", render: (f) => formatWhen(f.updatedAt), priority: 3 },
   ];

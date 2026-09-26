@@ -40,7 +40,7 @@ function List() {
   const columns: Column<CmsRecord>[] = [
     { key: "title", label: "Title", render: (r) => r.title || "Untitled" },
     { key: "countries", label: "Countries", render: (r) => r.fields["countries"] || "—", priority: 2 },
-    { key: "partners", label: "Partners", render: (r) => <span className="line-clamp-1">{r.fields["partners"] || "—"}</span>, priority: 3 },
+    { key: "partners", label: "Partners", render: (r) => <span className="line-clamp-1 whitespace-normal">{r.fields["partners"] || "—"}</span>, priority: 3 },
     { key: "visibility", label: "Visibility", render: (r) => r.fields["visibility"] || "Public", priority: 3 },
     { key: "story", label: "Public Story", render: (r) => (r.fields["publicStory"] === "on" ? <span className="font-medium text-primary">On</span> : "Off"), priority: 2 },
     { key: "status", label: "Status", render: (r) => <StatusBadge status={r.status} /> },
