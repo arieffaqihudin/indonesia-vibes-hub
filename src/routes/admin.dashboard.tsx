@@ -58,7 +58,6 @@ function Dashboard() {
   const [period, setPeriod] = useState<Period>("30");
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
-  const [compare, setCompare] = useState(false);
   const [trend, setTrend] = useState<"Visitors" | "Page Views">("Visitors");
   const articles = cms.byType("article").filter((record) => !exampleRecordIds.has(record.id));
   const events = cms.byType("event").filter((record) => !exampleRecordIds.has(record.id));
@@ -107,7 +106,7 @@ function Dashboard() {
     </header>
 
     <section aria-label="Audience performance">
-      <div className="mb-3 flex items-center justify-between gap-3"><p className="text-[0.6875rem] font-semibold uppercase text-muted-foreground">Audience performance</p><label className="flex items-center gap-2 text-xs text-muted-foreground"><input type="checkbox" checked={compare} disabled onChange={(event) => setCompare(event.target.checked)} className="h-4 w-4 accent-primary" />Compare with previous period <span className="sr-only">Available when analytics is connected</span></label></div>
+      <div className="mb-3"><p className="text-[0.6875rem] font-semibold uppercase text-muted-foreground">Audience performance</p></div>
       <div className="grid grid-cols-2 border-y border-border/70 md:grid-cols-4">
         {METRICS.map(({ label, tip }, index) => <div key={label} className={cn("min-w-0 py-5", index % 2 ? "pl-4" : "pr-4", index < 2 && "border-b border-border/70 md:border-b-0", index % 2 === 1 && "border-l border-border/70", index > 1 && "md:border-l md:border-border/70 md:pl-5", index === 1 && "md:border-l md:border-border/70 md:pl-5")}>
           <p className="text-3xl font-semibold tabular-nums text-ink">—</p><p className="mt-2 flex items-center gap-1 text-xs font-medium text-ink sm:text-sm">{label}<span title={tip} aria-label={tip}><Info className="h-3 w-3 text-muted-foreground" /></span></p><p className="mt-1 text-xs text-muted-foreground">Not connected</p>
