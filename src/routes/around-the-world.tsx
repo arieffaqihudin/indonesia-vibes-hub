@@ -5,6 +5,7 @@ import { PageHeader } from "@/components/editorial/Section";
 import { WorldMap } from "@/components/map/WorldMap";
 import { formatEventDates, getEventById, worldNodes } from "@/data/content";
 import { cn } from "@/lib/utils";
+import { pageIdentity } from "@/lib/public-seo";
 
 export const Route = createFileRoute("/around-the-world")({
   head: () => ({
@@ -13,9 +14,11 @@ export const Route = createFileRoute("/around-the-world")({
       { name: "description", content: "A live map of Indonesian cultural programmes abroad, arcing out from Jakarta to six continents." },
       { property: "og:title", content: "Indonesia Around the World — Indonesia Vibes" },
       { property: "og:description", content: "A live map of Indonesian cultural programmes abroad, arcing out from Jakarta to six continents." },
-      { property: "og:url", content: "/around-the-world" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+      ...pageIdentity("/around-the-world").meta,
     ],
-    links: [{ rel: "canonical", href: "/around-the-world" }],
+    links: pageIdentity("/around-the-world").links,
   }),
   component: AroundTheWorldPage,
 });
@@ -31,7 +34,7 @@ function AroundTheWorldPage() {
       <PageHeader
         eyebrow="Experience"
         title="Indonesia around the world"
-        intro="Every programme we run outside Indonesia, on one map. Select a city to see what is there and when."
+        intro="Explore Indonesian cultural programmes and exchange around the world. Browse the places and activities below, or select a city on the map."
       />
       <div className="container-editorial pt-8 lg:hidden">
         <div className="inline-flex rounded-full border border-border p-0.5" role="group" aria-label="Choose a view">

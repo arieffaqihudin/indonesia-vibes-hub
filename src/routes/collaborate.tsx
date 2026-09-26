@@ -5,6 +5,7 @@ import { CollaborationCard, InstitutionCard } from "@/components/editorial/Entit
 import { ContextualFaq } from "@/components/editorial/FaqList";
 import { collaborations } from "@/data/collaborations";
 import { institutions } from "@/data/institutions";
+import { pageIdentity } from "@/lib/public-seo";
 
 const ways = [
   { title: "Cultural programmes", body: "Exhibitions, performances, festivals and seasons that bring Indonesian work to new audiences." },
@@ -31,8 +32,9 @@ export const Route = createFileRoute("/collaborate")({
       { property: "og:description", content: "Ways to collaborate, featured collaborations, and how to start a conversation with Indonesia Vibes." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      ...pageIdentity("/collaborate").meta,
     ],
-    links: [{ rel: "canonical", href: "/collaborate" }],
+    links: pageIdentity("/collaborate").links,
   }),
   component: CollaboratePage,
 });

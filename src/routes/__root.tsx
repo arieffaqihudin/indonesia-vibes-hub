@@ -113,6 +113,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           name: brand.name,
           description: brand.mission,
           email: brand.email,
+          url: "https://indonesia-vibes-hub.lovable.app/",
+          logo: "https://indonesia-vibes-hub.lovable.app/favicon.png",
         }),
       },
     ],

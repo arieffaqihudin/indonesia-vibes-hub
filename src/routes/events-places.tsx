@@ -4,13 +4,15 @@ import { FilterBar } from "@/components/editorial/FilterBar";
 import { PlaceCard } from "@/components/editorial/EntityCards";
 import { PageHeader } from "@/components/editorial/Section";
 import { eventLocationLabel, events, eventStatus, formatEventDates, places } from "@/data/content";
+import { pageIdentity } from "@/lib/public-seo";
 
 type View = "All" | "Events" | "Places";
 export const Route = createFileRoute("/events-places")({ head: () => ({ meta: [
   { title: "Events & Places — Indonesia Vibes" }, { name: "description", content: "Find Indonesian cultural events and the places where culture is made, kept and experienced." },
   { property: "og:title", content: "Events & Places — Indonesia Vibes" }, { property: "og:description", content: "Find Indonesian cultural events and the places where culture is made, kept and experienced." },
   { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" },
-] }), component: EventsPlaces });
+  ...pageIdentity("/events-places").meta,
+], links: pageIdentity("/events-places").links }), component: EventsPlaces });
 function EventsPlaces() {
   const [view, setView] = useState<View>("All"); const [query, setQuery] = useState(""); const [where, setWhere] = useState<string | null>(null);
   const q = query.toLowerCase();

@@ -12,3 +12,8 @@ Allow: /
 
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /contributor
+Disallow: /api/
+
+Sitemap: https://indonesia-vibes-hub.lovable.app/sitemap.xml
