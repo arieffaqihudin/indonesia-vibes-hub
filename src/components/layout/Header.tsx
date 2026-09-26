@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 
 import { Wordmark } from "@/components/brand/Wordmark";
 import { navigation } from "@/lib/navigation";
-import { getFreshContent } from "@/lib/freshness";
 import { cn } from "@/lib/utils";
 
 function isGroupActive(to: string, pathname: string) {
@@ -25,7 +24,6 @@ export function Header() {
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const lastY = useRef(0);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const focus = getFreshContent({ limit: 2, maxPerFamily: 1 });
 
   useEffect(() => {
     setOpen(null);
@@ -202,7 +200,7 @@ export function Header() {
             onMouseEnter={cancelClose}
             className="menu-in absolute inset-x-0 top-full hidden border-b border-border bg-background/98 backdrop-blur-xl lg:block"
           >
-            <div className="container-editorial grid gap-8 py-8 lg:grid-cols-[minmax(0,13rem)_minmax(0,1fr)] xl:grid-cols-[minmax(0,15rem)_minmax(0,1fr)_minmax(0,17rem)] xl:gap-10 xl:py-9">
+            <div className="container-editorial grid gap-8 py-8 lg:grid-cols-[minmax(0,13rem)_minmax(0,1fr)] xl:grid-cols-[minmax(0,15rem)_minmax(0,1fr)] xl:gap-10 xl:py-9">
               <div className="stagger-item">
                 <p className="eyebrow text-primary">{group.stage}</p>
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{group.intro}</p>
@@ -229,25 +227,6 @@ export function Header() {
                   </li>
                 ))}
               </ul>
-              <div
-                className="stagger-item hidden border-l border-border pl-8 xl:block"
-                style={{ ["--reveal-delay" as string]: "140ms" }}
-              >
-                <p className="eyebrow text-muted-foreground">In focus</p>
-                <ul className="mt-3 space-y-3">
-                  {focus.map((n) => (
-                    <li key={n.id}>
-                      <Link to={n.href} className="group block">
-                        <span className="eyebrow block text-primary">{n.label}</span>
-                        <span className="mt-1 block text-sm leading-snug font-medium text-ink transition-colors duration-200 group-hover:text-primary">
-                          {n.headline}
-                        </span>
-                        <span className="mt-1 block text-xs text-muted-foreground">{n.meta}</span>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
             </div>
           </div>
         );
