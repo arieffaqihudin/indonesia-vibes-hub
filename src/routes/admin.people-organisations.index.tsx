@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { ChevronDown, Plus } from "lucide-react";
 
-import { useKept } from "@/lib/cms/kept";
+import { setKeptValue, useKept } from "@/lib/cms/kept";
 import { adminHead } from "@/lib/admin/head";
 import { formatWhen, useCms } from "@/lib/cms/store";
 import { useOptions } from "@/lib/cms/options";
@@ -60,8 +60,8 @@ function Directory() {
   ];
   return <>
     <PageHeader title="People & Organisations" actions={<NewMenu />} />
-    <Tabs<Tab> value={tab} onChange={setTab} tabs={[{ id: "all", label: "All", count: all.length }, { id: "person", label: "People", count: count("person") }, { id: "community", label: "Communities", count: count("community") }, { id: "organisation", label: "Institutions & Organisations", count: count("organisation") }]} />
-    <DataList resetKey={tab} rows={rows} columns={columns} onOpen={(r) => void navigate({ to: "/admin/people-organisations/$id", params: { id: r.id } })} search={q} onSearch={setQ} searchPlaceholder="Search by name…"
+    <Tabs<Tab> value={tab} onChange={(next) => { setKeptValue(`page:${window.location.pathname}`, 0); setTab(next); }} tabs={[{ id: "all", label: "All", count: all.length }, { id: "person", label: "People", count: count("person") }, { id: "community", label: "Communities", count: count("community") }, { id: "organisation", label: "Institutions & Organisations", count: count("organisation") }]} />
+    <DataList key={tab} resetKey={tab} rows={rows} columns={columns} onOpen={(r) => void navigate({ to: "/admin/people-organisations/$id", params: { id: r.id } })} search={q} onSearch={setQ} searchPlaceholder="Search by name…"
       mobileMeta={(r) => <><StatusBadge status={r.status} /><span>{TYPE_LABEL[r.type].one}</span><span>{r.fields["location"]}</span></>}
       filters={[
         { label: "Topic", value: topic, options: uniq(all.flatMap((r) => r.relations.topics ?? [])), onChange: setTopic },

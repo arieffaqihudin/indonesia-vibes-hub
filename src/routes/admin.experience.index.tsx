@@ -30,7 +30,7 @@ function Experience() {
   return <>
     <PageHeader title="Experience" actions={cta} />
     <Tabs<Tab> value={tab} onChange={(next) => { setKeptValue(`page:${window.location.pathname}`, 0); setTab(next); }} tabs={[{ id: "events", label: "Events" }, { id: "places", label: "Places" }, { id: "world", label: "Around the World" }]} />
-    {tab === "events" ? <Events missingOnly={search["missing"] === "1"} /> : tab === "places" ? <Places /> : <World />}
+    {tab === "events" ? <Events key="events" missingOnly={search["missing"] === "1"} /> : tab === "places" ? <Places key="places" /> : <World key="world" />}
   </>;
 }
 
