@@ -49,7 +49,7 @@ export function RecordEditor({ id, type: newType }: { id: string; type?: CmsType
   const navigate = useNavigate();
   const options = useOptions();
   const existing = id === "new" ? undefined : cms.getRecord(id);
-  const [draft, setDraft] = useState<CmsRecord | undefined>(() => existing ?? (newType ? blank(newType, cms.editorName) : undefined));
+  const [draft, setDraft] = useState<CmsRecord | undefined>(() => (id === "new" ? (newType ? blank(newType, cms.editorName) : undefined) : existing));
   const [saveState, setSaveState] = useState<SaveState>("idle");
   const created = useRef(Boolean(existing));
   const timer = useRef<ReturnType<typeof setTimeout>>(undefined);
@@ -57,7 +57,7 @@ export function RecordEditor({ id, type: newType }: { id: string; type?: CmsType
   latest.current = draft;
 
   // Store hydrates from the browser after first render; pick the record up once it appears.
-  useEffect(() => { if (!draft && existing) { setDraft(existing); created.current = true; } }, [existing, draft]);
+  useEffect(() => { if (existing && draft?.id !== existing.id) { setDraft(existing); created.current = true; } }, [existing, draft?.id]);
 
   const persist = useCallback((record: CmsRecord) => {
     if (!created.current) {
