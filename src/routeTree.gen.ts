@@ -74,12 +74,16 @@ import { Route as AdminArticlesIndexRouteImport } from './routes/admin.articles.
 import { Route as AdminArticlesIdRouteImport } from './routes/admin.articles.$id'
 import { Route as AdminCollaborationsIndexRouteImport } from './routes/admin.collaborations.index'
 import { Route as AdminCollaborationsIdRouteImport } from './routes/admin.collaborations.$id'
+import { Route as AdminCollectionsIndexRouteImport } from './routes/admin.collections.index'
+import { Route as AdminCollectionsIdRouteImport } from './routes/admin.collections.$id'
 import { Route as AdminExperienceIndexRouteImport } from './routes/admin.experience.index'
 import { Route as AdminExperienceIdRouteImport } from './routes/admin.experience.$id'
 import { Route as AdminHeritageIndexRouteImport } from './routes/admin.heritage.index'
 import { Route as AdminHeritageIdRouteImport } from './routes/admin.heritage.$id'
 import { Route as AdminPeopleOrganisationsIndexRouteImport } from './routes/admin.people-organisations.index'
 import { Route as AdminPeopleOrganisationsIdRouteImport } from './routes/admin.people-organisations.$id'
+import { Route as AdminTopicsIndexRouteImport } from './routes/admin.topics.index'
+import { Route as AdminTopicsIdRouteImport } from './routes/admin.topics.$id'
 import { Route as ContributorSubmissionsIndexRouteImport } from './routes/contributor.submissions.index'
 import { Route as ExploreTopicsIndexRouteImport } from './routes/explore.topics.index'
 import { Route as ExploreTopicsSlugRouteImport } from './routes/explore.topics.$slug'
@@ -423,6 +427,16 @@ const AdminCollaborationsIdRoute = AdminCollaborationsIdRouteImport.update({
   path: '/collaborations/$id',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminCollectionsIndexRoute = AdminCollectionsIndexRouteImport.update({
+  id: '/collections/',
+  path: '/collections/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminCollectionsIdRoute = AdminCollectionsIdRouteImport.update({
+  id: '/collections/$id',
+  path: '/collections/$id',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminExperienceIndexRoute = AdminExperienceIndexRouteImport.update({
   id: '/experience/',
   path: '/experience/',
@@ -455,6 +469,16 @@ const AdminPeopleOrganisationsIdRoute =
     path: '/people-organisations/$id',
     getParentRoute: () => AdminRoute,
   } as any)
+const AdminTopicsIndexRoute = AdminTopicsIndexRouteImport.update({
+  id: '/topics/',
+  path: '/topics/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminTopicsIdRoute = AdminTopicsIdRouteImport.update({
+  id: '/topics/$id',
+  path: '/topics/$id',
+  getParentRoute: () => AdminRoute,
+} as any)
 const ContributorSubmissionsIndexRoute =
   ContributorSubmissionsIndexRouteImport.update({
     id: '/contributor/submissions/',
@@ -596,18 +620,22 @@ export interface FileRoutesByFullPath {
   '/stories/': typeof StoriesIndexRoute
   '/admin/articles/$id': typeof AdminArticlesIdRoute
   '/admin/collaborations/$id': typeof AdminCollaborationsIdRoute
+  '/admin/collections/$id': typeof AdminCollectionsIdRoute
   '/admin/experience/$id': typeof AdminExperienceIdRoute
   '/admin/heritage/$id': typeof AdminHeritageIdRoute
   '/admin/people-organisations/$id': typeof AdminPeopleOrganisationsIdRoute
+  '/admin/topics/$id': typeof AdminTopicsIdRoute
   '/explore/topics/$slug': typeof ExploreTopicsSlugRoute
   '/understand-indonesia/collections/$slug': typeof UnderstandIndonesiaCollectionsSlugRoute
   '/understand-indonesia/heritage/$slug': typeof UnderstandIndonesiaHeritageSlugRoute
   '/understand-indonesia/topics/$slug': typeof UnderstandIndonesiaTopicsSlugRoute
   '/admin/articles/': typeof AdminArticlesIndexRoute
   '/admin/collaborations/': typeof AdminCollaborationsIndexRoute
+  '/admin/collections/': typeof AdminCollectionsIndexRoute
   '/admin/experience/': typeof AdminExperienceIndexRoute
   '/admin/heritage/': typeof AdminHeritageIndexRoute
   '/admin/people-organisations/': typeof AdminPeopleOrganisationsIndexRoute
+  '/admin/topics/': typeof AdminTopicsIndexRoute
   '/contributor/submissions/': typeof ContributorSubmissionsIndexRoute
   '/explore/topics/': typeof ExploreTopicsIndexRoute
   '/understand-indonesia/collections/': typeof UnderstandIndonesiaCollectionsIndexRoute
@@ -681,18 +709,22 @@ export interface FileRoutesByTo {
   '/stories': typeof StoriesIndexRoute
   '/admin/articles/$id': typeof AdminArticlesIdRoute
   '/admin/collaborations/$id': typeof AdminCollaborationsIdRoute
+  '/admin/collections/$id': typeof AdminCollectionsIdRoute
   '/admin/experience/$id': typeof AdminExperienceIdRoute
   '/admin/heritage/$id': typeof AdminHeritageIdRoute
   '/admin/people-organisations/$id': typeof AdminPeopleOrganisationsIdRoute
+  '/admin/topics/$id': typeof AdminTopicsIdRoute
   '/explore/topics/$slug': typeof ExploreTopicsSlugRoute
   '/understand-indonesia/collections/$slug': typeof UnderstandIndonesiaCollectionsSlugRoute
   '/understand-indonesia/heritage/$slug': typeof UnderstandIndonesiaHeritageSlugRoute
   '/understand-indonesia/topics/$slug': typeof UnderstandIndonesiaTopicsSlugRoute
   '/admin/articles': typeof AdminArticlesIndexRoute
   '/admin/collaborations': typeof AdminCollaborationsIndexRoute
+  '/admin/collections': typeof AdminCollectionsIndexRoute
   '/admin/experience': typeof AdminExperienceIndexRoute
   '/admin/heritage': typeof AdminHeritageIndexRoute
   '/admin/people-organisations': typeof AdminPeopleOrganisationsIndexRoute
+  '/admin/topics': typeof AdminTopicsIndexRoute
   '/contributor/submissions': typeof ContributorSubmissionsIndexRoute
   '/explore/topics': typeof ExploreTopicsIndexRoute
   '/understand-indonesia/collections': typeof UnderstandIndonesiaCollectionsIndexRoute
@@ -768,18 +800,22 @@ export interface FileRoutesById {
   '/stories/': typeof StoriesIndexRoute
   '/admin/articles/$id': typeof AdminArticlesIdRoute
   '/admin/collaborations/$id': typeof AdminCollaborationsIdRoute
+  '/admin/collections/$id': typeof AdminCollectionsIdRoute
   '/admin/experience/$id': typeof AdminExperienceIdRoute
   '/admin/heritage/$id': typeof AdminHeritageIdRoute
   '/admin/people-organisations/$id': typeof AdminPeopleOrganisationsIdRoute
+  '/admin/topics/$id': typeof AdminTopicsIdRoute
   '/explore/topics/$slug': typeof ExploreTopicsSlugRoute
   '/understand-indonesia/collections/$slug': typeof UnderstandIndonesiaCollectionsSlugRoute
   '/understand-indonesia/heritage/$slug': typeof UnderstandIndonesiaHeritageSlugRoute
   '/understand-indonesia/topics/$slug': typeof UnderstandIndonesiaTopicsSlugRoute
   '/admin/articles/': typeof AdminArticlesIndexRoute
   '/admin/collaborations/': typeof AdminCollaborationsIndexRoute
+  '/admin/collections/': typeof AdminCollectionsIndexRoute
   '/admin/experience/': typeof AdminExperienceIndexRoute
   '/admin/heritage/': typeof AdminHeritageIndexRoute
   '/admin/people-organisations/': typeof AdminPeopleOrganisationsIndexRoute
+  '/admin/topics/': typeof AdminTopicsIndexRoute
   '/contributor/submissions/': typeof ContributorSubmissionsIndexRoute
   '/explore/topics/': typeof ExploreTopicsIndexRoute
   '/understand-indonesia/collections/': typeof UnderstandIndonesiaCollectionsIndexRoute
@@ -856,18 +892,22 @@ export interface FileRouteTypes {
     | '/stories/'
     | '/admin/articles/$id'
     | '/admin/collaborations/$id'
+    | '/admin/collections/$id'
     | '/admin/experience/$id'
     | '/admin/heritage/$id'
     | '/admin/people-organisations/$id'
+    | '/admin/topics/$id'
     | '/explore/topics/$slug'
     | '/understand-indonesia/collections/$slug'
     | '/understand-indonesia/heritage/$slug'
     | '/understand-indonesia/topics/$slug'
     | '/admin/articles/'
     | '/admin/collaborations/'
+    | '/admin/collections/'
     | '/admin/experience/'
     | '/admin/heritage/'
     | '/admin/people-organisations/'
+    | '/admin/topics/'
     | '/contributor/submissions/'
     | '/explore/topics/'
     | '/understand-indonesia/collections/'
@@ -941,18 +981,22 @@ export interface FileRouteTypes {
     | '/stories'
     | '/admin/articles/$id'
     | '/admin/collaborations/$id'
+    | '/admin/collections/$id'
     | '/admin/experience/$id'
     | '/admin/heritage/$id'
     | '/admin/people-organisations/$id'
+    | '/admin/topics/$id'
     | '/explore/topics/$slug'
     | '/understand-indonesia/collections/$slug'
     | '/understand-indonesia/heritage/$slug'
     | '/understand-indonesia/topics/$slug'
     | '/admin/articles'
     | '/admin/collaborations'
+    | '/admin/collections'
     | '/admin/experience'
     | '/admin/heritage'
     | '/admin/people-organisations'
+    | '/admin/topics'
     | '/contributor/submissions'
     | '/explore/topics'
     | '/understand-indonesia/collections'
@@ -1027,18 +1071,22 @@ export interface FileRouteTypes {
     | '/stories/'
     | '/admin/articles/$id'
     | '/admin/collaborations/$id'
+    | '/admin/collections/$id'
     | '/admin/experience/$id'
     | '/admin/heritage/$id'
     | '/admin/people-organisations/$id'
+    | '/admin/topics/$id'
     | '/explore/topics/$slug'
     | '/understand-indonesia/collections/$slug'
     | '/understand-indonesia/heritage/$slug'
     | '/understand-indonesia/topics/$slug'
     | '/admin/articles/'
     | '/admin/collaborations/'
+    | '/admin/collections/'
     | '/admin/experience/'
     | '/admin/heritage/'
     | '/admin/people-organisations/'
+    | '/admin/topics/'
     | '/contributor/submissions/'
     | '/explore/topics/'
     | '/understand-indonesia/collections/'
@@ -1569,6 +1617,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminCollaborationsIdRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/collections/': {
+      id: '/admin/collections/'
+      path: '/collections'
+      fullPath: '/admin/collections/'
+      preLoaderRoute: typeof AdminCollectionsIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/collections/$id': {
+      id: '/admin/collections/$id'
+      path: '/collections/$id'
+      fullPath: '/admin/collections/$id'
+      preLoaderRoute: typeof AdminCollectionsIdRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/experience/': {
       id: '/admin/experience/'
       path: '/experience'
@@ -1609,6 +1671,20 @@ declare module '@tanstack/react-router' {
       path: '/people-organisations/$id'
       fullPath: '/admin/people-organisations/$id'
       preLoaderRoute: typeof AdminPeopleOrganisationsIdRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/topics/': {
+      id: '/admin/topics/'
+      path: '/topics'
+      fullPath: '/admin/topics/'
+      preLoaderRoute: typeof AdminTopicsIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/topics/$id': {
+      id: '/admin/topics/$id'
+      path: '/topics/$id'
+      fullPath: '/admin/topics/$id'
+      preLoaderRoute: typeof AdminTopicsIdRouteImport
       parentRoute: typeof AdminRoute
     }
     '/contributor/submissions/': {
@@ -1714,14 +1790,18 @@ interface AdminRouteChildren {
   AdminIndexRoute: typeof AdminIndexRoute
   AdminArticlesIdRoute: typeof AdminArticlesIdRoute
   AdminCollaborationsIdRoute: typeof AdminCollaborationsIdRoute
+  AdminCollectionsIdRoute: typeof AdminCollectionsIdRoute
   AdminExperienceIdRoute: typeof AdminExperienceIdRoute
   AdminHeritageIdRoute: typeof AdminHeritageIdRoute
   AdminPeopleOrganisationsIdRoute: typeof AdminPeopleOrganisationsIdRoute
+  AdminTopicsIdRoute: typeof AdminTopicsIdRoute
   AdminArticlesIndexRoute: typeof AdminArticlesIndexRoute
   AdminCollaborationsIndexRoute: typeof AdminCollaborationsIndexRoute
+  AdminCollectionsIndexRoute: typeof AdminCollectionsIndexRoute
   AdminExperienceIndexRoute: typeof AdminExperienceIndexRoute
   AdminHeritageIndexRoute: typeof AdminHeritageIndexRoute
   AdminPeopleOrganisationsIndexRoute: typeof AdminPeopleOrganisationsIndexRoute
+  AdminTopicsIndexRoute: typeof AdminTopicsIndexRoute
   AdminCollaborationsRequestsIdRoute: typeof AdminCollaborationsRequestsIdRoute
 }
 
@@ -1734,14 +1814,18 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminIndexRoute: AdminIndexRoute,
   AdminArticlesIdRoute: AdminArticlesIdRoute,
   AdminCollaborationsIdRoute: AdminCollaborationsIdRoute,
+  AdminCollectionsIdRoute: AdminCollectionsIdRoute,
   AdminExperienceIdRoute: AdminExperienceIdRoute,
   AdminHeritageIdRoute: AdminHeritageIdRoute,
   AdminPeopleOrganisationsIdRoute: AdminPeopleOrganisationsIdRoute,
+  AdminTopicsIdRoute: AdminTopicsIdRoute,
   AdminArticlesIndexRoute: AdminArticlesIndexRoute,
   AdminCollaborationsIndexRoute: AdminCollaborationsIndexRoute,
+  AdminCollectionsIndexRoute: AdminCollectionsIndexRoute,
   AdminExperienceIndexRoute: AdminExperienceIndexRoute,
   AdminHeritageIndexRoute: AdminHeritageIndexRoute,
   AdminPeopleOrganisationsIndexRoute: AdminPeopleOrganisationsIndexRoute,
+  AdminTopicsIndexRoute: AdminTopicsIndexRoute,
   AdminCollaborationsRequestsIdRoute: AdminCollaborationsRequestsIdRoute,
 }
 
