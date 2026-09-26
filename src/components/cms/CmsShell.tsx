@@ -1,7 +1,7 @@
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import {
-  CalendarDays, ExternalLink, FileText, Handshake, Home, Landmark, LayoutDashboard, Library, LogOut, Menu, Search, Settings, Tags, Users, X, Files, type LucideIcon,
+  CalendarDays, ExternalLink, FileText, Handshake, Home, Landmark, LayoutDashboard, Library, KeyRound, LogOut, Menu, UserRound, Search, Settings, Tags, Users, X, Files, type LucideIcon,
 } from "lucide-react";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 
@@ -14,6 +14,7 @@ import { TYPE_LABEL, editPath } from "@/lib/cms/types";
 import { useTopics } from "@/lib/topics";
 import { cn } from "@/lib/utils";
 import { inputClass } from "./ui";
+import { ChangePasswordDialog } from "./ChangePassword";
 
 type NavItem = { to: string; label: string; icon: LucideIcon };
 const NAV: { label?: string; items: NavItem[] }[] = [
@@ -105,10 +106,12 @@ function Account() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
+  const [pw, setPw] = useState(false);
   const initials = (account?.name ?? "?").split(/\s+/).map((p) => p[0]).join("").slice(0, 2).toUpperCase();
   const signOut = async () => {
     await queryClient.cancelQueries(); queryClient.clear(); clearAccountCache();
     await supabase.auth.signOut();
+    window.sessionStorage.removeItem("iv-cms-session-active");
     void navigate({ to: "/admin/login", replace: true });
   };
   return <div className="relative">
@@ -116,11 +119,26 @@ function Account() {
     {open ? <>
       <button type="button" aria-label="Close menu" className="fixed inset-0 z-40 cursor-default" onClick={() => setOpen(false)} />
       <div className="absolute top-full right-0 z-50 mt-2 w-60 rounded-md border border-border bg-background p-1 shadow-lg">
-        <div className="border-b border-border px-3 py-2.5"><p className="truncate text-sm font-medium text-ink">{account?.name}</p><p className="truncate text-xs text-muted-foreground">{account?.email}</p><p className="mt-1 text-xs text-primary">{account?.role}</p></div>
-        <Link to="/admin/settings" search={{ tab: "users" }} onClick={() => setOpen(false)} className="flex h-9 items-center gap-2 rounded px-3 text-sm text-ink hover:bg-muted"><Settings className="h-4 w-4" />Account & roles</Link>
-        <button type="button" onClick={() => void signOut()} className="flex h-9 w-full items-center gap-2 rounded px-3 text-sm text-ink hover:bg-muted"><LogOut className="h-4 w-4" />Sign out</button>
+        <div className="border-b border-border px-3 py-2.5"><p className="truncate text-sm font-medium text-ink">{account?.name}</p><p className="text-xs text-primary">{account?.role}</p><p className="mt-1 truncate text-xs text-muted-foreground">{account?.email}</p></div>
+        <Link to="/admin/settings" search={{ tab: "users" }} onClick={() => setOpen(false)} className="flex h-9 items-center gap-2 rounded px-3 text-sm text-ink hover:bg-muted"><UserRound className="h-4 w-4" />Account</Link>
+        <button type="button" onClick={() => { setOpen(false); setPw(true); }} className="flex h-9 w-full items-center gap-2 rounded px-3 text-sm text-ink hover:bg-muted"><KeyRound className="h-4 w-4" />Change Password</button>
+        <button type="button" onClick={() => void signOut()} className="flex h-9 w-full items-center gap-2 rounded px-3 text-sm text-ink hover:bg-muted"><LogOut className="h-4 w-4" />Sign Out</button>
       </div>
     </> : null}
+    {pw ? <ChangePasswordDialog onClose={() => setPw(false)} /> : null}
+  </div>;
+}
+
+function PasswordNotice() {
+  const account = useCmsAccount();
+  const [open, setOpen] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  if (!account?.mustChangePassword || hidden) return null;
+  return <div className="flex flex-wrap items-center gap-3 border-b border-border bg-blush px-4 py-2 text-sm text-ink sm:px-6 lg:px-8">
+    <span className="flex-1">You're using a temporary password. Set a new one to keep your account secure.</span>
+    <button type="button" onClick={() => setOpen(true)} className="h-8 rounded-md bg-primary px-3 text-xs font-medium text-primary-foreground">Set a New Password</button>
+    <button type="button" onClick={() => setHidden(true)} className="h-8 px-2 text-xs text-muted-foreground hover:text-ink">Later</button>
+    {open ? <ChangePasswordDialog onClose={() => setOpen(false)} /> : null}
   </div>;
 }
 
@@ -131,6 +149,8 @@ export function CmsShell({ children }: { children: ReactNode }) {
   const { setEditorName } = useCms();
   useEffect(() => { if (account?.name) setEditorName(account.name); }, [account?.name, setEditorName]);
   useEffect(() => setMobile(false), [pathname]);
+  // Pages restored from the back/forward cache re-run the sign-in check.
+  useEffect(() => { const h = (e: PageTransitionEvent) => { if (e.persisted) window.location.reload(); }; window.addEventListener("pageshow", h); return () => window.removeEventListener("pageshow", h); }, []);
   const title = TITLES.find(([to]) => pathname === to || pathname.startsWith(`${to}/`))?.[1] ?? "CMS";
 
   return <div className="min-h-dvh bg-background text-ink">
@@ -148,6 +168,7 @@ export function CmsShell({ children }: { children: ReactNode }) {
         <a href="/" target="_blank" rel="noreferrer" className="hidden h-9 items-center gap-1.5 rounded-md px-2.5 text-sm text-muted-foreground hover:bg-muted hover:text-ink sm:inline-flex"><ExternalLink className="h-4 w-4" />Preview website</a>
         <Account />
       </header>
+      <PasswordNotice />
       <main className="px-4 py-5 sm:px-6 lg:px-8">{children}</main>
     </div>
   </div>;

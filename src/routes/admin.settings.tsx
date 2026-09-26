@@ -41,7 +41,7 @@ function Settings() {
 
       {tab === "users" ? <div>
         <h2 className="text-sm font-semibold text-ink">Your account</h2>
-        <dl className="mt-2"><Row label="Name">{account?.name ?? "…"}</Row><Row label="Email">{account?.email ?? "…"}</Row><Row label="Role">{account?.role ?? "…"}{account && !account.assigned ? <span className="ml-2 text-xs text-muted-foreground">(no role assigned yet — acting as Editor)</span> : null}</Row></dl>
+        <dl className="mt-2"><Row label="Name">{account?.name ?? "…"}</Row><Row label="Email">{account?.email ?? "…"}</Row><Row label="Role">{account?.role ?? "…"}{account && !account.assigned ? <span className="ml-2 text-xs text-muted-foreground">(no role assigned yet — acting as Contributor)</span> : null}</Row></dl>
         <h2 className="mt-6 text-sm font-semibold text-ink">Roles</h2>
         <ul className="mt-2 divide-y divide-border rounded-md border border-border">{ROLE_INFO.map((r) => <li key={r.role} className="px-4 py-3"><p className="text-sm font-medium text-ink">{r.role}</p><p className="text-xs text-muted-foreground">{r.text}</p></li>)}</ul>
         <p className="mt-4 text-xs text-muted-foreground">New CMS accounts are created by an administrator. Public registration is turned off.</p>
