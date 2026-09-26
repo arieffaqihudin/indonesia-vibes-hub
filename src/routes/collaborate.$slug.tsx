@@ -12,6 +12,7 @@ import {
 } from "@/data/graph";
 import { events, formatEventDates, getForm, stories } from "@/data/content";
 import { pageIdentity, breadcrumbSchema } from "@/lib/public-seo";
+import { socialImageMeta } from "@/lib/social-image";
 
 export const Route = createFileRoute("/collaborate/$slug")({
   loader: ({ params }) => {
@@ -40,7 +41,7 @@ export const Route = createFileRoute("/collaborate/$slug")({
         { property: "og:description", content: collaboration.intro },
         { property: "og:type", content: "article" },
         { name: "twitter:card", content: "summary_large_image" },
-        ...(collaboration.image?.startsWith("https://") ? [{ property: "og:image", content: collaboration.image }, { name: "twitter:image", content: collaboration.image }] : []),
+        ...socialImageMeta(collaboration.image),
         ...pageIdentity(path).meta,
         // Seed collaboration partners and outcomes are illustrative, not real agreements.
         { name: "robots", content: "noindex, follow" },
