@@ -74,7 +74,7 @@ function AddUser({ onClose }: { onClose: () => void }) {
     if (error || !data) { setBusy(false); return void toast.error(error?.code === "23505" ? "A user with this email already exists." : "Couldn't save this user."); }
     void logActivity("User Created", "Users", parsed.data.name);
     if (sendInvite) {
-      try { await invite({ data: { id: data.id, origin: window.location.origin } }); void logActivity("Invitation Sent", "Users", parsed.data.email); toast.success(`Invitation sent to ${parsed.data.email}`); }
+      try { await invite({ data: { id: data.id } }); void logActivity("Invitation Sent", "Users", parsed.data.email); toast.success(`Invitation sent to ${parsed.data.email}`); }
       catch (e) { toast.error(e instanceof Error ? e.message : "The invitation could not be sent."); }
     } else toast.success("User saved");
     setBusy(false);
