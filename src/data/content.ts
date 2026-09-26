@@ -1033,8 +1033,9 @@ export const stories: Story[] = storiesSource.map((s) => ({
   deliveryType: s.deliveryType ?? (s.kind === "Dispatch" ? "Knowledge" : s.kind === "Feature" ? "Semantic" : "Pragmatic"),
   contentSource: s.contentSource ?? "Internal",
   topics: s.topics ?? [...new Set(s.formIds.flatMap((id) => forms.find((f) => f.id === id)?.themes ?? []))],
-  publishedAt: roll(s.publishedAt),
-  ...(s.updatedAt ? { updatedAt: roll(s.updatedAt) } : {}),
+  // Publication history is an editorial fact, never a rolling demo date.
+  publishedAt: s.publishedAt,
+  ...(s.updatedAt ? { updatedAt: s.updatedAt } : {}),
 }));
 
 export const events: CulturalEvent[] = eventsSource.map((e) =>

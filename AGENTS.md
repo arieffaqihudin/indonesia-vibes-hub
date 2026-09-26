@@ -18,3 +18,4 @@
 - CMS list filter presentation lives in `src/components/cms/FilterBar.tsx` while filtering stays in each list route — so visual changes cannot alter the records or matching rules.
 - Public SEO identity is defined in `src/lib/public-seo.ts`, with server-rendered leaf metadata and one canonical per page; browser-local CMS edits are not crawlable, so the sitemap includes only code-backed meaningful public records.
 - Social previews use `src/lib/social-image.ts` and share-sized crops of the same cover images under `public/share/`; do not tag a different image from the one shown or invent a public URL for browser-local uploads.
+- Authored article publication and modification dates are fixed editorial facts; only explicitly prototype calendar events may use the rolling date demonstration in `src/data/content.ts`.
