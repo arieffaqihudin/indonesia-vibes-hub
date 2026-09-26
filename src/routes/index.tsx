@@ -20,6 +20,7 @@ import { useHomepageSettings, type HomepageSectionId } from "@/lib/homepage";
 import { useTopics } from "@/lib/topics";
 import { heritageRecords, heritageType } from "@/lib/heritage";
 import { pageIdentity } from "@/lib/public-seo";
+import { socialImageMeta } from "@/lib/social-image";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -30,6 +31,7 @@ export const Route = createFileRoute("/")({
       { property: "og:description", content: PROPOSITION },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      ...socialImageMeta(stories[0]?.image),
       ...pageIdentity("/").meta,
     ],
     links: pageIdentity("/").links,

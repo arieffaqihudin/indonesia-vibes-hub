@@ -7,6 +7,7 @@ import { collectionBySlug, collectionReadingMinutes, collectionStoryLabel } from
 import { publicFormat } from "@/lib/editorial";
 import type { Story } from "@/types/content";
 import { pageIdentity, breadcrumbSchema } from "@/lib/public-seo";
+import { socialImageMeta } from "@/lib/social-image";
 
 export const Route = createFileRoute("/understand-indonesia/collections/$slug")({
   loader: ({ params }) => { const collection = collectionBySlug(params.slug); if (!collection) throw notFound(); return collection; },
@@ -18,7 +19,7 @@ export const Route = createFileRoute("/understand-indonesia/collections/$slug")(
       { title: `${loaderData.title} | Indonesia Vibes` }, { name: "description", content: loaderData.introduction },
       { property: "og:title", content: `${loaderData.title} — Indonesia Vibes` }, { property: "og:description", content: loaderData.introduction },
       { property: "og:type", content: "article" }, { name: "twitter:card", content: "summary_large_image" },
-      ...(loaderData.image?.startsWith("https://") ? [{ property: "og:image", content: loaderData.image }, { name: "twitter:image", content: loaderData.image }] : []),
+      ...socialImageMeta(loaderData.image),
       ...pageIdentity(path).meta, ...(!meaningful ? [{ name: "robots", content: "noindex, follow" }] : []),
     ], links: pageIdentity(path).links, scripts: [breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Understand Indonesia", path: "/understand-indonesia" }, { name: "Collections", path: "/understand-indonesia/collections" }, { name: loaderData.title, path }])] };
   },
