@@ -34,6 +34,7 @@ import { Route as SearchRouteImport } from './routes/search'
 import { Route as UnderstandIndonesiaRouteImport } from './routes/understand-indonesia'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminSplatRouteImport } from './routes/admin.$'
+import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
 import { Route as AdminForgotPasswordRouteImport } from './routes/admin.forgot-password'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AdminResetPasswordRouteImport } from './routes/admin.reset-password'
@@ -205,6 +206,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
 const AdminSplatRoute = AdminSplatRouteImport.update({
   id: '/$',
   path: '/$',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminDashboardRoute = AdminDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminForgotPasswordRoute = AdminForgotPasswordRouteImport.update({
@@ -481,6 +487,7 @@ export interface FileRoutesByFullPath {
   '/search': typeof SearchRoute
   '/understand-indonesia': typeof UnderstandIndonesiaRouteWithChildren
   '/admin/$': typeof AdminSplatRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/forgot-password': typeof AdminForgotPasswordRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/reset-password': typeof AdminResetPasswordRoute
@@ -554,6 +561,7 @@ export interface FileRoutesByTo {
   '/search': typeof SearchRoute
   '/understand-indonesia': typeof UnderstandIndonesiaRouteWithChildren
   '/admin/$': typeof AdminSplatRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/forgot-password': typeof AdminForgotPasswordRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/reset-password': typeof AdminResetPasswordRoute
@@ -629,6 +637,7 @@ export interface FileRoutesById {
   '/search': typeof SearchRoute
   '/understand-indonesia': typeof UnderstandIndonesiaRouteWithChildren
   '/admin/$': typeof AdminSplatRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/forgot-password': typeof AdminForgotPasswordRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/reset-password': typeof AdminResetPasswordRoute
@@ -705,6 +714,7 @@ export interface FileRouteTypes {
     | '/search'
     | '/understand-indonesia'
     | '/admin/$'
+    | '/admin/dashboard'
     | '/admin/forgot-password'
     | '/admin/login'
     | '/admin/reset-password'
@@ -778,6 +788,7 @@ export interface FileRouteTypes {
     | '/search'
     | '/understand-indonesia'
     | '/admin/$'
+    | '/admin/dashboard'
     | '/admin/forgot-password'
     | '/admin/login'
     | '/admin/reset-password'
@@ -852,6 +863,7 @@ export interface FileRouteTypes {
     | '/search'
     | '/understand-indonesia'
     | '/admin/$'
+    | '/admin/dashboard'
     | '/admin/forgot-password'
     | '/admin/login'
     | '/admin/reset-password'
@@ -1139,6 +1151,13 @@ declare module '@tanstack/react-router' {
       path: '/$'
       fullPath: '/admin/$'
       preLoaderRoute: typeof AdminSplatRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/dashboard': {
+      id: '/admin/dashboard'
+      path: '/dashboard'
+      fullPath: '/admin/dashboard'
+      preLoaderRoute: typeof AdminDashboardRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/forgot-password': {
@@ -1475,6 +1494,7 @@ declare module '@tanstack/react-router' {
 
 interface AdminRouteChildren {
   AdminSplatRoute: typeof AdminSplatRoute
+  AdminDashboardRoute: typeof AdminDashboardRoute
   AdminForgotPasswordRoute: typeof AdminForgotPasswordRoute
   AdminLoginRoute: typeof AdminLoginRoute
   AdminResetPasswordRoute: typeof AdminResetPasswordRoute
@@ -1483,6 +1503,7 @@ interface AdminRouteChildren {
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminSplatRoute: AdminSplatRoute,
+  AdminDashboardRoute: AdminDashboardRoute,
   AdminForgotPasswordRoute: AdminForgotPasswordRoute,
   AdminLoginRoute: AdminLoginRoute,
   AdminResetPasswordRoute: AdminResetPasswordRoute,
