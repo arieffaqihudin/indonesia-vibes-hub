@@ -29,7 +29,7 @@ export const Route = createFileRoute("/sitemap.xml")({
         heritageRecords.filter((item) => Boolean(item.whatItIs?.trim() && item.whyMatters?.trim())).forEach((item) => paths.add(`/understand-indonesia/heritage/${item.slug}`));
         COLLECTIONS.filter((item) => item.status === "Published" && item.longIntroduction.trim() && item.storyIds.filter((id) => stories.some((story) => story.id === id)).length >= 2).forEach((item) => paths.add(`/understand-indonesia/collections/${item.slug}`));
         people.filter((person) => (person.intro ?? person.bio).trim().length > 100).forEach((person) => paths.add(`/people/${person.slug}`));
-        events.filter((event) => Boolean(event.title && (event.summary || event.context))).forEach((event) => paths.add(`/events/${event.slug}`));
+        events.filter((event) => Boolean(event.fixedDate && event.title && (event.summary || event.context))).forEach((event) => paths.add(`/events/${event.slug}`));
         places.filter((place) => Boolean(place.whyMatters || place.significance?.length)).forEach((place) => paths.add(`/places/${place.slug}`));
 
         const urls = [...paths].sort().map((path) => `<url><loc>${esc(publicUrl(path))}</loc></url>`).join("");
