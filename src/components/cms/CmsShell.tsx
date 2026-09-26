@@ -1,7 +1,7 @@
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import {
-  CalendarDays, ExternalLink, FileText, Handshake, History, Home, Landmark, LayoutDashboard, Library, KeyRound, LogOut, Menu, UserRound, Search, ShieldCheck, Tags, UserCog, Users, X, Files, type LucideIcon,
+  CalendarDays, ChevronLeft, ChevronRight, ExternalLink, FileText, Handshake, History, Home, Landmark, LayoutDashboard, Library, KeyRound, LogOut, Menu, UserRound, Search, ShieldCheck, Tags, UserCog, Users, X, Files, type LucideIcon,
 } from "lucide-react";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 
@@ -31,21 +31,21 @@ function RouteProgress() {
   return <div aria-hidden className={cn("pointer-events-none fixed inset-x-0 top-0 z-50 h-0.5 origin-left bg-primary transition-[opacity,transform] duration-300", loading ? "scale-x-75 opacity-100" : "scale-x-100 opacity-0")} />;
 }
 
-function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
+function Sidebar({ onNavigate, collapsed = false }: { onNavigate?: () => void; collapsed?: boolean }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const account = useCmsAccount();
   const allowed = account?.menus ?? [];
   const groups = MENU_GROUPS.map((g) => ({ ...g, items: g.items.filter((i) => allowed.includes(i.key)) })).filter((g) => g.items.length);
-  return <nav aria-label="CMS" className="flex-1 space-y-5 overflow-y-auto px-3 py-4">
+  return <nav aria-label="CMS" className={cn("min-h-0 flex-1 space-y-5 overflow-y-auto py-4", collapsed ? "px-2" : "px-3")}>
     {groups.map((group, i) => <div key={group.label ?? i}>
-      {group.label ? <p className="mb-1 px-2.5 text-[0.625rem] font-semibold uppercase tracking-[0.08em] text-muted-foreground/70">{group.label}</p> : null}
+      {group.label && !collapsed ? <p className="mb-1 px-2.5 text-[0.625rem] font-semibold uppercase tracking-[0.08em] text-muted-foreground/70">{group.label}</p> : null}
       <ul className="space-y-0.5">{group.items.map((item) => {
         const active = pathname === item.to || pathname.startsWith(`${item.to}/`);
         const Icon = ICONS[item.key];
         return <li key={item.to}>
           {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-          <Link to={item.to as any} onClick={onNavigate} aria-current={active ? "page" : undefined} className={cn("flex h-9 items-center gap-2.5 rounded-md px-2.5 text-sm text-ink/75 transition-colors duration-150 hover:bg-background/80 hover:text-ink active:bg-blush/70", active && "bg-blush font-medium text-primary hover:bg-blush hover:text-primary")}>
-            <Icon className="h-4 w-4 shrink-0" strokeWidth={1.75} aria-hidden />{item.label}
+           <Link to={item.to as any} onClick={onNavigate} aria-current={active ? "page" : undefined} aria-label={collapsed ? item.label : undefined} title={collapsed ? item.label : undefined} className={cn("group relative flex h-9 items-center gap-2.5 rounded-md px-2.5 text-sm text-ink/75 transition-colors duration-150 hover:bg-background/80 hover:text-ink active:bg-blush/70", collapsed && "justify-center px-0", active && "bg-blush font-medium text-primary hover:bg-blush hover:text-primary")}>
+             <Icon className="h-4 w-4 shrink-0" strokeWidth={1.75} aria-hidden />{!collapsed && item.label}
           </Link>
         </li>;
       })}</ul>
@@ -64,10 +64,10 @@ export function useScrollLock(locked: boolean) {
   }, [locked]);
 }
 
-function Brand() {
-  return <Link to="/admin/dashboard" className="flex h-14 shrink-0 items-center gap-2.5 px-5">
+function Brand({ collapsed = false }: { collapsed?: boolean }) {
+  return <Link to="/admin/dashboard" aria-label="Indonesia Vibes CMS dashboard" title={collapsed ? "Indonesia Vibes CMS" : undefined} className={cn("flex h-14 shrink-0 items-center gap-2.5", collapsed ? "justify-center px-2" : "px-5")}>
     <img src={markRed} alt="" className="h-6 w-6 object-contain" />
-    <span className="text-sm font-semibold text-ink">Indonesia Vibes <span className="font-normal text-muted-foreground">CMS</span></span>
+    {!collapsed && <span className="text-sm font-semibold text-ink">Indonesia Vibes <span className="font-normal text-muted-foreground">CMS</span></span>}
   </Link>;
 }
 
@@ -148,6 +148,18 @@ function PasswordNotice() {
 
 export function CmsShell({ children }: { children: ReactNode }) {
   const [mobile, setMobile] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
+  useEffect(() => {
+    try {
+      const saved = window.localStorage.getItem("iv-cms-sidebar-collapsed");
+      setCollapsed(saved === null ? window.matchMedia("(min-width: 1024px) and (max-width: 1199px)").matches : saved === "true");
+    } catch { /* Storage may be unavailable; use expanded state. */ }
+  }, []);
+  const toggleSidebar = () => setCollapsed((previous) => {
+    const next = !previous;
+    try { window.localStorage.setItem("iv-cms-sidebar-collapsed", String(next)); } catch { /* Continue without persistence. */ }
+    return next;
+  });
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const account = useCmsAccount();
   const { setEditorName } = useCms();
@@ -159,7 +171,11 @@ export function CmsShell({ children }: { children: ReactNode }) {
   const title = TITLES.find(([to]) => pathname === to || pathname.startsWith(`${to}/`))?.[1] ?? "CMS";
 
   return <div className="min-h-dvh bg-sand/70 text-ink lg:flex lg:h-dvh lg:overflow-hidden">
-    <aside className="hidden h-dvh w-60 shrink-0 flex-col border-r border-border/50 bg-sand lg:flex"><Brand /><Sidebar /></aside>
+     <aside className={cn("relative hidden h-dvh shrink-0 flex-col border-r border-border/50 bg-sand transition-[width] duration-200 ease-out motion-reduce:transition-none lg:flex", collapsed ? "w-[68px]" : "w-60")}><Brand collapsed={collapsed} /><Sidebar collapsed={collapsed} />
+       <button type="button" onClick={toggleSidebar} aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"} title={collapsed ? "Expand sidebar" : "Collapse sidebar"} aria-expanded={!collapsed} className={cn(btn.iconSm, "absolute top-1/2 right-0 z-40 h-8 w-8 -translate-y-1/2 translate-x-1/2 border border-border bg-background shadow-sm hover:bg-sand")}>
+         {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
+       </button>
+     </aside>
     {mobile ? <div className="fixed inset-0 z-50 lg:hidden" role="dialog" aria-modal="true" aria-label="Navigation">
       <button type="button" aria-label="Close navigation" className="absolute inset-0 bg-ink/40" onClick={() => setMobile(false)} />
       <aside className="absolute inset-y-0 left-0 flex w-72 max-w-[85vw] flex-col bg-background shadow-xl"><div className="flex items-center justify-between pr-3"><Brand /><button type="button" onClick={() => setMobile(false)} aria-label="Close navigation" className="inline-flex h-9 w-9 items-center justify-center rounded-md hover:bg-muted"><X className="h-4 w-4" /></button></div><Sidebar onNavigate={() => setMobile(false)} /></aside>
