@@ -10,14 +10,16 @@ export const ROLE_INFO: { role: CmsRole; text: string }[] = [
   { role: "Contributor", text: "Create and edit own content. Cannot publish." },
 ];
 
+let pending: Promise<void> | null = null;
 let cached: { role: CmsRole; assigned: boolean; email: string; name: string; mustChangePassword: boolean } | null = null;
 
 /** Reads the signed-in account and its role. Accounts without a role row get the least access (Contributor). */
 export function useCmsAccount() {
   const [account, setAccount] = useState(cached);
   useEffect(() => {
-    if (cached) return;
-    void (async () => {
+    if (cached) { setAccount(cached); return; }
+    let live = true;
+    void (pending ??= (async () => {
       const { data } = await supabase.auth.getUser();
       const user = data.user;
       if (!user) return;
@@ -26,8 +28,8 @@ export function useCmsAccount() {
       const role: CmsRole = roles.includes("admin") ? "Administrator" : roles.includes("editor") ? "Editor" : roles.includes("contributor") ? "Contributor" : "Contributor";
       const name = (user.user_metadata["display_name"] as string | undefined) ?? (user.user_metadata["full_name"] as string | undefined) ?? user.email?.split("@")[0] ?? "Editor";
       cached = { role, assigned: roles.length > 0, email: user.email ?? "", name, mustChangePassword: user.user_metadata["must_change_password"] === true };
-      setAccount(cached);
-    })();
+    })().finally(() => { pending = null; })).then(() => { if (live) setAccount(cached); });
+    return () => { live = false; };
   }, []);
   return account;
 }
