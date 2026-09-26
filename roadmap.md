@@ -15,7 +15,8 @@
 # Indonesia Vibes Studio entry point
 - [x] Move all CMS routes, links, authentication destinations, and branding to /studio
 - [x] Make /admin and every old child a public 404 without revealing Studio
-- [ ] Verify signed-out redirect, signed-in Studio, invitation/reset destinations, noindex, sitemap, and public site (real invitation/reset delivery awaits a safe test account)
+- [x] Verify signed-out redirect, signed-in Studio, noindex, sitemap, public site, sign-out and Back-button behavior
+- [ ] Send and follow a real invitation and password reset (blocked: no safe recipient/test account supplied; code destinations point to Studio)
 
 # CMS filter presentation
 - [x] Unify rounded search, selects, active states, clear actions, and mobile filter sheet across CMS lists
