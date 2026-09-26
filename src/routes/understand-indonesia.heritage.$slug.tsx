@@ -6,6 +6,7 @@ import type { ReactNode } from "react";
 import { formatEventDates } from "@/data/content";
 import { heritageBySlug, heritageConnections, heritageRegion, heritageTopics, heritageType } from "@/lib/heritage";
 import { pageIdentity, breadcrumbSchema } from "@/lib/public-seo";
+import { socialImageMeta } from "@/lib/social-image";
 
 export const Route = createFileRoute("/understand-indonesia/heritage/$slug")({
   loader: ({ params }) => {
@@ -25,7 +26,7 @@ export const Route = createFileRoute("/understand-indonesia/heritage/$slug")({
       { property: "og:description", content: heritage.summary },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      ...(heritage.image?.startsWith("https://") ? [{ property: "og:image", content: heritage.image }, { name: "twitter:image", content: heritage.image }] : []),
+      ...socialImageMeta(heritage.image),
       ...pageIdentity(path).meta,
       ...(!heritage.whatItIs?.trim() || !heritage.whyMatters?.trim() ? [{ name: "robots", content: "noindex, follow" }] : []),
     ], links: pageIdentity(path).links, scripts: [breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Understand Indonesia", path: "/understand-indonesia" }, { name: "Heritage", path: "/understand-indonesia/heritage" }, { name: heritage.name, path }]), { type: "application/ld+json", children: JSON.stringify({ "@context": "https://schema.org", "@type": "WebPage", name: heritage.name, description: heritage.summary, url: pageIdentity(path).links[0]?.href, about: { "@type": "Thing", name: heritage.name } }) }] };

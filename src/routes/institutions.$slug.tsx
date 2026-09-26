@@ -20,6 +20,7 @@ import {
 import { events, formatEventDates, getForm, papers } from "@/data/content";
 import { heritageType, isHeritage } from "@/lib/heritage";
 import { pageIdentity, publicUrl, breadcrumbSchema } from "@/lib/public-seo";
+import { socialImageMeta } from "@/lib/social-image";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 
 export const Route = createFileRoute("/institutions/$slug")({
@@ -47,7 +48,7 @@ export const Route = createFileRoute("/institutions/$slug")({
         { property: "og:description", content: institution.profile },
         { property: "og:type", content: "website" },
         { name: "twitter:card", content: "summary_large_image" },
-        ...(institution.image?.startsWith("https://") ? [{ property: "og:image", content: institution.image }, { name: "twitter:image", content: institution.image }] : []),
+        ...socialImageMeta(institution.image),
         ...pageIdentity(path).meta,
         // Seed institutions are illustrative prototypes, not verified real organisations.
         { name: "robots", content: "noindex, follow" },

@@ -18,6 +18,7 @@ import { attribution } from "@/lib/attribution";
 import { useCollections } from "@/lib/collections";
 import { topicById } from "@/lib/topics";
 import { pageIdentity, publicUrl, breadcrumbSchema } from "@/lib/public-seo";
+import { socialImageMeta, socialImageUrl } from "@/lib/social-image";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 
 export const Route = createFileRoute("/stories/$slug")({
@@ -40,7 +41,7 @@ export const Route = createFileRoute("/stories/$slug")({
         { property: "og:description", content: story.dek },
         { property: "og:type", content: "article" },
         { name: "twitter:card", content: "summary_large_image" },
-        ...(story.image?.startsWith("https://") ? [{ property: "og:image", content: story.image }, { name: "twitter:image", content: story.image }] : []),
+        ...socialImageMeta(story.image),
         ...pageIdentity(path).meta,
       ],
       links: pageIdentity(path).links,
@@ -58,7 +59,7 @@ export const Route = createFileRoute("/stories/$slug")({
             ...(story.author ? { author: { "@type": "Person", name: story.author } } : {}),
             publisher: { "@type": "Organization", name: "Indonesia Vibes", url: publicUrl("/") },
             mainEntityOfPage: publicUrl(path),
-            ...(story.image?.startsWith("https://") ? { image: story.image } : {}),
+            ...(socialImageUrl(story.image) ? { image: socialImageUrl(story.image) } : {}),
           }),
         },
       ],

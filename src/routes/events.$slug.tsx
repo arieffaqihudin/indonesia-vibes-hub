@@ -3,6 +3,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { eventLocationLabel, eventStatus, formatDate, formatEventDates, getEvent, getForm, getPerson, getPlace } from "@/data/content";
 import type { CulturalEvent, CulturalForm, Person } from "@/types/content";
 import { pageIdentity, publicUrl, breadcrumbSchema } from "@/lib/public-seo";
+import { socialImageMeta } from "@/lib/social-image";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 
 export const Route = createFileRoute("/events/$slug")({
@@ -27,12 +28,12 @@ export const Route = createFileRoute("/events/$slug")({
         { property: "og:description", content: description },
         { property: "og:type", content: "website" },
         { name: "twitter:card", content: "summary_large_image" },
-        ...(event.image?.startsWith("https://") ? [{ property: "og:image", content: event.image }, { name: "twitter:image", content: event.image }] : []),
+        ...socialImageMeta(event.image),
         ...pageIdentity(path).meta,
         ...(!event.fixedDate || !event.summary && !event.context ? [{ name: "robots", content: "noindex, follow" }] : []),
       ],
       links: pageIdentity(path).links,
-      scripts: [breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Experience", path: "/experience" }, { name: "Events & Places", path: "/events-places" }, { name: event.title, path }]), ...(event.fixedDate && !event.needsVerification?.includes("Exact dates") && event.datePrecision !== "month" && /^\d{4}-\d{2}-\d{2}$/.test(event.startDate) ? [{ type: "application/ld+json", children: JSON.stringify({ "@context": "https://schema.org", "@type": "Event", name: event.title, description, url: publicUrl(path), startDate: event.startDate, ...(event.endDate && /^\d{4}-\d{2}-\d{2}$/.test(event.endDate) ? { endDate: event.endDate } : {}), ...(event.organiser ? { organizer: { "@type": "Organization", name: event.organiser } } : {}), ...(place || event.location ? { location: { "@type": "Place", name: event.venue ?? place?.name ?? event.location?.city ?? event.location?.country, ...(place ? { address: { "@type": "PostalAddress", addressLocality: place.city, addressCountry: place.country } } : {}) } } : {}) }) }] : [])],
+      scripts: [breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Experience", path: "/experience" }, { name: "Events & Places", path: "/events-places" }, { name: event.title, path }]), ...(event.fixedDate && !event.needsVerification?.length && event.datePrecision !== "month" && /^\d{4}-\d{2}-\d{2}$/.test(event.startDate) ? [{ type: "application/ld+json", children: JSON.stringify({ "@context": "https://schema.org", "@type": "Event", name: event.title, description, url: publicUrl(path), startDate: event.startDate, ...(event.endDate && /^\d{4}-\d{2}-\d{2}$/.test(event.endDate) ? { endDate: event.endDate } : {}), ...(event.organiser ? { organizer: { "@type": "Organization", name: event.organiser } } : {}), ...(place || event.location ? { location: { "@type": "Place", name: event.venue ?? place?.name ?? event.location?.city ?? event.location?.country, ...(place ? { address: { "@type": "PostalAddress", addressLocality: place.city, addressCountry: place.country } } : {}) } } : {}) }) }] : [])],
     };
   },
   notFoundComponent: () => (

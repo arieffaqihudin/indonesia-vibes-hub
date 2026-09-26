@@ -21,6 +21,7 @@ import {
 } from "@/data/graph";
 import { formatEventDates } from "@/data/content";
 import { pageIdentity, publicUrl, breadcrumbSchema } from "@/lib/public-seo";
+import { socialImageMeta } from "@/lib/social-image";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 
 export const Route = createFileRoute("/places/$slug")({
@@ -45,7 +46,7 @@ export const Route = createFileRoute("/places/$slug")({
         { property: "og:description", content: place.summary },
         { property: "og:type", content: "website" },
         { name: "twitter:card", content: "summary_large_image" },
-        ...(place.image?.startsWith("https://") ? [{ property: "og:image", content: place.image }, { name: "twitter:image", content: place.image }] : []),
+        ...socialImageMeta(place.image),
         ...pageIdentity(path).meta,
         ...(!place.whyMatters && !place.significance?.length ? [{ name: "robots", content: "noindex, follow" }] : []),
       ],

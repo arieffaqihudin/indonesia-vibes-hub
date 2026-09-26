@@ -24,7 +24,7 @@ const help = [
 const startLink = { to: "/contact" as const, search: { topic: "Collaboration proposal" as const, subject: "Start a collaboration" }, hash: "inquiry" };
 
 export const Route = createFileRoute("/collaborate")({
-  head: () => ({
+  head: ({ matches }) => ({
     meta: [
       { title: "Collaborate with Indonesia — Indonesia Vibes" },
       { name: "description", content: "Build cultural, research, institutional, artistic or international collaboration with Indonesia." },
@@ -32,9 +32,9 @@ export const Route = createFileRoute("/collaborate")({
       { property: "og:description", content: "Ways to collaborate, featured collaborations, and how to start a conversation with Indonesia Vibes." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      ...pageIdentity("/collaborate").meta,
+      ...(matches.at(-1)?.routeId === "/collaborate" ? pageIdentity("/collaborate").meta : []),
     ],
-    links: pageIdentity("/collaborate").links,
+    links: matches.at(-1)?.routeId === "/collaborate" ? pageIdentity("/collaborate").links : [],
   }),
   component: CollaboratePage,
 });

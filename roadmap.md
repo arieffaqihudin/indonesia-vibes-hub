@@ -1,7 +1,11 @@
 # Public SEO audit
-- [ ] Add canonical and share metadata to indexable pages and improve structured article/entity data
-- [ ] Publish a filtered public sitemap and crawler rules without exposing internal pages
-- [ ] Verify key pages, redirects, 404, and mobile crawlable content
+- [x] Add canonical and share metadata to indexable pages and improve structured article/entity data
+- [x] Publish a filtered public sitemap and crawler rules without exposing internal pages
+- [x] Verify key pages, redirects, 404, and mobile crawlable content
+- [ ] Verify sample people, places, organisations, events and collaborations before presenting them as factual editorial records (requires editorial sources)
+- [ ] Connect lightweight CMS SEO fields and slug-change redirects to shared published content (blocked by browser-local CMS data)
+- [ ] Bring editorial descriptions closer to 140–160 characters where genuine page-specific copy supports it (70 of 73 sitemap pages currently outside range)
+- [ ] Measure LCP, INP and CLS on the published origin after publication; preview checks do not establish field performance
 
 # CMS filter presentation
 - [x] Unify rounded search, selects, active states, clear actions, and mobile filter sheet across CMS lists
