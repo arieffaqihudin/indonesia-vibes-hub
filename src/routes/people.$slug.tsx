@@ -17,6 +17,7 @@ import {
 import { getForm, people } from "@/data/content";
 import { formatEventDates } from "@/data/content";
 import { heritageType, isHeritage } from "@/lib/heritage";
+import { pageIdentity, publicUrl, breadcrumbSchema } from "@/lib/public-seo";
 
 export const Route = createFileRoute("/people/$slug")({
   loader: ({ params }) => {
@@ -24,21 +25,27 @@ export const Route = createFileRoute("/people/$slug")({
     if (!person) throw notFound();
     return { person };
   },
-  head: ({ loaderData }) => {
+  head: ({ loaderData, params }) => {
     if (!loaderData) {
       return { meta: [{ title: "Profile unavailable — Indonesia Vibes" }, { name: "robots", content: "noindex" }] };
     }
     const { person } = loaderData;
     const description = person.intro ?? person.bio;
+    const path = `/people/${params.slug}`;
+    const meaningful = Boolean(description && description.trim().length > 100);
     return {
       meta: [
-        { title: `${person.name} — Indonesia Vibes` },
+        { title: `${person.name}${person.entity === "person" ? ` — ${person.role}` : ""} | Indonesia Vibes` },
         { name: "description", content: description },
         { property: "og:title", content: `${person.name} — ${person.role}` },
         { property: "og:description", content: description },
         { property: "og:type", content: "profile" },
         { name: "twitter:card", content: "summary_large_image" },
+        ...pageIdentity(path).meta,
+        ...(!meaningful ? [{ name: "robots", content: "noindex, follow" }] : []),
       ],
+      links: pageIdentity(path).links,
+      scripts: [breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Understand Indonesia", path: "/understand-indonesia" }, { name: "People & Organisations", path: "/understand-indonesia/people-organisations" }, { name: person.name, path }]), { type: "application/ld+json", children: JSON.stringify({ "@context": "https://schema.org", "@type": person.entity === "community" ? "Organization" : "Person", name: person.name, description, url: publicUrl(path), ...(person.entity === "person" && person.role ? { jobTitle: person.role } : {}) }) }],
     };
   },
   component: PersonPage,

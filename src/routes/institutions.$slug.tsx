@@ -19,6 +19,8 @@ import {
 } from "@/data/graph";
 import { events, formatEventDates, getForm, papers } from "@/data/content";
 import { heritageType, isHeritage } from "@/lib/heritage";
+import { pageIdentity, publicUrl, breadcrumbSchema } from "@/lib/public-seo";
+import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 
 export const Route = createFileRoute("/institutions/$slug")({
   loader: ({ params }) => {
@@ -26,7 +28,7 @@ export const Route = createFileRoute("/institutions/$slug")({
     if (!institution) throw notFound();
     return { institution };
   },
-  head: ({ loaderData }) => {
+  head: ({ loaderData, params }) => {
     if (!loaderData) {
       return {
         meta: [
@@ -36,6 +38,7 @@ export const Route = createFileRoute("/institutions/$slug")({
       };
     }
     const { institution } = loaderData;
+    const path = `/institutions/${params.slug}`;
     return {
       meta: [
         { title: `${institution.name} — Indonesia Vibes` },
@@ -44,7 +47,11 @@ export const Route = createFileRoute("/institutions/$slug")({
         { property: "og:description", content: institution.profile },
         { property: "og:type", content: "website" },
         { name: "twitter:card", content: "summary_large_image" },
+        ...pageIdentity(path).meta,
+        ...(!institution.profile || institution.profile.trim().length < 100 ? [{ name: "robots", content: "noindex, follow" }] : []),
       ],
+      links: pageIdentity(path).links,
+      scripts: [breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Understand Indonesia", path: "/understand-indonesia" }, { name: "People & Organisations", path: "/understand-indonesia/people-organisations" }, { name: institution.name, path }]), { type: "application/ld+json", children: JSON.stringify({ "@context": "https://schema.org", "@type": "Organization", name: institution.name, description: institution.profile, url: publicUrl(path), address: { "@type": "PostalAddress", addressLocality: institution.city, addressCountry: institution.country } }) }],
     };
   },
   component: InstitutionPage,
@@ -77,6 +84,7 @@ function InstitutionPage() {
           className="aspect-[21/9] w-full object-cover"
         />
         <div className="container-editorial py-14">
+          <Breadcrumbs className="mb-5" items={[{ label: "Understand Indonesia", to: "/understand-indonesia" }, { label: "People & Organisations", to: "/understand-indonesia/people-organisations" }, { label: institution.name }]} />
           <p className="eyebrow text-primary">{institution.type}</p>
           <h1 className="display-1 mt-4 max-w-4xl text-ink">{institution.name}</h1>
           <p className="standfirst mt-5 max-w-2xl">{institution.profile}</p>

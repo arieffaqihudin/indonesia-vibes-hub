@@ -17,6 +17,8 @@ import { publicFormat } from "@/lib/editorial";
 import { attribution } from "@/lib/attribution";
 import { useCollections } from "@/lib/collections";
 import { topicById } from "@/lib/topics";
+import { pageIdentity, publicUrl, breadcrumbSchema } from "@/lib/public-seo";
+import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 
 export const Route = createFileRoute("/stories/$slug")({
   loader: ({ params }): { story: Story } => {
@@ -29,17 +31,20 @@ export const Route = createFileRoute("/stories/$slug")({
       return { meta: [{ title: "Story not found — Indonesia Vibes" }, { name: "robots", content: "noindex" }] };
     }
     const { story } = loaderData;
+    const path = `/stories/${params.slug}`;
     return {
       meta: [
-        { title: `${story.title} — Indonesia Vibes` },
+        { title: `${story.title} | Indonesia Vibes` },
         { name: "description", content: story.dek },
         { property: "og:title", content: story.title },
         { property: "og:description", content: story.dek },
         { property: "og:type", content: "article" },
-        { property: "og:url", content: `/stories/${params.slug}` },
+        { name: "twitter:card", content: "summary_large_image" },
+        ...pageIdentity(path).meta,
       ],
-      links: [{ rel: "canonical", href: `/stories/${params.slug}` }],
+      links: pageIdentity(path).links,
       scripts: [
+        breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Understand Indonesia", path: "/understand-indonesia" }, { name: story.title, path }]),
         {
           type: "application/ld+json",
           children: JSON.stringify({
@@ -48,6 +53,11 @@ export const Route = createFileRoute("/stories/$slug")({
             headline: story.title,
             description: story.dek,
             datePublished: story.publishedAt,
+            ...(story.updatedAt ? { dateModified: story.updatedAt } : {}),
+            ...(story.author ? { author: { "@type": "Person", name: story.author } } : {}),
+            publisher: { "@type": "Organization", name: "Indonesia Vibes", url: publicUrl("/") },
+            mainEntityOfPage: publicUrl(path),
+            ...(story.image?.startsWith("https://") ? { image: story.image } : {}),
           }),
         },
       ],
@@ -93,6 +103,7 @@ function StoryPage() {
       <ReadingProgress />
       {collection ? <nav aria-label="Collection reading journey" className="border-b border-border bg-blush"><div className="container-editorial flex flex-wrap items-center gap-x-5 gap-y-2 py-3 text-xs"><Link to="/understand-indonesia/collections/$slug" params={{ slug: collection.slug }} className="font-semibold text-ink hover:text-primary">{collection.title}</Link><span className="text-muted-foreground">Story {collectionIndex + 1} of {collection.storyIds.length}</span><span className="ml-auto flex items-center gap-4">{previousStory ? <Link to="/stories/$slug" params={{ slug: previousStory.slug }} search={{ collection: collection.slug }} className="inline-flex items-center gap-1 text-ink hover:text-primary"><ArrowLeft className="h-3.5 w-3.5" /> Previous</Link> : null}<Link to="/understand-indonesia/collections/$slug" params={{ slug: collection.slug }} className="text-ink hover:text-primary">Back to Collection</Link>{nextStory ? <Link to="/stories/$slug" params={{ slug: nextStory.slug }} search={{ collection: collection.slug }} className="inline-flex items-center gap-1 text-ink hover:text-primary">Next <ArrowRight className="h-3.5 w-3.5" /></Link> : null}</span></div></nav> : null}
       <header className="container-editorial pt-14 pb-10 md:pt-20">
+        <Breadcrumbs className="mb-6" items={[{ label: "Understand Indonesia", to: "/understand-indonesia" }, { label: story.title }]} />
         <p className="eyebrow text-primary">{story.topics?.[0] ?? "Indonesia"} · {publicFormat(story)}</p>
         <h1 className="display-1 mt-5 max-w-4xl text-ink">{story.title}</h1>
         <p className="standfirst mt-6 max-w-2xl">{story.dek}</p>
@@ -118,6 +129,7 @@ function StoryPage() {
           alt={story.imageAlt}
           width={1600}
           height={1104}
+          fetchPriority="high"
           className="aspect-[16/9] w-full object-cover"
         />
         <figcaption className="mt-3 text-xs text-muted-foreground">{story.imageAlt}</figcaption>
