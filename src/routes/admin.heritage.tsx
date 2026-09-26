@@ -10,5 +10,5 @@ export const Route = createFileRoute("/admin/heritage")({
     { property: "og:type", content: "website" },
     { name: "twitter:card", content: "summary" },
   ] }),
-  component: () => <ContentListing title="Heritage" description="One record per cultural heritage. Articles, people, places and events all connect to the same record." kinds={["culture"]} createKind="culture" createLabel="New Heritage" />,
+  component: () => <ContentListing title="Heritage" description="One record per cultural heritage. Articles, people, places and events all connect to the same record." kinds={["culture"]} createKind="culture" createLabel="New Heritage" heritage />,
 });
