@@ -16,6 +16,7 @@ import {
 } from "@/data/graph";
 import { getForm, people } from "@/data/content";
 import { formatEventDates } from "@/data/content";
+import { heritageType, isHeritage } from "@/lib/heritage";
 
 export const Route = createFileRoute("/people/$slug")({
   loader: ({ params }) => {
@@ -47,6 +48,7 @@ function PersonPage() {
   const { person } = Route.useLoaderData();
   const isCommunity = person.entity === "community";
   const forms = resolve(person.formIds, getForm);
+  const relatedHeritage = forms.filter(isHeritage);
   const stories = storiesForPerson(person.id);
   const authored = storiesByPerson(person.id);
   const institutions = institutionsForPerson(person);
@@ -133,6 +135,24 @@ function PersonPage() {
               <p className="eyebrow text-primary">Why this matters</p>
               <p className="mt-3 max-w-2xl text-lg leading-relaxed text-ink">{person.whyMatters}</p>
             </section>
+          ) : null}
+
+          {relatedHeritage.length ? (
+            <DetailSection title="Related Heritage">
+              <ul className="grid gap-6 sm:grid-cols-2">
+                {relatedHeritage.map((h) => (
+                  <li key={h.id}>
+                    <Link to="/understand-indonesia/heritage/$slug" params={{ slug: h.slug }} className="group flex items-center gap-4">
+                      <img src={h.image} alt="" loading="lazy" className="h-16 w-16 shrink-0 rounded-sm object-cover" />
+                      <span className="min-w-0">
+                        <span className="block font-medium text-ink group-hover:text-primary">{h.name}</span>
+                        <span className="mt-0.5 block text-xs text-muted-foreground">{heritageType(h)}</span>
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </DetailSection>
           ) : null}
 
           {person.works?.length ? (

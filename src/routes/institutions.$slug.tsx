@@ -18,6 +18,7 @@ import {
   resolve,
 } from "@/data/graph";
 import { events, formatEventDates, getForm, papers } from "@/data/content";
+import { heritageType, isHeritage } from "@/lib/heritage";
 
 export const Route = createFileRoute("/institutions/$slug")({
   loader: ({ params }) => {
@@ -56,6 +57,7 @@ function InstitutionPage() {
   const related = relatedInstitutions(institution);
   const place = institution.placeId ? getPlaceById(institution.placeId) : undefined;
   const forms = resolve(institution.formIds, getForm);
+  const relatedHeritage = forms.filter(isHeritage);
   const institutionEvents = events.filter(
     (e) => e.institutionIds?.includes(institution.id) || institution.eventIds?.includes(e.id),
   );
@@ -112,6 +114,24 @@ function InstitutionPage() {
               {institution.whyMatters}
             </p>
           </section>
+
+          {relatedHeritage.length ? (
+            <DetailSection title="Related Heritage">
+              <ul className="grid gap-6 sm:grid-cols-2">
+                {relatedHeritage.map((h) => (
+                  <li key={h.id}>
+                    <Link to="/understand-indonesia/heritage/$slug" params={{ slug: h.slug }} className="group flex items-center gap-4">
+                      <img src={h.image} alt="" loading="lazy" className="h-16 w-16 shrink-0 rounded-sm object-cover" />
+                      <span className="min-w-0">
+                        <span className="block font-medium text-ink group-hover:text-primary">{h.name}</span>
+                        <span className="mt-0.5 block text-xs text-muted-foreground">{heritageType(h)}</span>
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </DetailSection>
+          ) : null}
 
           <DetailSection title="Collections and holdings">
             <ul className="grid gap-3 sm:grid-cols-2">
