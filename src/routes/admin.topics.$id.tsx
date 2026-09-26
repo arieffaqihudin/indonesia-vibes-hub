@@ -8,6 +8,7 @@ import { slugify, useCms } from "@/lib/cms/store";
 import type { ThemeId } from "@/types/content";
 import { EditorFrame, type SaveState } from "@/components/cms/EditorFrame";
 import { ImageField } from "@/components/cms/pickers";
+import { TopicIconPicker } from "@/components/cms/TopicIconPicker";
 import { Field, Panel, Select, TextArea, TextInput } from "@/components/cms/ui";
 
 export const Route = createFileRoute("/admin/topics/$id")({
@@ -62,6 +63,7 @@ function TopicEditor() {
     sidebar={<>
       <Panel title="Status"><Field label="Status" htmlFor="st"><Select id="st" value={draft.status} onChange={(v) => change({ status: v as TopicDefinition["status"] })} options={["Draft", "Published", "Archived"]} /></Field></Panel>
       <Panel title="Details">
+         <Field label="Topic Icon"><TopicIconPicker value={draft.icon} onChange={(icon) => change({ icon })} /></Field>
         <Field label="Group" htmlFor="cat"><Select id="cat" value={draft.category} onChange={(v) => change({ category: v as TopicDefinition["category"] })} options={[...TOPIC_CATEGORIES]} /></Field>
         <Field label="Slug" htmlFor="slug"><TextInput id="slug" value={draft.slug} placeholder={slugify(draft.id)} onChange={(v) => change({ slug: slugify(v) })} /></Field>
       </Panel>
