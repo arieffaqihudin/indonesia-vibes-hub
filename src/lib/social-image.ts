@@ -22,10 +22,14 @@ const covers = new Map([
 ]);
 
 /** Only tag images actually shown on the page, using their share-sized rendition. */
-export function socialImageMeta(image?: string) {
-  if (!image) return [];
+export function socialImageUrl(image?: string) {
+  if (!image) return null;
   const name = covers.get(image);
-  const url = name ? publicUrl(`/share/${name}`) : image.startsWith("https://") ? image : null;
+  return name ? publicUrl(`/share/${name}`) : image.startsWith("https://") ? image : null;
+}
+
+export function socialImageMeta(image?: string) {
+  const url = socialImageUrl(image);
   return url ? [
     { property: "og:image", content: url },
     { name: "twitter:image", content: url },
