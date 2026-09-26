@@ -22,7 +22,7 @@ export interface FilterDef {
 }
 
 /** The one list pattern: search, filters, table (stacked rows on mobile), pagination. */
-export function DataList<T extends { id: string }>({ rows, columns, onOpen, search, onSearch, searchPlaceholder = "Search…", filters = [], empty, mobileMeta }: {
+export function DataList<T extends { id: string }>({ rows, columns, onOpen, search, onSearch, searchPlaceholder = "Search…", filters = [], empty, mobileMeta, resetKey = "" }: {
   rows: T[];
   columns: Column<T>[];
   onOpen: (row: T) => void;
@@ -33,8 +33,9 @@ export function DataList<T extends { id: string }>({ rows, columns, onOpen, sear
   empty: ReactNode;
   /** Secondary line for the compact mobile row. */
   mobileMeta?: (row: T) => ReactNode;
+  resetKey?: string;
 }) {
-  const pagination = useListPagination(rows.length, JSON.stringify([search, filters.map((f) => f.value)]));
+  const pagination = useListPagination(rows.length, JSON.stringify([resetKey, search, filters.map((f) => f.value)]));
   const visible = rows.slice(pagination.visibleStart, pagination.visibleStart + pagination.size);
   const [first, ...rest] = columns;
   const hide = (p?: number) => (p === 2 ? "hidden md:table-cell" : p === 3 ? "hidden xl:table-cell" : "");

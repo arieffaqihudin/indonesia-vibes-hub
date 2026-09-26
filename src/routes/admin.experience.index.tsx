@@ -23,13 +23,13 @@ type Tab = "events" | "places" | "world";
 
 function Experience() {
   const search = Route.useSearch();
-  const [tab, setTab] = useState<Tab>((search["tab"] as Tab) ?? "events");
+  const [tab, setTab] = useKept<Tab>("admin.experience.tab", (search["tab"] as Tab) ?? "events");
   const cta = tab === "places"
     ? <Link to="/admin/experience/$id" params={{ id: "new" }} search={{ type: "place" }} className={btn.primary}><Plus className="h-4 w-4" />New Place</Link>
     : tab === "events" ? <Link to="/admin/experience/$id" params={{ id: "new" }} search={{ type: "event" }} className={btn.primary}><Plus className="h-4 w-4" />New Event</Link> : null;
   return <>
     <PageHeader title="Experience" actions={cta} />
-    <Tabs<Tab> value={tab} onChange={(next) => { setKeptValue("page:/admin/experience", 0); setTab(next); }} tabs={[{ id: "events", label: "Events" }, { id: "places", label: "Places" }, { id: "world", label: "Around the World" }]} />
+    <Tabs<Tab> value={tab} onChange={(next) => { setKeptValue(`page:${window.location.pathname}`, 0); setTab(next); }} tabs={[{ id: "events", label: "Events" }, { id: "places", label: "Places" }, { id: "world", label: "Around the World" }]} />
     {tab === "events" ? <Events missingOnly={search["missing"] === "1"} /> : tab === "places" ? <Places /> : <World />}
   </>;
 }
