@@ -57,9 +57,9 @@ function ActivityPage() {
     <PageHeader title="Activity" description="A read-only record of important actions in the CMS." />
     <FilterBar search={{ value: q, onChange: reset(setQ), placeholder: "Search activity…", label: "Search activity" }} filters={[
       { label: "Time", value: range, onChange: reset(setRange), options: RANGES, emptyLabel: "Any time" },
-      { label: "User", value: user, onChange: reset(setUser), options: people },
-      { label: "Module", value: module, onChange: reset(setModule), options: MODULES },
-      { label: "Activity", value: action, onChange: reset(setAction), options: ACTIONS },
+      { label: "User", value: user, onChange: reset(setUser), options: people, emptyLabel: "All users" },
+      { label: "Module", value: module, onChange: reset(setModule), options: MODULES, emptyLabel: "All modules" },
+      { label: "Activity", value: action, onChange: reset(setAction), options: ACTIONS, emptyLabel: "All activity" },
     ]} />
     {isLoading ? <p className="py-8 text-sm text-muted-foreground">Loading…</p> : !rows.length ? <EmptyState title="No activity found" text="Try a longer date range or clear the filters." /> :
       <div className={cn("divide-y divide-border border-y border-border transition-opacity", isFetching && "opacity-70")}>

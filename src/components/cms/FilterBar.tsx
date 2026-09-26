@@ -60,7 +60,7 @@ export function FilterBar({ search, filters = [], children, className }: {
       </div>
       <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
         <SheetTrigger className={cn(btn.secondary, "!h-11 !rounded-[var(--btn-radius)] sm:hidden", active.length && "border-primary/35 bg-blush text-deep-red")}><SlidersHorizontal className="h-4 w-4" />Filters{active.length ? ` (${active.length})` : ""}</SheetTrigger>
-        <SheetContent side="bottom" className="max-h-[85dvh] overflow-y-auto rounded-t-[var(--btn-radius)] border-btn-border bg-background px-5 pb-6">
+        <SheetContent side="bottom" className="max-h-[85dvh] overflow-y-auto rounded-t-[var(--btn-radius)] border-btn-border bg-background px-5 pb-6 [&>button]:rounded-[var(--btn-radius-sm)] [&>button]:border [&>button]:border-btn-border [&>button]:p-1.5 [&>button]:focus-visible:ring-2 [&>button]:focus-visible:ring-primary/35">
           <SheetHeader><SheetTitle className="text-left text-ink">Filters</SheetTitle></SheetHeader>
           <div className="mt-5 space-y-4">{filters.map((f) => <label key={f.label} className="block space-y-1.5"><span className="text-xs font-medium text-muted-foreground">{f.label}</span><FilterSelect {...f} /></label>)}</div>
           <div className="mt-6 flex items-center justify-between border-t border-border pt-4"><button type="button" onClick={clear} className={btn.text}>Clear filters</button><button type="button" onClick={() => setSheetOpen(false)} className={btn.primary}>Show results</button></div>
