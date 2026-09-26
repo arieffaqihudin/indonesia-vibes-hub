@@ -23,7 +23,7 @@ export const navigation: NavGroup[] = [
     items: [
       { label: "Topics", to: "/understand-indonesia/topics", description: "Enter through music, textiles, history, film and more." },
       { label: "Collections", to: "/understand-indonesia/collections", description: "Follow a deliberate sequence of stories selected to be read together." },
-      { label: "People & Organisations", to: "/people-organisations", description: "The people, communities and organisations who carry culture." },
+      { label: "People & Organisations", to: "/understand-indonesia/people-organisations", description: "The people, communities and organisations who carry culture." },
     ],
   },
   {

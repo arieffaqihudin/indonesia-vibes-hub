@@ -77,7 +77,7 @@ function CollaboratePage() {
         <section className="mt-20" aria-labelledby="partners">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <h2 id="partners" className="display-2 text-ink">People & Organisations</h2>
-            <Link to="/people-organisations" className="link-underline text-sm font-medium text-primary">View all</Link>
+            <Link to="/understand-indonesia/people-organisations" className="link-underline text-sm font-medium text-primary">View all</Link>
           </div>
           <ul className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {institutions.slice(0, 3).map((i) => <li key={i.id}><InstitutionCard institution={i} /></li>)}
