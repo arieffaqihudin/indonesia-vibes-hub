@@ -10,12 +10,13 @@
 <!-- LOVABLE:END -->
 
 # Architecture rules
-- CMS state lives in a module-level store (`src/lib/cms/store.tsx`, useSyncExternalStore, persisted synchronously) — admin layout remounts on navigation, so React-state providers lost edits.
-- CMS UI is built only from `src/components/cms/*` (DataList for lists, EditorFrame/RecordEditor for edits); old `components/admin` CMS is gone and `/admin/*` legacy paths redirect via `admin.$.tsx`.
+- CMS state lives in a module-level persisted store (`src/lib/cms/store.tsx`) because the admin layout remounts on navigation.
+- CMS UI uses `src/components/cms/*`; legacy `/admin/*` paths redirect via `admin.$.tsx`.
 - Topic icons are controlled Lucide names stored on Topic records; public surfaces share one renderer and legacy browser-saved Topics receive defaults at read time, so editors can change an icon without diverging displays.
 - CMS users, access roles and the activity log live in the database (cms_users, cms_access_roles, cms_activity) with permissions enforced by `cms_can` in RLS plus the /admin route gate; menu keys come from `src/lib/cms/access.ts` — so hiding a menu is never the only protection.
-- CMS list pagination uses a shared client-side control over the browser-persisted CMS store; the sidebar preference uses localStorage — because records are not yet served from a paginated backend and navigation should retain UI choices.
+- CMS lists paginate browser-persisted records; sidebar state persists locally so navigation retains choices.
 - CMS list filter presentation lives in `src/components/cms/FilterBar.tsx` while filtering stays in each list route — so visual changes cannot alter the records or matching rules.
 - Public SEO identity is defined in `src/lib/public-seo.ts`, with server-rendered leaf metadata and one canonical per page; browser-local CMS edits are not crawlable, so the sitemap includes only code-backed meaningful public records.
 - Social previews use `src/lib/social-image.ts` and share-sized crops of the same cover images under `public/share/`; do not tag a different image from the one shown or invent a public URL for browser-local uploads.
 - Authored article publication and modification dates are fixed editorial facts; only explicitly prototype calendar events may use the rolling date demonstration in `src/data/content.ts`.
+- The CMS dashboard keeps audience data separate from editorial tasks; unconnected analytics stay empty and example seed records do not become live alerts.
