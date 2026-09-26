@@ -1,7 +1,7 @@
-import { Outlet, createFileRoute, redirect } from "@tanstack/react-router";
+import { Outlet, createFileRoute, redirect, useRouterState } from "@tanstack/react-router";
 
-import { AdminProvider } from "@/lib/admin/store";
-import { AdminShell } from "@/components/admin/AdminShell";
+import { CmsProvider } from "@/lib/cms/store";
+import { CmsShell } from "@/components/cms/CmsShell";
 import { supabase } from "@/integrations/supabase/client";
 
 const PUBLIC_ADMIN_PATHS = new Set(["/admin/login", "/admin/forgot-password", "/admin/reset-password"]);
@@ -21,12 +21,8 @@ export const Route = createFileRoute("/admin")({
 });
 
 function AdminLayout() {
-  if (PUBLIC_ADMIN_PATHS.has(window.location.pathname)) return <Outlet />;
-  return (
-    <AdminProvider>
-      <AdminShell>
-        <Outlet />
-      </AdminShell>
-    </AdminProvider>
-  );
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  if (PUBLIC_ADMIN_PATHS.has(pathname)) return <Outlet />;
+  if (pathname.startsWith("/admin/preview/")) return <CmsProvider><Outlet /></CmsProvider>;
+  return <CmsProvider><CmsShell><Outlet /></CmsShell></CmsProvider>;
 }
