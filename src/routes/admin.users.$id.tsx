@@ -49,11 +49,11 @@ function EditUser() {
 
   async function save() {
     const p = z.object({ name: z.string().trim().min(1).max(120), phone: z.string().trim().max(40).regex(/^[0-9+()\-\s]*$/), access_role_id: z.string().uuid() }).safeParse(f);
-    if (!p.success) return toast.error("Check the name, phone number and access role.");
+    if (!p.success) return void toast.error("Check the name, phone number and access role.");
     setBusy("save");
     const { error } = await supabase.from("cms_users").update(p.data).eq("id", id);
     setBusy(null);
-    if (error) return toast.error("Couldn't save changes.");
+    if (error) return void toast.error("Couldn't save changes.");
     void logActivity("User Updated", "Users", p.data.name);
     toast.success("User updated"); void refresh();
   }

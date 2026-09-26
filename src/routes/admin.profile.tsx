@@ -41,12 +41,12 @@ function Profile() {
   useEffect(() => { if (window.location.hash === "#password") document.getElementById("password")?.scrollIntoView({ behavior: "smooth" }); }, []);
 
   async function save() {
-    if (!name.trim()) return toast.error("Enter your name.");
-    if (!/^[0-9+()\-\s]*$/.test(phone)) return toast.error("Use numbers only for the phone number.");
+    if (!name.trim()) return void toast.error("Enter your name.");
+    if (!/^[0-9+()\-\s]*$/.test(phone)) return void toast.error("Use numbers only for the phone number.");
     setBusy(true);
     const { error } = await supabase.rpc("cms_update_profile", { _name: name.trim(), _phone: phone.trim(), _avatar: avatar ?? "" });
     setBusy(false);
-    if (error) return toast.error("Couldn't save your profile.");
+    if (error) return void toast.error("Couldn't save your profile.");
     await refreshAccount();
     toast.success("Profile saved");
   }

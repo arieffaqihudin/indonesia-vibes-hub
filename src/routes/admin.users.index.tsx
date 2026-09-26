@@ -67,10 +67,10 @@ function AddUser({ onClose }: { onClose: () => void }) {
 
   async function save() {
     const parsed = schema.safeParse(f);
-    if (!parsed.success) return toast.error(parsed.error.issues[0]?.message ?? "Check the form.");
+    if (!parsed.success) return void toast.error(parsed.error.issues[0]?.message ?? "Check the form.");
     setBusy(true);
     const { data, error } = await supabase.from("cms_users").insert({ ...parsed.data, email: parsed.data.email.toLowerCase() }).select("id").single();
-    if (error || !data) { setBusy(false); return toast.error(error?.code === "23505" ? "A user with this email already exists." : "Couldn't save this user."); }
+    if (error || !data) { setBusy(false); return void toast.error(error?.code === "23505" ? "A user with this email already exists." : "Couldn't save this user."); }
     void logActivity("User Created", "Users", parsed.data.name);
     if (sendInvite) {
       try { await invite({ data: { id: data.id, origin: window.location.origin } }); void logActivity("Invitation Sent", "Users", parsed.data.email); toast.success(`Invitation sent to ${parsed.data.email}`); }
@@ -93,7 +93,7 @@ function AddUser({ onClose }: { onClose: () => void }) {
       <Field label="Access Role" htmlFor="ur"><Select id="ur" value={f.access_role_id} onChange={set("access_role_id")} placeholder="Choose access" options={roles.map((r) => ({ value: r.id, label: r.name }))} /></Field>
       <div className="border-t border-border pt-4">
         <p className="mb-2 text-xs font-medium text-ink">Account Access</p>
-        <Toggle label="Send CMS Invitation" checked={sendInvite} onChange={(v) => { if (v) { if (!schema.shape.email.safeParse(f.email).success) return toast.error("Enter a valid email first."); setConfirming(true); } else setSendInvite(false); }} />
+        <Toggle label="Send CMS Invitation" checked={sendInvite} onChange={(v) => { if (v) { if (!schema.shape.email.safeParse(f.email).success) return void toast.error("Enter a valid email first."); setConfirming(true); } else setSendInvite(false); }} />
         <p className="mt-1 text-xs text-muted-foreground">{sendInvite ? "An invitation email will be sent when you save." : "Off: the user is saved without sending any email."}</p>
       </div>
     </div>

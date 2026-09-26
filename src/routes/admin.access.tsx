@@ -67,13 +67,13 @@ function AccessForm({ role, onClose }: { role: Role | null; onClose: () => void 
   const losesAdmin = isOwnRole && ["access", "users", "profile"].some((k) => !menus.has(k));
 
   async function save(force = false) {
-    if (!name.trim()) return toast.error("Give this access role a name.");
-    if (losesAdmin && !force) return setConfirm("self");
+    if (!name.trim()) return void toast.error("Give this access role a name.");
+    if (losesAdmin && !force) return void setConfirm("self");
     setBusy(true);
     const payload = { name: name.trim().slice(0, 80), description: description.trim().slice(0, 300), menus: ALL_MENUS.map((m) => m.key).filter((k) => menus.has(k)) };
     const { error } = role ? await supabase.from("cms_access_roles").update(payload).eq("id", role.id) : await supabase.from("cms_access_roles").insert(payload);
     setBusy(false);
-    if (error) return toast.error(error.code === "23505" ? "An access role with this name already exists." : "Couldn't save this access role.");
+    if (error) return void toast.error(error.code === "23505" ? "An access role with this name already exists." : "Couldn't save this access role.");
     void logActivity(role ? "Access Role Updated" : "Access Role Created", "Access", payload.name);
     toast.success(role ? "Access updated" : "Access created");
     await qc.invalidateQueries({ queryKey: ["cms-access-roles"] });
@@ -86,7 +86,7 @@ function AccessForm({ role, onClose }: { role: Role | null; onClose: () => void 
     setBusy(true);
     const { error } = await supabase.from("cms_access_roles").delete().eq("id", role.id);
     setBusy(false);
-    if (error) return toast.error("Couldn't delete this access role.");
+    if (error) return void toast.error("Couldn't delete this access role.");
     void logActivity("Access Role Deleted", "Access", role.name);
     await qc.invalidateQueries({ queryKey: ["cms-access-roles"] });
     toast.success("Access deleted"); onClose();

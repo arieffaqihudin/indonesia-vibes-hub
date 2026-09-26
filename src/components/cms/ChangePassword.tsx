@@ -34,15 +34,15 @@ export function ChangePasswordForm({ email }: { email: string }) {
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
-    if (!current) return setError("Enter your current password.");
-    if (!ok) return setError("Your new password doesn't meet all the requirements.");
-    if (next !== confirm) return setError("Passwords do not match.");
+    if (!current) return void setError("Enter your current password.");
+    if (!ok) return void setError("Your new password doesn't meet all the requirements.");
+    if (next !== confirm) return void setError("Passwords do not match.");
     setBusy(true); setError("");
     const check = await supabase.auth.signInWithPassword({ email, password: current });
-    if (check.error) { setBusy(false); return setError("Your current password is incorrect."); }
+    if (check.error) { setBusy(false); return void setError("Your current password is incorrect."); }
     const { error: err } = await supabase.auth.updateUser({ password: next, data: { must_change_password: false } });
     setBusy(false);
-    if (err) return setError(/same|different/i.test(err.message) ? "Choose a password you haven't used before." : err.message);
+    if (err) return void setError(/same|different/i.test(err.message) ? "Choose a password you haven't used before." : err.message);
     setCurrent(""); setNext(""); setConfirm("");
     void refreshAccount();
     toast.success("Password updated successfully.");
