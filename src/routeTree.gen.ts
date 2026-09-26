@@ -34,6 +34,7 @@ import { Route as SearchRouteImport } from './routes/search'
 import { Route as UnderstandIndonesiaRouteImport } from './routes/understand-indonesia'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminSplatRouteImport } from './routes/admin.$'
+import { Route as AdminAccessRouteImport } from './routes/admin.access'
 import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
 import { Route as AdminForgotPasswordRouteImport } from './routes/admin.forgot-password'
 import { Route as AdminHomepageRouteImport } from './routes/admin.homepage'
@@ -227,6 +228,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
 const AdminSplatRoute = AdminSplatRouteImport.update({
   id: '/$',
   path: '/$',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAccessRoute = AdminAccessRouteImport.update({
+  id: '/access',
+  path: '/access',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminDashboardRoute = AdminDashboardRouteImport.update({
@@ -617,6 +623,7 @@ export interface FileRoutesByFullPath {
   '/search': typeof SearchRoute
   '/understand-indonesia': typeof UnderstandIndonesiaRouteWithChildren
   '/admin/$': typeof AdminSplatRoute
+  '/admin/access': typeof AdminAccessRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/forgot-password': typeof AdminForgotPasswordRoute
   '/admin/homepage': typeof AdminHomepageRoute
@@ -712,6 +719,7 @@ export interface FileRoutesByTo {
   '/search': typeof SearchRoute
   '/understand-indonesia': typeof UnderstandIndonesiaRouteWithChildren
   '/admin/$': typeof AdminSplatRoute
+  '/admin/access': typeof AdminAccessRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/forgot-password': typeof AdminForgotPasswordRoute
   '/admin/homepage': typeof AdminHomepageRoute
@@ -809,6 +817,7 @@ export interface FileRoutesById {
   '/search': typeof SearchRoute
   '/understand-indonesia': typeof UnderstandIndonesiaRouteWithChildren
   '/admin/$': typeof AdminSplatRoute
+  '/admin/access': typeof AdminAccessRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/forgot-password': typeof AdminForgotPasswordRoute
   '/admin/homepage': typeof AdminHomepageRoute
@@ -907,6 +916,7 @@ export interface FileRouteTypes {
     | '/search'
     | '/understand-indonesia'
     | '/admin/$'
+    | '/admin/access'
     | '/admin/dashboard'
     | '/admin/forgot-password'
     | '/admin/homepage'
@@ -1002,6 +1012,7 @@ export interface FileRouteTypes {
     | '/search'
     | '/understand-indonesia'
     | '/admin/$'
+    | '/admin/access'
     | '/admin/dashboard'
     | '/admin/forgot-password'
     | '/admin/homepage'
@@ -1098,6 +1109,7 @@ export interface FileRouteTypes {
     | '/search'
     | '/understand-indonesia'
     | '/admin/$'
+    | '/admin/access'
     | '/admin/dashboard'
     | '/admin/forgot-password'
     | '/admin/homepage'
@@ -1407,6 +1419,13 @@ declare module '@tanstack/react-router' {
       path: '/$'
       fullPath: '/admin/$'
       preLoaderRoute: typeof AdminSplatRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/access': {
+      id: '/admin/access'
+      path: '/access'
+      fullPath: '/admin/access'
+      preLoaderRoute: typeof AdminAccessRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/dashboard': {
@@ -1897,6 +1916,7 @@ declare module '@tanstack/react-router' {
 
 interface AdminRouteChildren {
   AdminSplatRoute: typeof AdminSplatRoute
+  AdminAccessRoute: typeof AdminAccessRoute
   AdminDashboardRoute: typeof AdminDashboardRoute
   AdminForgotPasswordRoute: typeof AdminForgotPasswordRoute
   AdminHomepageRoute: typeof AdminHomepageRoute
@@ -1927,6 +1947,7 @@ interface AdminRouteChildren {
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminSplatRoute: AdminSplatRoute,
+  AdminAccessRoute: AdminAccessRoute,
   AdminDashboardRoute: AdminDashboardRoute,
   AdminForgotPasswordRoute: AdminForgotPasswordRoute,
   AdminHomepageRoute: AdminHomepageRoute,
