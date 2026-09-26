@@ -12,7 +12,6 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SplatRouteImport } from './routes/$'
 import { Route as AboutRouteImport } from './routes/about'
-import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AroundTheWorldRouteImport } from './routes/around-the-world'
 import { Route as CollaborateRouteImport } from './routes/collaborate'
 import { Route as ConnectRouteImport } from './routes/connect'
@@ -32,17 +31,8 @@ import { Route as PeopleOrganisationsRouteImport } from './routes/people-organis
 import { Route as ResearchRouteImport } from './routes/research'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as StudioRouteImport } from './routes/studio'
 import { Route as UnderstandIndonesiaRouteImport } from './routes/understand-indonesia'
-import { Route as AdminIndexRouteImport } from './routes/admin.index'
-import { Route as AdminSplatRouteImport } from './routes/admin.$'
-import { Route as AdminAccessRouteImport } from './routes/admin.access'
-import { Route as AdminActivityRouteImport } from './routes/admin.activity'
-import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
-import { Route as AdminForgotPasswordRouteImport } from './routes/admin.forgot-password'
-import { Route as AdminHomepageRouteImport } from './routes/admin.homepage'
-import { Route as AdminLoginRouteImport } from './routes/admin.login'
-import { Route as AdminProfileRouteImport } from './routes/admin.profile'
-import { Route as AdminResetPasswordRouteImport } from './routes/admin.reset-password'
 import { Route as CollaborateSlugRouteImport } from './routes/collaborate.$slug'
 import { Route as CollaborationsIndexRouteImport } from './routes/collaborations.index'
 import { Route as CollaborationsSlugRouteImport } from './routes/collaborations.$slug'
@@ -74,41 +64,50 @@ import { Route as PlacesIndexRouteImport } from './routes/places.index'
 import { Route as PlacesSlugRouteImport } from './routes/places.$slug'
 import { Route as StoriesIndexRouteImport } from './routes/stories.index'
 import { Route as StoriesSlugRouteImport } from './routes/stories.$slug'
+import { Route as StudioIndexRouteImport } from './routes/studio.index'
+import { Route as StudioAccessRouteImport } from './routes/studio.access'
+import { Route as StudioActivityRouteImport } from './routes/studio.activity'
+import { Route as StudioDashboardRouteImport } from './routes/studio.dashboard'
+import { Route as StudioForgotPasswordRouteImport } from './routes/studio.forgot-password'
+import { Route as StudioHomepageRouteImport } from './routes/studio.homepage'
+import { Route as StudioLoginRouteImport } from './routes/studio.login'
+import { Route as StudioProfileRouteImport } from './routes/studio.profile'
+import { Route as StudioResetPasswordRouteImport } from './routes/studio.reset-password'
 import { Route as UnderstandIndonesiaPeopleOrganisationsRouteImport } from './routes/understand-indonesia.people-organisations'
-import { Route as AdminArticlesIndexRouteImport } from './routes/admin.articles.index'
-import { Route as AdminArticlesIdRouteImport } from './routes/admin.articles.$id'
-import { Route as AdminCollaborationsIndexRouteImport } from './routes/admin.collaborations.index'
-import { Route as AdminCollaborationsIdRouteImport } from './routes/admin.collaborations.$id'
-import { Route as AdminCollectionsIndexRouteImport } from './routes/admin.collections.index'
-import { Route as AdminCollectionsIdRouteImport } from './routes/admin.collections.$id'
-import { Route as AdminExperienceIndexRouteImport } from './routes/admin.experience.index'
-import { Route as AdminExperienceIdRouteImport } from './routes/admin.experience.$id'
-import { Route as AdminHeritageIndexRouteImport } from './routes/admin.heritage.index'
-import { Route as AdminHeritageIdRouteImport } from './routes/admin.heritage.$id'
-import { Route as AdminPagesIndexRouteImport } from './routes/admin.pages.index'
-import { Route as AdminPagesPageRouteImport } from './routes/admin.pages.$page'
-import { Route as AdminPeopleOrganisationsIndexRouteImport } from './routes/admin.people-organisations.index'
-import { Route as AdminPeopleOrganisationsIdRouteImport } from './routes/admin.people-organisations.$id'
-import { Route as AdminPreviewIdRouteImport } from './routes/admin.preview.$id'
-import { Route as AdminTopicsIndexRouteImport } from './routes/admin.topics.index'
-import { Route as AdminTopicsIdRouteImport } from './routes/admin.topics.$id'
-import { Route as AdminUsersIndexRouteImport } from './routes/admin.users.index'
-import { Route as AdminUsersIdRouteImport } from './routes/admin.users.$id'
 import { Route as ContributorSubmissionsIndexRouteImport } from './routes/contributor.submissions.index'
 import { Route as ExploreTopicsIndexRouteImport } from './routes/explore.topics.index'
 import { Route as ExploreTopicsSlugRouteImport } from './routes/explore.topics.$slug'
+import { Route as StudioArticlesIndexRouteImport } from './routes/studio.articles.index'
+import { Route as StudioArticlesIdRouteImport } from './routes/studio.articles.$id'
+import { Route as StudioCollaborationsIndexRouteImport } from './routes/studio.collaborations.index'
+import { Route as StudioCollaborationsIdRouteImport } from './routes/studio.collaborations.$id'
+import { Route as StudioCollectionsIndexRouteImport } from './routes/studio.collections.index'
+import { Route as StudioCollectionsIdRouteImport } from './routes/studio.collections.$id'
+import { Route as StudioExperienceIndexRouteImport } from './routes/studio.experience.index'
+import { Route as StudioExperienceIdRouteImport } from './routes/studio.experience.$id'
+import { Route as StudioHeritageIndexRouteImport } from './routes/studio.heritage.index'
+import { Route as StudioHeritageIdRouteImport } from './routes/studio.heritage.$id'
+import { Route as StudioPagesIndexRouteImport } from './routes/studio.pages.index'
+import { Route as StudioPagesPageRouteImport } from './routes/studio.pages.$page'
+import { Route as StudioPeopleOrganisationsIndexRouteImport } from './routes/studio.people-organisations.index'
+import { Route as StudioPeopleOrganisationsIdRouteImport } from './routes/studio.people-organisations.$id'
+import { Route as StudioPreviewIdRouteImport } from './routes/studio.preview.$id'
+import { Route as StudioTopicsIndexRouteImport } from './routes/studio.topics.index'
+import { Route as StudioTopicsIdRouteImport } from './routes/studio.topics.$id'
+import { Route as StudioUsersIndexRouteImport } from './routes/studio.users.index'
+import { Route as StudioUsersIdRouteImport } from './routes/studio.users.$id'
 import { Route as UnderstandIndonesiaCollectionsIndexRouteImport } from './routes/understand-indonesia.collections.index'
 import { Route as UnderstandIndonesiaCollectionsSlugRouteImport } from './routes/understand-indonesia.collections.$slug'
 import { Route as UnderstandIndonesiaHeritageIndexRouteImport } from './routes/understand-indonesia.heritage.index'
 import { Route as UnderstandIndonesiaHeritageSlugRouteImport } from './routes/understand-indonesia.heritage.$slug'
 import { Route as UnderstandIndonesiaTopicsIndexRouteImport } from './routes/understand-indonesia.topics.index'
 import { Route as UnderstandIndonesiaTopicsSlugRouteImport } from './routes/understand-indonesia.topics.$slug'
-import { Route as AdminCollaborationsRequestsIdRouteImport } from './routes/admin.collaborations.requests.$id'
-import { Route as AdminPagesFaqIndexRouteImport } from './routes/admin.pages.faq.index'
-import { Route as AdminPagesFaqIdRouteImport } from './routes/admin.pages.faq.$id'
 import { Route as ContributorSubmissionsIdIndexRouteImport } from './routes/contributor.submissions.$id.index'
 import { Route as ContributorSubmissionsIdReviseRouteImport } from './routes/contributor.submissions.$id.revise'
 import { Route as ContributorSubmissionsNewTypeRouteImport } from './routes/contributor.submissions.new.$type'
+import { Route as StudioCollaborationsRequestsIdRouteImport } from './routes/studio.collaborations.requests.$id'
+import { Route as StudioPagesFaqIndexRouteImport } from './routes/studio.pages.faq.index'
+import { Route as StudioPagesFaqIdRouteImport } from './routes/studio.pages.faq.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -123,11 +122,6 @@ const SplatRoute = SplatRouteImport.update({
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminRoute = AdminRouteImport.update({
-  id: '/admin',
-  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AroundTheWorldRoute = AroundTheWorldRouteImport.update({
@@ -225,60 +219,15 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StudioRoute = StudioRouteImport.update({
+  id: '/studio',
+  path: '/studio',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const UnderstandIndonesiaRoute = UnderstandIndonesiaRouteImport.update({
   id: '/understand-indonesia',
   path: '/understand-indonesia',
   getParentRoute: () => rootRouteImport,
-} as any)
-const AdminIndexRoute = AdminIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminSplatRoute = AdminSplatRouteImport.update({
-  id: '/$',
-  path: '/$',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminAccessRoute = AdminAccessRouteImport.update({
-  id: '/access',
-  path: '/access',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminActivityRoute = AdminActivityRouteImport.update({
-  id: '/activity',
-  path: '/activity',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminDashboardRoute = AdminDashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminForgotPasswordRoute = AdminForgotPasswordRouteImport.update({
-  id: '/forgot-password',
-  path: '/forgot-password',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminHomepageRoute = AdminHomepageRouteImport.update({
-  id: '/homepage',
-  path: '/homepage',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminLoginRoute = AdminLoginRouteImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminProfileRoute = AdminProfileRouteImport.update({
-  id: '/profile',
-  path: '/profile',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminResetPasswordRoute = AdminResetPasswordRouteImport.update({
-  id: '/reset-password',
-  path: '/reset-password',
-  getParentRoute: () => AdminRoute,
 } as any)
 const CollaborateSlugRoute = CollaborateSlugRouteImport.update({
   id: '/$slug',
@@ -437,110 +386,57 @@ const StoriesSlugRoute = StoriesSlugRouteImport.update({
   path: '/stories/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StudioIndexRoute = StudioIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => StudioRoute,
+} as any)
+const StudioAccessRoute = StudioAccessRouteImport.update({
+  id: '/access',
+  path: '/access',
+  getParentRoute: () => StudioRoute,
+} as any)
+const StudioActivityRoute = StudioActivityRouteImport.update({
+  id: '/activity',
+  path: '/activity',
+  getParentRoute: () => StudioRoute,
+} as any)
+const StudioDashboardRoute = StudioDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => StudioRoute,
+} as any)
+const StudioForgotPasswordRoute = StudioForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
+  getParentRoute: () => StudioRoute,
+} as any)
+const StudioHomepageRoute = StudioHomepageRouteImport.update({
+  id: '/homepage',
+  path: '/homepage',
+  getParentRoute: () => StudioRoute,
+} as any)
+const StudioLoginRoute = StudioLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => StudioRoute,
+} as any)
+const StudioProfileRoute = StudioProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => StudioRoute,
+} as any)
+const StudioResetPasswordRoute = StudioResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => StudioRoute,
+} as any)
 const UnderstandIndonesiaPeopleOrganisationsRoute =
   UnderstandIndonesiaPeopleOrganisationsRouteImport.update({
     id: '/people-organisations',
     path: '/people-organisations',
     getParentRoute: () => UnderstandIndonesiaRoute,
   } as any)
-const AdminArticlesIndexRoute = AdminArticlesIndexRouteImport.update({
-  id: '/articles/',
-  path: '/articles/',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminArticlesIdRoute = AdminArticlesIdRouteImport.update({
-  id: '/articles/$id',
-  path: '/articles/$id',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminCollaborationsIndexRoute =
-  AdminCollaborationsIndexRouteImport.update({
-    id: '/collaborations/',
-    path: '/collaborations/',
-    getParentRoute: () => AdminRoute,
-  } as any)
-const AdminCollaborationsIdRoute = AdminCollaborationsIdRouteImport.update({
-  id: '/collaborations/$id',
-  path: '/collaborations/$id',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminCollectionsIndexRoute = AdminCollectionsIndexRouteImport.update({
-  id: '/collections/',
-  path: '/collections/',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminCollectionsIdRoute = AdminCollectionsIdRouteImport.update({
-  id: '/collections/$id',
-  path: '/collections/$id',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminExperienceIndexRoute = AdminExperienceIndexRouteImport.update({
-  id: '/experience/',
-  path: '/experience/',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminExperienceIdRoute = AdminExperienceIdRouteImport.update({
-  id: '/experience/$id',
-  path: '/experience/$id',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminHeritageIndexRoute = AdminHeritageIndexRouteImport.update({
-  id: '/heritage/',
-  path: '/heritage/',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminHeritageIdRoute = AdminHeritageIdRouteImport.update({
-  id: '/heritage/$id',
-  path: '/heritage/$id',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminPagesIndexRoute = AdminPagesIndexRouteImport.update({
-  id: '/pages/',
-  path: '/pages/',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminPagesPageRoute = AdminPagesPageRouteImport.update({
-  id: '/pages/$page',
-  path: '/pages/$page',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminPeopleOrganisationsIndexRoute =
-  AdminPeopleOrganisationsIndexRouteImport.update({
-    id: '/people-organisations/',
-    path: '/people-organisations/',
-    getParentRoute: () => AdminRoute,
-  } as any)
-const AdminPeopleOrganisationsIdRoute =
-  AdminPeopleOrganisationsIdRouteImport.update({
-    id: '/people-organisations/$id',
-    path: '/people-organisations/$id',
-    getParentRoute: () => AdminRoute,
-  } as any)
-const AdminPreviewIdRoute = AdminPreviewIdRouteImport.update({
-  id: '/preview/$id',
-  path: '/preview/$id',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminTopicsIndexRoute = AdminTopicsIndexRouteImport.update({
-  id: '/topics/',
-  path: '/topics/',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminTopicsIdRoute = AdminTopicsIdRouteImport.update({
-  id: '/topics/$id',
-  path: '/topics/$id',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminUsersIndexRoute = AdminUsersIndexRouteImport.update({
-  id: '/users/',
-  path: '/users/',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminUsersIdRoute = AdminUsersIdRouteImport.update({
-  id: '/users/$id',
-  path: '/users/$id',
-  getParentRoute: () => AdminRoute,
-} as any)
 const ContributorSubmissionsIndexRoute =
   ContributorSubmissionsIndexRouteImport.update({
     id: '/contributor/submissions/',
@@ -556,6 +452,104 @@ const ExploreTopicsSlugRoute = ExploreTopicsSlugRouteImport.update({
   id: '/explore/topics/$slug',
   path: '/explore/topics/$slug',
   getParentRoute: () => rootRouteImport,
+} as any)
+const StudioArticlesIndexRoute = StudioArticlesIndexRouteImport.update({
+  id: '/articles/',
+  path: '/articles/',
+  getParentRoute: () => StudioRoute,
+} as any)
+const StudioArticlesIdRoute = StudioArticlesIdRouteImport.update({
+  id: '/articles/$id',
+  path: '/articles/$id',
+  getParentRoute: () => StudioRoute,
+} as any)
+const StudioCollaborationsIndexRoute =
+  StudioCollaborationsIndexRouteImport.update({
+    id: '/collaborations/',
+    path: '/collaborations/',
+    getParentRoute: () => StudioRoute,
+  } as any)
+const StudioCollaborationsIdRoute = StudioCollaborationsIdRouteImport.update({
+  id: '/collaborations/$id',
+  path: '/collaborations/$id',
+  getParentRoute: () => StudioRoute,
+} as any)
+const StudioCollectionsIndexRoute = StudioCollectionsIndexRouteImport.update({
+  id: '/collections/',
+  path: '/collections/',
+  getParentRoute: () => StudioRoute,
+} as any)
+const StudioCollectionsIdRoute = StudioCollectionsIdRouteImport.update({
+  id: '/collections/$id',
+  path: '/collections/$id',
+  getParentRoute: () => StudioRoute,
+} as any)
+const StudioExperienceIndexRoute = StudioExperienceIndexRouteImport.update({
+  id: '/experience/',
+  path: '/experience/',
+  getParentRoute: () => StudioRoute,
+} as any)
+const StudioExperienceIdRoute = StudioExperienceIdRouteImport.update({
+  id: '/experience/$id',
+  path: '/experience/$id',
+  getParentRoute: () => StudioRoute,
+} as any)
+const StudioHeritageIndexRoute = StudioHeritageIndexRouteImport.update({
+  id: '/heritage/',
+  path: '/heritage/',
+  getParentRoute: () => StudioRoute,
+} as any)
+const StudioHeritageIdRoute = StudioHeritageIdRouteImport.update({
+  id: '/heritage/$id',
+  path: '/heritage/$id',
+  getParentRoute: () => StudioRoute,
+} as any)
+const StudioPagesIndexRoute = StudioPagesIndexRouteImport.update({
+  id: '/pages/',
+  path: '/pages/',
+  getParentRoute: () => StudioRoute,
+} as any)
+const StudioPagesPageRoute = StudioPagesPageRouteImport.update({
+  id: '/pages/$page',
+  path: '/pages/$page',
+  getParentRoute: () => StudioRoute,
+} as any)
+const StudioPeopleOrganisationsIndexRoute =
+  StudioPeopleOrganisationsIndexRouteImport.update({
+    id: '/people-organisations/',
+    path: '/people-organisations/',
+    getParentRoute: () => StudioRoute,
+  } as any)
+const StudioPeopleOrganisationsIdRoute =
+  StudioPeopleOrganisationsIdRouteImport.update({
+    id: '/people-organisations/$id',
+    path: '/people-organisations/$id',
+    getParentRoute: () => StudioRoute,
+  } as any)
+const StudioPreviewIdRoute = StudioPreviewIdRouteImport.update({
+  id: '/preview/$id',
+  path: '/preview/$id',
+  getParentRoute: () => StudioRoute,
+} as any)
+const StudioTopicsIndexRoute = StudioTopicsIndexRouteImport.update({
+  id: '/topics/',
+  path: '/topics/',
+  getParentRoute: () => StudioRoute,
+} as any)
+const StudioTopicsIdRoute = StudioTopicsIdRouteImport.update({
+  id: '/topics/$id',
+  path: '/topics/$id',
+  getParentRoute: () => StudioRoute,
+} as any)
+const StudioUsersIndexRoute = StudioUsersIndexRouteImport.update({
+  id: '/users/',
+  path: '/users/',
+  getParentRoute: () => StudioRoute,
+} as any)
+const StudioUsersIdRoute = StudioUsersIdRouteImport.update({
+  id: '/users/$id',
+  path: '/users/$id',
+  getParentRoute: () => StudioRoute,
 } as any)
 const UnderstandIndonesiaCollectionsIndexRoute =
   UnderstandIndonesiaCollectionsIndexRouteImport.update({
@@ -593,22 +587,6 @@ const UnderstandIndonesiaTopicsSlugRoute =
     path: '/topics/$slug',
     getParentRoute: () => UnderstandIndonesiaRoute,
   } as any)
-const AdminCollaborationsRequestsIdRoute =
-  AdminCollaborationsRequestsIdRouteImport.update({
-    id: '/collaborations/requests/$id',
-    path: '/collaborations/requests/$id',
-    getParentRoute: () => AdminRoute,
-  } as any)
-const AdminPagesFaqIndexRoute = AdminPagesFaqIndexRouteImport.update({
-  id: '/pages/faq/',
-  path: '/pages/faq/',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminPagesFaqIdRoute = AdminPagesFaqIdRouteImport.update({
-  id: '/pages/faq/$id',
-  path: '/pages/faq/$id',
-  getParentRoute: () => AdminRoute,
-} as any)
 const ContributorSubmissionsIdIndexRoute =
   ContributorSubmissionsIdIndexRouteImport.update({
     id: '/contributor/submissions/$id/',
@@ -627,12 +605,27 @@ const ContributorSubmissionsNewTypeRoute =
     path: '/contributor/submissions/new/$type',
     getParentRoute: () => rootRouteImport,
   } as any)
+const StudioCollaborationsRequestsIdRoute =
+  StudioCollaborationsRequestsIdRouteImport.update({
+    id: '/collaborations/requests/$id',
+    path: '/collaborations/requests/$id',
+    getParentRoute: () => StudioRoute,
+  } as any)
+const StudioPagesFaqIndexRoute = StudioPagesFaqIndexRouteImport.update({
+  id: '/pages/faq/',
+  path: '/pages/faq/',
+  getParentRoute: () => StudioRoute,
+} as any)
+const StudioPagesFaqIdRoute = StudioPagesFaqIdRouteImport.update({
+  id: '/pages/faq/$id',
+  path: '/pages/faq/$id',
+  getParentRoute: () => StudioRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
   '/about': typeof AboutRoute
-  '/admin': typeof AdminRouteWithChildren
   '/around-the-world': typeof AroundTheWorldRoute
   '/collaborate': typeof CollaborateRouteWithChildren
   '/connect': typeof ConnectRoute
@@ -652,16 +645,8 @@ export interface FileRoutesByFullPath {
   '/research': typeof ResearchRoute
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/studio': typeof StudioRouteWithChildren
   '/understand-indonesia': typeof UnderstandIndonesiaRouteWithChildren
-  '/admin/$': typeof AdminSplatRoute
-  '/admin/access': typeof AdminAccessRoute
-  '/admin/activity': typeof AdminActivityRoute
-  '/admin/dashboard': typeof AdminDashboardRoute
-  '/admin/forgot-password': typeof AdminForgotPasswordRoute
-  '/admin/homepage': typeof AdminHomepageRoute
-  '/admin/login': typeof AdminLoginRoute
-  '/admin/profile': typeof AdminProfileRoute
-  '/admin/reset-password': typeof AdminResetPasswordRoute
   '/collaborate/$slug': typeof CollaborateSlugRoute
   '/collaborations/$slug': typeof CollaborationsSlugRoute
   '/collections/$slug': typeof CollectionsSlugRoute
@@ -684,8 +669,15 @@ export interface FileRoutesByFullPath {
   '/people/$slug': typeof PeopleSlugRoute
   '/places/$slug': typeof PlacesSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
+  '/studio/access': typeof StudioAccessRoute
+  '/studio/activity': typeof StudioActivityRoute
+  '/studio/dashboard': typeof StudioDashboardRoute
+  '/studio/forgot-password': typeof StudioForgotPasswordRoute
+  '/studio/homepage': typeof StudioHomepageRoute
+  '/studio/login': typeof StudioLoginRoute
+  '/studio/profile': typeof StudioProfileRoute
+  '/studio/reset-password': typeof StudioResetPasswordRoute
   '/understand-indonesia/people-organisations': typeof UnderstandIndonesiaPeopleOrganisationsRoute
-  '/admin/': typeof AdminIndexRoute
   '/collaborations/': typeof CollaborationsIndexRoute
   '/collections/': typeof CollectionsIndexRoute
   '/contributor/': typeof ContributorIndexRoute
@@ -695,40 +687,41 @@ export interface FileRoutesByFullPath {
   '/people/': typeof PeopleIndexRoute
   '/places/': typeof PlacesIndexRoute
   '/stories/': typeof StoriesIndexRoute
-  '/admin/articles/$id': typeof AdminArticlesIdRoute
-  '/admin/collaborations/$id': typeof AdminCollaborationsIdRoute
-  '/admin/collections/$id': typeof AdminCollectionsIdRoute
-  '/admin/experience/$id': typeof AdminExperienceIdRoute
-  '/admin/heritage/$id': typeof AdminHeritageIdRoute
-  '/admin/pages/$page': typeof AdminPagesPageRoute
-  '/admin/people-organisations/$id': typeof AdminPeopleOrganisationsIdRoute
-  '/admin/preview/$id': typeof AdminPreviewIdRoute
-  '/admin/topics/$id': typeof AdminTopicsIdRoute
-  '/admin/users/$id': typeof AdminUsersIdRoute
+  '/studio/': typeof StudioIndexRoute
   '/explore/topics/$slug': typeof ExploreTopicsSlugRoute
+  '/studio/articles/$id': typeof StudioArticlesIdRoute
+  '/studio/collaborations/$id': typeof StudioCollaborationsIdRoute
+  '/studio/collections/$id': typeof StudioCollectionsIdRoute
+  '/studio/experience/$id': typeof StudioExperienceIdRoute
+  '/studio/heritage/$id': typeof StudioHeritageIdRoute
+  '/studio/pages/$page': typeof StudioPagesPageRoute
+  '/studio/people-organisations/$id': typeof StudioPeopleOrganisationsIdRoute
+  '/studio/preview/$id': typeof StudioPreviewIdRoute
+  '/studio/topics/$id': typeof StudioTopicsIdRoute
+  '/studio/users/$id': typeof StudioUsersIdRoute
   '/understand-indonesia/collections/$slug': typeof UnderstandIndonesiaCollectionsSlugRoute
   '/understand-indonesia/heritage/$slug': typeof UnderstandIndonesiaHeritageSlugRoute
   '/understand-indonesia/topics/$slug': typeof UnderstandIndonesiaTopicsSlugRoute
-  '/admin/articles/': typeof AdminArticlesIndexRoute
-  '/admin/collaborations/': typeof AdminCollaborationsIndexRoute
-  '/admin/collections/': typeof AdminCollectionsIndexRoute
-  '/admin/experience/': typeof AdminExperienceIndexRoute
-  '/admin/heritage/': typeof AdminHeritageIndexRoute
-  '/admin/pages/': typeof AdminPagesIndexRoute
-  '/admin/people-organisations/': typeof AdminPeopleOrganisationsIndexRoute
-  '/admin/topics/': typeof AdminTopicsIndexRoute
-  '/admin/users/': typeof AdminUsersIndexRoute
   '/contributor/submissions/': typeof ContributorSubmissionsIndexRoute
   '/explore/topics/': typeof ExploreTopicsIndexRoute
+  '/studio/articles/': typeof StudioArticlesIndexRoute
+  '/studio/collaborations/': typeof StudioCollaborationsIndexRoute
+  '/studio/collections/': typeof StudioCollectionsIndexRoute
+  '/studio/experience/': typeof StudioExperienceIndexRoute
+  '/studio/heritage/': typeof StudioHeritageIndexRoute
+  '/studio/pages/': typeof StudioPagesIndexRoute
+  '/studio/people-organisations/': typeof StudioPeopleOrganisationsIndexRoute
+  '/studio/topics/': typeof StudioTopicsIndexRoute
+  '/studio/users/': typeof StudioUsersIndexRoute
   '/understand-indonesia/collections/': typeof UnderstandIndonesiaCollectionsIndexRoute
   '/understand-indonesia/heritage/': typeof UnderstandIndonesiaHeritageIndexRoute
   '/understand-indonesia/topics/': typeof UnderstandIndonesiaTopicsIndexRoute
-  '/admin/collaborations/requests/$id': typeof AdminCollaborationsRequestsIdRoute
-  '/admin/pages/faq/$id': typeof AdminPagesFaqIdRoute
   '/contributor/submissions/$id/revise': typeof ContributorSubmissionsIdReviseRoute
   '/contributor/submissions/new/$type': typeof ContributorSubmissionsNewTypeRoute
-  '/admin/pages/faq/': typeof AdminPagesFaqIndexRoute
+  '/studio/collaborations/requests/$id': typeof StudioCollaborationsRequestsIdRoute
+  '/studio/pages/faq/$id': typeof StudioPagesFaqIdRoute
   '/contributor/submissions/$id/': typeof ContributorSubmissionsIdIndexRoute
+  '/studio/pages/faq/': typeof StudioPagesFaqIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -754,15 +747,6 @@ export interface FileRoutesByTo {
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/understand-indonesia': typeof UnderstandIndonesiaRouteWithChildren
-  '/admin/$': typeof AdminSplatRoute
-  '/admin/access': typeof AdminAccessRoute
-  '/admin/activity': typeof AdminActivityRoute
-  '/admin/dashboard': typeof AdminDashboardRoute
-  '/admin/forgot-password': typeof AdminForgotPasswordRoute
-  '/admin/homepage': typeof AdminHomepageRoute
-  '/admin/login': typeof AdminLoginRoute
-  '/admin/profile': typeof AdminProfileRoute
-  '/admin/reset-password': typeof AdminResetPasswordRoute
   '/collaborate/$slug': typeof CollaborateSlugRoute
   '/collaborations/$slug': typeof CollaborationsSlugRoute
   '/collections/$slug': typeof CollectionsSlugRoute
@@ -785,8 +769,15 @@ export interface FileRoutesByTo {
   '/people/$slug': typeof PeopleSlugRoute
   '/places/$slug': typeof PlacesSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
+  '/studio/access': typeof StudioAccessRoute
+  '/studio/activity': typeof StudioActivityRoute
+  '/studio/dashboard': typeof StudioDashboardRoute
+  '/studio/forgot-password': typeof StudioForgotPasswordRoute
+  '/studio/homepage': typeof StudioHomepageRoute
+  '/studio/login': typeof StudioLoginRoute
+  '/studio/profile': typeof StudioProfileRoute
+  '/studio/reset-password': typeof StudioResetPasswordRoute
   '/understand-indonesia/people-organisations': typeof UnderstandIndonesiaPeopleOrganisationsRoute
-  '/admin': typeof AdminIndexRoute
   '/collaborations': typeof CollaborationsIndexRoute
   '/collections': typeof CollectionsIndexRoute
   '/contributor': typeof ContributorIndexRoute
@@ -796,47 +787,47 @@ export interface FileRoutesByTo {
   '/people': typeof PeopleIndexRoute
   '/places': typeof PlacesIndexRoute
   '/stories': typeof StoriesIndexRoute
-  '/admin/articles/$id': typeof AdminArticlesIdRoute
-  '/admin/collaborations/$id': typeof AdminCollaborationsIdRoute
-  '/admin/collections/$id': typeof AdminCollectionsIdRoute
-  '/admin/experience/$id': typeof AdminExperienceIdRoute
-  '/admin/heritage/$id': typeof AdminHeritageIdRoute
-  '/admin/pages/$page': typeof AdminPagesPageRoute
-  '/admin/people-organisations/$id': typeof AdminPeopleOrganisationsIdRoute
-  '/admin/preview/$id': typeof AdminPreviewIdRoute
-  '/admin/topics/$id': typeof AdminTopicsIdRoute
-  '/admin/users/$id': typeof AdminUsersIdRoute
+  '/studio': typeof StudioIndexRoute
   '/explore/topics/$slug': typeof ExploreTopicsSlugRoute
+  '/studio/articles/$id': typeof StudioArticlesIdRoute
+  '/studio/collaborations/$id': typeof StudioCollaborationsIdRoute
+  '/studio/collections/$id': typeof StudioCollectionsIdRoute
+  '/studio/experience/$id': typeof StudioExperienceIdRoute
+  '/studio/heritage/$id': typeof StudioHeritageIdRoute
+  '/studio/pages/$page': typeof StudioPagesPageRoute
+  '/studio/people-organisations/$id': typeof StudioPeopleOrganisationsIdRoute
+  '/studio/preview/$id': typeof StudioPreviewIdRoute
+  '/studio/topics/$id': typeof StudioTopicsIdRoute
+  '/studio/users/$id': typeof StudioUsersIdRoute
   '/understand-indonesia/collections/$slug': typeof UnderstandIndonesiaCollectionsSlugRoute
   '/understand-indonesia/heritage/$slug': typeof UnderstandIndonesiaHeritageSlugRoute
   '/understand-indonesia/topics/$slug': typeof UnderstandIndonesiaTopicsSlugRoute
-  '/admin/articles': typeof AdminArticlesIndexRoute
-  '/admin/collaborations': typeof AdminCollaborationsIndexRoute
-  '/admin/collections': typeof AdminCollectionsIndexRoute
-  '/admin/experience': typeof AdminExperienceIndexRoute
-  '/admin/heritage': typeof AdminHeritageIndexRoute
-  '/admin/pages': typeof AdminPagesIndexRoute
-  '/admin/people-organisations': typeof AdminPeopleOrganisationsIndexRoute
-  '/admin/topics': typeof AdminTopicsIndexRoute
-  '/admin/users': typeof AdminUsersIndexRoute
   '/contributor/submissions': typeof ContributorSubmissionsIndexRoute
   '/explore/topics': typeof ExploreTopicsIndexRoute
+  '/studio/articles': typeof StudioArticlesIndexRoute
+  '/studio/collaborations': typeof StudioCollaborationsIndexRoute
+  '/studio/collections': typeof StudioCollectionsIndexRoute
+  '/studio/experience': typeof StudioExperienceIndexRoute
+  '/studio/heritage': typeof StudioHeritageIndexRoute
+  '/studio/pages': typeof StudioPagesIndexRoute
+  '/studio/people-organisations': typeof StudioPeopleOrganisationsIndexRoute
+  '/studio/topics': typeof StudioTopicsIndexRoute
+  '/studio/users': typeof StudioUsersIndexRoute
   '/understand-indonesia/collections': typeof UnderstandIndonesiaCollectionsIndexRoute
   '/understand-indonesia/heritage': typeof UnderstandIndonesiaHeritageIndexRoute
   '/understand-indonesia/topics': typeof UnderstandIndonesiaTopicsIndexRoute
-  '/admin/collaborations/requests/$id': typeof AdminCollaborationsRequestsIdRoute
-  '/admin/pages/faq/$id': typeof AdminPagesFaqIdRoute
   '/contributor/submissions/$id/revise': typeof ContributorSubmissionsIdReviseRoute
   '/contributor/submissions/new/$type': typeof ContributorSubmissionsNewTypeRoute
-  '/admin/pages/faq': typeof AdminPagesFaqIndexRoute
+  '/studio/collaborations/requests/$id': typeof StudioCollaborationsRequestsIdRoute
+  '/studio/pages/faq/$id': typeof StudioPagesFaqIdRoute
   '/contributor/submissions/$id': typeof ContributorSubmissionsIdIndexRoute
+  '/studio/pages/faq': typeof StudioPagesFaqIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
   '/about': typeof AboutRoute
-  '/admin': typeof AdminRouteWithChildren
   '/around-the-world': typeof AroundTheWorldRoute
   '/collaborate': typeof CollaborateRouteWithChildren
   '/connect': typeof ConnectRoute
@@ -856,16 +847,8 @@ export interface FileRoutesById {
   '/research': typeof ResearchRoute
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/studio': typeof StudioRouteWithChildren
   '/understand-indonesia': typeof UnderstandIndonesiaRouteWithChildren
-  '/admin/$': typeof AdminSplatRoute
-  '/admin/access': typeof AdminAccessRoute
-  '/admin/activity': typeof AdminActivityRoute
-  '/admin/dashboard': typeof AdminDashboardRoute
-  '/admin/forgot-password': typeof AdminForgotPasswordRoute
-  '/admin/homepage': typeof AdminHomepageRoute
-  '/admin/login': typeof AdminLoginRoute
-  '/admin/profile': typeof AdminProfileRoute
-  '/admin/reset-password': typeof AdminResetPasswordRoute
   '/collaborate/$slug': typeof CollaborateSlugRoute
   '/collaborations/$slug': typeof CollaborationsSlugRoute
   '/collections/$slug': typeof CollectionsSlugRoute
@@ -888,8 +871,15 @@ export interface FileRoutesById {
   '/people/$slug': typeof PeopleSlugRoute
   '/places/$slug': typeof PlacesSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
+  '/studio/access': typeof StudioAccessRoute
+  '/studio/activity': typeof StudioActivityRoute
+  '/studio/dashboard': typeof StudioDashboardRoute
+  '/studio/forgot-password': typeof StudioForgotPasswordRoute
+  '/studio/homepage': typeof StudioHomepageRoute
+  '/studio/login': typeof StudioLoginRoute
+  '/studio/profile': typeof StudioProfileRoute
+  '/studio/reset-password': typeof StudioResetPasswordRoute
   '/understand-indonesia/people-organisations': typeof UnderstandIndonesiaPeopleOrganisationsRoute
-  '/admin/': typeof AdminIndexRoute
   '/collaborations/': typeof CollaborationsIndexRoute
   '/collections/': typeof CollectionsIndexRoute
   '/contributor/': typeof ContributorIndexRoute
@@ -899,40 +889,41 @@ export interface FileRoutesById {
   '/people/': typeof PeopleIndexRoute
   '/places/': typeof PlacesIndexRoute
   '/stories/': typeof StoriesIndexRoute
-  '/admin/articles/$id': typeof AdminArticlesIdRoute
-  '/admin/collaborations/$id': typeof AdminCollaborationsIdRoute
-  '/admin/collections/$id': typeof AdminCollectionsIdRoute
-  '/admin/experience/$id': typeof AdminExperienceIdRoute
-  '/admin/heritage/$id': typeof AdminHeritageIdRoute
-  '/admin/pages/$page': typeof AdminPagesPageRoute
-  '/admin/people-organisations/$id': typeof AdminPeopleOrganisationsIdRoute
-  '/admin/preview/$id': typeof AdminPreviewIdRoute
-  '/admin/topics/$id': typeof AdminTopicsIdRoute
-  '/admin/users/$id': typeof AdminUsersIdRoute
+  '/studio/': typeof StudioIndexRoute
   '/explore/topics/$slug': typeof ExploreTopicsSlugRoute
+  '/studio/articles/$id': typeof StudioArticlesIdRoute
+  '/studio/collaborations/$id': typeof StudioCollaborationsIdRoute
+  '/studio/collections/$id': typeof StudioCollectionsIdRoute
+  '/studio/experience/$id': typeof StudioExperienceIdRoute
+  '/studio/heritage/$id': typeof StudioHeritageIdRoute
+  '/studio/pages/$page': typeof StudioPagesPageRoute
+  '/studio/people-organisations/$id': typeof StudioPeopleOrganisationsIdRoute
+  '/studio/preview/$id': typeof StudioPreviewIdRoute
+  '/studio/topics/$id': typeof StudioTopicsIdRoute
+  '/studio/users/$id': typeof StudioUsersIdRoute
   '/understand-indonesia/collections/$slug': typeof UnderstandIndonesiaCollectionsSlugRoute
   '/understand-indonesia/heritage/$slug': typeof UnderstandIndonesiaHeritageSlugRoute
   '/understand-indonesia/topics/$slug': typeof UnderstandIndonesiaTopicsSlugRoute
-  '/admin/articles/': typeof AdminArticlesIndexRoute
-  '/admin/collaborations/': typeof AdminCollaborationsIndexRoute
-  '/admin/collections/': typeof AdminCollectionsIndexRoute
-  '/admin/experience/': typeof AdminExperienceIndexRoute
-  '/admin/heritage/': typeof AdminHeritageIndexRoute
-  '/admin/pages/': typeof AdminPagesIndexRoute
-  '/admin/people-organisations/': typeof AdminPeopleOrganisationsIndexRoute
-  '/admin/topics/': typeof AdminTopicsIndexRoute
-  '/admin/users/': typeof AdminUsersIndexRoute
   '/contributor/submissions/': typeof ContributorSubmissionsIndexRoute
   '/explore/topics/': typeof ExploreTopicsIndexRoute
+  '/studio/articles/': typeof StudioArticlesIndexRoute
+  '/studio/collaborations/': typeof StudioCollaborationsIndexRoute
+  '/studio/collections/': typeof StudioCollectionsIndexRoute
+  '/studio/experience/': typeof StudioExperienceIndexRoute
+  '/studio/heritage/': typeof StudioHeritageIndexRoute
+  '/studio/pages/': typeof StudioPagesIndexRoute
+  '/studio/people-organisations/': typeof StudioPeopleOrganisationsIndexRoute
+  '/studio/topics/': typeof StudioTopicsIndexRoute
+  '/studio/users/': typeof StudioUsersIndexRoute
   '/understand-indonesia/collections/': typeof UnderstandIndonesiaCollectionsIndexRoute
   '/understand-indonesia/heritage/': typeof UnderstandIndonesiaHeritageIndexRoute
   '/understand-indonesia/topics/': typeof UnderstandIndonesiaTopicsIndexRoute
-  '/admin/collaborations/requests/$id': typeof AdminCollaborationsRequestsIdRoute
-  '/admin/pages/faq/$id': typeof AdminPagesFaqIdRoute
   '/contributor/submissions/$id/revise': typeof ContributorSubmissionsIdReviseRoute
   '/contributor/submissions/new/$type': typeof ContributorSubmissionsNewTypeRoute
-  '/admin/pages/faq/': typeof AdminPagesFaqIndexRoute
+  '/studio/collaborations/requests/$id': typeof StudioCollaborationsRequestsIdRoute
+  '/studio/pages/faq/$id': typeof StudioPagesFaqIdRoute
   '/contributor/submissions/$id/': typeof ContributorSubmissionsIdIndexRoute
+  '/studio/pages/faq/': typeof StudioPagesFaqIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -940,7 +931,6 @@ export interface FileRouteTypes {
     | '/'
     | '/$'
     | '/about'
-    | '/admin'
     | '/around-the-world'
     | '/collaborate'
     | '/connect'
@@ -960,16 +950,8 @@ export interface FileRouteTypes {
     | '/research'
     | '/search'
     | '/sitemap.xml'
+    | '/studio'
     | '/understand-indonesia'
-    | '/admin/$'
-    | '/admin/access'
-    | '/admin/activity'
-    | '/admin/dashboard'
-    | '/admin/forgot-password'
-    | '/admin/homepage'
-    | '/admin/login'
-    | '/admin/profile'
-    | '/admin/reset-password'
     | '/collaborate/$slug'
     | '/collaborations/$slug'
     | '/collections/$slug'
@@ -992,8 +974,15 @@ export interface FileRouteTypes {
     | '/people/$slug'
     | '/places/$slug'
     | '/stories/$slug'
+    | '/studio/access'
+    | '/studio/activity'
+    | '/studio/dashboard'
+    | '/studio/forgot-password'
+    | '/studio/homepage'
+    | '/studio/login'
+    | '/studio/profile'
+    | '/studio/reset-password'
     | '/understand-indonesia/people-organisations'
-    | '/admin/'
     | '/collaborations/'
     | '/collections/'
     | '/contributor/'
@@ -1003,40 +992,41 @@ export interface FileRouteTypes {
     | '/people/'
     | '/places/'
     | '/stories/'
-    | '/admin/articles/$id'
-    | '/admin/collaborations/$id'
-    | '/admin/collections/$id'
-    | '/admin/experience/$id'
-    | '/admin/heritage/$id'
-    | '/admin/pages/$page'
-    | '/admin/people-organisations/$id'
-    | '/admin/preview/$id'
-    | '/admin/topics/$id'
-    | '/admin/users/$id'
+    | '/studio/'
     | '/explore/topics/$slug'
+    | '/studio/articles/$id'
+    | '/studio/collaborations/$id'
+    | '/studio/collections/$id'
+    | '/studio/experience/$id'
+    | '/studio/heritage/$id'
+    | '/studio/pages/$page'
+    | '/studio/people-organisations/$id'
+    | '/studio/preview/$id'
+    | '/studio/topics/$id'
+    | '/studio/users/$id'
     | '/understand-indonesia/collections/$slug'
     | '/understand-indonesia/heritage/$slug'
     | '/understand-indonesia/topics/$slug'
-    | '/admin/articles/'
-    | '/admin/collaborations/'
-    | '/admin/collections/'
-    | '/admin/experience/'
-    | '/admin/heritage/'
-    | '/admin/pages/'
-    | '/admin/people-organisations/'
-    | '/admin/topics/'
-    | '/admin/users/'
     | '/contributor/submissions/'
     | '/explore/topics/'
+    | '/studio/articles/'
+    | '/studio/collaborations/'
+    | '/studio/collections/'
+    | '/studio/experience/'
+    | '/studio/heritage/'
+    | '/studio/pages/'
+    | '/studio/people-organisations/'
+    | '/studio/topics/'
+    | '/studio/users/'
     | '/understand-indonesia/collections/'
     | '/understand-indonesia/heritage/'
     | '/understand-indonesia/topics/'
-    | '/admin/collaborations/requests/$id'
-    | '/admin/pages/faq/$id'
     | '/contributor/submissions/$id/revise'
     | '/contributor/submissions/new/$type'
-    | '/admin/pages/faq/'
+    | '/studio/collaborations/requests/$id'
+    | '/studio/pages/faq/$id'
     | '/contributor/submissions/$id/'
+    | '/studio/pages/faq/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -1062,15 +1052,6 @@ export interface FileRouteTypes {
     | '/search'
     | '/sitemap.xml'
     | '/understand-indonesia'
-    | '/admin/$'
-    | '/admin/access'
-    | '/admin/activity'
-    | '/admin/dashboard'
-    | '/admin/forgot-password'
-    | '/admin/homepage'
-    | '/admin/login'
-    | '/admin/profile'
-    | '/admin/reset-password'
     | '/collaborate/$slug'
     | '/collaborations/$slug'
     | '/collections/$slug'
@@ -1093,8 +1074,15 @@ export interface FileRouteTypes {
     | '/people/$slug'
     | '/places/$slug'
     | '/stories/$slug'
+    | '/studio/access'
+    | '/studio/activity'
+    | '/studio/dashboard'
+    | '/studio/forgot-password'
+    | '/studio/homepage'
+    | '/studio/login'
+    | '/studio/profile'
+    | '/studio/reset-password'
     | '/understand-indonesia/people-organisations'
-    | '/admin'
     | '/collaborations'
     | '/collections'
     | '/contributor'
@@ -1104,46 +1092,46 @@ export interface FileRouteTypes {
     | '/people'
     | '/places'
     | '/stories'
-    | '/admin/articles/$id'
-    | '/admin/collaborations/$id'
-    | '/admin/collections/$id'
-    | '/admin/experience/$id'
-    | '/admin/heritage/$id'
-    | '/admin/pages/$page'
-    | '/admin/people-organisations/$id'
-    | '/admin/preview/$id'
-    | '/admin/topics/$id'
-    | '/admin/users/$id'
+    | '/studio'
     | '/explore/topics/$slug'
+    | '/studio/articles/$id'
+    | '/studio/collaborations/$id'
+    | '/studio/collections/$id'
+    | '/studio/experience/$id'
+    | '/studio/heritage/$id'
+    | '/studio/pages/$page'
+    | '/studio/people-organisations/$id'
+    | '/studio/preview/$id'
+    | '/studio/topics/$id'
+    | '/studio/users/$id'
     | '/understand-indonesia/collections/$slug'
     | '/understand-indonesia/heritage/$slug'
     | '/understand-indonesia/topics/$slug'
-    | '/admin/articles'
-    | '/admin/collaborations'
-    | '/admin/collections'
-    | '/admin/experience'
-    | '/admin/heritage'
-    | '/admin/pages'
-    | '/admin/people-organisations'
-    | '/admin/topics'
-    | '/admin/users'
     | '/contributor/submissions'
     | '/explore/topics'
+    | '/studio/articles'
+    | '/studio/collaborations'
+    | '/studio/collections'
+    | '/studio/experience'
+    | '/studio/heritage'
+    | '/studio/pages'
+    | '/studio/people-organisations'
+    | '/studio/topics'
+    | '/studio/users'
     | '/understand-indonesia/collections'
     | '/understand-indonesia/heritage'
     | '/understand-indonesia/topics'
-    | '/admin/collaborations/requests/$id'
-    | '/admin/pages/faq/$id'
     | '/contributor/submissions/$id/revise'
     | '/contributor/submissions/new/$type'
-    | '/admin/pages/faq'
+    | '/studio/collaborations/requests/$id'
+    | '/studio/pages/faq/$id'
     | '/contributor/submissions/$id'
+    | '/studio/pages/faq'
   id:
     | '__root__'
     | '/'
     | '/$'
     | '/about'
-    | '/admin'
     | '/around-the-world'
     | '/collaborate'
     | '/connect'
@@ -1163,16 +1151,8 @@ export interface FileRouteTypes {
     | '/research'
     | '/search'
     | '/sitemap.xml'
+    | '/studio'
     | '/understand-indonesia'
-    | '/admin/$'
-    | '/admin/access'
-    | '/admin/activity'
-    | '/admin/dashboard'
-    | '/admin/forgot-password'
-    | '/admin/homepage'
-    | '/admin/login'
-    | '/admin/profile'
-    | '/admin/reset-password'
     | '/collaborate/$slug'
     | '/collaborations/$slug'
     | '/collections/$slug'
@@ -1195,8 +1175,15 @@ export interface FileRouteTypes {
     | '/people/$slug'
     | '/places/$slug'
     | '/stories/$slug'
+    | '/studio/access'
+    | '/studio/activity'
+    | '/studio/dashboard'
+    | '/studio/forgot-password'
+    | '/studio/homepage'
+    | '/studio/login'
+    | '/studio/profile'
+    | '/studio/reset-password'
     | '/understand-indonesia/people-organisations'
-    | '/admin/'
     | '/collaborations/'
     | '/collections/'
     | '/contributor/'
@@ -1206,47 +1193,47 @@ export interface FileRouteTypes {
     | '/people/'
     | '/places/'
     | '/stories/'
-    | '/admin/articles/$id'
-    | '/admin/collaborations/$id'
-    | '/admin/collections/$id'
-    | '/admin/experience/$id'
-    | '/admin/heritage/$id'
-    | '/admin/pages/$page'
-    | '/admin/people-organisations/$id'
-    | '/admin/preview/$id'
-    | '/admin/topics/$id'
-    | '/admin/users/$id'
+    | '/studio/'
     | '/explore/topics/$slug'
+    | '/studio/articles/$id'
+    | '/studio/collaborations/$id'
+    | '/studio/collections/$id'
+    | '/studio/experience/$id'
+    | '/studio/heritage/$id'
+    | '/studio/pages/$page'
+    | '/studio/people-organisations/$id'
+    | '/studio/preview/$id'
+    | '/studio/topics/$id'
+    | '/studio/users/$id'
     | '/understand-indonesia/collections/$slug'
     | '/understand-indonesia/heritage/$slug'
     | '/understand-indonesia/topics/$slug'
-    | '/admin/articles/'
-    | '/admin/collaborations/'
-    | '/admin/collections/'
-    | '/admin/experience/'
-    | '/admin/heritage/'
-    | '/admin/pages/'
-    | '/admin/people-organisations/'
-    | '/admin/topics/'
-    | '/admin/users/'
     | '/contributor/submissions/'
     | '/explore/topics/'
+    | '/studio/articles/'
+    | '/studio/collaborations/'
+    | '/studio/collections/'
+    | '/studio/experience/'
+    | '/studio/heritage/'
+    | '/studio/pages/'
+    | '/studio/people-organisations/'
+    | '/studio/topics/'
+    | '/studio/users/'
     | '/understand-indonesia/collections/'
     | '/understand-indonesia/heritage/'
     | '/understand-indonesia/topics/'
-    | '/admin/collaborations/requests/$id'
-    | '/admin/pages/faq/$id'
     | '/contributor/submissions/$id/revise'
     | '/contributor/submissions/new/$type'
-    | '/admin/pages/faq/'
+    | '/studio/collaborations/requests/$id'
+    | '/studio/pages/faq/$id'
     | '/contributor/submissions/$id/'
+    | '/studio/pages/faq/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   SplatRoute: typeof SplatRoute
   AboutRoute: typeof AboutRoute
-  AdminRoute: typeof AdminRouteWithChildren
   AroundTheWorldRoute: typeof AroundTheWorldRoute
   CollaborateRoute: typeof CollaborateRouteWithChildren
   ConnectRoute: typeof ConnectRoute
@@ -1266,6 +1253,7 @@ export interface RootRouteChildren {
   ResearchRoute: typeof ResearchRoute
   SearchRoute: typeof SearchRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  StudioRoute: typeof StudioRouteWithChildren
   UnderstandIndonesiaRoute: typeof UnderstandIndonesiaRouteWithChildren
   CollaborationsSlugRoute: typeof CollaborationsSlugRoute
   CollectionsSlugRoute: typeof CollectionsSlugRoute
@@ -1326,13 +1314,6 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin': {
-      id: '/admin'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/around-the-world': {
@@ -1468,82 +1449,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/studio': {
+      id: '/studio'
+      path: '/studio'
+      fullPath: '/studio'
+      preLoaderRoute: typeof StudioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/understand-indonesia': {
       id: '/understand-indonesia'
       path: '/understand-indonesia'
       fullPath: '/understand-indonesia'
       preLoaderRoute: typeof UnderstandIndonesiaRouteImport
       parentRoute: typeof rootRouteImport
-    }
-    '/admin/': {
-      id: '/admin/'
-      path: '/'
-      fullPath: '/admin/'
-      preLoaderRoute: typeof AdminIndexRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/$': {
-      id: '/admin/$'
-      path: '/$'
-      fullPath: '/admin/$'
-      preLoaderRoute: typeof AdminSplatRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/access': {
-      id: '/admin/access'
-      path: '/access'
-      fullPath: '/admin/access'
-      preLoaderRoute: typeof AdminAccessRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/activity': {
-      id: '/admin/activity'
-      path: '/activity'
-      fullPath: '/admin/activity'
-      preLoaderRoute: typeof AdminActivityRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/dashboard': {
-      id: '/admin/dashboard'
-      path: '/dashboard'
-      fullPath: '/admin/dashboard'
-      preLoaderRoute: typeof AdminDashboardRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/forgot-password': {
-      id: '/admin/forgot-password'
-      path: '/forgot-password'
-      fullPath: '/admin/forgot-password'
-      preLoaderRoute: typeof AdminForgotPasswordRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/homepage': {
-      id: '/admin/homepage'
-      path: '/homepage'
-      fullPath: '/admin/homepage'
-      preLoaderRoute: typeof AdminHomepageRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/login': {
-      id: '/admin/login'
-      path: '/login'
-      fullPath: '/admin/login'
-      preLoaderRoute: typeof AdminLoginRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/profile': {
-      id: '/admin/profile'
-      path: '/profile'
-      fullPath: '/admin/profile'
-      preLoaderRoute: typeof AdminProfileRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/reset-password': {
-      id: '/admin/reset-password'
-      path: '/reset-password'
-      fullPath: '/admin/reset-password'
-      preLoaderRoute: typeof AdminResetPasswordRouteImport
-      parentRoute: typeof AdminRoute
     }
     '/collaborate/$slug': {
       id: '/collaborate/$slug'
@@ -1762,145 +1680,75 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StoriesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/studio/': {
+      id: '/studio/'
+      path: '/'
+      fullPath: '/studio/'
+      preLoaderRoute: typeof StudioIndexRouteImport
+      parentRoute: typeof StudioRoute
+    }
+    '/studio/access': {
+      id: '/studio/access'
+      path: '/access'
+      fullPath: '/studio/access'
+      preLoaderRoute: typeof StudioAccessRouteImport
+      parentRoute: typeof StudioRoute
+    }
+    '/studio/activity': {
+      id: '/studio/activity'
+      path: '/activity'
+      fullPath: '/studio/activity'
+      preLoaderRoute: typeof StudioActivityRouteImport
+      parentRoute: typeof StudioRoute
+    }
+    '/studio/dashboard': {
+      id: '/studio/dashboard'
+      path: '/dashboard'
+      fullPath: '/studio/dashboard'
+      preLoaderRoute: typeof StudioDashboardRouteImport
+      parentRoute: typeof StudioRoute
+    }
+    '/studio/forgot-password': {
+      id: '/studio/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/studio/forgot-password'
+      preLoaderRoute: typeof StudioForgotPasswordRouteImport
+      parentRoute: typeof StudioRoute
+    }
+    '/studio/homepage': {
+      id: '/studio/homepage'
+      path: '/homepage'
+      fullPath: '/studio/homepage'
+      preLoaderRoute: typeof StudioHomepageRouteImport
+      parentRoute: typeof StudioRoute
+    }
+    '/studio/login': {
+      id: '/studio/login'
+      path: '/login'
+      fullPath: '/studio/login'
+      preLoaderRoute: typeof StudioLoginRouteImport
+      parentRoute: typeof StudioRoute
+    }
+    '/studio/profile': {
+      id: '/studio/profile'
+      path: '/profile'
+      fullPath: '/studio/profile'
+      preLoaderRoute: typeof StudioProfileRouteImport
+      parentRoute: typeof StudioRoute
+    }
+    '/studio/reset-password': {
+      id: '/studio/reset-password'
+      path: '/reset-password'
+      fullPath: '/studio/reset-password'
+      preLoaderRoute: typeof StudioResetPasswordRouteImport
+      parentRoute: typeof StudioRoute
+    }
     '/understand-indonesia/people-organisations': {
       id: '/understand-indonesia/people-organisations'
       path: '/people-organisations'
       fullPath: '/understand-indonesia/people-organisations'
       preLoaderRoute: typeof UnderstandIndonesiaPeopleOrganisationsRouteImport
       parentRoute: typeof UnderstandIndonesiaRoute
-    }
-    '/admin/articles/': {
-      id: '/admin/articles/'
-      path: '/articles'
-      fullPath: '/admin/articles/'
-      preLoaderRoute: typeof AdminArticlesIndexRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/articles/$id': {
-      id: '/admin/articles/$id'
-      path: '/articles/$id'
-      fullPath: '/admin/articles/$id'
-      preLoaderRoute: typeof AdminArticlesIdRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/collaborations/': {
-      id: '/admin/collaborations/'
-      path: '/collaborations'
-      fullPath: '/admin/collaborations/'
-      preLoaderRoute: typeof AdminCollaborationsIndexRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/collaborations/$id': {
-      id: '/admin/collaborations/$id'
-      path: '/collaborations/$id'
-      fullPath: '/admin/collaborations/$id'
-      preLoaderRoute: typeof AdminCollaborationsIdRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/collections/': {
-      id: '/admin/collections/'
-      path: '/collections'
-      fullPath: '/admin/collections/'
-      preLoaderRoute: typeof AdminCollectionsIndexRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/collections/$id': {
-      id: '/admin/collections/$id'
-      path: '/collections/$id'
-      fullPath: '/admin/collections/$id'
-      preLoaderRoute: typeof AdminCollectionsIdRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/experience/': {
-      id: '/admin/experience/'
-      path: '/experience'
-      fullPath: '/admin/experience/'
-      preLoaderRoute: typeof AdminExperienceIndexRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/experience/$id': {
-      id: '/admin/experience/$id'
-      path: '/experience/$id'
-      fullPath: '/admin/experience/$id'
-      preLoaderRoute: typeof AdminExperienceIdRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/heritage/': {
-      id: '/admin/heritage/'
-      path: '/heritage'
-      fullPath: '/admin/heritage/'
-      preLoaderRoute: typeof AdminHeritageIndexRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/heritage/$id': {
-      id: '/admin/heritage/$id'
-      path: '/heritage/$id'
-      fullPath: '/admin/heritage/$id'
-      preLoaderRoute: typeof AdminHeritageIdRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/pages/': {
-      id: '/admin/pages/'
-      path: '/pages'
-      fullPath: '/admin/pages/'
-      preLoaderRoute: typeof AdminPagesIndexRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/pages/$page': {
-      id: '/admin/pages/$page'
-      path: '/pages/$page'
-      fullPath: '/admin/pages/$page'
-      preLoaderRoute: typeof AdminPagesPageRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/people-organisations/': {
-      id: '/admin/people-organisations/'
-      path: '/people-organisations'
-      fullPath: '/admin/people-organisations/'
-      preLoaderRoute: typeof AdminPeopleOrganisationsIndexRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/people-organisations/$id': {
-      id: '/admin/people-organisations/$id'
-      path: '/people-organisations/$id'
-      fullPath: '/admin/people-organisations/$id'
-      preLoaderRoute: typeof AdminPeopleOrganisationsIdRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/preview/$id': {
-      id: '/admin/preview/$id'
-      path: '/preview/$id'
-      fullPath: '/admin/preview/$id'
-      preLoaderRoute: typeof AdminPreviewIdRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/topics/': {
-      id: '/admin/topics/'
-      path: '/topics'
-      fullPath: '/admin/topics/'
-      preLoaderRoute: typeof AdminTopicsIndexRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/topics/$id': {
-      id: '/admin/topics/$id'
-      path: '/topics/$id'
-      fullPath: '/admin/topics/$id'
-      preLoaderRoute: typeof AdminTopicsIdRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/users/': {
-      id: '/admin/users/'
-      path: '/users'
-      fullPath: '/admin/users/'
-      preLoaderRoute: typeof AdminUsersIndexRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/users/$id': {
-      id: '/admin/users/$id'
-      path: '/users/$id'
-      fullPath: '/admin/users/$id'
-      preLoaderRoute: typeof AdminUsersIdRouteImport
-      parentRoute: typeof AdminRoute
     }
     '/contributor/submissions/': {
       id: '/contributor/submissions/'
@@ -1922,6 +1770,139 @@ declare module '@tanstack/react-router' {
       fullPath: '/explore/topics/$slug'
       preLoaderRoute: typeof ExploreTopicsSlugRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/studio/articles/': {
+      id: '/studio/articles/'
+      path: '/articles'
+      fullPath: '/studio/articles/'
+      preLoaderRoute: typeof StudioArticlesIndexRouteImport
+      parentRoute: typeof StudioRoute
+    }
+    '/studio/articles/$id': {
+      id: '/studio/articles/$id'
+      path: '/articles/$id'
+      fullPath: '/studio/articles/$id'
+      preLoaderRoute: typeof StudioArticlesIdRouteImport
+      parentRoute: typeof StudioRoute
+    }
+    '/studio/collaborations/': {
+      id: '/studio/collaborations/'
+      path: '/collaborations'
+      fullPath: '/studio/collaborations/'
+      preLoaderRoute: typeof StudioCollaborationsIndexRouteImport
+      parentRoute: typeof StudioRoute
+    }
+    '/studio/collaborations/$id': {
+      id: '/studio/collaborations/$id'
+      path: '/collaborations/$id'
+      fullPath: '/studio/collaborations/$id'
+      preLoaderRoute: typeof StudioCollaborationsIdRouteImport
+      parentRoute: typeof StudioRoute
+    }
+    '/studio/collections/': {
+      id: '/studio/collections/'
+      path: '/collections'
+      fullPath: '/studio/collections/'
+      preLoaderRoute: typeof StudioCollectionsIndexRouteImport
+      parentRoute: typeof StudioRoute
+    }
+    '/studio/collections/$id': {
+      id: '/studio/collections/$id'
+      path: '/collections/$id'
+      fullPath: '/studio/collections/$id'
+      preLoaderRoute: typeof StudioCollectionsIdRouteImport
+      parentRoute: typeof StudioRoute
+    }
+    '/studio/experience/': {
+      id: '/studio/experience/'
+      path: '/experience'
+      fullPath: '/studio/experience/'
+      preLoaderRoute: typeof StudioExperienceIndexRouteImport
+      parentRoute: typeof StudioRoute
+    }
+    '/studio/experience/$id': {
+      id: '/studio/experience/$id'
+      path: '/experience/$id'
+      fullPath: '/studio/experience/$id'
+      preLoaderRoute: typeof StudioExperienceIdRouteImport
+      parentRoute: typeof StudioRoute
+    }
+    '/studio/heritage/': {
+      id: '/studio/heritage/'
+      path: '/heritage'
+      fullPath: '/studio/heritage/'
+      preLoaderRoute: typeof StudioHeritageIndexRouteImport
+      parentRoute: typeof StudioRoute
+    }
+    '/studio/heritage/$id': {
+      id: '/studio/heritage/$id'
+      path: '/heritage/$id'
+      fullPath: '/studio/heritage/$id'
+      preLoaderRoute: typeof StudioHeritageIdRouteImport
+      parentRoute: typeof StudioRoute
+    }
+    '/studio/pages/': {
+      id: '/studio/pages/'
+      path: '/pages'
+      fullPath: '/studio/pages/'
+      preLoaderRoute: typeof StudioPagesIndexRouteImport
+      parentRoute: typeof StudioRoute
+    }
+    '/studio/pages/$page': {
+      id: '/studio/pages/$page'
+      path: '/pages/$page'
+      fullPath: '/studio/pages/$page'
+      preLoaderRoute: typeof StudioPagesPageRouteImport
+      parentRoute: typeof StudioRoute
+    }
+    '/studio/people-organisations/': {
+      id: '/studio/people-organisations/'
+      path: '/people-organisations'
+      fullPath: '/studio/people-organisations/'
+      preLoaderRoute: typeof StudioPeopleOrganisationsIndexRouteImport
+      parentRoute: typeof StudioRoute
+    }
+    '/studio/people-organisations/$id': {
+      id: '/studio/people-organisations/$id'
+      path: '/people-organisations/$id'
+      fullPath: '/studio/people-organisations/$id'
+      preLoaderRoute: typeof StudioPeopleOrganisationsIdRouteImport
+      parentRoute: typeof StudioRoute
+    }
+    '/studio/preview/$id': {
+      id: '/studio/preview/$id'
+      path: '/preview/$id'
+      fullPath: '/studio/preview/$id'
+      preLoaderRoute: typeof StudioPreviewIdRouteImport
+      parentRoute: typeof StudioRoute
+    }
+    '/studio/topics/': {
+      id: '/studio/topics/'
+      path: '/topics'
+      fullPath: '/studio/topics/'
+      preLoaderRoute: typeof StudioTopicsIndexRouteImport
+      parentRoute: typeof StudioRoute
+    }
+    '/studio/topics/$id': {
+      id: '/studio/topics/$id'
+      path: '/topics/$id'
+      fullPath: '/studio/topics/$id'
+      preLoaderRoute: typeof StudioTopicsIdRouteImport
+      parentRoute: typeof StudioRoute
+    }
+    '/studio/users/': {
+      id: '/studio/users/'
+      path: '/users'
+      fullPath: '/studio/users/'
+      preLoaderRoute: typeof StudioUsersIndexRouteImport
+      parentRoute: typeof StudioRoute
+    }
+    '/studio/users/$id': {
+      id: '/studio/users/$id'
+      path: '/users/$id'
+      fullPath: '/studio/users/$id'
+      preLoaderRoute: typeof StudioUsersIdRouteImport
+      parentRoute: typeof StudioRoute
     }
     '/understand-indonesia/collections/': {
       id: '/understand-indonesia/collections/'
@@ -1965,27 +1946,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UnderstandIndonesiaTopicsSlugRouteImport
       parentRoute: typeof UnderstandIndonesiaRoute
     }
-    '/admin/collaborations/requests/$id': {
-      id: '/admin/collaborations/requests/$id'
-      path: '/collaborations/requests/$id'
-      fullPath: '/admin/collaborations/requests/$id'
-      preLoaderRoute: typeof AdminCollaborationsRequestsIdRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/pages/faq/': {
-      id: '/admin/pages/faq/'
-      path: '/pages/faq'
-      fullPath: '/admin/pages/faq/'
-      preLoaderRoute: typeof AdminPagesFaqIndexRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/pages/faq/$id': {
-      id: '/admin/pages/faq/$id'
-      path: '/pages/faq/$id'
-      fullPath: '/admin/pages/faq/$id'
-      preLoaderRoute: typeof AdminPagesFaqIdRouteImport
-      parentRoute: typeof AdminRoute
-    }
     '/contributor/submissions/$id/': {
       id: '/contributor/submissions/$id/'
       path: '/contributor/submissions/$id'
@@ -2007,80 +1967,29 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContributorSubmissionsNewTypeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/studio/collaborations/requests/$id': {
+      id: '/studio/collaborations/requests/$id'
+      path: '/collaborations/requests/$id'
+      fullPath: '/studio/collaborations/requests/$id'
+      preLoaderRoute: typeof StudioCollaborationsRequestsIdRouteImport
+      parentRoute: typeof StudioRoute
+    }
+    '/studio/pages/faq/': {
+      id: '/studio/pages/faq/'
+      path: '/pages/faq'
+      fullPath: '/studio/pages/faq/'
+      preLoaderRoute: typeof StudioPagesFaqIndexRouteImport
+      parentRoute: typeof StudioRoute
+    }
+    '/studio/pages/faq/$id': {
+      id: '/studio/pages/faq/$id'
+      path: '/pages/faq/$id'
+      fullPath: '/studio/pages/faq/$id'
+      preLoaderRoute: typeof StudioPagesFaqIdRouteImport
+      parentRoute: typeof StudioRoute
+    }
   }
 }
-
-interface AdminRouteChildren {
-  AdminSplatRoute: typeof AdminSplatRoute
-  AdminAccessRoute: typeof AdminAccessRoute
-  AdminActivityRoute: typeof AdminActivityRoute
-  AdminDashboardRoute: typeof AdminDashboardRoute
-  AdminForgotPasswordRoute: typeof AdminForgotPasswordRoute
-  AdminHomepageRoute: typeof AdminHomepageRoute
-  AdminLoginRoute: typeof AdminLoginRoute
-  AdminProfileRoute: typeof AdminProfileRoute
-  AdminResetPasswordRoute: typeof AdminResetPasswordRoute
-  AdminIndexRoute: typeof AdminIndexRoute
-  AdminArticlesIdRoute: typeof AdminArticlesIdRoute
-  AdminCollaborationsIdRoute: typeof AdminCollaborationsIdRoute
-  AdminCollectionsIdRoute: typeof AdminCollectionsIdRoute
-  AdminExperienceIdRoute: typeof AdminExperienceIdRoute
-  AdminHeritageIdRoute: typeof AdminHeritageIdRoute
-  AdminPagesPageRoute: typeof AdminPagesPageRoute
-  AdminPeopleOrganisationsIdRoute: typeof AdminPeopleOrganisationsIdRoute
-  AdminPreviewIdRoute: typeof AdminPreviewIdRoute
-  AdminTopicsIdRoute: typeof AdminTopicsIdRoute
-  AdminUsersIdRoute: typeof AdminUsersIdRoute
-  AdminArticlesIndexRoute: typeof AdminArticlesIndexRoute
-  AdminCollaborationsIndexRoute: typeof AdminCollaborationsIndexRoute
-  AdminCollectionsIndexRoute: typeof AdminCollectionsIndexRoute
-  AdminExperienceIndexRoute: typeof AdminExperienceIndexRoute
-  AdminHeritageIndexRoute: typeof AdminHeritageIndexRoute
-  AdminPagesIndexRoute: typeof AdminPagesIndexRoute
-  AdminPeopleOrganisationsIndexRoute: typeof AdminPeopleOrganisationsIndexRoute
-  AdminTopicsIndexRoute: typeof AdminTopicsIndexRoute
-  AdminUsersIndexRoute: typeof AdminUsersIndexRoute
-  AdminCollaborationsRequestsIdRoute: typeof AdminCollaborationsRequestsIdRoute
-  AdminPagesFaqIdRoute: typeof AdminPagesFaqIdRoute
-  AdminPagesFaqIndexRoute: typeof AdminPagesFaqIndexRoute
-}
-
-const AdminRouteChildren: AdminRouteChildren = {
-  AdminSplatRoute: AdminSplatRoute,
-  AdminAccessRoute: AdminAccessRoute,
-  AdminActivityRoute: AdminActivityRoute,
-  AdminDashboardRoute: AdminDashboardRoute,
-  AdminForgotPasswordRoute: AdminForgotPasswordRoute,
-  AdminHomepageRoute: AdminHomepageRoute,
-  AdminLoginRoute: AdminLoginRoute,
-  AdminProfileRoute: AdminProfileRoute,
-  AdminResetPasswordRoute: AdminResetPasswordRoute,
-  AdminIndexRoute: AdminIndexRoute,
-  AdminArticlesIdRoute: AdminArticlesIdRoute,
-  AdminCollaborationsIdRoute: AdminCollaborationsIdRoute,
-  AdminCollectionsIdRoute: AdminCollectionsIdRoute,
-  AdminExperienceIdRoute: AdminExperienceIdRoute,
-  AdminHeritageIdRoute: AdminHeritageIdRoute,
-  AdminPagesPageRoute: AdminPagesPageRoute,
-  AdminPeopleOrganisationsIdRoute: AdminPeopleOrganisationsIdRoute,
-  AdminPreviewIdRoute: AdminPreviewIdRoute,
-  AdminTopicsIdRoute: AdminTopicsIdRoute,
-  AdminUsersIdRoute: AdminUsersIdRoute,
-  AdminArticlesIndexRoute: AdminArticlesIndexRoute,
-  AdminCollaborationsIndexRoute: AdminCollaborationsIndexRoute,
-  AdminCollectionsIndexRoute: AdminCollectionsIndexRoute,
-  AdminExperienceIndexRoute: AdminExperienceIndexRoute,
-  AdminHeritageIndexRoute: AdminHeritageIndexRoute,
-  AdminPagesIndexRoute: AdminPagesIndexRoute,
-  AdminPeopleOrganisationsIndexRoute: AdminPeopleOrganisationsIndexRoute,
-  AdminTopicsIndexRoute: AdminTopicsIndexRoute,
-  AdminUsersIndexRoute: AdminUsersIndexRoute,
-  AdminCollaborationsRequestsIdRoute: AdminCollaborationsRequestsIdRoute,
-  AdminPagesFaqIdRoute: AdminPagesFaqIdRoute,
-  AdminPagesFaqIndexRoute: AdminPagesFaqIndexRoute,
-}
-
-const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 interface CollaborateRouteChildren {
   CollaborateSlugRoute: typeof CollaborateSlugRoute
@@ -2093,6 +2002,77 @@ const CollaborateRouteChildren: CollaborateRouteChildren = {
 const CollaborateRouteWithChildren = CollaborateRoute._addFileChildren(
   CollaborateRouteChildren,
 )
+
+interface StudioRouteChildren {
+  StudioAccessRoute: typeof StudioAccessRoute
+  StudioActivityRoute: typeof StudioActivityRoute
+  StudioDashboardRoute: typeof StudioDashboardRoute
+  StudioForgotPasswordRoute: typeof StudioForgotPasswordRoute
+  StudioHomepageRoute: typeof StudioHomepageRoute
+  StudioLoginRoute: typeof StudioLoginRoute
+  StudioProfileRoute: typeof StudioProfileRoute
+  StudioResetPasswordRoute: typeof StudioResetPasswordRoute
+  StudioIndexRoute: typeof StudioIndexRoute
+  StudioArticlesIdRoute: typeof StudioArticlesIdRoute
+  StudioCollaborationsIdRoute: typeof StudioCollaborationsIdRoute
+  StudioCollectionsIdRoute: typeof StudioCollectionsIdRoute
+  StudioExperienceIdRoute: typeof StudioExperienceIdRoute
+  StudioHeritageIdRoute: typeof StudioHeritageIdRoute
+  StudioPagesPageRoute: typeof StudioPagesPageRoute
+  StudioPeopleOrganisationsIdRoute: typeof StudioPeopleOrganisationsIdRoute
+  StudioPreviewIdRoute: typeof StudioPreviewIdRoute
+  StudioTopicsIdRoute: typeof StudioTopicsIdRoute
+  StudioUsersIdRoute: typeof StudioUsersIdRoute
+  StudioArticlesIndexRoute: typeof StudioArticlesIndexRoute
+  StudioCollaborationsIndexRoute: typeof StudioCollaborationsIndexRoute
+  StudioCollectionsIndexRoute: typeof StudioCollectionsIndexRoute
+  StudioExperienceIndexRoute: typeof StudioExperienceIndexRoute
+  StudioHeritageIndexRoute: typeof StudioHeritageIndexRoute
+  StudioPagesIndexRoute: typeof StudioPagesIndexRoute
+  StudioPeopleOrganisationsIndexRoute: typeof StudioPeopleOrganisationsIndexRoute
+  StudioTopicsIndexRoute: typeof StudioTopicsIndexRoute
+  StudioUsersIndexRoute: typeof StudioUsersIndexRoute
+  StudioCollaborationsRequestsIdRoute: typeof StudioCollaborationsRequestsIdRoute
+  StudioPagesFaqIdRoute: typeof StudioPagesFaqIdRoute
+  StudioPagesFaqIndexRoute: typeof StudioPagesFaqIndexRoute
+}
+
+const StudioRouteChildren: StudioRouteChildren = {
+  StudioAccessRoute: StudioAccessRoute,
+  StudioActivityRoute: StudioActivityRoute,
+  StudioDashboardRoute: StudioDashboardRoute,
+  StudioForgotPasswordRoute: StudioForgotPasswordRoute,
+  StudioHomepageRoute: StudioHomepageRoute,
+  StudioLoginRoute: StudioLoginRoute,
+  StudioProfileRoute: StudioProfileRoute,
+  StudioResetPasswordRoute: StudioResetPasswordRoute,
+  StudioIndexRoute: StudioIndexRoute,
+  StudioArticlesIdRoute: StudioArticlesIdRoute,
+  StudioCollaborationsIdRoute: StudioCollaborationsIdRoute,
+  StudioCollectionsIdRoute: StudioCollectionsIdRoute,
+  StudioExperienceIdRoute: StudioExperienceIdRoute,
+  StudioHeritageIdRoute: StudioHeritageIdRoute,
+  StudioPagesPageRoute: StudioPagesPageRoute,
+  StudioPeopleOrganisationsIdRoute: StudioPeopleOrganisationsIdRoute,
+  StudioPreviewIdRoute: StudioPreviewIdRoute,
+  StudioTopicsIdRoute: StudioTopicsIdRoute,
+  StudioUsersIdRoute: StudioUsersIdRoute,
+  StudioArticlesIndexRoute: StudioArticlesIndexRoute,
+  StudioCollaborationsIndexRoute: StudioCollaborationsIndexRoute,
+  StudioCollectionsIndexRoute: StudioCollectionsIndexRoute,
+  StudioExperienceIndexRoute: StudioExperienceIndexRoute,
+  StudioHeritageIndexRoute: StudioHeritageIndexRoute,
+  StudioPagesIndexRoute: StudioPagesIndexRoute,
+  StudioPeopleOrganisationsIndexRoute: StudioPeopleOrganisationsIndexRoute,
+  StudioTopicsIndexRoute: StudioTopicsIndexRoute,
+  StudioUsersIndexRoute: StudioUsersIndexRoute,
+  StudioCollaborationsRequestsIdRoute: StudioCollaborationsRequestsIdRoute,
+  StudioPagesFaqIdRoute: StudioPagesFaqIdRoute,
+  StudioPagesFaqIndexRoute: StudioPagesFaqIndexRoute,
+}
+
+const StudioRouteWithChildren =
+  StudioRoute._addFileChildren(StudioRouteChildren)
 
 interface UnderstandIndonesiaRouteChildren {
   UnderstandIndonesiaPeopleOrganisationsRoute: typeof UnderstandIndonesiaPeopleOrganisationsRoute
@@ -2124,7 +2104,6 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   SplatRoute: SplatRoute,
   AboutRoute: AboutRoute,
-  AdminRoute: AdminRouteWithChildren,
   AroundTheWorldRoute: AroundTheWorldRoute,
   CollaborateRoute: CollaborateRouteWithChildren,
   ConnectRoute: ConnectRoute,
@@ -2144,6 +2123,7 @@ const rootRouteChildren: RootRouteChildren = {
   ResearchRoute: ResearchRoute,
   SearchRoute: SearchRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  StudioRoute: StudioRouteWithChildren,
   UnderstandIndonesiaRoute: UnderstandIndonesiaRouteWithChildren,
   CollaborationsSlugRoute: CollaborationsSlugRoute,
   CollectionsSlugRoute: CollectionsSlugRoute,
