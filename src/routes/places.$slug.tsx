@@ -122,7 +122,7 @@ function PlacePage() {
               <ul className="grid gap-8 sm:grid-cols-2">
                 {forms.map((f) => (
                   <li key={f.id}>
-                    <Link to="/culture/$slug" params={{ slug: f.slug }} className="group block">
+                    <Link to={f.pillar === "heritage" ? "/understand-indonesia/heritage/$slug" : "/understand-indonesia"} params={f.pillar === "heritage" ? { slug: f.slug } : undefined} className="group block">
                       <div className="media-zoom bg-muted">
                         <img
                           src={f.image}

@@ -304,8 +304,8 @@ function PersonPage() {
                           {forms.map((f) => (
                             <li key={f.id}>
                               <Link
-                                to="/culture/$slug"
-                                params={{ slug: f.slug }}
+                                to={f.pillar === "heritage" ? "/understand-indonesia/heritage/$slug" : "/understand-indonesia"}
+                                params={f.pillar === "heritage" ? { slug: f.slug } : undefined}
                                 className="link-underline text-primary"
                               >
                                 {f.name}

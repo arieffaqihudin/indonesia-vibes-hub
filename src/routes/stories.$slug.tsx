@@ -184,7 +184,7 @@ function StoryPage() {
                     {f.pillar === "heritage" ? (
                       <Link to="/understand-indonesia/heritage/$slug" params={{ slug: f.slug }} className="text-sm font-medium text-ink hover:text-primary">{f.name} <span className="font-normal text-muted-foreground">· {f.discipline}</span></Link>
                     ) : (
-                      <Link to="/culture/$slug" params={{ slug: f.slug }} className="text-sm font-medium text-ink hover:text-primary">{f.name} <span className="font-normal text-muted-foreground">· {f.discipline}</span></Link>
+                      <Link to="/understand-indonesia" className="text-sm font-medium text-ink hover:text-primary">{f.name} <span className="font-normal text-muted-foreground">· {f.discipline}</span></Link>
                     )}
                   </li>
                 ))}

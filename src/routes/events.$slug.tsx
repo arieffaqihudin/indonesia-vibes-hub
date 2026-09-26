@@ -132,7 +132,7 @@ function EventPage() {
               <ul className="mt-6 space-y-5">
                 {forms.map((f) => (
                   <li key={f.id}>
-                    <Link to="/culture/$slug" params={{ slug: f.slug }} className="font-medium text-ink link-underline">
+                    <Link to={f.pillar === "heritage" ? "/understand-indonesia/heritage/$slug" : "/understand-indonesia"} params={f.pillar === "heritage" ? { slug: f.slug } : undefined} className="font-medium text-ink link-underline">
                       {f.name}
                     </Link>
                     <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{f.summary}</p>
