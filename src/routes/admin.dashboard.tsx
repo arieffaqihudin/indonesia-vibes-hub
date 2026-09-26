@@ -26,7 +26,7 @@ function Section({ title, action, children, className }: { title: string; action
 }
 
 function TextLink({ children, ...props }: { children: ReactNode } & Record<string, unknown>) {
-  return <Link {...(props as never)} className="group inline-flex items-center gap-1 text-[0.8125rem] font-medium text-primary transition-colors duration-200 hover:text-deep-red">{children}<ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5" /></Link>;
+  return <Link {...(props as object)} className="group inline-flex items-center gap-1 text-[0.8125rem] font-medium text-primary transition-colors duration-200 hover:text-deep-red">{children}<ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5" /></Link>;
 }
 
 function NotConnected({ compact = false }: { compact?: boolean }) {
