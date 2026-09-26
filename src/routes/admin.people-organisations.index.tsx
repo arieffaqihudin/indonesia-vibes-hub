@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { ChevronDown, Plus } from "lucide-react";
 
@@ -38,7 +39,7 @@ function Directory() {
   const navigate = useNavigate();
   const options = useOptions();
   const search = Route.useSearch();
-  const [tab, setTab] = useKept<Tab>("admin.people-organisations.index:40", (search["tab"] as Tab) ?? "all");
+  const [tab, setTab] = useState<Tab>((search["tab"] as Tab) ?? "all");
   const [q, setQ] = useKept("admin.people-organisations.index:41", "");
   const [topic, setTopic] = useKept("admin.people-organisations.index:42", "");
   const [heritage, setHeritage] = useKept("admin.people-organisations.index:43", "");

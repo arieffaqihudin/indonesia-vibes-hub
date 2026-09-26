@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Plus } from "lucide-react";
 
@@ -20,7 +21,7 @@ function Articles() {
   const navigate = useNavigate();
   const search = Route.useSearch();
   const [q, setQ] = useKept("admin.articles.index:21", "");
-  const [status, setStatus] = useKept("admin.articles.index:22", search["status"] ?? "");
+  const [status, setStatus] = useState(search["status"] ?? "");
   const [topic, setTopic] = useKept("admin.articles.index:23", "");
   const [format, setFormat] = useKept("admin.articles.index:24", "");
   const [author, setAuthor] = useKept("admin.articles.index:25", "");

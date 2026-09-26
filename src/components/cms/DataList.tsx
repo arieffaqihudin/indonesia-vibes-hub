@@ -1,5 +1,7 @@
 import { ChevronLeft, ChevronRight, Search } from "lucide-react";
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
+import { useRouterState } from "@tanstack/react-router";
+import { useKept } from "@/lib/cms/kept";
 
 import { cn } from "@/lib/utils";
 import { EmptyState, inputClass } from "./ui";
@@ -35,8 +37,10 @@ export function DataList<T extends { id: string }>({ rows, columns, onOpen, sear
   /** Secondary line for the compact mobile row. */
   mobileMeta?: (row: T) => ReactNode;
 }) {
-  const [page, setPage] = useState(0);
-  useEffect(() => setPage(0), [search, rows.length]);
+  const path = useRouterState({ select: (s) => s.location.pathname + String(s.location.search["tab"] ?? "") });
+  const [page, setPage] = useKept(`page:${path}`, 0);
+  const mounted = useRef(false);
+  useEffect(() => { if (mounted.current) setPage(0); else mounted.current = true; }, [search, rows.length]); // eslint-disable-line react-hooks/exhaustive-deps
   const pages = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
   const visible = rows.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE);
   const [first, ...rest] = columns;

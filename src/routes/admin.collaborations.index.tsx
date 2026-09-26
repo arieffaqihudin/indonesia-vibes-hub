@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Plus } from "lucide-react";
 
@@ -20,7 +21,7 @@ type Tab = "collaborations" | "requests";
 function Collaborations() {
   const cms = useCms();
   const search = Route.useSearch();
-  const [tab, setTab] = useKept<Tab>("admin.collaborations.index:22", search["tab"] === "requests" ? "requests" : "collaborations");
+  const [tab, setTab] = useState<Tab>(search["tab"] === "requests" ? "requests" : "collaborations");
   const unread = cms.requests.filter((r) => r.status === "New").length;
   return <>
     <PageHeader title="Collaborations" actions={tab === "collaborations" ? <Link to="/admin/collaborations/$id" params={{ id: "new" }} className={btn.primary}><Plus className="h-4 w-4" />New Collaboration</Link> : null} />
