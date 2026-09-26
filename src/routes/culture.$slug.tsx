@@ -11,7 +11,7 @@ export const Route = createFileRoute("/culture/$slug")({
     const form = forms.find((f) => f.slug === params.slug);
     if (!form) throw notFound();
     if (form.pillar === "heritage") throw redirect({ to: "/understand-indonesia/heritage/$slug", params: { slug: form.slug }, statusCode: 301 });
-    return { form };
+    throw redirect({ to: "/understand-indonesia", statusCode: 301 });
   },
   head: ({ loaderData }) => {
     if (!loaderData) {

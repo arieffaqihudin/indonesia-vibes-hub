@@ -8,6 +8,7 @@ export const Route = createFileRoute("/admin/reset-password")({ head: () => ({ m
   { title: "Choose a New CMS Password — Indonesia Vibes" }, { name: "description", content: "Choose a new password for Indonesia Vibes CMS." },
   { property: "og:title", content: "Choose a New CMS Password — Indonesia Vibes" }, { property: "og:description", content: "Choose a new password for Indonesia Vibes CMS." },
   { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" },
+  { name: "robots", content: "noindex, nofollow" },
 ] }), component: ResetPassword });
 function ResetPassword() {
   const navigate = useNavigate(); const [password, setPassword] = useState(""); const [confirmPassword, setConfirmPassword] = useState(""); const [ready, setReady] = useState(false); const [error, setError] = useState(""); const [submitting, setSubmitting] = useState(false);
