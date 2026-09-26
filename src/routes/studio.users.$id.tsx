@@ -17,7 +17,7 @@ import { ConnectionLabel } from "@/components/cms/UserBadges";
 import { Field, Select, TextInput, Toggle, btn } from "@/components/cms/ui";
 
 export const Route = createFileRoute("/studio/users/$id")({
-  head: adminHead("Edit User", "Update a CMS user's details and access."),
+  head: adminHead("Edit User", "Update a Studio user's details and access."),
   component: EditUser,
 });
 
@@ -98,14 +98,14 @@ function EditUser() {
 
     <Section title="Actions">
       <div className="flex flex-wrap gap-2">
-        {!connected ? <button type="button" className={btn.secondary} disabled={busy === "invite" || !user.active} onClick={() => setConfirm("invite")}>{user.invited_at ? "Resend Invitation" : "Send CMS Invitation"}</button> : null}
+        {!connected ? <button type="button" className={btn.secondary} disabled={busy === "invite" || !user.active} onClick={() => setConfirm("invite")}>{user.invited_at ? "Resend Invitation" : "Send Studio Invitation"}</button> : null}
         {!isMe && user.active ? <button type="button" className={btn.secondary} onClick={() => setConfirm("deactivate")}>Deactivate User</button> : null}
         {!isMe ? <button type="button" className={btn.danger} onClick={() => setConfirm("delete")}>Delete User</button> : null}
       </div>
       {connected ? <p className="mt-2 text-xs text-muted-foreground">To reset a password, the user can choose “Forgot password?” on the sign-in page.</p> : null}
     </Section>
 
-    {confirm === "invite" ? <Confirm title="Send invitation?" text={<>Send CMS access invitation to <strong>{user.email}</strong>?</>} confirmLabel="Send Invitation" busy={busy === "invite"} onConfirm={() => void run("invite", () => invite({ data: { id, origin: window.location.origin } }), `Invitation sent to ${user.email}`, ["Invitation Sent", user.email])} onClose={() => setConfirm(null)} /> : null}
+    {confirm === "invite" ? <Confirm title="Send invitation?" text={<>Send Studio access invitation to <strong>{user.email}</strong>?</>} confirmLabel="Send Invitation" busy={busy === "invite"} onConfirm={() => void run("invite", () => invite({ data: { id, origin: window.location.origin } }), `Invitation sent to ${user.email}`, ["Invitation Sent", user.email])} onClose={() => setConfirm(null)} /> : null}
     {confirm === "deactivate" ? <Confirm danger title={`Deactivate ${user.name}?`} text="They won't be able to sign in and any open sessions will end. Their details and activity history are kept." confirmLabel="Deactivate" busy={busy === "active"} onConfirm={() => void run("active", () => setActive({ data: { id, active: false } }), "Account deactivated", ["User Disabled", user.name])} onClose={() => setConfirm(null)} /> : null}
     {confirm === "delete" ? <Confirm danger title={`Delete ${user.name}?`} text="They lose CMS access and disappear from this list. Content they worked on and their activity history stay traceable under their name." confirmLabel="Delete User" busy={busy === "delete"} onConfirm={() => void run("delete", () => del({ data: { id } }), "User deleted", ["User Deleted", user.name]).then((ok) => { if (ok) void navigate({ to: "/studio/users" }); })} onClose={() => setConfirm(null)} /> : null}
   </div>;
