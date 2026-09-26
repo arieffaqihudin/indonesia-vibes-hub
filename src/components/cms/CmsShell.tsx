@@ -101,39 +101,37 @@ function Account() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
-  const [pw, setPw] = useState(false);
   const initials = (account?.name ?? "?").split(/\s+/).map((p) => p[0]).join("").slice(0, 2).toUpperCase();
   const signOut = async () => {
+    await logActivity("Logout", "Account", account?.name ?? "");
     await queryClient.cancelQueries(); queryClient.clear(); clearAccountCache();
+    Object.keys(window.sessionStorage).filter((k) => k.startsWith("iv-cms-login:")).forEach((k) => window.sessionStorage.removeItem(k));
     await supabase.auth.signOut();
     window.sessionStorage.removeItem("iv-cms-session-active");
     void navigate({ to: "/admin/login", replace: true });
   };
   return <div className="relative">
-    <button type="button" onClick={() => setOpen(!open)} aria-expanded={open} aria-label="Account" className="flex h-8 w-8 items-center justify-center rounded-full bg-ink text-xs font-semibold text-primary-foreground">{initials}</button>
+    <button type="button" onClick={() => setOpen(!open)} aria-expanded={open} aria-label="Account" className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-ink text-xs font-semibold text-primary-foreground">{account?.avatar ? <img src={account.avatar} alt="" className="h-full w-full object-cover" /> : initials}</button>
     {open ? <>
       <button type="button" aria-label="Close menu" className="fixed inset-0 z-40 cursor-default" onClick={() => setOpen(false)} />
       <div className="absolute top-full right-0 z-50 mt-2 w-60 rounded-md border border-border bg-background p-1 shadow-lg">
         <div className="border-b border-border px-3 py-2.5"><p className="truncate text-sm font-medium text-ink">{account?.name}</p><p className="text-xs text-primary">{account?.role}</p><p className="mt-1 truncate text-xs text-muted-foreground">{account?.email}</p></div>
-        <Link to="/admin/settings" search={{ tab: "users" }} onClick={() => setOpen(false)} className="flex h-9 items-center gap-2 rounded px-3 text-sm text-ink hover:bg-muted"><UserRound className="h-4 w-4" />Account</Link>
-        <button type="button" onClick={() => { setOpen(false); setPw(true); }} className="flex h-9 w-full items-center gap-2 rounded px-3 text-sm text-ink hover:bg-muted"><KeyRound className="h-4 w-4" />Change Password</button>
+        <Link to="/admin/profile" onClick={() => setOpen(false)} className="flex h-9 items-center gap-2 rounded px-3 text-sm text-ink hover:bg-muted"><UserRound className="h-4 w-4" />Profile</Link>
+        <Link to="/admin/profile" hash="password" onClick={() => setOpen(false)} className="flex h-9 items-center gap-2 rounded px-3 text-sm text-ink hover:bg-muted"><KeyRound className="h-4 w-4" />Change Password</Link>
         <button type="button" onClick={() => void signOut()} className="flex h-9 w-full items-center gap-2 rounded px-3 text-sm text-ink hover:bg-muted"><LogOut className="h-4 w-4" />Sign Out</button>
       </div>
     </> : null}
-    {pw ? <ChangePasswordDialog onClose={() => setPw(false)} /> : null}
   </div>;
 }
 
 function PasswordNotice() {
   const account = useCmsAccount();
-  const [open, setOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
   if (!account?.mustChangePassword || hidden) return null;
   return <div className="flex flex-wrap items-center gap-3 border-b border-border bg-blush px-4 py-2 text-sm text-ink sm:px-6 lg:px-8">
     <span className="flex-1">You're using a temporary password. Set a new one to keep your account secure.</span>
-    <button type="button" onClick={() => setOpen(true)} className="h-8 rounded-md bg-primary px-3 text-xs font-medium text-primary-foreground">Set a New Password</button>
+    <Link to="/admin/profile" hash="password" className="inline-flex h-8 items-center rounded-md bg-primary px-3 text-xs font-medium text-primary-foreground">Set a New Password</Link>
     <button type="button" onClick={() => setHidden(true)} className="h-8 px-2 text-xs text-muted-foreground hover:text-ink">Later</button>
-    {open ? <ChangePasswordDialog onClose={() => setOpen(false)} /> : null}
   </div>;
 }
 
