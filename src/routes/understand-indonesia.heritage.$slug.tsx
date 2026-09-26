@@ -85,7 +85,7 @@ function HeritageDetail() {
 
       {(c.places.length || c.events.length) ? <Section id="experience" title="Where to experience it" note={heritage.experienceIt}>
         <div className="grid gap-10 md:grid-cols-2">
-          {c.places.length ? <Group title="Related Places">{c.places.map((p) => <Row key={p.id} image={p.image} to="/places/$slug" slug={p.slug} name={p.name} meta={`${p.type} · ${p.country}`} />)}</Group> : null}
+          {c.places.length ? <Group title="Related Places">{c.places.map((p) => <Row key={p.id} image={p.image ?? heritage.image} to="/places/$slug" slug={p.slug} name={p.name} meta={`${p.type} · ${p.country}`} />)}</Group> : null}
           {c.events.length ? <Group title="Related Events">{c.events.map((e) => <li key={e.id} className="border-b border-border py-3 last:border-b-0"><Link to="/events/$slug" params={{ slug: e.slug }} className="group block"><span className="text-xs text-muted-foreground">{formatEventDates(e)} · {e.type}</span><span className="mt-1 block font-medium text-ink group-hover:text-primary">{e.title}</span></Link></li>)}</Group> : null}
         </div>
       </Section> : null}
