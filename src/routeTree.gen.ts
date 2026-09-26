@@ -89,6 +89,7 @@ import { Route as AdminPeopleOrganisationsIdRouteImport } from './routes/admin.p
 import { Route as AdminPreviewIdRouteImport } from './routes/admin.preview.$id'
 import { Route as AdminTopicsIndexRouteImport } from './routes/admin.topics.index'
 import { Route as AdminTopicsIdRouteImport } from './routes/admin.topics.$id'
+import { Route as AdminUsersIndexRouteImport } from './routes/admin.users.index'
 import { Route as ContributorSubmissionsIndexRouteImport } from './routes/contributor.submissions.index'
 import { Route as ExploreTopicsIndexRouteImport } from './routes/explore.topics.index'
 import { Route as ExploreTopicsSlugRouteImport } from './routes/explore.topics.$slug'
@@ -511,6 +512,11 @@ const AdminTopicsIdRoute = AdminTopicsIdRouteImport.update({
   path: '/topics/$id',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminUsersIndexRoute = AdminUsersIndexRouteImport.update({
+  id: '/users/',
+  path: '/users/',
+  getParentRoute: () => AdminRoute,
+} as any)
 const ContributorSubmissionsIndexRoute =
   ContributorSubmissionsIndexRouteImport.update({
     id: '/contributor/submissions/',
@@ -683,6 +689,7 @@ export interface FileRoutesByFullPath {
   '/admin/pages/': typeof AdminPagesIndexRoute
   '/admin/people-organisations/': typeof AdminPeopleOrganisationsIndexRoute
   '/admin/topics/': typeof AdminTopicsIndexRoute
+  '/admin/users/': typeof AdminUsersIndexRoute
   '/contributor/submissions/': typeof ContributorSubmissionsIndexRoute
   '/explore/topics/': typeof ExploreTopicsIndexRoute
   '/understand-indonesia/collections/': typeof UnderstandIndonesiaCollectionsIndexRoute
@@ -779,6 +786,7 @@ export interface FileRoutesByTo {
   '/admin/pages': typeof AdminPagesIndexRoute
   '/admin/people-organisations': typeof AdminPeopleOrganisationsIndexRoute
   '/admin/topics': typeof AdminTopicsIndexRoute
+  '/admin/users': typeof AdminUsersIndexRoute
   '/contributor/submissions': typeof ContributorSubmissionsIndexRoute
   '/explore/topics': typeof ExploreTopicsIndexRoute
   '/understand-indonesia/collections': typeof UnderstandIndonesiaCollectionsIndexRoute
@@ -877,6 +885,7 @@ export interface FileRoutesById {
   '/admin/pages/': typeof AdminPagesIndexRoute
   '/admin/people-organisations/': typeof AdminPeopleOrganisationsIndexRoute
   '/admin/topics/': typeof AdminTopicsIndexRoute
+  '/admin/users/': typeof AdminUsersIndexRoute
   '/contributor/submissions/': typeof ContributorSubmissionsIndexRoute
   '/explore/topics/': typeof ExploreTopicsIndexRoute
   '/understand-indonesia/collections/': typeof UnderstandIndonesiaCollectionsIndexRoute
@@ -976,6 +985,7 @@ export interface FileRouteTypes {
     | '/admin/pages/'
     | '/admin/people-organisations/'
     | '/admin/topics/'
+    | '/admin/users/'
     | '/contributor/submissions/'
     | '/explore/topics/'
     | '/understand-indonesia/collections/'
@@ -1072,6 +1082,7 @@ export interface FileRouteTypes {
     | '/admin/pages'
     | '/admin/people-organisations'
     | '/admin/topics'
+    | '/admin/users'
     | '/contributor/submissions'
     | '/explore/topics'
     | '/understand-indonesia/collections'
@@ -1169,6 +1180,7 @@ export interface FileRouteTypes {
     | '/admin/pages/'
     | '/admin/people-organisations/'
     | '/admin/topics/'
+    | '/admin/users/'
     | '/contributor/submissions/'
     | '/explore/topics/'
     | '/understand-indonesia/collections/'
@@ -1806,6 +1818,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminTopicsIdRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/users/': {
+      id: '/admin/users/'
+      path: '/users'
+      fullPath: '/admin/users/'
+      preLoaderRoute: typeof AdminUsersIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/contributor/submissions/': {
       id: '/contributor/submissions/'
       path: '/contributor/submissions'
@@ -1940,6 +1959,7 @@ interface AdminRouteChildren {
   AdminPagesIndexRoute: typeof AdminPagesIndexRoute
   AdminPeopleOrganisationsIndexRoute: typeof AdminPeopleOrganisationsIndexRoute
   AdminTopicsIndexRoute: typeof AdminTopicsIndexRoute
+  AdminUsersIndexRoute: typeof AdminUsersIndexRoute
   AdminCollaborationsRequestsIdRoute: typeof AdminCollaborationsRequestsIdRoute
   AdminPagesFaqIdRoute: typeof AdminPagesFaqIdRoute
   AdminPagesFaqIndexRoute: typeof AdminPagesFaqIndexRoute
@@ -1971,6 +1991,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminPagesIndexRoute: AdminPagesIndexRoute,
   AdminPeopleOrganisationsIndexRoute: AdminPeopleOrganisationsIndexRoute,
   AdminTopicsIndexRoute: AdminTopicsIndexRoute,
+  AdminUsersIndexRoute: AdminUsersIndexRoute,
   AdminCollaborationsRequestsIdRoute: AdminCollaborationsRequestsIdRoute,
   AdminPagesFaqIdRoute: AdminPagesFaqIdRoute,
   AdminPagesFaqIndexRoute: AdminPagesFaqIndexRoute,
