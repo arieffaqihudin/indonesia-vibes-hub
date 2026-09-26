@@ -318,7 +318,7 @@ export const searchRecords: SearchRecord[] = [
     ],
   })),
 
-  ...collaborations.map((c) => ({
+  ...collaborations.filter((c) => c.publicStory).map((c) => ({
     id: c.id,
     type: "Collaborations" as const,
     title: c.title,

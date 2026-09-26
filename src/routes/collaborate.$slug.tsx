@@ -1,4 +1,4 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound, redirect } from "@tanstack/react-router";
 
 import { CollaborationCard, InstitutionCard, PersonCard } from "@/components/editorial/EntityCards";
 import { DetailSection, FactList, InquiryButton, Pill } from "@/components/editorial/ui";
@@ -16,6 +16,8 @@ export const Route = createFileRoute("/collaborate/$slug")({
   loader: ({ params }) => {
     const collaboration = getCollaborationBySlug(params.slug);
     if (!collaboration) throw notFound();
+    // Only Collaboration Stories have a public page; showcase records live on /collaborate.
+    if (!collaboration.publicStory) throw redirect({ to: "/collaborate", statusCode: 301 });
     return { collaboration };
   },
   head: ({ loaderData }) => {

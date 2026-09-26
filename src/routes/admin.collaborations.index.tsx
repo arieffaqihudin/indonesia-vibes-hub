@@ -27,13 +27,14 @@ function Collaborations() {
       <p className="mb-3 text-xs text-muted-foreground">Showing {admin.pipeline.length} collaboration{admin.pipeline.length === 1 ? "" : "s"}</p>
 
       {admin.pipeline.length ? (
-        <Table caption="Collaborations" head={["Collaboration", "Stage", "Origin", "Countries", "Lead", "Updated", "Next action", ""]}>
+        <Table caption="Collaborations" head={["Collaboration", "Stage", "Origin", "Countries", "Public Story", "Lead", "Updated", "Next action", ""]}>
           {admin.pipeline.map((item) => (
             <tr key={item.id} className="group hover:bg-muted/35">
               <Td><Link to="/admin/collaborations/$id" params={{ id: item.id }} className="font-semibold hover:text-primary">{item.title}</Link><span className="block max-w-sm text-xs text-muted-foreground">{item.objective}</span></Td>
               <Td><Tag tone={item.stage === "Ongoing" ? "alert" : "quiet"}>{item.stage}</Tag></Td>
               <Td className="text-xs text-muted-foreground">{item.origin}</Td>
               <Td className="text-xs text-muted-foreground">{item.countries.join(", ")}</Td>
+              <Td className="text-xs">{item.publicStory ? "Yes" : "No"}</Td>
               <Td className="text-xs text-muted-foreground">{item.leadOfficer}</Td>
               <Td className="text-xs text-muted-foreground">{relative(item.updatedAt)}</Td>
               <Td className="max-w-xs text-xs text-ink">{item.nextActions[0] ?? "—"}</Td>

@@ -65,6 +65,7 @@ function CollaborationDetail() {
             </ol>
           </Card>
 
+          {collab.publicStory ? <>
           <Card title="Context and activities">
             <p className="text-sm leading-relaxed text-ink">{collab.context}</p>
             <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-ink">
@@ -163,9 +164,14 @@ function CollaborationDetail() {
               </div>
             ) : null}
           </Card>
+          </> : <p className="border border-dashed border-border p-4 text-sm text-muted-foreground">This collaboration appears publicly as a short showcase card with no page of its own. Turn on <strong className="text-ink">Public Story</strong> to write background, activities and outcomes for a full Collaboration Story.</p>}
         </div>
 
         <aside className="space-y-4 border-t border-border pt-5 xl:border-t-0 xl:border-l xl:pt-0 xl:pl-6">
+          <Card title="Public Story">
+            <label className="flex min-h-11 items-center justify-between gap-3 text-sm text-ink"><span>Public Story page</span><input type="checkbox" checked={Boolean(collab.publicStory)} disabled={!editable} onChange={(e) => admin.updateCollaboration(collab.id, { publicStory: e.target.checked }, e.target.checked ? "turned on the public story" : "turned off the public story")} /></label>
+            {(() => { const filled = [collab.context, collab.activities.length, collab.outcomes.length, collab.timeline.length, collab.confirmedPartnerIds.length].filter(Boolean).length; return <p className="mt-1 text-xs text-muted-foreground">{collab.publicStory ? (filled < 3 ? "Not enough content yet — add background, activities and outcomes before publishing the story." : "Card links to “Read the Collaboration Story →”.") : "Off: shown as an informational card only, with no public page."}</p>; })()}
+          </Card>
           <Card title="Stage">
             <label className="block text-xs text-muted-foreground">
               <span className="mb-1 block">Current stage</span>

@@ -1152,6 +1152,7 @@ export const seedPipeline: PipelineCollaboration[] = [
     inquiryIds: ["iq-2"],
     nextActions: ["Send the co-curation introduction"],
     publicSlug: "indonesia-portugal-maritime-heritage",
+    publicStory: true,
     contentId: "c-cl-pt-maritime",
     updatedAt: at(-4),
   },

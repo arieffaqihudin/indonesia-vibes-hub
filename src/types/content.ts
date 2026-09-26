@@ -430,6 +430,8 @@ export interface TimelineEntry {
 
 export interface Collaboration {
   id: Id;
+  /** Optional presentation layer: only records with a full story get a public page. Default OFF. */
+  publicStory?: boolean;
   slug: string;
   title: string;
   type: CollaborationType;
