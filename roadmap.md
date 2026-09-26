@@ -1,3 +1,7 @@
+# CMS filter presentation
+- [x] Unify rounded search, selects, active states, clear actions, and mobile filter sheet across CMS lists
+- [x] Keep list options and filter behavior intact while aligning pagination controls
+
 # Topic icons
 
 # CMS sidebar and pagination

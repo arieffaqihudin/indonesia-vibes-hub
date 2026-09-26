@@ -56,7 +56,7 @@ function ActivityPage() {
   return <div>
     <PageHeader title="Activity" description="A read-only record of important actions in the CMS." />
     <FilterBar search={{ value: q, onChange: reset(setQ), placeholder: "Search activity…", label: "Search activity" }} filters={[
-      { label: "Time", value: range, onChange: reset(setRange), options: RANGES.map((r) => r.value) },
+      { label: "Time", value: range, onChange: reset(setRange), options: RANGES },
       { label: "User", value: user, onChange: reset(setUser), options: people },
       { label: "Module", value: module, onChange: reset(setModule), options: MODULES },
       { label: "Activity", value: action, onChange: reset(setAction), options: ACTIONS },

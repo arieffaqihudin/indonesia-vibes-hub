@@ -9,7 +9,7 @@ import { btn } from "./ui";
 export interface FilterDef {
   label: string;
   value: string;
-  options: string[];
+  options: (string | { value: string; label: string })[];
   onChange: (value: string) => void;
 }
 
@@ -27,7 +27,7 @@ export function FilterSelect({ label, value, options, onChange, className }: Fil
   return <div className={cn("relative min-w-0", className)}>
     <select aria-label={label} value={value} onChange={(e) => onChange(e.target.value)} className={cn(control, "w-full cursor-pointer appearance-none truncate py-0 pr-9 pl-3", value && "border-primary/35 bg-blush text-deep-red hover:border-primary/50 hover:bg-blush")}>
       <option value="">{label}: All</option>
-      {options.map((o) => <option key={o} value={o}>{o}</option>)}
+      {options.map((o) => typeof o === "string" ? <option key={o} value={o}>{o}</option> : <option key={o.value} value={o.value}>{o.label}</option>)}
     </select>
     <ChevronDown aria-hidden className={cn("pointer-events-none absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 text-muted-foreground", value && "text-deep-red")} />
   </div>;
