@@ -41,7 +41,7 @@ const withDefaultIcon = (topic: TopicDefinition): TopicDefinition => ({
   ...topic, icon: topic.icon ?? DEFAULT_ICONS[topic.id] ?? "Tags",
 });
 
-export const TOPICS: TopicDefinition[] = [
+const SEED_TOPICS: TopicDefinition[] = [
   { id: "History & Civilization", slug: "history-and-civilization", intro: "Kingdoms, archaeology, trade networks and the long histories that shaped the archipelago.", category: "History & Society", aliases: ["history", "kingdoms", "archaeology", "civilisation"], status: "Published", updatedAt: "2026-09-18" },
   { id: "Heritage & Traditions", slug: "heritage-and-traditions", intro: "Living practices carried through communities, ritual, memory and skilled work.", category: "Heritage & Traditions", aliases: ["heritage", "tradition", "ritual"], status: "Published", featured: true, updatedAt: "2026-09-16" },
   { id: "Music", slug: "music", intro: "Traditional and contemporary music, instruments, performance and sound cultures.", category: "Arts & Expression", aliases: ["gamelan", "sound", "instruments"], status: "Published", updatedAt: "2026-09-20" },
@@ -59,7 +59,9 @@ export const TOPICS: TopicDefinition[] = [
   { id: "Religion & Cultural Expression", slug: "religion-and-cultural-expression", intro: "Belief, ritual and cultural expression across Indonesia’s communities.", category: "History & Society", aliases: ["religion", "belief", "ritual"], status: "Published", updatedAt: "2026-09-09" },
   { id: "Language", slug: "language", intro: "Language, translation and the words through which culture travels.", category: "History & Society", aliases: ["translation", "words", "linguistics"], status: "Published", updatedAt: "2026-09-07" },
   { id: "Cultural Exchange", slug: "cultural-exchange", intro: "How Indonesian culture travels, changes and creates lasting global relationships.", category: "Contemporary Culture", aliases: ["diplomacy", "exchange", "international"], status: "Published", updatedAt: "2026-09-13" },
-].map(withDefaultIcon);
+];
+
+export const TOPICS: TopicDefinition[] = SEED_TOPICS.map(withDefaultIcon);
 
 const TOPIC_STORAGE_KEY = "iv-topics-v1";
 const TOPIC_EVENT = "iv-topics-change";

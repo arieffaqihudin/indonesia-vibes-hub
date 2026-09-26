@@ -4,11 +4,11 @@ import { Button } from "@/components/ui/button";
 import { TOPIC_ICONS, TopicIcon, type TopicIconName } from "@/components/editorial/TopicIcon";
 import { inputClass } from "@/components/cms/ui";
 
-export function TopicIconPicker({ value, onChange }: { value?: TopicIconName; onChange: (icon: TopicIconName) => void }) {
+export function TopicIconPicker({ value, onChange }: { value: TopicIconName | undefined; onChange: (icon: TopicIconName) => void }) {
   const [search, setSearch] = useState("");
   const icons = (Object.keys(TOPIC_ICONS) as TopicIconName[]).filter((name) => name.toLowerCase().includes(search.trim().toLowerCase()));
   return <div className="space-y-3">
-    <div className="flex items-center gap-2 text-sm text-ink"><TopicIcon topic={{ icon: value }} size={24} /><span>{value ? value.replace(/([a-z])([A-Z0-9])/g, "$1 $2") : "Default icon"}</span></div>
+    <div className="flex items-center gap-2 text-sm text-ink"><TopicIcon topic={value ? { icon: value } : {}} size={24} /><span>{value ? value.replace(/([a-z])([A-Z0-9])/g, "$1 $2") : "Default icon"}</span></div>
     <label className="relative block">
       <span className="sr-only">Search icons</span>
       <Search aria-hidden="true" className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />

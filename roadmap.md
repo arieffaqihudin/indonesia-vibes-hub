@@ -1,10 +1,10 @@
-# CMS authentication
-
 # Topic icons
 
 - [x] Add a controlled Lucide icon choice to each Topic with defaults and a fallback
 - [x] Show record-driven icons on homepage, catalogue, and Topic details
 - [ ] Verify desktop and mobile catalogue and homepage rendering, and CMS icon selection
+
+# CMS authentication
 
 - [x] Enable Lovable Cloud authentication and secure profile storage
 - [x] Add standalone CMS sign-in, recovery, and password reset screens
