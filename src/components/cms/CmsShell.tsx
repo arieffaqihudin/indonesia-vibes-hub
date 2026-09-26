@@ -49,8 +49,8 @@ function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
         const Icon = item.icon;
         return <li key={item.to}>
           {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-          <Link to={item.to as any} onClick={onNavigate} aria-current={active ? "page" : undefined} className={cn("flex h-9 items-center gap-2.5 rounded-md px-2.5 text-sm text-ink/80 transition hover:bg-muted hover:text-ink", active && "bg-blush font-medium text-primary hover:bg-blush hover:text-primary")}>
-            <Icon className="h-4 w-4 shrink-0" aria-hidden />{item.label}
+          <Link to={item.to as any} onClick={onNavigate} aria-current={active ? "page" : undefined} className={cn("flex h-9 items-center gap-2.5 rounded-md px-2.5 text-sm text-ink/75 transition-colors duration-200 hover:bg-background/80 hover:text-ink", active && "bg-blush font-medium text-primary hover:bg-blush hover:text-primary")}>
+            <Icon className="h-4 w-4 shrink-0" strokeWidth={1.75} aria-hidden />{item.label}
           </Link>
         </li>;
       })}</ul>
@@ -59,7 +59,7 @@ function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
 }
 
 function Brand() {
-  return <Link to="/admin/dashboard" className="flex h-14 shrink-0 items-center gap-2.5 border-b border-border px-5">
+  return <Link to="/admin/dashboard" className="flex h-14 shrink-0 items-center gap-2.5 px-5">
     <img src={markRed} alt="" className="h-6 w-6 object-contain" />
     <span className="text-sm font-semibold text-ink">Indonesia Vibes <span className="font-normal text-muted-foreground">CMS</span></span>
   </Link>;
@@ -92,7 +92,7 @@ function GlobalSearch() {
 
   return <div className="relative w-full max-w-md">
     <Search className="pointer-events-none absolute top-1/2 left-2.5 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-    <input ref={ref} value={q} onChange={(e) => { setQ(e.target.value); setOpen(true); }} onFocus={() => setOpen(true)} onBlur={() => setTimeout(() => setOpen(false), 150)} placeholder="Search everything…" aria-label="Search the CMS" className={cn(inputClass, "bg-sand pl-8")} />
+    <input ref={ref} value={q} onChange={(e) => { setQ(e.target.value); setOpen(true); }} onFocus={() => setOpen(true)} onBlur={() => setTimeout(() => setOpen(false), 150)} placeholder="Search everything…" aria-label="Search the CMS" className={cn(inputClass, "border-transparent bg-background/80 pl-8")} />
     {open && q.trim().length >= 2 ? <div className="absolute inset-x-0 top-full z-50 mt-1 max-h-96 overflow-y-auto rounded-md border border-border bg-background py-1 shadow-lg">
       {results.length ? results.map((r) => <button key={r.kind + r.key} type="button" onMouseDown={(e) => e.preventDefault()} onClick={() => { r.go(); setQ(""); setOpen(false); }} className="flex w-full items-center justify-between gap-3 px-3 py-2 text-left text-sm hover:bg-sand">
         <span className="truncate text-ink">{r.label}</span><span className="shrink-0 text-xs text-muted-foreground">{r.kind}</span>
@@ -153,15 +153,15 @@ export function CmsShell({ children }: { children: ReactNode }) {
   useEffect(() => { const h = (e: PageTransitionEvent) => { if (e.persisted) window.location.reload(); }; window.addEventListener("pageshow", h); return () => window.removeEventListener("pageshow", h); }, []);
   const title = TITLES.find(([to]) => pathname === to || pathname.startsWith(`${to}/`))?.[1] ?? "CMS";
 
-  return <div className="min-h-dvh bg-background text-ink">
-    <aside className="fixed inset-y-0 left-0 z-40 hidden w-60 flex-col border-r border-border bg-sand/60 lg:flex"><Brand /><Sidebar /></aside>
+  return <div className="min-h-dvh bg-sand/70 text-ink">
+    <aside className="fixed inset-y-0 left-0 z-40 hidden w-60 flex-col border-r border-border/50 bg-sand lg:flex"><Brand /><Sidebar /></aside>
     {mobile ? <div className="fixed inset-0 z-50 lg:hidden" role="dialog" aria-modal="true" aria-label="Navigation">
       <button type="button" aria-label="Close navigation" className="absolute inset-0 bg-ink/40" onClick={() => setMobile(false)} />
       <aside className="absolute inset-y-0 left-0 flex w-72 max-w-[85vw] flex-col bg-background shadow-xl"><div className="flex items-center justify-between pr-3"><Brand /><button type="button" onClick={() => setMobile(false)} aria-label="Close navigation" className="inline-flex h-9 w-9 items-center justify-center rounded-md hover:bg-muted"><X className="h-4 w-4" /></button></div><Sidebar onNavigate={() => setMobile(false)} /></aside>
     </div> : null}
 
     <div className="lg:pl-60">
-      <header className="sticky top-0 z-30 flex h-14 items-center gap-3 border-b border-border bg-background/95 px-4 backdrop-blur sm:px-6 lg:px-8">
+      <header className="sticky top-0 z-30 flex h-14 items-center gap-3 border-b border-border/50 bg-sand/85 px-4 backdrop-blur sm:px-6 lg:px-8">
         <button type="button" onClick={() => setMobile(true)} aria-label="Open navigation" className="-ml-1 inline-flex h-9 w-9 items-center justify-center rounded-md hover:bg-muted lg:hidden"><Menu className="h-5 w-5" /></button>
         <p className="hidden min-w-[9rem] text-sm font-semibold text-ink md:block">{title}</p>
         <div className="flex flex-1 justify-center"><GlobalSearch /></div>
@@ -169,7 +169,7 @@ export function CmsShell({ children }: { children: ReactNode }) {
         <Account />
       </header>
       <PasswordNotice />
-      <main className="px-4 py-5 sm:px-6 lg:px-8">{children}</main>
+      <main className="px-4 py-6 sm:px-6 lg:px-10 lg:py-8">{children}</main>
     </div>
   </div>;
 }
