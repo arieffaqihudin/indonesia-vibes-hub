@@ -12,6 +12,11 @@
 - [x] Present content, cultural interest, countries and sources without invented analytics
 - [x] Keep actionable CMS tasks, upcoming events and real recent activity compact and verify responsive layout
 
+# Indonesia Vibes Studio entry point
+- [ ] Move all CMS routes, links, authentication destinations, and branding to /studio
+- [ ] Make /admin and every old child a public 404 without revealing Studio
+- [ ] Verify signed-out redirect, signed-in Studio, invitation/reset destinations, noindex, sitemap, and public site
+
 # CMS filter presentation
 - [x] Unify rounded search, selects, active states, clear actions, and mobile filter sheet across CMS lists
 - [x] Keep list options and filter behavior intact while aligning pagination controls
