@@ -32,7 +32,8 @@ function Settings() {
     <PageHeader title="Settings" />
     <Tabs<Tab> value={tab} onChange={setTab} tabs={[{ id: "general", label: "General" }, { id: "users", label: "Users & Roles" }, { id: "analytics", label: "Analytics" }, { id: "seo", label: "SEO" }, { id: "integrations", label: "Integrations" }]} />
     <div className="rounded-lg border border-border bg-background p-5">
-      {tab === "general" ? <div className="space-y-4">
+      {account && account.role !== "Administrator" && tab !== "users" ? <p className="text-sm text-muted-foreground">Only administrators can change these settings.</p> : null}
+      {account?.role !== "Administrator" && tab !== "users" ? null : tab === "general" ? <div className="space-y-4">
         <Field label="Site name" htmlFor="sn"><TextInput id="sn" value={settings.siteName} onChange={(v) => updateSettings({ siteName: v })} /></Field>
         <Field label="Tagline" htmlFor="tg"><TextInput id="tg" value={settings.tagline} onChange={(v) => updateSettings({ tagline: v })} /></Field>
         <Field label="Public contact email" htmlFor="ce"><TextInput id="ce" value={settings.contactEmail} onChange={(v) => updateSettings({ contactEmail: v })} /></Field>
