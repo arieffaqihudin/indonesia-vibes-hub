@@ -5,7 +5,7 @@ import { useState, type ReactNode } from "react";
 
 import { events as sourceEvents, stories } from "@/data/content";
 import { supabase } from "@/integrations/supabase/client";
-import { adminHead } from "@/lib/studio/head";
+import { adminHead } from "@/lib/admin/head";
 import { seedRecords, seedRequests } from "@/lib/cms/seed";
 import { useHomepageSettings } from "@/lib/homepage";
 import { useCms } from "@/lib/cms/store";

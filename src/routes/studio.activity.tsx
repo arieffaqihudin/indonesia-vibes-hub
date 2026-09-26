@@ -3,7 +3,7 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { Fragment, useState } from "react";
 
 import { supabase } from "@/integrations/supabase/client";
-import { adminHead } from "@/lib/studio/head";
+import { adminHead } from "@/lib/admin/head";
 import { deviceLabel } from "@/lib/cms/activity";
 import { Modal, fmtDateTime } from "@/components/cms/Modal";
 import { FilterBar } from "@/components/cms/FilterBar";

@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
-import { adminHead } from "@/lib/studio/head";
+import { adminHead } from "@/lib/admin/head";
 import { publicFormatFromInternal } from "@/lib/editorial";
 import { useOptions } from "@/lib/cms/options";
 import { formatWhen, useCms } from "@/lib/cms/store";

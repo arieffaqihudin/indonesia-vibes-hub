@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 import { supabase } from "@/integrations/supabase/client";
-import { adminHead } from "@/lib/studio/head";
+import { adminHead } from "@/lib/admin/head";
 import { logActivity } from "@/lib/cms/activity";
 import { inviteCmsUser } from "@/lib/cms/users.functions";
 import { rolesListQuery, usersQuery } from "@/lib/cms/users";

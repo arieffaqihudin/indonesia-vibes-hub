@@ -2,7 +2,7 @@ import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Plus } from "lucide-react";
 
 import { useKept } from "@/lib/cms/kept";
-import { adminHead } from "@/lib/studio/head";
+import { adminHead } from "@/lib/admin/head";
 import { HERITAGE_TYPES } from "@/lib/heritage";
 import { formatWhen, useCms } from "@/lib/cms/store";
 import { matches, uniq } from "@/lib/cms/search";

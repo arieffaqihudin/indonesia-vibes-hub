@@ -1,7 +1,7 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { ChevronRight } from "lucide-react";
 
-import { adminHead } from "@/lib/studio/head";
+import { adminHead } from "@/lib/admin/head";
 import { useFaqs } from "@/lib/faq";
 import { formatWhen, useCms } from "@/lib/cms/store";
 import { PageHeader, StatusBadge } from "@/components/cms/ui";

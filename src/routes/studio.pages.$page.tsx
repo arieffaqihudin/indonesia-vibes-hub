@@ -3,7 +3,7 @@ import { Plus, X } from "lucide-react";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
 
-import { adminHead } from "@/lib/studio/head";
+import { adminHead } from "@/lib/admin/head";
 import { newId, useCms } from "@/lib/cms/store";
 import { useOptions } from "@/lib/cms/options";
 import { CMS_STATUSES, type CmsPage, type CmsTeamMember, type PageId } from "@/lib/cms/types";

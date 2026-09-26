@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
 import { supabase } from "@/integrations/supabase/client";
-import { adminHead } from "@/lib/studio/head";
+import { adminHead } from "@/lib/admin/head";
 import { refreshAccount, useCmsAccount } from "@/lib/cms/role";
 import { ChangePasswordForm } from "@/components/cms/ChangePassword";
 import { fmtDateTime } from "@/components/cms/Modal";

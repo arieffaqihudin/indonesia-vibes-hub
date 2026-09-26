@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { adminHead } from "@/lib/studio/head";
+import { adminHead } from "@/lib/admin/head";
 import { RecordEditor } from "@/components/cms/RecordEditor";
 import type { CmsType } from "@/lib/cms/types";
 

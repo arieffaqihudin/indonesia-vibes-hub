@@ -5,7 +5,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 import { supabase } from "@/integrations/supabase/client";
-import { adminHead } from "@/lib/studio/head";
+import { adminHead } from "@/lib/admin/head";
 import { ALL_MENUS, MENU_GROUPS, type MenuKey } from "@/lib/cms/access";
 import { logActivity } from "@/lib/cms/activity";
 import { refreshAccount, useCmsAccount } from "@/lib/cms/role";

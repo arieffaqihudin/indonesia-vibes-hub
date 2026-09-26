@@ -6,7 +6,7 @@ import { collaborations } from "@/data/collaborations";
 import { events, forms, people, places, stories } from "@/data/content";
 import { institutions } from "@/data/institutions";
 import { team } from "@/data/team";
-import { seedInquiries } from "@/lib/studio/seed";
+import { seedInquiries } from "@/lib/admin/seed";
 import { heritageRecognition, heritageRegion, heritageType, isHeritage } from "@/lib/heritage";
 import type { CmsPage, CmsRecord, CmsRequest, CmsSettings, CmsStatus, CmsTeamMember, RequestStatus } from "./types";
 

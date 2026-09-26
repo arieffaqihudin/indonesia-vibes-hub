@@ -2,7 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
-import { adminHead } from "@/lib/studio/head";
+import { adminHead } from "@/lib/admin/head";
 import { TOPIC_CATEGORIES, useTopics, type TopicDefinition } from "@/lib/topics";
 import { slugify, useCms } from "@/lib/cms/store";
 import type { ThemeId } from "@/types/content";

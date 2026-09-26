@@ -2,7 +2,7 @@ import { Link, createFileRoute } from "@tanstack/react-router";
 import { ArrowLeft, Mail } from "lucide-react";
 import { useEffect } from "react";
 
-import { adminHead } from "@/lib/studio/head";
+import { adminHead } from "@/lib/admin/head";
 import { formatWhen, useCms } from "@/lib/cms/store";
 import { REQUEST_STATUSES, type RequestStatus } from "@/lib/cms/types";
 import { Field, Select, StatusBadge, TextArea, btn } from "@/components/cms/ui";

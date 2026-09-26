@@ -3,7 +3,7 @@ import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Plus } from "lucide-react";
 
 import { setKeptValue, useKept } from "@/lib/cms/kept";
-import { adminHead } from "@/lib/studio/head";
+import { adminHead } from "@/lib/admin/head";
 import { formatWhen, useCms } from "@/lib/cms/store";
 import { useOptions } from "@/lib/cms/options";
 import { matches, stringSearch, uniq } from "@/lib/cms/search";
