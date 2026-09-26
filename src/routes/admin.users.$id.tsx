@@ -100,7 +100,7 @@ function EditUser() {
       <div className="flex flex-wrap gap-2">
         {!connected ? <button type="button" className={btn.secondary} disabled={busy === "invite" || !user.active} onClick={() => setConfirm("invite")}>{user.invited_at ? "Resend Invitation" : "Send CMS Invitation"}</button> : null}
         {!isMe && user.active ? <button type="button" className={btn.secondary} onClick={() => setConfirm("deactivate")}>Deactivate User</button> : null}
-        {!isMe ? <button type="button" className={`${btn.secondary} text-deep-red`} onClick={() => setConfirm("delete")}>Delete User</button> : null}
+        {!isMe ? <button type="button" className={btn.danger} onClick={() => setConfirm("delete")}>Delete User</button> : null}
       </div>
       {connected ? <p className="mt-2 text-xs text-muted-foreground">To reset a password, the user can choose “Forgot password?” on the sign-in page.</p> : null}
     </Section>

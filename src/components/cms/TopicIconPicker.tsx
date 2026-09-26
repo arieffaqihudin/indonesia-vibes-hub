@@ -15,7 +15,7 @@ export function TopicIconPicker({ value, onChange }: { value: TopicIconName | un
       <input value={search} onChange={(event) => setSearch(event.target.value)} type="search" placeholder="Search icons" className={`${inputClass} pl-9`} />
     </label>
     <div className="grid max-h-52 grid-cols-4 gap-1 overflow-y-auto sm:grid-cols-5" role="group" aria-label="Choose a Topic icon">
-      {icons.map((name) => <Button key={name} type="button" variant="outline" title={name.replace(/([a-z])([A-Z0-9])/g, "$1 $2")} aria-label={name.replace(/([a-z])([A-Z0-9])/g, "$1 $2")} aria-pressed={value === name} onClick={() => onChange(name)} className={`h-12 rounded-sm p-0 ${value === name ? "border-primary text-primary" : "text-ink"}`}><TopicIcon topic={{ icon: name }} size={22} /></Button>)}
+      {icons.map((name) => <Button key={name} type="button" variant="outline" title={name.replace(/([a-z])([A-Z0-9])/g, "$1 $2")} aria-label={name.replace(/([a-z])([A-Z0-9])/g, "$1 $2")} aria-pressed={value === name} onClick={() => onChange(name)} className={`h-12 rounded-[var(--btn-radius-sm)] p-0 ${value === name ? "border-primary text-primary" : "text-ink"}`}><TopicIcon topic={{ icon: name }} size={22} /></Button>)}
     </div>
     {!icons.length ? <p className="text-xs text-muted-foreground">No icons found.</p> : null}
   </div>;

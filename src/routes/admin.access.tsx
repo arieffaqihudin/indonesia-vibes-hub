@@ -93,7 +93,7 @@ function AccessForm({ role, onClose }: { role: Role | null; onClose: () => void 
   }
 
   return <Modal wide title={role ? `Edit ${role.name}` : "Add Access"} onClose={onClose} footer={<>
-    {role && !locked ? <button type="button" onClick={() => setConfirm("delete")} className={`${btn.ghost} mr-auto text-deep-red`}>Delete</button> : null}
+    {role && !locked ? <button type="button" onClick={() => setConfirm("delete")} className={`${btn.ghost} mr-auto text-deep-red hover:bg-blush`}>Delete</button> : null}
     <button type="button" onClick={onClose} className={btn.secondary}>Cancel</button>
     <button type="button" disabled={busy} onClick={() => void save()} className={btn.primary}>{busy ? "Saving…" : "Save"}</button>
   </>}>

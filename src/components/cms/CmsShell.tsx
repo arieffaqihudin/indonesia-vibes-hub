@@ -15,7 +15,7 @@ import { clearAccountCache, useCmsAccount } from "@/lib/cms/role";
 import { TYPE_LABEL, editPath } from "@/lib/cms/types";
 import { useTopics } from "@/lib/topics";
 import { cn } from "@/lib/utils";
-import { inputClass } from "./ui";
+import { btn, inputClass } from "./ui";
 
 const ICONS: Record<MenuKey, LucideIcon> = {
   dashboard: LayoutDashboard, articles: FileText, heritage: Landmark, topics: Tags, collections: Library,
@@ -116,9 +116,9 @@ function Account() {
       <button type="button" aria-label="Close menu" className="fixed inset-0 z-40 cursor-default" onClick={() => setOpen(false)} />
       <div className="absolute top-full right-0 z-50 mt-2 w-60 rounded-md border border-border bg-background p-1 shadow-lg">
         <div className="border-b border-border px-3 py-2.5"><p className="truncate text-sm font-medium text-ink">{account?.name}</p><p className="text-xs text-primary">{account?.role}</p><p className="mt-1 truncate text-xs text-muted-foreground">{account?.email}</p></div>
-        <Link to="/admin/profile" onClick={() => setOpen(false)} className="flex h-9 items-center gap-2 rounded px-3 text-sm text-ink hover:bg-muted"><UserRound className="h-4 w-4" />Profile</Link>
-        <Link to="/admin/profile" hash="password" onClick={() => setOpen(false)} className="flex h-9 items-center gap-2 rounded px-3 text-sm text-ink hover:bg-muted"><KeyRound className="h-4 w-4" />Change Password</Link>
-        <button type="button" onClick={() => void signOut()} className="flex h-9 w-full items-center gap-2 rounded px-3 text-sm text-ink hover:bg-muted"><LogOut className="h-4 w-4" />Sign Out</button>
+        <Link to="/admin/profile" onClick={() => setOpen(false)} className="flex h-10 items-center gap-2 rounded-[var(--btn-radius-sm)] px-3 text-sm text-ink hover:bg-muted"><UserRound className="h-4 w-4" />Profile</Link>
+        <Link to="/admin/profile" hash="password" onClick={() => setOpen(false)} className="flex h-10 items-center gap-2 rounded-[var(--btn-radius-sm)] px-3 text-sm text-ink hover:bg-muted"><KeyRound className="h-4 w-4" />Change Password</Link>
+        <button type="button" onClick={() => void signOut()} className="flex h-10 w-full items-center gap-2 rounded-[var(--btn-radius-sm)] px-3 text-sm text-ink hover:bg-muted"><LogOut className="h-4 w-4" />Sign Out</button>
       </div>
     </> : null}
   </div>;
@@ -130,7 +130,7 @@ function PasswordNotice() {
   if (!account?.mustChangePassword || hidden) return null;
   return <div className="flex flex-wrap items-center gap-3 border-b border-border bg-blush px-4 py-2 text-sm text-ink sm:px-6 lg:px-8">
     <span className="flex-1">You're using a temporary password. Set a new one to keep your account secure.</span>
-    <Link to="/admin/profile" hash="password" className="inline-flex h-8 items-center rounded-md bg-primary px-3 text-xs font-medium text-primary-foreground">Set a New Password</Link>
+    <Link to="/admin/profile" hash="password" className={`${btn.primary} ${btn.small}`}>Set a New Password</Link>
     <button type="button" onClick={() => setHidden(true)} className="h-8 px-2 text-xs text-muted-foreground hover:text-ink">Later</button>
   </div>;
 }
@@ -155,10 +155,10 @@ export function CmsShell({ children }: { children: ReactNode }) {
 
     <div className="lg:pl-60">
       <header className="sticky top-0 z-30 flex h-14 items-center gap-3 border-b border-border/50 bg-sand/85 px-4 backdrop-blur sm:px-6 lg:px-8">
-        <button type="button" onClick={() => setMobile(true)} aria-label="Open navigation" className="-ml-1 inline-flex h-9 w-9 items-center justify-center rounded-md hover:bg-muted lg:hidden"><Menu className="h-5 w-5" /></button>
+        <button type="button" onClick={() => setMobile(true)} aria-label="Open navigation" className={`${btn.icon} -ml-1 text-ink lg:hidden`}><Menu className="h-5 w-5" /></button>
         <p className="hidden min-w-[9rem] text-sm font-semibold text-ink md:block">{title}</p>
         <div className="flex flex-1 justify-center"><GlobalSearch /></div>
-        <a href="/" target="_blank" rel="noreferrer" className="hidden h-9 items-center gap-1.5 rounded-md px-2.5 text-sm text-muted-foreground hover:bg-muted hover:text-ink sm:inline-flex"><ExternalLink className="h-4 w-4" />Preview website</a>
+        <a href="/" target="_blank" rel="noreferrer" className={`${btn.ghost} hidden sm:inline-flex`}><ExternalLink className="h-4 w-4" />Preview website</a>
         <Account />
       </header>
       <PasswordNotice />

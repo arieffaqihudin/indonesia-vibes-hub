@@ -8,7 +8,7 @@ import { useEffect } from "react";
 
 import { cn } from "@/lib/utils";
 
-const tool = "inline-flex h-8 w-8 items-center justify-center rounded text-muted-foreground hover:bg-muted hover:text-ink";
+const tool = "inline-flex h-9 w-9 items-center justify-center rounded-[var(--btn-radius-sm)] text-muted-foreground transition-colors duration-150 hover:bg-sand hover:text-ink";
 
 /** A calm writing surface. Stores HTML. */
 export function RichText({ value, onChange, placeholder = "Start writing…", minimal = false }: { value: string; onChange: (html: string) => void; placeholder?: string; minimal?: boolean }) {
