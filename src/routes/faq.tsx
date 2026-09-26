@@ -6,6 +6,7 @@ import { PageHeader } from "@/components/editorial/Section";
 import { FaqAccordion } from "@/components/editorial/FaqList";
 import { FAQ_CATEGORIES, faqText, publishedFor, useFaqs, type FaqCategory } from "@/lib/faq";
 import { cn } from "@/lib/utils";
+import { pageIdentity } from "@/lib/public-seo";
 
 export const Route = createFileRoute("/faq")({
   head: () => ({
@@ -16,7 +17,9 @@ export const Route = createFileRoute("/faq")({
       { property: "og:description", content: "Practical answers about Indonesia Vibes, content, events, collaboration and the platform." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
+      ...pageIdentity("/faq").meta,
     ],
+    links: pageIdentity("/faq").links,
   }),
   component: FaqPage,
 });

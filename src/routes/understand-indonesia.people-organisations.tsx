@@ -7,6 +7,7 @@ import { forms, people } from "@/data/content";
 import { institutions } from "@/data/institutions";
 import { TOPICS } from "@/lib/topics";
 import { cn } from "@/lib/utils";
+import { pageIdentity } from "@/lib/public-seo";
 
 const CATEGORIES = [
   { id: "people", label: "People", intro: "Individual artists, practitioners, researchers, curators and cultural figures." },
@@ -25,7 +26,8 @@ export const Route = createFileRoute("/understand-indonesia/people-organisations
     { property: "og:description", content: "Explore the people, communities and institutions shaping Indonesian culture." },
     { property: "og:type", content: "website" },
     { name: "twitter:card", content: "summary_large_image" },
-  ] }),
+    ...pageIdentity("/understand-indonesia/people-organisations").meta,
+  ], links: pageIdentity("/understand-indonesia/people-organisations").links }),
   component: Directory,
 });
 

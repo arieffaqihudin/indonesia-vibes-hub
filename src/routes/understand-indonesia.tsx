@@ -9,6 +9,7 @@ import { attribution } from "@/lib/attribution";
 import { publicFormat, PUBLIC_FORMATS, type PublicFormat } from "@/lib/editorial";
 import { TOPICS } from "@/lib/topics";
 import { heritageRecords, heritageType } from "@/lib/heritage";
+import { pageIdentity } from "@/lib/public-seo";
 
 export const Route = createFileRoute("/understand-indonesia")({
   head: () => ({ meta: [
@@ -18,7 +19,8 @@ export const Route = createFileRoute("/understand-indonesia")({
     { property: "og:description", content: "Explore connected Indonesian cultural knowledge through articles, topics, collections, people and organisations." },
     { property: "og:type", content: "website" },
     { name: "twitter:card", content: "summary_large_image" },
-  ] }),
+    ...pageIdentity("/understand-indonesia").meta,
+  ], links: pageIdentity("/understand-indonesia").links }),
   component: UnderstandIndonesia,
 });
 

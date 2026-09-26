@@ -8,14 +8,21 @@ import { institutions } from "@/data/institutions";
 import { PUBLIC_FORMATS, publicFormat } from "@/lib/editorial";
 import { topicBySlug } from "@/lib/topics";
 import { TopicIcon } from "@/components/editorial/TopicIcon";
+import { pageIdentity, breadcrumbSchema } from "@/lib/public-seo";
 
 export const Route = createFileRoute("/understand-indonesia/topics/$slug")({
   loader: ({ params }) => { const topic = topicBySlug(params.slug); if (!topic) throw notFound(); return topic; },
-  head: ({ loaderData }) => ({ meta: [
-    { title: `${loaderData?.id ?? "Topic"} — Indonesia Vibes` }, { name: "description", content: loaderData?.intro ?? "Explore connected Indonesian cultural knowledge." },
-    { property: "og:title", content: `${loaderData?.id ?? "Topic"} — Indonesia Vibes` }, { property: "og:description", content: loaderData?.intro ?? "Explore connected Indonesian cultural knowledge." },
-    { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" },
-  ] }), component: Topic,
+  head: ({ loaderData, params }) => {
+    if (!loaderData) return { meta: [{ title: "Topic not found | Indonesia Vibes" }, { name: "robots", content: "noindex" }] };
+    const title = `${loaderData.id} in Indonesia | Indonesia Vibes`;
+    const path = `/understand-indonesia/topics/${params.slug}`;
+    return { meta: [
+      { title }, { name: "description", content: loaderData.intro },
+      { property: "og:title", content: title }, { property: "og:description", content: loaderData.intro },
+      { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" },
+      ...pageIdentity(path).meta,
+    ], links: pageIdentity(path).links, scripts: [breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Understand Indonesia", path: "/understand-indonesia" }, { name: "Topics", path: "/understand-indonesia/topics" }, { name: loaderData.id, path }])] };
+  }, component: Topic,
 });
 function Topic() {
   const topic = Route.useLoaderData();
