@@ -1,6 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 
 import { DetailSection, FactList, InquiryButton, Pill } from "@/components/editorial/ui";
+import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { CollaborationCard, InstitutionCard, PersonCard } from "@/components/editorial/EntityCards";
 import {
   collaborationsForPerson,
@@ -69,6 +70,7 @@ function PersonPage() {
             className="aspect-[4/5] w-full max-w-sm object-cover"
           />
           <div className="min-w-0">
+            <Breadcrumbs className="mb-5" items={[{ label: "Understand Indonesia", to: "/understand-indonesia" }, { label: "People & Organisations", to: "/understand-indonesia/people-organisations" }, { label: person.name }]} />
             <p className="eyebrow text-primary">
               {isCommunity ? "Community" : person.roles.join(" · ")}
             </p>
