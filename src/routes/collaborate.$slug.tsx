@@ -42,6 +42,8 @@ export const Route = createFileRoute("/collaborate/$slug")({
         { name: "twitter:card", content: "summary_large_image" },
         ...(collaboration.image?.startsWith("https://") ? [{ property: "og:image", content: collaboration.image }, { name: "twitter:image", content: collaboration.image }] : []),
         ...pageIdentity(path).meta,
+        // Seed collaboration partners and outcomes are illustrative, not real agreements.
+        { name: "robots", content: "noindex, follow" },
       ],
       links: pageIdentity(path).links,
       scripts: [breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Collaborate", path: "/collaborate" }, { name: collaboration.title, path }])],

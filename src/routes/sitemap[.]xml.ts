@@ -2,8 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import { publicUrl } from "@/lib/public-seo";
 import { events, people, places, stories } from "@/data/content";
-import { institutions } from "@/data/institutions";
-import { collaborations } from "@/data/collaborations";
 import { TOPICS } from "@/lib/topics";
 import { heritageRecords } from "@/lib/heritage";
 import { COLLECTIONS } from "@/lib/collections";
@@ -31,10 +29,8 @@ export const Route = createFileRoute("/sitemap.xml")({
         heritageRecords.filter((item) => Boolean(item.whatItIs?.trim() && item.whyMatters?.trim())).forEach((item) => paths.add(`/understand-indonesia/heritage/${item.slug}`));
         COLLECTIONS.filter((item) => item.status === "Published" && item.longIntroduction.trim() && item.storyIds.filter((id) => stories.some((story) => story.id === id)).length >= 2).forEach((item) => paths.add(`/understand-indonesia/collections/${item.slug}`));
         people.filter((person) => (person.intro ?? person.bio).trim().length > 100).forEach((person) => paths.add(`/people/${person.slug}`));
-        institutions.filter((institution) => institution.profile.trim().length >= 100).forEach((institution) => paths.add(`/institutions/${institution.slug}`));
         events.filter((event) => Boolean(event.title && (event.summary || event.context))).forEach((event) => paths.add(`/events/${event.slug}`));
         places.filter((place) => Boolean(place.whyMatters || place.significance?.length)).forEach((place) => paths.add(`/places/${place.slug}`));
-        collaborations.filter((item) => item.publicStory && item.intro?.trim() && item.objectives?.length).forEach((item) => paths.add(`/collaborate/${item.slug}`));
 
         const urls = [...paths].sort().map((path) => `<url><loc>${esc(publicUrl(path))}</loc></url>`).join("");
         return new Response(`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls}</urlset>`, {

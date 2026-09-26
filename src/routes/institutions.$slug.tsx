@@ -49,7 +49,8 @@ export const Route = createFileRoute("/institutions/$slug")({
         { name: "twitter:card", content: "summary_large_image" },
         ...(institution.image?.startsWith("https://") ? [{ property: "og:image", content: institution.image }, { name: "twitter:image", content: institution.image }] : []),
         ...pageIdentity(path).meta,
-        ...(!institution.profile || institution.profile.trim().length < 100 ? [{ name: "robots", content: "noindex, follow" }] : []),
+        // Seed institutions are illustrative prototypes, not verified real organisations.
+        { name: "robots", content: "noindex, follow" },
       ],
       links: pageIdentity(path).links,
       scripts: [breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Understand Indonesia", path: "/understand-indonesia" }, { name: "People & Organisations", path: "/understand-indonesia/people-organisations" }, { name: institution.name, path }]), { type: "application/ld+json", children: JSON.stringify({ "@context": "https://schema.org", "@type": "Organization", name: institution.name, description: institution.profile, url: publicUrl(path), address: { "@type": "PostalAddress", addressLocality: institution.city, addressCountry: institution.country } }) }],
