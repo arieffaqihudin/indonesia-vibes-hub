@@ -33,7 +33,7 @@ export function EditorFrame({ backTo, backLabel, title, status, saveState, onSav
   </>;
 
   return <div className="-mx-4 -my-5 flex min-h-[calc(100dvh-3.5rem)] flex-col sm:-mx-6 lg:-mx-8">
-    <div className="sticky top-14 z-20 flex h-14 items-center gap-3 border-b border-border bg-background/95 px-4 backdrop-blur sm:px-6 lg:px-8">
+    <div className="sticky top-14 z-20 lg:top-0 flex h-14 items-center gap-3 border-b border-border bg-background/95 px-4 backdrop-blur sm:px-6 lg:px-8">
       {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
       <Link to={backTo as any} className={cn(btn.ghost, "px-2")} aria-label={`Back to ${backLabel}`}><ArrowLeft className="h-4 w-4" /><span className="hidden sm:inline">{backLabel}</span></Link>
       <div className="flex min-w-0 flex-1 items-center gap-2">

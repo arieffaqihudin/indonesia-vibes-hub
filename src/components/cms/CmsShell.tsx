@@ -53,6 +53,17 @@ function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
   </nav>;
 }
 
+/** Stops the page (and the CMS content area) scrolling behind an open drawer or window. */
+export function useScrollLock(locked: boolean) {
+  useEffect(() => {
+    if (!locked) return;
+    const els = [document.body, document.getElementById("cms-main")].filter(Boolean) as HTMLElement[];
+    const prev = els.map((el) => el.style.overflow);
+    els.forEach((el) => { el.style.overflow = "hidden"; });
+    return () => els.forEach((el, i) => { el.style.overflow = prev[i]; });
+  }, [locked]);
+}
+
 function Brand() {
   return <Link to="/admin/dashboard" className="flex h-14 shrink-0 items-center gap-2.5 px-5">
     <img src={markRed} alt="" className="h-6 w-6 object-contain" />
@@ -142,28 +153,32 @@ export function CmsShell({ children }: { children: ReactNode }) {
   const { setEditorName } = useCms();
   useEffect(() => { if (account?.name) setEditorName(account.name); }, [account?.name, setEditorName]);
   useEffect(() => setMobile(false), [pathname]);
+  useScrollLock(mobile);
   // Pages restored from the back/forward cache re-run the sign-in check.
   useEffect(() => { const h = (e: PageTransitionEvent) => { if (e.persisted) window.location.reload(); }; window.addEventListener("pageshow", h); return () => window.removeEventListener("pageshow", h); }, []);
   const title = TITLES.find(([to]) => pathname === to || pathname.startsWith(`${to}/`))?.[1] ?? "CMS";
 
-  return <div className="min-h-dvh bg-sand/70 text-ink">
-    <aside className="fixed inset-y-0 left-0 z-40 hidden w-60 flex-col border-r border-border/50 bg-sand lg:flex"><Brand /><Sidebar /></aside>
+  return <div className="min-h-dvh bg-sand/70 text-ink lg:flex lg:h-dvh lg:overflow-hidden">
+    <aside className="hidden h-dvh w-60 shrink-0 flex-col border-r border-border/50 bg-sand lg:flex"><Brand /><Sidebar /></aside>
     {mobile ? <div className="fixed inset-0 z-50 lg:hidden" role="dialog" aria-modal="true" aria-label="Navigation">
       <button type="button" aria-label="Close navigation" className="absolute inset-0 bg-ink/40" onClick={() => setMobile(false)} />
       <aside className="absolute inset-y-0 left-0 flex w-72 max-w-[85vw] flex-col bg-background shadow-xl"><div className="flex items-center justify-between pr-3"><Brand /><button type="button" onClick={() => setMobile(false)} aria-label="Close navigation" className="inline-flex h-9 w-9 items-center justify-center rounded-md hover:bg-muted"><X className="h-4 w-4" /></button></div><Sidebar onNavigate={() => setMobile(false)} /></aside>
     </div> : null}
 
-    <div className="lg:pl-60">
-      <header className="sticky top-0 z-30 flex h-14 items-center gap-3 border-b border-border/50 bg-sand/85 px-4 backdrop-blur sm:px-6 lg:px-8">
+    <div className="lg:flex lg:min-w-0 lg:flex-1 lg:flex-col">
+      <header className="sticky top-0 z-30 flex h-14 shrink-0 items-center gap-3 border-b border-border/50 bg-sand/85 px-4 backdrop-blur sm:px-6 lg:px-8">
         <button type="button" onClick={() => setMobile(true)} aria-label="Open navigation" className={`${btn.icon} -ml-1 text-ink lg:hidden`}><Menu className="h-5 w-5" /></button>
         <p className="hidden min-w-[9rem] text-sm font-semibold text-ink md:block">{title}</p>
         <div className="flex flex-1 justify-center"><GlobalSearch /></div>
         <a href="/" target="_blank" rel="noreferrer" className={`${btn.ghost} hidden sm:inline-flex`}><ExternalLink className="h-4 w-4" />Preview website</a>
         <Account />
       </header>
-      <PasswordNotice />
       <RouteProgress />
-      <main className="px-4 py-6 sm:px-6 lg:px-10 lg:py-8"><div key={pathname} className="cms-enter">{children}</div></main>
+      {/* Desktop: this is the only vertical scroll area; the sidebar and header stay put. */}
+      <div id="cms-main" data-scroll-restoration-id="cms-main" className="lg:min-h-0 lg:flex-1 lg:overflow-x-hidden lg:overflow-y-auto lg:overscroll-contain">
+        <PasswordNotice />
+        <main className="px-4 py-6 sm:px-6 lg:px-10 lg:py-8"><div key={pathname} className="cms-enter">{children}</div></main>
+      </div>
     </div>
   </div>;
 }
