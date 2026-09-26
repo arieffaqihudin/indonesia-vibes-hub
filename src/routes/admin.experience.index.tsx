@@ -56,7 +56,7 @@ function Events({ missingOnly }: { missingOnly: boolean }) {
     { key: "views", label: "Views", render: () => NO_DATA, priority: 3 },
     { key: "updated", label: "Updated", render: (r) => formatWhen(r.updatedAt), priority: 3 },
   ];
-  return <DataList rows={rows} columns={columns} onOpen={(r) => void navigate({ to: "/admin/experience/$id", params: { id: r.id } })} search={q} onSearch={setQ} searchPlaceholder="Search events…"
+  return <DataList resetKey="events" rows={rows} columns={columns} onOpen={(r) => void navigate({ to: "/admin/experience/$id", params: { id: r.id } })} search={q} onSearch={setQ} searchPlaceholder="Search events…"
     mobileMeta={(r) => <><StatusBadge status={r.status} /><span>{formatWhen(r.fields["startDate"])}</span><span>{r.fields["country"]}</span></>}
     filters={[
       { label: "When", value: when, options: ["Upcoming", "Past", "Missing information"], onChange: setWhen },
@@ -84,7 +84,7 @@ function Places() {
     { key: "views", label: "Views", render: () => NO_DATA, priority: 3 },
     { key: "updated", label: "Updated", render: (r) => formatWhen(r.updatedAt), priority: 3 },
   ];
-  return <DataList rows={rows} columns={columns} onOpen={(r) => void navigate({ to: "/admin/experience/$id", params: { id: r.id } })} search={q} onSearch={setQ} searchPlaceholder="Search places…"
+  return <DataList resetKey="places" rows={rows} columns={columns} onOpen={(r) => void navigate({ to: "/admin/experience/$id", params: { id: r.id } })} search={q} onSearch={setQ} searchPlaceholder="Search places…"
     filters={[{ label: "Type", value: type, options: uniq(all.map((r) => r.fields["placeType"])), onChange: setType }, { label: "Country", value: country, options: uniq(all.map((r) => r.fields["country"])), onChange: setCountry }]}
     empty={<EmptyState title="No places found." />} />;
 }
