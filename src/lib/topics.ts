@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import type { ThemeId } from "@/types/content";
+import type { TopicIconName } from "@/components/editorial/TopicIcon";
 
 export const TOPIC_CATEGORIES = [
   "Arts & Expression",
@@ -21,8 +22,24 @@ export interface TopicDefinition {
   status: TopicStatus;
   featured?: boolean;
   image?: string;
+  icon?: TopicIconName;
   updatedAt: string;
 }
+
+const DEFAULT_ICONS: Partial<Record<ThemeId, TopicIconName>> = {
+  "History & Civilization": "Landmark", "Heritage & Traditions": "ScrollText",
+  Heritage: "ScrollText", Music: "AudioLines", "Performing Arts": "Drama",
+  Film: "Clapperboard", Literature: "BookOpen", "Visual Arts": "Palette",
+  "Craft & Design": "Hammer", Textiles: "Layers3", "Culinary Culture": "UtensilsCrossed",
+  Architecture: "Building2", "Maritime Culture": "Waves",
+  "Indigenous & Local Knowledge": "Leaf", "Indigenous Knowledge": "Leaf",
+  "Contemporary Culture": "Shapes", "Religion & Cultural Expression": "Sparkles",
+  Language: "Languages", "Cultural Exchange": "Globe2",
+};
+
+const withDefaultIcon = (topic: TopicDefinition): TopicDefinition => ({
+  ...topic, icon: topic.icon ?? DEFAULT_ICONS[topic.id] ?? "Tags",
+});
 
 export const TOPICS: TopicDefinition[] = [
   { id: "History & Civilization", slug: "history-and-civilization", intro: "Kingdoms, archaeology, trade networks and the long histories that shaped the archipelago.", category: "History & Society", aliases: ["history", "kingdoms", "archaeology", "civilisation"], status: "Published", updatedAt: "2026-09-18" },
@@ -42,7 +59,7 @@ export const TOPICS: TopicDefinition[] = [
   { id: "Religion & Cultural Expression", slug: "religion-and-cultural-expression", intro: "Belief, ritual and cultural expression across Indonesia’s communities.", category: "History & Society", aliases: ["religion", "belief", "ritual"], status: "Published", updatedAt: "2026-09-09" },
   { id: "Language", slug: "language", intro: "Language, translation and the words through which culture travels.", category: "History & Society", aliases: ["translation", "words", "linguistics"], status: "Published", updatedAt: "2026-09-07" },
   { id: "Cultural Exchange", slug: "cultural-exchange", intro: "How Indonesian culture travels, changes and creates lasting global relationships.", category: "Contemporary Culture", aliases: ["diplomacy", "exchange", "international"], status: "Published", updatedAt: "2026-09-13" },
-];
+].map(withDefaultIcon);
 
 const TOPIC_STORAGE_KEY = "iv-topics-v1";
 const TOPIC_EVENT = "iv-topics-change";
@@ -51,7 +68,7 @@ export function readTopics(): TopicDefinition[] {
   if (typeof window === "undefined") return TOPICS;
   try {
     const raw = window.localStorage.getItem(TOPIC_STORAGE_KEY);
-    return raw ? (JSON.parse(raw) as TopicDefinition[]) : TOPICS;
+    return raw ? (JSON.parse(raw) as TopicDefinition[]).map(withDefaultIcon) : TOPICS;
   } catch { return TOPICS; }
 }
 
