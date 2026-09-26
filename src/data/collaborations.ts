@@ -128,6 +128,7 @@ export const collaborations: Collaboration[] = [
   },
   {
     id: "cl-pt-maritime",
+    publicStory: true,
     slug: "indonesia-portugal-maritime-heritage",
     title: "Indonesia–Portugal Maritime Heritage Project",
     type: "Museum Partnership",

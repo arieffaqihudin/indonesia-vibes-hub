@@ -1099,6 +1099,8 @@ export interface PipelineCollaboration {
   inquiryIds: string[];
   nextActions: string[];
   publicSlug?: string;
+  /** Public Story toggle — default OFF (showcase only, no public page). */
+  publicStory?: boolean;
   contentId?: string;
   updatedAt: string;
 }
