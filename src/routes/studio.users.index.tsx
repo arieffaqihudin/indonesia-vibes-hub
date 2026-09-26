@@ -18,7 +18,7 @@ import { EmptyState, Field, PageHeader, Select, TextInput, Toggle, btn } from "@
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/studio/users/")({
-  head: adminHead("Users", "People who can sign in to the CMS."),
+  head: adminHead("Users", "People who can sign in to Indonesia Vibes Studio."),
   component: UsersPage,
 });
 
@@ -30,7 +30,7 @@ function UsersPage() {
   const rows = useMemo(() => { const t = q.trim().toLowerCase(); return t ? users.filter((u) => `${u.name} ${u.email} ${u.phone}`.toLowerCase().includes(t)) : users; }, [q, users]);
   const cols = "md:grid-cols-[minmax(0,1.6fr)_8rem_8rem_6rem_7rem_9rem_3rem]";
   return <div>
-    <PageHeader title="Users" description="People who can sign in to the CMS." actions={<button type="button" className={btn.primary} onClick={() => setAdding(true)}><Plus className="h-4 w-4" />Add User</button>} />
+    <PageHeader title="Users" description="People who can sign in to Indonesia Vibes Studio." actions={<button type="button" className={btn.primary} onClick={() => setAdding(true)}><Plus className="h-4 w-4" />Add User</button>} />
     <div className="mb-4 max-w-sm"><FilterSearch value={q} onChange={setQ} placeholder="Search users…" label="Search users" /></div>
     {isLoading ? <p className="py-8 text-sm text-muted-foreground">Loading…</p> : !rows.length ? <EmptyState filtered={Boolean(q && users.length)} title={q && users.length ? "No users match your search" : "No users yet"} text={q && users.length ? "Try a different name or email." : undefined} action={!users.length ? <button type="button" className={btn.primary} onClick={() => setAdding(true)}>Add User</button> : undefined} /> :
       <div className="divide-y divide-border border-y border-border">
@@ -94,10 +94,10 @@ function AddUser({ onClose }: { onClose: () => void }) {
       <Field label="Access Role" htmlFor="ur"><Select id="ur" value={f.access_role_id} onChange={set("access_role_id")} placeholder="Choose access" options={roles.map((r) => ({ value: r.id, label: r.name }))} /></Field>
       <div className="border-t border-border pt-4">
         <p className="mb-2 text-xs font-medium text-ink">Account Access</p>
-        <Toggle label="Send CMS Invitation" checked={sendInvite} onChange={(v) => { if (v) { if (!schema.shape.email.safeParse(f.email).success) return void toast.error("Enter a valid email first."); setConfirming(true); } else setSendInvite(false); }} />
+        <Toggle label="Send Studio Invitation" checked={sendInvite} onChange={(v) => { if (v) { if (!schema.shape.email.safeParse(f.email).success) return void toast.error("Enter a valid email first."); setConfirming(true); } else setSendInvite(false); }} />
         <p className="mt-1 text-xs text-muted-foreground">{sendInvite ? "An invitation email will be sent when you save." : "Off: the user is saved without sending any email."}</p>
       </div>
     </div>
-    {confirming ? <Confirm title="Send invitation?" text={<>Send CMS access invitation to <strong>{f.email.trim()}</strong>?</>} confirmLabel="Send Invitation" onConfirm={() => { setSendInvite(true); setConfirming(false); }} onClose={() => setConfirming(false)} /> : null}
+    {confirming ? <Confirm title="Send invitation?" text={<>Send Studio access invitation to <strong>{f.email.trim()}</strong>?</>} confirmLabel="Send Invitation" onConfirm={() => { setSendInvite(true); setConfirming(false); }} onClose={() => setConfirming(false)} /> : null}
   </Modal>;
 }

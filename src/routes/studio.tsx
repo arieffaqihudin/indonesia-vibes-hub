@@ -16,6 +16,7 @@ const PUBLIC_STUDIO_PATHS = new Set(["/studio/login", "/studio/forgot-password",
 
 export const Route = createFileRoute("/studio")({
   ssr: false,
+  head: () => ({ meta: [{ name: "robots", content: "noindex, nofollow" }] }),
   beforeLoad: async ({ location }) => {
     if (PUBLIC_STUDIO_PATHS.has(location.pathname)) return;
     if (window.localStorage.getItem("iv-cms-remember") === "false" && !window.sessionStorage.getItem("iv-cms-session-active")) {

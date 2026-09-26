@@ -98,7 +98,7 @@ function GlobalSearch() {
 
   return <div className="relative w-full max-w-md">
     <Search className="pointer-events-none absolute top-1/2 left-2.5 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-    <input ref={ref} value={q} onChange={(e) => { setQ(e.target.value); setOpen(true); }} onFocus={() => setOpen(true)} onBlur={() => setTimeout(() => setOpen(false), 150)} placeholder="Search everything…" aria-label="Search the CMS" className={cn(inputClass, "border-transparent bg-background/80 pl-8")} />
+    <input ref={ref} value={q} onChange={(e) => { setQ(e.target.value); setOpen(true); }} onFocus={() => setOpen(true)} onBlur={() => setTimeout(() => setOpen(false), 150)} placeholder="Search everything…" aria-label="Search the Studio" className={cn(inputClass, "border-transparent bg-background/80 pl-8")} />
     {open && q.trim().length >= 2 ? <div className="absolute inset-x-0 top-full z-50 mt-1 max-h-96 overflow-y-auto rounded-md border border-border bg-background py-1 shadow-lg">
       {results.length ? results.map((r) => <button key={r.kind + r.key} type="button" onMouseDown={(e) => e.preventDefault()} onClick={() => { r.go(); setQ(""); setOpen(false); }} className="flex w-full items-center justify-between gap-3 px-3 py-2 text-left text-sm hover:bg-sand">
         <span className="truncate text-ink">{r.label}</span><span className="shrink-0 text-xs text-muted-foreground">{r.kind}</span>
@@ -168,7 +168,7 @@ export function CmsShell({ children }: { children: ReactNode }) {
   useScrollLock(mobile);
   // Pages restored from the back/forward cache re-run the sign-in check.
   useEffect(() => { const h = (e: PageTransitionEvent) => { if (e.persisted) window.location.reload(); }; window.addEventListener("pageshow", h); return () => window.removeEventListener("pageshow", h); }, []);
-  const title = TITLES.find(([to]) => pathname === to || pathname.startsWith(`${to}/`))?.[1] ?? "CMS";
+  const title = TITLES.find(([to]) => pathname === to || pathname.startsWith(`${to}/`))?.[1] ?? "Studio";
 
   return <div className="min-h-dvh bg-sand/70 text-ink lg:flex lg:h-dvh lg:overflow-hidden">
      <aside className={cn("relative z-40 hidden h-dvh shrink-0 flex-col border-r border-border/50 bg-sand transition-[width] duration-200 ease-out motion-reduce:transition-none lg:flex", collapsed ? "w-[68px]" : "w-60")}><Brand collapsed={collapsed} /><Sidebar collapsed={collapsed} /></aside>
