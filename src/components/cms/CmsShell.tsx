@@ -172,7 +172,7 @@ export function CmsShell({ children }: { children: ReactNode }) {
 
   return <div className="min-h-dvh bg-sand/70 text-ink lg:flex lg:h-dvh lg:overflow-hidden">
      <aside className={cn("relative z-40 hidden h-dvh shrink-0 flex-col border-r border-border/50 bg-sand transition-[width] duration-200 ease-out motion-reduce:transition-none lg:flex", collapsed ? "w-[68px]" : "w-60")}><Brand collapsed={collapsed} /><Sidebar collapsed={collapsed} />
-       <button type="button" onClick={toggleSidebar} aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"} title={collapsed ? "Expand sidebar" : "Collapse sidebar"} aria-expanded={!collapsed} className={cn(btn.iconSm, "absolute top-1/2 -right-4 z-40 h-8 w-8 -translate-y-1/2 border border-border bg-background shadow-sm hover:bg-sand")}>
+       <button type="button" onClick={toggleSidebar} aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"} title={collapsed ? "Expand sidebar" : "Collapse sidebar"} aria-expanded={!collapsed} className={cn(btn.iconSm, "absolute top-1/2 right-1 z-40 h-8 w-8 -translate-y-1/2 border border-border bg-background shadow-sm hover:bg-sand")}>
          {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
        </button>
      </aside>
