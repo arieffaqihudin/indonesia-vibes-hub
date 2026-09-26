@@ -305,7 +305,7 @@ function PersonPage() {
                             <li key={f.id}>
                               <Link
                                 to={f.pillar === "heritage" ? "/understand-indonesia/heritage/$slug" : "/understand-indonesia"}
-                                params={f.pillar === "heritage" ? { slug: f.slug } : undefined}
+                                {...(f.pillar === "heritage" ? { params: { slug: f.slug } } : {})}
                                 className="link-underline text-primary"
                               >
                                 {f.name}
