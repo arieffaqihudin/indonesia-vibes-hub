@@ -52,6 +52,7 @@ export function CmsProvider({ children }: { children: ReactNode }) {
       if (raw) setRawState({ ...initial(), ...(JSON.parse(raw) as Partial<CmsState>) });
     } catch { /* storage is best effort */ }
     hydrated.current = true;
+    console.error("CMSPROVIDER MOUNT");
   }, []);
 
   const updateRecord = useCallback((id: string, patch: Partial<CmsRecord>) => {

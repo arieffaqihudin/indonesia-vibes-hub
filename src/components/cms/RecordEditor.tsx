@@ -61,6 +61,7 @@ export function RecordEditor({ id, type: newType }: { id: string; type?: CmsType
 
   const persist = useCallback((record: CmsRecord) => {
     if (!created.current) {
+      console.error("CREATE", record.title);
       cms.createRecord(record.type, record);
       created.current = true;
       void navigate({ to: BACK[record.type].to + "/$id", params: { id: record.id }, replace: true } as never);
