@@ -93,6 +93,7 @@ import { Route as PlacesIndexRouteImport } from './routes/places.index'
 import { Route as PlacesSlugRouteImport } from './routes/places.$slug'
 import { Route as StoriesIndexRouteImport } from './routes/stories.index'
 import { Route as StoriesSlugRouteImport } from './routes/stories.$slug'
+import { Route as UnderstandIndonesiaPeopleOrganisationsRouteImport } from './routes/understand-indonesia.people-organisations'
 import { Route as AdminCollaborationsIndexRouteImport } from './routes/admin.collaborations.index'
 import { Route as AdminCollaborationsIdRouteImport } from './routes/admin.collaborations.$id'
 import { Route as AdminCollectionsIndexRouteImport } from './routes/admin.collections.index'
@@ -551,6 +552,12 @@ const StoriesSlugRoute = StoriesSlugRouteImport.update({
   path: '/stories/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UnderstandIndonesiaPeopleOrganisationsRoute =
+  UnderstandIndonesiaPeopleOrganisationsRouteImport.update({
+    id: '/people-organisations',
+    path: '/people-organisations',
+    getParentRoute: () => UnderstandIndonesiaRoute,
+  } as any)
 const AdminCollaborationsIndexRoute =
   AdminCollaborationsIndexRouteImport.update({
     id: '/collaborations/',
@@ -808,6 +815,7 @@ export interface FileRoutesByFullPath {
   '/people/$slug': typeof PeopleSlugRoute
   '/places/$slug': typeof PlacesSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
+  '/understand-indonesia/people-organisations': typeof UnderstandIndonesiaPeopleOrganisationsRoute
   '/admin/': typeof AdminIndexRoute
   '/collaborations/': typeof CollaborationsIndexRoute
   '/collections/': typeof CollectionsIndexRoute
@@ -927,6 +935,7 @@ export interface FileRoutesByTo {
   '/people/$slug': typeof PeopleSlugRoute
   '/places/$slug': typeof PlacesSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
+  '/understand-indonesia/people-organisations': typeof UnderstandIndonesiaPeopleOrganisationsRoute
   '/admin': typeof AdminIndexRoute
   '/collaborations': typeof CollaborationsIndexRoute
   '/collections': typeof CollectionsIndexRoute
@@ -1048,6 +1057,7 @@ export interface FileRoutesById {
   '/people/$slug': typeof PeopleSlugRoute
   '/places/$slug': typeof PlacesSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
+  '/understand-indonesia/people-organisations': typeof UnderstandIndonesiaPeopleOrganisationsRoute
   '/admin/': typeof AdminIndexRoute
   '/collaborations/': typeof CollaborationsIndexRoute
   '/collections/': typeof CollectionsIndexRoute
@@ -1170,6 +1180,7 @@ export interface FileRouteTypes {
     | '/people/$slug'
     | '/places/$slug'
     | '/stories/$slug'
+    | '/understand-indonesia/people-organisations'
     | '/admin/'
     | '/collaborations/'
     | '/collections/'
@@ -1289,6 +1300,7 @@ export interface FileRouteTypes {
     | '/people/$slug'
     | '/places/$slug'
     | '/stories/$slug'
+    | '/understand-indonesia/people-organisations'
     | '/admin'
     | '/collaborations'
     | '/collections'
@@ -1409,6 +1421,7 @@ export interface FileRouteTypes {
     | '/people/$slug'
     | '/places/$slug'
     | '/stories/$slug'
+    | '/understand-indonesia/people-organisations'
     | '/admin/'
     | '/collaborations/'
     | '/collections/'
@@ -2107,6 +2120,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StoriesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/understand-indonesia/people-organisations': {
+      id: '/understand-indonesia/people-organisations'
+      path: '/people-organisations'
+      fullPath: '/understand-indonesia/people-organisations'
+      preLoaderRoute: typeof UnderstandIndonesiaPeopleOrganisationsRouteImport
+      parentRoute: typeof UnderstandIndonesiaRoute
+    }
     '/admin/collaborations/': {
       id: '/admin/collaborations/'
       path: '/collaborations'
@@ -2483,6 +2503,7 @@ const CollaborateRouteWithChildren = CollaborateRoute._addFileChildren(
 )
 
 interface UnderstandIndonesiaRouteChildren {
+  UnderstandIndonesiaPeopleOrganisationsRoute: typeof UnderstandIndonesiaPeopleOrganisationsRoute
   UnderstandIndonesiaCollectionsSlugRoute: typeof UnderstandIndonesiaCollectionsSlugRoute
   UnderstandIndonesiaHeritageSlugRoute: typeof UnderstandIndonesiaHeritageSlugRoute
   UnderstandIndonesiaTopicsSlugRoute: typeof UnderstandIndonesiaTopicsSlugRoute
@@ -2492,6 +2513,8 @@ interface UnderstandIndonesiaRouteChildren {
 }
 
 const UnderstandIndonesiaRouteChildren: UnderstandIndonesiaRouteChildren = {
+  UnderstandIndonesiaPeopleOrganisationsRoute:
+    UnderstandIndonesiaPeopleOrganisationsRoute,
   UnderstandIndonesiaCollectionsSlugRoute:
     UnderstandIndonesiaCollectionsSlugRoute,
   UnderstandIndonesiaHeritageSlugRoute: UnderstandIndonesiaHeritageSlugRoute,

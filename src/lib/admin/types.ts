@@ -221,7 +221,7 @@ export type ContentKind =
 
 export const CONTENT_KINDS: { kind: ContentKind; label: string; plural: string }[] = [
   { kind: "story", label: "Article", plural: "Articles" },
-  { kind: "culture", label: "Cultural subject", plural: "Cultural subjects" },
+  { kind: "culture", label: "Heritage", plural: "Heritage" },
   { kind: "person", label: "Person", plural: "People" },
   { kind: "community", label: "Community", plural: "Communities" },
   { kind: "institution", label: "Institution", plural: "Institutions" },
