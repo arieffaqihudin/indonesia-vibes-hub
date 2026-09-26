@@ -11,9 +11,9 @@ export const ROLE_INFO: { role: CmsRole; text: string }[] = [
 ];
 
 let pending: Promise<void> | null = null;
-let cached: { role: CmsRole; assigned: boolean; email: string; name: string; mustChangePassword: boolean } | null = null;
+type Account = { role: CmsRole; assigned: boolean; email: string; name: string; mustChangePassword: boolean };
+let cached: Account | null = null;
 
-type Account = NonNullable<typeof cached>;
 const subs = new Set<(a: Account) => void>();
 
 async function load() {
@@ -25,7 +25,8 @@ async function load() {
   const role: CmsRole = roles.includes("admin") ? "Administrator" : roles.includes("editor") ? "Editor" : "Contributor";
   const name = (user.user_metadata["display_name"] as string | undefined) ?? (user.user_metadata["full_name"] as string | undefined) ?? user.email?.split("@")[0] ?? "Editor";
   cached = { role, assigned: roles.length > 0, email: user.email ?? "", name, mustChangePassword: user.user_metadata["must_change_password"] === true };
-  subs.forEach((f) => f(cached!));
+  const current = cached;
+  subs.forEach((f) => f(current));
 }
 
 /** Reads the signed-in account and its role. Accounts without a role row get the least access (Contributor). */
