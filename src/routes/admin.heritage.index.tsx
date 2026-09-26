@@ -1,7 +1,7 @@
 import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Plus } from "lucide-react";
-import { useState } from "react";
 
+import { useKept } from "@/lib/cms/kept";
 import { adminHead } from "@/lib/admin/head";
 import { HERITAGE_TYPES } from "@/lib/heritage";
 import { formatWhen, useCms } from "@/lib/cms/store";
@@ -18,10 +18,10 @@ export const Route = createFileRoute("/admin/heritage/")({
 function Heritage() {
   const cms = useCms();
   const navigate = useNavigate();
-  const [q, setQ] = useState("");
-  const [type, setType] = useState("");
-  const [status, setStatus] = useState("");
-  const [region, setRegion] = useState("");
+  const [q, setQ] = useKept("admin.heritage.index:20", "");
+  const [type, setType] = useKept("admin.heritage.index:21", "");
+  const [status, setStatus] = useKept("admin.heritage.index:22", "");
+  const [region, setRegion] = useKept("admin.heritage.index:23", "");
   const all = cms.byType("heritage");
   const articles = cms.byType("article");
   const articleCount = (id: string) => articles.filter((a) => (a.relations.heritage ?? []).includes(id)).length;

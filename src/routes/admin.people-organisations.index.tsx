@@ -1,7 +1,8 @@
+import { useState } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { ChevronDown, Plus } from "lucide-react";
-import { useState } from "react";
 
+import { useKept } from "@/lib/cms/kept";
 import { adminHead } from "@/lib/admin/head";
 import { formatWhen, useCms } from "@/lib/cms/store";
 import { useOptions } from "@/lib/cms/options";
@@ -21,7 +22,7 @@ const TYPE_NAME: Record<string, string> = { person: "Person", community: "Commun
 
 function NewMenu() {
   const navigate = useNavigate();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useKept("admin.people-organisations.index:23", false);
   return <div className="relative">
     <button type="button" onClick={() => setOpen(!open)} aria-expanded={open} className={btn.primary}><Plus className="h-4 w-4" />New<ChevronDown className="h-3.5 w-3.5" /></button>
     {open ? <>
@@ -39,11 +40,11 @@ function Directory() {
   const options = useOptions();
   const search = Route.useSearch();
   const [tab, setTab] = useState<Tab>((search["tab"] as Tab) ?? "all");
-  const [q, setQ] = useState("");
-  const [topic, setTopic] = useState("");
-  const [heritage, setHeritage] = useState("");
-  const [location, setLocation] = useState("");
-  const [status, setStatus] = useState("");
+  const [q, setQ] = useKept("admin.people-organisations.index:41", "");
+  const [topic, setTopic] = useKept("admin.people-organisations.index:42", "");
+  const [heritage, setHeritage] = useKept("admin.people-organisations.index:43", "");
+  const [location, setLocation] = useKept("admin.people-organisations.index:44", "");
+  const [status, setStatus] = useKept("admin.people-organisations.index:45", "");
   const all = cms.byType("person", "community", "organisation");
   const heritageName = (id: string) => options.heritage.find((h) => h.id === id)?.label;
   const heritageOptions = uniq(all.flatMap((r) => (r.relations.heritage ?? []).map(heritageName)));

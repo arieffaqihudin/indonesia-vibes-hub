@@ -39,6 +39,12 @@ const NAV: { label?: string; items: NavItem[] }[] = [
 
 const TITLES: [string, string][] = NAV.flatMap((g) => g.items.map((i) => [i.to, i.label] as [string, string]));
 
+/** Thin bar while the next page's code loads; the current page stays visible meanwhile. */
+function RouteProgress() {
+  const loading = useRouterState({ select: (s) => s.status === "pending" });
+  return <div aria-hidden className={cn("pointer-events-none fixed inset-x-0 top-0 z-50 h-0.5 origin-left bg-primary transition-[opacity,transform] duration-300", loading ? "scale-x-75 opacity-100" : "scale-x-100 opacity-0")} />;
+}
+
 function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   return <nav aria-label="CMS" className="flex-1 space-y-5 overflow-y-auto px-3 py-4">
@@ -49,7 +55,7 @@ function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
         const Icon = item.icon;
         return <li key={item.to}>
           {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-          <Link to={item.to as any} onClick={onNavigate} aria-current={active ? "page" : undefined} className={cn("flex h-9 items-center gap-2.5 rounded-md px-2.5 text-sm text-ink/75 transition-colors duration-200 hover:bg-background/80 hover:text-ink", active && "bg-blush font-medium text-primary hover:bg-blush hover:text-primary")}>
+          <Link to={item.to as any} onClick={onNavigate} aria-current={active ? "page" : undefined} className={cn("flex h-9 items-center gap-2.5 rounded-md px-2.5 text-sm text-ink/75 transition-colors duration-150 hover:bg-background/80 hover:text-ink active:bg-blush/70", active && "bg-blush font-medium text-primary hover:bg-blush hover:text-primary")}>
             <Icon className="h-4 w-4 shrink-0" strokeWidth={1.75} aria-hidden />{item.label}
           </Link>
         </li>;
@@ -169,7 +175,8 @@ export function CmsShell({ children }: { children: ReactNode }) {
         <Account />
       </header>
       <PasswordNotice />
-      <main className="px-4 py-6 sm:px-6 lg:px-10 lg:py-8">{children}</main>
+      <RouteProgress />
+      <main className="px-4 py-6 sm:px-6 lg:px-10 lg:py-8"><div key={pathname} className="cms-enter">{children}</div></main>
     </div>
   </div>;
 }
