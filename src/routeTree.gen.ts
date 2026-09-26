@@ -73,6 +73,7 @@ import { Route as StudioHomepageRouteImport } from './routes/studio.homepage'
 import { Route as StudioLoginRouteImport } from './routes/studio.login'
 import { Route as StudioProfileRouteImport } from './routes/studio.profile'
 import { Route as StudioResetPasswordRouteImport } from './routes/studio.reset-password'
+import { Route as StudioUnauthorizedRouteImport } from './routes/studio.unauthorized'
 import { Route as UnderstandIndonesiaPeopleOrganisationsRouteImport } from './routes/understand-indonesia.people-organisations'
 import { Route as ContributorSubmissionsIndexRouteImport } from './routes/contributor.submissions.index'
 import { Route as ExploreTopicsIndexRouteImport } from './routes/explore.topics.index'
@@ -431,6 +432,11 @@ const StudioResetPasswordRoute = StudioResetPasswordRouteImport.update({
   path: '/reset-password',
   getParentRoute: () => StudioRoute,
 } as any)
+const StudioUnauthorizedRoute = StudioUnauthorizedRouteImport.update({
+  id: '/unauthorized',
+  path: '/unauthorized',
+  getParentRoute: () => StudioRoute,
+} as any)
 const UnderstandIndonesiaPeopleOrganisationsRoute =
   UnderstandIndonesiaPeopleOrganisationsRouteImport.update({
     id: '/people-organisations',
@@ -677,6 +683,7 @@ export interface FileRoutesByFullPath {
   '/studio/login': typeof StudioLoginRoute
   '/studio/profile': typeof StudioProfileRoute
   '/studio/reset-password': typeof StudioResetPasswordRoute
+  '/studio/unauthorized': typeof StudioUnauthorizedRoute
   '/understand-indonesia/people-organisations': typeof UnderstandIndonesiaPeopleOrganisationsRoute
   '/collaborations/': typeof CollaborationsIndexRoute
   '/collections/': typeof CollectionsIndexRoute
@@ -777,6 +784,7 @@ export interface FileRoutesByTo {
   '/studio/login': typeof StudioLoginRoute
   '/studio/profile': typeof StudioProfileRoute
   '/studio/reset-password': typeof StudioResetPasswordRoute
+  '/studio/unauthorized': typeof StudioUnauthorizedRoute
   '/understand-indonesia/people-organisations': typeof UnderstandIndonesiaPeopleOrganisationsRoute
   '/collaborations': typeof CollaborationsIndexRoute
   '/collections': typeof CollectionsIndexRoute
@@ -879,6 +887,7 @@ export interface FileRoutesById {
   '/studio/login': typeof StudioLoginRoute
   '/studio/profile': typeof StudioProfileRoute
   '/studio/reset-password': typeof StudioResetPasswordRoute
+  '/studio/unauthorized': typeof StudioUnauthorizedRoute
   '/understand-indonesia/people-organisations': typeof UnderstandIndonesiaPeopleOrganisationsRoute
   '/collaborations/': typeof CollaborationsIndexRoute
   '/collections/': typeof CollectionsIndexRoute
@@ -982,6 +991,7 @@ export interface FileRouteTypes {
     | '/studio/login'
     | '/studio/profile'
     | '/studio/reset-password'
+    | '/studio/unauthorized'
     | '/understand-indonesia/people-organisations'
     | '/collaborations/'
     | '/collections/'
@@ -1082,6 +1092,7 @@ export interface FileRouteTypes {
     | '/studio/login'
     | '/studio/profile'
     | '/studio/reset-password'
+    | '/studio/unauthorized'
     | '/understand-indonesia/people-organisations'
     | '/collaborations'
     | '/collections'
@@ -1183,6 +1194,7 @@ export interface FileRouteTypes {
     | '/studio/login'
     | '/studio/profile'
     | '/studio/reset-password'
+    | '/studio/unauthorized'
     | '/understand-indonesia/people-organisations'
     | '/collaborations/'
     | '/collections/'
@@ -1743,6 +1755,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StudioResetPasswordRouteImport
       parentRoute: typeof StudioRoute
     }
+    '/studio/unauthorized': {
+      id: '/studio/unauthorized'
+      path: '/unauthorized'
+      fullPath: '/studio/unauthorized'
+      preLoaderRoute: typeof StudioUnauthorizedRouteImport
+      parentRoute: typeof StudioRoute
+    }
     '/understand-indonesia/people-organisations': {
       id: '/understand-indonesia/people-organisations'
       path: '/people-organisations'
@@ -2012,6 +2031,7 @@ interface StudioRouteChildren {
   StudioLoginRoute: typeof StudioLoginRoute
   StudioProfileRoute: typeof StudioProfileRoute
   StudioResetPasswordRoute: typeof StudioResetPasswordRoute
+  StudioUnauthorizedRoute: typeof StudioUnauthorizedRoute
   StudioIndexRoute: typeof StudioIndexRoute
   StudioArticlesIdRoute: typeof StudioArticlesIdRoute
   StudioCollaborationsIdRoute: typeof StudioCollaborationsIdRoute
@@ -2046,6 +2066,7 @@ const StudioRouteChildren: StudioRouteChildren = {
   StudioLoginRoute: StudioLoginRoute,
   StudioProfileRoute: StudioProfileRoute,
   StudioResetPasswordRoute: StudioResetPasswordRoute,
+  StudioUnauthorizedRoute: StudioUnauthorizedRoute,
   StudioIndexRoute: StudioIndexRoute,
   StudioArticlesIdRoute: StudioArticlesIdRoute,
   StudioCollaborationsIdRoute: StudioCollaborationsIdRoute,
