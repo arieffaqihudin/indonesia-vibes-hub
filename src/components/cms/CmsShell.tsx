@@ -36,7 +36,7 @@ function Sidebar({ onNavigate, collapsed = false }: { onNavigate?: () => void; c
   const account = useCmsAccount();
   const allowed = account?.menus ?? [];
   const groups = MENU_GROUPS.map((g) => ({ ...g, items: g.items.filter((i) => allowed.includes(i.key)) })).filter((g) => g.items.length);
-  return <nav aria-label="CMS" className={cn("min-h-0 flex-1 space-y-5 overflow-y-auto py-4", collapsed ? "px-2" : "px-3")}>
+   return <nav aria-label="Studio" className={cn("min-h-0 flex-1 space-y-5 overflow-y-auto py-4", collapsed ? "px-2" : "px-3")}>
     {groups.map((group, i) => <div key={group.label ?? i}>
       {group.label && !collapsed ? <p className="mb-1 px-2.5 text-[0.625rem] font-semibold uppercase tracking-[0.08em] text-muted-foreground/70">{group.label}</p> : null}
       <ul className="space-y-0.5">{group.items.map((item) => {
@@ -58,16 +58,15 @@ export function useScrollLock(locked: boolean) {
   useEffect(() => {
     if (!locked) return;
     const els = [document.body, document.getElementById("cms-main")].filter(Boolean) as HTMLElement[];
-    const prev = els.map((el) => el.style.overflow);
     els.forEach((el) => { el.style.overflow = "hidden"; });
     return () => els.forEach((el, i) => { el.style.overflow = prev[i] ?? ""; });
   }, [locked]);
 }
 
 function Brand({ collapsed = false }: { collapsed?: boolean }) {
-  return <Link to="/studio/dashboard" aria-label="Indonesia Vibes CMS dashboard" title={collapsed ? "Indonesia Vibes CMS" : undefined} className={cn("flex h-14 shrink-0 items-center gap-2.5", collapsed ? "justify-center px-2" : "px-5")}>
+  return <Link to="/studio/dashboard" aria-label="Indonesia Vibes Studio dashboard" title={collapsed ? "Indonesia Vibes Studio" : undefined} className={cn("flex h-14 shrink-0 items-center gap-2.5", collapsed ? "justify-center px-2" : "px-5")}>
     <img src={markRed} alt="" className="h-6 w-6 object-contain" />
-    {!collapsed && <span className="text-sm font-semibold text-ink">Indonesia Vibes <span className="font-normal text-muted-foreground">CMS</span></span>}
+    {!collapsed && <span className="text-sm font-semibold text-ink">Indonesia Vibes <span className="font-normal text-muted-foreground">Studio</span></span>}
   </Link>;
 }
 

@@ -12,12 +12,12 @@ if (typeof window !== "undefined") supabase.auth.onAuthStateChange((event, sessi
   if (event === "SIGNED_OUT" || !session) verifiedUserId = null;
 });
 
-const PUBLIC_ADMIN_PATHS = new Set(["/studio/login", "/studio/forgot-password", "/studio/reset-password"]);
+const PUBLIC_STUDIO_PATHS = new Set(["/studio/login", "/studio/forgot-password", "/studio/reset-password"]);
 
 export const Route = createFileRoute("/studio")({
   ssr: false,
   beforeLoad: async ({ location }) => {
-    if (PUBLIC_ADMIN_PATHS.has(location.pathname)) return;
+    if (PUBLIC_STUDIO_PATHS.has(location.pathname)) return;
     if (window.localStorage.getItem("iv-cms-remember") === "false" && !window.sessionStorage.getItem("iv-cms-session-active")) {
       await supabase.auth.signOut();
       throw redirect({ to: "/studio/login", search: { redirect: location.href } });
@@ -39,7 +39,7 @@ export const Route = createFileRoute("/studio")({
       }
       verifiedUserId = data.user.id;
     }
-    // Permission check per module (the database enforces the same rules for users, access and activity).
+    // Permission check per module (the database also enforces sensitive data permissions).
     if (location.pathname.startsWith("/studio/preview/")) return;
     const menu = menuForPath(location.pathname);
     if (!menu) return;
@@ -50,12 +50,12 @@ export const Route = createFileRoute("/studio")({
       throw redirect({ to: (first?.to ?? "/studio/profile") as never, replace: true });
     }
   },
-  component: AdminLayout,
+  component: StudioLayout,
 });
 
-function AdminLayout() {
+function StudioLayout() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  if (PUBLIC_ADMIN_PATHS.has(pathname)) return <Outlet />;
+  if (PUBLIC_STUDIO_PATHS.has(pathname)) return <Outlet />;
   if (pathname.startsWith("/studio/preview/")) return <CmsProvider><Outlet /></CmsProvider>;
   return <CmsProvider><CmsShell><Outlet /></CmsShell></CmsProvider>;
 }

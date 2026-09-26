@@ -7,7 +7,14 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 
 type LoginSearch = { redirect?: string; denied?: string };
-function safeDestination(value: string | undefined) { return value?.startsWith("/studio/") && !value.startsWith("//") ? value : "/studio/dashboard"; }
+function safeDestination(value: string | undefined) {
+  if (!value) return "/studio/dashboard";
+  try {
+    const url = new URL(value, "https://studio.invalid");
+    if (url.origin !== "https://studio.invalid" || !url.pathname.startsWith("/studio/") || ["/studio/login", "/studio/forgot-password", "/studio/reset-password"].includes(url.pathname)) return "/studio/dashboard";
+    return `${url.pathname}${url.search}${url.hash}`;
+  } catch { return "/studio/dashboard"; }
+}
 
 export const Route = createFileRoute("/studio/login")({
   validateSearch: (search: Record<string, unknown>): LoginSearch => {
@@ -16,8 +23,8 @@ export const Route = createFileRoute("/studio/login")({
   },
   beforeLoad: async ({ search }) => { const { data } = await supabase.auth.getUser(); if (data.user) throw redirect({ to: safeDestination(search.redirect) }); },
   head: () => ({ meta: [
-    { title: "CMS Sign In — Indonesia Vibes" }, { name: "description", content: "Sign in to manage Indonesia Vibes." },
-    { property: "og:title", content: "CMS Sign In — Indonesia Vibes" }, { property: "og:description", content: "Sign in to manage Indonesia Vibes." },
+    { title: "Sign In | Indonesia Vibes Studio" }, { name: "description", content: "Sign in to manage content and cultural data in Indonesia Vibes Studio." },
+    { property: "og:title", content: "Sign In | Indonesia Vibes Studio" }, { property: "og:description", content: "Sign in to manage content and cultural data in Indonesia Vibes Studio." },
     { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" },
     { name: "robots", content: "noindex, nofollow" },
   ] }), component: AdminLogin,
@@ -27,8 +34,7 @@ function AdminLogin() {
   const navigate = useNavigate(); const search = Route.useSearch();
   const [email, setEmail] = useState(""); const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(true); const [showPassword, setShowPassword] = useState(false);
-  const [submitting, setSubmitting] = useState(false); const [errors, setErrors] = useState<{ email?: string; password?: string; form?: string }>(search.denied ? { form: "This account doesn't have CMS access, or it has been deactivated. Please contact an administrator." } : {});
-  useEffect(() => { const { data } = supabase.auth.onAuthStateChange((event) => { if (event === "SIGNED_IN") void navigate({ to: safeDestination(search.redirect), replace: true }); }); return () => data.subscription.unsubscribe(); }, [navigate, search.redirect]);
+  const [submitting, setSubmitting] = useState(false); const [errors, setErrors] = useState<{ email?: string; password?: string; form?: string }>(search.denied ? { form: "This account doesn't have Studio access. Please contact your team." } : {});
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault(); if (submitting) return;
@@ -36,7 +42,7 @@ function AdminLogin() {
     if (Object.keys(nextErrors).length) { setErrors(nextErrors); return; }
     setSubmitting(true); setErrors({});
     const { data, error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
-    if (error) { setErrors({ form: /banned/i.test(error.message) ? "This account has been deactivated. Please contact an administrator." : "Incorrect email or password." }); setSubmitting(false); return; }
+    if (error) { setErrors({ form: "Email or password is incorrect." }); setSubmitting(false); return; }
     window.localStorage.setItem("iv-cms-remember", remember ? "true" : "false");
     window.sessionStorage.setItem("iv-cms-session-active", "true");
     if (data.user) {
@@ -51,8 +57,8 @@ function AdminLogin() {
   }
 
   return <AdminAuthLayout>
-    <div className="mb-9 hidden items-center gap-2.5 lg:flex"><span className="text-base font-semibold text-ink">Indonesia <span className="text-primary">Vibes</span></span></div>
-    <h1 className="text-3xl font-semibold text-ink">Welcome back</h1><p className="mt-2 text-sm text-muted-foreground">Sign in to manage Indonesia Vibes.</p>
+    <div className="mb-9 hidden items-center gap-2.5 lg:flex"><span className="text-base font-semibold text-ink">Indonesia Vibes <span className="text-primary">Studio</span></span></div>
+    <h1 className="text-3xl font-semibold text-ink">Indonesia Vibes Studio</h1><p className="mt-2 text-sm text-muted-foreground">Sign in to manage content and cultural data.</p>
     <form className="mt-8 space-y-5" onSubmit={handleSubmit} noValidate>
       <div><label htmlFor="email" className="mb-1.5 block text-sm font-medium text-ink">Email</label><input id="email" type="email" autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} aria-invalid={Boolean(errors.email)} placeholder="name@organisation.org" className="h-12 w-full rounded-md border border-input bg-background px-3.5 text-sm text-ink outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/15" />{errors.email ? <p className="mt-1.5 text-xs text-deep-red">{errors.email}</p> : null}</div>
       <div><label htmlFor="password" className="mb-1.5 block text-sm font-medium text-ink">Password</label><div className="relative"><input id="password" type={showPassword ? "text" : "password"} autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} aria-invalid={Boolean(errors.password)} placeholder="Enter your password" className="h-12 w-full rounded-md border border-input bg-background px-3.5 pr-12 text-sm text-ink outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/15" /><button type="button" onClick={() => setShowPassword((value) => !value)} className="absolute inset-y-0 right-0 flex w-12 items-center justify-center text-muted-foreground hover:text-ink" aria-label={showPassword ? "Hide password" : "Show password"}>{showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}</button></div>{errors.password ? <p className="mt-1.5 text-xs text-deep-red">{errors.password}</p> : null}</div>
