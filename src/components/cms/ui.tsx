@@ -4,11 +4,19 @@ import { useState, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import type { CmsStatus } from "@/lib/cms/types";
 
+/** One CMS button system: soft rounded rectangles (see --btn-* tokens in styles.css). */
+const base = "inline-flex shrink-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-[var(--btn-radius)] text-sm font-medium transition-[background-color,border-color,color,transform] duration-150 ease-out active:translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50";
 export const btn = {
-  primary: "inline-flex h-9 items-center justify-center gap-1.5 rounded-md bg-primary px-3.5 text-sm font-medium text-primary-foreground transition hover:bg-deep-red disabled:pointer-events-none disabled:opacity-50",
-  secondary: "inline-flex h-9 items-center justify-center gap-1.5 rounded-md border border-border bg-background px-3.5 text-sm font-medium text-ink transition hover:bg-muted disabled:pointer-events-none disabled:opacity-50",
-  ghost: "inline-flex h-9 items-center justify-center gap-1.5 rounded-md px-2.5 text-sm text-muted-foreground transition hover:bg-muted hover:text-ink",
-  icon: "inline-flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground transition hover:bg-muted hover:text-ink disabled:opacity-30",
+  primary: `${base} h-[var(--btn-h)] bg-primary px-[var(--btn-px)] text-primary-foreground hover:bg-primary-hover active:bg-deep-red`,
+  secondary: `${base} h-[var(--btn-h)] border border-btn-border bg-background px-[var(--btn-px)] text-ink hover:bg-sand active:bg-blush/60`,
+  ghost: `${base} h-[var(--btn-h-sm)] rounded-[var(--btn-radius-sm)] px-2.5 text-muted-foreground hover:bg-sand hover:text-ink`,
+  text: `${base} h-auto rounded-md px-0 text-primary hover:text-deep-red active:translate-y-0`,
+  danger: `${base} h-[var(--btn-h)] border border-destructive/30 bg-background px-[var(--btn-px)] text-deep-red hover:bg-blush`,
+  dangerSolid: `${base} h-[var(--btn-h)] bg-deep-red px-[var(--btn-px)] text-primary-foreground hover:bg-deep-red/90`,
+  icon: `${base} h-10 w-10 rounded-[var(--btn-radius-sm)] text-muted-foreground hover:bg-sand hover:text-ink disabled:opacity-30`,
+  iconSm: `${base} h-9 w-9 rounded-[var(--btn-radius-sm)] text-muted-foreground hover:bg-sand hover:text-ink disabled:opacity-30`,
+  small: "!h-[var(--btn-h-sm)] !px-3 !rounded-[var(--btn-radius-sm)] text-[0.8125rem]",
+  large: "!h-[var(--btn-h-lg)] !px-5",
 };
 
 export const inputClass = "h-9 w-full rounded-md border border-input bg-background px-3 text-sm text-ink outline-none transition placeholder:text-muted-foreground/70 focus:border-primary focus:ring-2 focus:ring-primary/15";
