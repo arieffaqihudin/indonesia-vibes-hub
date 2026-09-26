@@ -115,6 +115,9 @@ export function HomepageHero({ slides }: { slides: HomepageHeroSlide[] }) {
         onPointerCancel={() => { pointerStart.current = null; }}
         data-direction={direction}
       >
+        <p className="pointer-events-none absolute top-6 left-5 z-20 flex items-center gap-3 text-[0.7rem] font-semibold tracking-[0.2em] text-primary-foreground/80 uppercase sm:left-8 md:top-8 md:left-12 lg:left-[max(4rem,8vw)]">
+          Indonesia, told through culture <span aria-hidden="true" className="h-px w-8 bg-primary-foreground/40" /> <span className="text-pink">Culture for the future</span>
+        </p>
         {slides.map(({ article, selection }, index) => {
           const credit = slideAttribution(article);
           const headline = selection.headline || article.title;
