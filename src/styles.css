@@ -48,6 +48,8 @@
   --color-blush: var(--blush);
   --color-pink: var(--pink);
   --color-deep-red: var(--deep-red);
+  --color-primary-hover: var(--primary-hover);
+  --color-btn-border: var(--btn-border);
   --color-sand: var(--sand);
   --color-line: var(--line);
   --color-chart-1: var(--chart-1);
@@ -74,6 +76,14 @@
   --ink-deep: oklch(0.2228 0.0363 20.36);
   --clay: oklch(0.3367 0.087 22.96); /* #5C2121 */
   --deep-red: oklch(0.4652 0.1827 28.3); /* #A80F0F */
+  --primary-hover: oklch(0.56 0.21 32); /* slightly darker #EC3118 */
+  --btn-border: oklch(0.917 0.009 40); /* #E7E1DE */
+  --btn-radius: 11px;
+  --btn-radius-sm: 9px;
+  --btn-h: 42px;
+  --btn-h-sm: 34px;
+  --btn-h-lg: 48px;
+  --btn-px: 18px;
   --pink: oklch(0.7939 0.1089 19.77); /* #FA9F9F */
   --blush: oklch(0.9574 0.0196 17.5); /* #FEECEC */
   --sand: oklch(0.9787 0.0051 48.69);
