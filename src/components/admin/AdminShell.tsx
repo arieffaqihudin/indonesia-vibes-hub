@@ -5,7 +5,8 @@ import {
   BookOpen, ChevronDown, ChevronLeft, ChevronRight, CircleHelp, FileText,
   Handshake, Home, Layers, LayoutDashboard, Library, MapPin, Menu, Settings,
   Star, Tags, Users, X, CalendarDays, MessageSquare,
-  type LucideIcon,, Landmark } from "lucide-react";
+  Landmark, type LucideIcon,
+} from "lucide-react";
 
 import { useAdmin } from "@/lib/admin/store";
 import { cn } from "@/lib/utils";
