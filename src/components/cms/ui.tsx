@@ -27,7 +27,7 @@ const STATUS_STYLE: Record<string, string> = {
 };
 
 export function StatusBadge({ status }: { status: CmsStatus | string }) {
-  return <span className={cn("inline-flex h-5 items-center whitespace-nowrap rounded px-1.5 text-[0.6875rem] font-medium", STATUS_STYLE[status] ?? "bg-muted text-muted-foreground")}>{status}</span>;
+  return <span className={cn("inline-flex h-5 items-center whitespace-nowrap rounded-md px-1.5 text-[0.6875rem] font-medium", STATUS_STYLE[status] ?? "bg-muted text-muted-foreground")}>{status}</span>;
 }
 
 export function PageHeader({ title, description, actions }: { title: string; description?: string; actions?: ReactNode }) {
