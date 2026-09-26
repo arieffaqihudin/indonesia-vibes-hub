@@ -14,6 +14,131 @@ export type Database = {
   }
   public: {
     Tables: {
+      cms_access_roles: {
+        Row: {
+          created_at: string
+          description: string
+          id: string
+          is_system: boolean
+          menus: string[]
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string
+          id?: string
+          is_system?: boolean
+          menus?: string[]
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          id?: string
+          is_system?: boolean
+          menus?: string[]
+          name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      cms_activity: {
+        Row: {
+          action: string
+          actor_id: string | null
+          actor_name: string
+          created_at: string
+          detail: Json
+          device: string
+          id: string
+          item: string
+          module: string
+        }
+        Insert: {
+          action: string
+          actor_id?: string | null
+          actor_name?: string
+          created_at?: string
+          detail?: Json
+          device?: string
+          id?: string
+          item?: string
+          module: string
+        }
+        Update: {
+          action?: string
+          actor_id?: string | null
+          actor_name?: string
+          created_at?: string
+          detail?: Json
+          device?: string
+          id?: string
+          item?: string
+          module?: string
+        }
+        Relationships: []
+      }
+      cms_users: {
+        Row: {
+          access_role_id: string | null
+          active: boolean
+          auth_user_id: string | null
+          avatar_url: string | null
+          created_at: string
+          deleted_at: string | null
+          email: string
+          first_login_at: string | null
+          id: string
+          invited_at: string | null
+          last_login_at: string | null
+          name: string
+          phone: string
+          updated_at: string
+        }
+        Insert: {
+          access_role_id?: string | null
+          active?: boolean
+          auth_user_id?: string | null
+          avatar_url?: string | null
+          created_at?: string
+          deleted_at?: string | null
+          email: string
+          first_login_at?: string | null
+          id?: string
+          invited_at?: string | null
+          last_login_at?: string | null
+          name: string
+          phone?: string
+          updated_at?: string
+        }
+        Update: {
+          access_role_id?: string | null
+          active?: boolean
+          auth_user_id?: string | null
+          avatar_url?: string | null
+          created_at?: string
+          deleted_at?: string | null
+          email?: string
+          first_login_at?: string | null
+          id?: string
+          invited_at?: string | null
+          last_login_at?: string | null
+          name?: string
+          phone?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cms_users_access_role_id_fkey"
+            columns: ["access_role_id"]
+            isOneToOne: false
+            referencedRelation: "cms_access_roles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -67,6 +192,15 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      cms_all_menus: { Args: never; Returns: string[] }
+      cms_can: { Args: { _menu: string; _uid: string }; Returns: boolean }
+      cms_me: { Args: never; Returns: Json }
+      cms_menus: { Args: { _uid: string }; Returns: string[] }
+      cms_record_login: { Args: { _device?: string }; Returns: boolean }
+      cms_update_profile: {
+        Args: { _avatar: string; _name: string; _phone: string }
+        Returns: undefined
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
