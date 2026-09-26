@@ -2,13 +2,15 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import { CollectionJourneyPreview } from "@/components/editorial/CollectionJourneyPreview";
 import { useCollections } from "@/lib/collections";
+import { pageIdentity } from "@/lib/public-seo";
 
 export const Route = createFileRoute("/understand-indonesia/collections/")({
   head: () => ({ meta: [
     { title: "Curated Collections — Indonesia Vibes" }, { name: "description", content: "Follow curated reading journeys through stories, ideas and perspectives selected to be experienced together." },
     { property: "og:title", content: "Curated Collections — Indonesia Vibes" }, { property: "og:description", content: "Follow curated reading journeys through Indonesian culture." },
     { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" },
-  ] }),
+    ...pageIdentity("/understand-indonesia/collections").meta,
+  ], links: pageIdentity("/understand-indonesia/collections").links }),
   component: Collections,
 });
 

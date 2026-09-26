@@ -6,17 +6,20 @@ import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { collectionBySlug, collectionReadingMinutes, collectionStoryLabel } from "@/lib/collections";
 import { publicFormat } from "@/lib/editorial";
 import type { Story } from "@/types/content";
+import { pageIdentity, breadcrumbSchema } from "@/lib/public-seo";
 
 export const Route = createFileRoute("/understand-indonesia/collections/$slug")({
   loader: ({ params }) => { const collection = collectionBySlug(params.slug); if (!collection) throw notFound(); return collection; },
   head: ({ loaderData, params }) => {
     if (!loaderData) return { meta: [{ title: "Collection not found — Indonesia Vibes" }, { name: "robots", content: "noindex" }] };
+    const path = `/understand-indonesia/collections/${params.slug}`;
+    const meaningful = loaderData.status === "Published" && loaderData.storyIds.length >= 2 && Boolean(loaderData.longIntroduction?.trim());
     return { meta: [
-      { title: `${loaderData.title} — Indonesia Vibes` }, { name: "description", content: loaderData.introduction },
+      { title: `${loaderData.title} | Indonesia Vibes` }, { name: "description", content: loaderData.introduction },
       { property: "og:title", content: `${loaderData.title} — Indonesia Vibes` }, { property: "og:description", content: loaderData.introduction },
       { property: "og:type", content: "article" }, { name: "twitter:card", content: "summary_large_image" },
-      { property: "og:url", content: `/understand-indonesia/collections/${params.slug}` },
-    ], links: [{ rel: "canonical", href: `/understand-indonesia/collections/${params.slug}` }] };
+      ...pageIdentity(path).meta, ...(!meaningful ? [{ name: "robots", content: "noindex, follow" }] : []),
+    ], links: pageIdentity(path).links, scripts: [breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Understand Indonesia", path: "/understand-indonesia" }, { name: "Collections", path: "/understand-indonesia/collections" }, { name: loaderData.title, path }])] };
   },
   component: CollectionPage,
 });

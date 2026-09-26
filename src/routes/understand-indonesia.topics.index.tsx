@@ -7,6 +7,7 @@ import { TopicIcon } from "@/components/editorial/TopicIcon";
 import { stories } from "@/data/content";
 import { TOPIC_CATEGORIES, useTopics, type TopicCategory } from "@/lib/topics";
 import { cn } from "@/lib/utils";
+import { pageIdentity } from "@/lib/public-seo";
 
 export const Route = createFileRoute("/understand-indonesia/topics/")({
   head: () => ({ meta: [
@@ -15,7 +16,8 @@ export const Route = createFileRoute("/understand-indonesia/topics/")({
     { property: "og:title", content: "Explore Indonesia by Topic — Indonesia Vibes" },
     { property: "og:description", content: "A clear cultural catalogue of the subjects shaping Indonesia." },
     { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" },
-  ] }),
+    ...pageIdentity("/understand-indonesia/topics").meta,
+  ], links: pageIdentity("/understand-indonesia/topics").links }),
   component: Topics,
 });
 

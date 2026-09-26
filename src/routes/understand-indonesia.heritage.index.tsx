@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 
 import { FilterBar } from "@/components/editorial/FilterBar";
 import { HERITAGE_TYPES, heritageRecognition, heritageRecords, heritageRegion, heritageType } from "@/lib/heritage";
+import { pageIdentity } from "@/lib/public-seo";
 
 export const Route = createFileRoute("/understand-indonesia/heritage/")({
   head: () => ({ meta: [
@@ -13,7 +14,8 @@ export const Route = createFileRoute("/understand-indonesia/heritage/")({
     { property: "og:description", content: "What cultural heritage can you explore? Gamelan, Wayang, Phinisi, Sumba ikat and more." },
     { property: "og:type", content: "website" },
     { name: "twitter:card", content: "summary_large_image" },
-  ] }),
+    ...pageIdentity("/understand-indonesia/heritage").meta,
+  ], links: pageIdentity("/understand-indonesia/heritage").links }),
   component: HeritageCatalogue,
 });
 
