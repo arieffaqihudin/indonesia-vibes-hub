@@ -34,26 +34,29 @@ interface CmsContextValue extends CmsState {
 const CmsContext = createContext<CmsContextValue | null>(null);
 
 export function CmsProvider({ children }: { children: ReactNode }) {
-  const [state, setState] = useState<CmsState>(initial);
+  const [state, setRawState] = useState<CmsState>(initial);
+  // Persist synchronously so a navigation right after a change never loses it.
+  const setState = useCallback((update: (s: CmsState) => CmsState) => {
+    setRawState((prev) => {
+      const next = update(prev);
+      if (hydrated.current) { try { window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next)); } catch { /* ignore quota */ } }
+      return next;
+    });
+  }, []);
   const [editorName, setEditorName] = useState("Editor");
   const hydrated = useRef(false);
 
   useEffect(() => {
     try {
       const raw = window.localStorage.getItem(STORAGE_KEY);
-      if (raw) setState({ ...initial(), ...(JSON.parse(raw) as Partial<CmsState>) });
+      if (raw) setRawState({ ...initial(), ...(JSON.parse(raw) as Partial<CmsState>) });
     } catch { /* storage is best effort */ }
     hydrated.current = true;
   }, []);
 
-  useEffect(() => {
-    if (!hydrated.current) return;
-    try { window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch { /* ignore quota */ }
-  }, [state]);
-
   const updateRecord = useCallback((id: string, patch: Partial<CmsRecord>) => {
     setState((s) => ({ ...s, records: s.records.map((r) => (r.id === id ? { ...r, ...patch, updatedAt: now(), updatedBy: editorName } : r)) }));
-  }, [editorName]);
+  }, [editorName, setState]);
 
   const value = useMemo<CmsContextValue>(() => ({
     ...state,
@@ -76,7 +79,7 @@ export function CmsProvider({ children }: { children: ReactNode }) {
     updatePage: (id, patch) => setState((s) => ({ ...s, pages: s.pages.map((p) => (p.id === id ? { ...p, ...patch, updatedAt: now(), updatedBy: editorName } : p)) })),
     setTeam: (team) => setState((s) => ({ ...s, team })),
     updateSettings: (patch) => setState((s) => ({ ...s, settings: { ...s.settings, ...patch } })),
-  }), [state, editorName, updateRecord]);
+  }), [state, editorName, updateRecord, setState]);
 
   return <CmsContext.Provider value={value}>{children}</CmsContext.Provider>;
 }
