@@ -47,3 +47,13 @@
 - [x] Our Team registry on About (not auto-linked to cultural profiles; optional View Cultural Profile)
 - [x] Authorised author registry; CMS Author select limited to it, separate from Connections
 - [x] Person profile: "Related articles" vs "Articles by" (explicit authorship only)
+
+# CMS rebuild from scratch
+
+- [x] New sidebar (Dashboard, Content, Directory, Engagement, Website, System), minimal header, global search
+- [x] Dashboard with period selector; analytics honestly shown as "not connected" (no invented numbers)
+- [x] Shared list and edit patterns; direct editors for all modules with autosave, preview, publish
+- [x] Articles, Heritage, Topics, Collections, People & Organisations, Experience, Collaborations (+Requests), Homepage, Pages (+FAQ, Team), Settings
+- [x] Old CMS routes redirect to new modules; old CMS code removed
+- [ ] Connect a real analytics provider (needs the user's choice and account)
+- [ ] Make CMS record edits drive the public site and shared team data (CMS saves in this browser for now)
