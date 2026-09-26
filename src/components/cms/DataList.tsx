@@ -1,8 +1,8 @@
-import { Search } from "lucide-react";
 import { type ReactNode } from "react";
 
 import { cn } from "@/lib/utils";
-import { EmptyState, inputClass } from "./ui";
+import { EmptyState } from "./ui";
+import { FilterBar, type FilterDef } from "./FilterBar";
 import { Pagination, useListPagination } from "./Pagination";
 
 export interface Column<T> {
@@ -12,13 +12,6 @@ export interface Column<T> {
   /** 1 = always, 2 = hidden below md, 3 = hidden below xl. */
   priority?: 1 | 2 | 3;
   className?: string;
-}
-
-export interface FilterDef {
-  label: string;
-  value: string;
-  options: string[];
-  onChange: (value: string) => void;
 }
 
 /** The one list pattern: search, filters, table (stacked rows on mobile), pagination. */
@@ -40,18 +33,9 @@ export function DataList<T extends { id: string }>({ rows, columns, onOpen, sear
   const [first, ...rest] = columns;
   const hide = (p?: number) => (p === 2 ? "hidden md:table-cell" : p === 3 ? "hidden xl:table-cell" : "");
 
-  return <div ref={pagination.anchor} className="scroll-mt-5 rounded-lg border border-border bg-background">
-    <div className="flex flex-wrap items-center gap-2 border-b border-border p-3">
-      <label className="relative min-w-[12rem] flex-1">
-        <span className="sr-only">Search</span>
-        <Search className="pointer-events-none absolute top-1/2 left-2.5 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-        <input value={search} onChange={(e) => onSearch(e.target.value)} placeholder={searchPlaceholder} className={cn(inputClass, "pl-8")} />
-      </label>
-      {filters.length ? <div className="-mx-3 flex w-[calc(100%+1.5rem)] gap-2 overflow-x-auto px-3 sm:mx-0 sm:w-auto sm:flex-wrap sm:overflow-visible sm:px-0">{filters.map((f) => <select key={f.label} aria-label={f.label} value={f.value} onChange={(e) => f.onChange(e.target.value)} className={cn(inputClass, "w-auto min-w-[8rem] flex-none pr-8", f.value && "border-primary/50 text-primary")}>
-        <option value="">{f.label}: All</option>
-        {f.options.map((o) => <option key={o} value={o}>{o}</option>)}
-      </select>)}</div> : null}
-    </div>
+  return <div ref={pagination.anchor} className="scroll-mt-5">
+    <FilterBar search={{ value: search, onChange: onSearch, placeholder: searchPlaceholder, label: `Search ${searchPlaceholder.replace(/^Search\s*/i, "")}` }} filters={filters} />
+    <div className="rounded-lg border border-border bg-background">
 
     {rows.length === 0 ? empty : <>
       <table className="hidden w-full text-sm sm:table">
@@ -73,6 +57,7 @@ export function DataList<T extends { id: string }>({ rows, columns, onOpen, sear
     </>}
 
     <Pagination total={rows.length} {...pagination} />
+    </div>
   </div>;
 }
 
