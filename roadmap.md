@@ -1,5 +1,10 @@
 # Topic icons
 
+# CMS sidebar and pagination
+- [x] Add persistent centered-edge sidebar collapse with accessible icon navigation
+- [x] Share 10/20/50/100 pagination across content lists and Experience world view
+- [x] Verify navigation, filtering, page restoration and responsive layouts
+
 - [x] Add a controlled Lucide icon choice to each Topic with defaults and a fallback
 - [x] Show record-driven icons on homepage, catalogue, and Topic details
 - [x] Verify desktop and mobile catalogue and homepage rendering, and CMS icon selection

@@ -2,13 +2,14 @@ import { useState } from "react";
 import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Plus } from "lucide-react";
 
-import { useKept } from "@/lib/cms/kept";
+import { setKeptValue, useKept } from "@/lib/cms/kept";
 import { adminHead } from "@/lib/admin/head";
 import { formatWhen, useCms } from "@/lib/cms/store";
 import { useOptions } from "@/lib/cms/options";
 import { matches, stringSearch, uniq } from "@/lib/cms/search";
 import { CMS_STATUSES, TYPE_LABEL, editPath, type CmsRecord } from "@/lib/cms/types";
 import { DataList, type Column } from "@/components/cms/DataList";
+import { Pagination, useListPagination } from "@/components/cms/Pagination";
 import { EmptyState, NO_DATA, PageHeader, StatusBadge, Tabs, Toggle, btn, inputClass } from "@/components/cms/ui";
 import { cn } from "@/lib/utils";
 
@@ -22,14 +23,14 @@ type Tab = "events" | "places" | "world";
 
 function Experience() {
   const search = Route.useSearch();
-  const [tab, setTab] = useState<Tab>((search["tab"] as Tab) ?? "events");
+  const [tab, setTab] = useKept<Tab>("admin.experience.tab", (search["tab"] as Tab) ?? "events");
   const cta = tab === "places"
     ? <Link to="/admin/experience/$id" params={{ id: "new" }} search={{ type: "place" }} className={btn.primary}><Plus className="h-4 w-4" />New Place</Link>
     : tab === "events" ? <Link to="/admin/experience/$id" params={{ id: "new" }} search={{ type: "event" }} className={btn.primary}><Plus className="h-4 w-4" />New Event</Link> : null;
   return <>
     <PageHeader title="Experience" actions={cta} />
-    <Tabs<Tab> value={tab} onChange={setTab} tabs={[{ id: "events", label: "Events" }, { id: "places", label: "Places" }, { id: "world", label: "Around the World" }]} />
-    {tab === "events" ? <Events missingOnly={search["missing"] === "1"} /> : tab === "places" ? <Places /> : <World />}
+    <Tabs<Tab> value={tab} onChange={(next) => { setKeptValue(`page:${window.location.pathname}`, 0); setTab(next); }} tabs={[{ id: "events", label: "Events" }, { id: "places", label: "Places" }, { id: "world", label: "Around the World" }]} />
+    {tab === "events" ? <Events key="events" missingOnly={search["missing"] === "1"} /> : tab === "places" ? <Places key="places" /> : <World key="world" />}
   </>;
 }
 
@@ -55,7 +56,7 @@ function Events({ missingOnly }: { missingOnly: boolean }) {
     { key: "views", label: "Views", render: () => NO_DATA, priority: 3 },
     { key: "updated", label: "Updated", render: (r) => formatWhen(r.updatedAt), priority: 3 },
   ];
-  return <DataList rows={rows} columns={columns} onOpen={(r) => void navigate({ to: "/admin/experience/$id", params: { id: r.id } })} search={q} onSearch={setQ} searchPlaceholder="Search events…"
+  return <DataList resetKey="events" rows={rows} columns={columns} onOpen={(r) => void navigate({ to: "/admin/experience/$id", params: { id: r.id } })} search={q} onSearch={setQ} searchPlaceholder="Search events…"
     mobileMeta={(r) => <><StatusBadge status={r.status} /><span>{formatWhen(r.fields["startDate"])}</span><span>{r.fields["country"]}</span></>}
     filters={[
       { label: "When", value: when, options: ["Upcoming", "Past", "Missing information"], onChange: setWhen },
@@ -83,7 +84,7 @@ function Places() {
     { key: "views", label: "Views", render: () => NO_DATA, priority: 3 },
     { key: "updated", label: "Updated", render: (r) => formatWhen(r.updatedAt), priority: 3 },
   ];
-  return <DataList rows={rows} columns={columns} onOpen={(r) => void navigate({ to: "/admin/experience/$id", params: { id: r.id } })} search={q} onSearch={setQ} searchPlaceholder="Search places…"
+  return <DataList resetKey="places" rows={rows} columns={columns} onOpen={(r) => void navigate({ to: "/admin/experience/$id", params: { id: r.id } })} search={q} onSearch={setQ} searchPlaceholder="Search places…"
     filters={[{ label: "Type", value: type, options: uniq(all.map((r) => r.fields["placeType"])), onChange: setType }, { label: "Country", value: country, options: uniq(all.map((r) => r.fields["country"])), onChange: setCountry }]}
     empty={<EmptyState title="No places found." />} />;
 }
@@ -100,6 +101,8 @@ function World() {
   });
   const countriesOf = (r: CmsRecord) => (r.fields["countries"] ?? r.fields["country"] ?? "").split(",").map((c) => c.trim()).filter((c) => c && c !== "Indonesia");
   const rows = items.filter((r) => (!country || countriesOf(r).includes(country)) && (!type || TYPE_LABEL[r.type].one === type));
+  const pagination = useListPagination(rows.length, JSON.stringify([country, type]));
+  const visibleRows = rows.slice(pagination.visibleStart, pagination.visibleStart + pagination.size);
   const onMap = rows.filter((r) => r.fields["lat"] && r.fields["lng"]);
   const visible = (r: CmsRecord) => r.fields["worldVisible"] !== "hidden";
 
@@ -116,12 +119,15 @@ function World() {
       <select aria-label="Country" value={country} onChange={(e) => setCountry(e.target.value)} className={cn(inputClass, "w-auto")}><option value="">Country: All</option>{uniq(items.flatMap(countriesOf)).map((c) => <option key={c}>{c}</option>)}</select>
       <select aria-label="Type" value={type} onChange={(e) => setType(e.target.value)} className={cn(inputClass, "w-auto")}><option value="">Type: All</option>{["Event", "Place", "Organisation", "Collaboration"].map((c) => <option key={c}>{c}</option>)}</select>
     </div>
-    <ul className="divide-y divide-border rounded-lg border border-border bg-background">
-      {rows.map((r) => <li key={r.id} className="flex flex-wrap items-center gap-3 px-4 py-2.5">
+    <div ref={pagination.anchor} className="scroll-mt-5 rounded-lg border border-border bg-background">
+    <ul className="divide-y divide-border">
+      {visibleRows.map((r) => <li key={r.id} className="flex flex-wrap items-center gap-3 px-4 py-2.5">
         <button type="button" onClick={() => void navigate({ to: editPath(r.type), params: { id: r.id } } as never)} className="min-w-0 flex-1 text-left"><span className="block truncate text-sm font-medium text-ink hover:text-primary">{r.title}</span><span className="block text-xs text-muted-foreground">{TYPE_LABEL[r.type].one} · {countriesOf(r).join(", ")}</span></button>
         <div className="w-44"><Toggle label="Show on map" checked={visible(r)} onChange={(on) => cms.updateRecord(r.id, { fields: { ...r.fields, worldVisible: on ? "" : "hidden" } })} /></div>
       </li>)}
       {!rows.length ? <li className="px-4 py-8 text-center text-sm text-muted-foreground">Nothing matches these filters.</li> : null}
     </ul>
+    <Pagination total={rows.length} {...pagination} />
+    </div>
   </div>;
 }
