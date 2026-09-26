@@ -138,7 +138,7 @@ const subjectEntities = forms.map((f) =>
     placeIds: f.originPlaceId ? [f.originPlaceId] : [],
     publicationStatus: "published",
     visibility: "public",
-    publicPath: `/culture/${f.slug}`,
+    publicPath: f.pillar === "heritage" ? `/understand-indonesia/heritage/${f.slug}` : "/understand-indonesia",
     owner: "Editorial Owner",
     ...(f.lastReviewed ? { updatedAt: f.lastReviewed } : {}),
   }),

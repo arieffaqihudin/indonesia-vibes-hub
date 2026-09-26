@@ -219,7 +219,7 @@ function candidates(now: Date): FreshItem[] {
         kind: "recently_added",
         headline: p.record.name,
         meta: `Cultural subject · ${p.record.pillar}`,
-        href: `/culture/${p.record.slug}`,
+        href: p.record.pillar === "heritage" ? `/understand-indonesia/heritage/${p.record.slug}` : "/understand-indonesia",
         family: "profile",
         image: p.record.image,
         score: 44 - i * 2,
