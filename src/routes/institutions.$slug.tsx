@@ -18,6 +18,7 @@ import {
   resolve,
 } from "@/data/graph";
 import { events, formatEventDates, getForm, papers } from "@/data/content";
+import { heritageType, isHeritage } from "@/lib/heritage";
 
 export const Route = createFileRoute("/institutions/$slug")({
   loader: ({ params }) => {
