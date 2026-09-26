@@ -88,8 +88,8 @@ function Dashboard() {
     <div className="flex flex-wrap items-end justify-between gap-4 pt-1">
       <div><h1 className="text-[1.875rem] leading-tight font-semibold tracking-tight text-ink">Dashboard</h1><p className="mt-1 text-sm text-muted-foreground">Overview of Indonesia Vibes performance and activity.</p></div>
       <div className="flex flex-wrap items-center gap-3">
-        <div role="group" aria-label="Period" className="flex rounded-lg bg-muted/70 p-0.5">
-          {(["7", "30", "90", "custom"] as Period[]).map((p) => <button key={p} type="button" aria-pressed={period === p} onClick={() => setPeriod(p)} className={cn("h-8 rounded-md px-3 text-xs font-medium transition-all duration-200", period === p ? "bg-background text-ink shadow-sm" : "text-muted-foreground hover:text-ink")}>{p === "custom" ? "Custom" : `${p} days`}</button>)}
+        <div role="group" aria-label="Period" className="flex rounded-[var(--btn-radius)] bg-muted/70 p-0.5">
+          {(["7", "30", "90", "custom"] as Period[]).map((p) => <button key={p} type="button" aria-pressed={period === p} onClick={() => setPeriod(p)} className={cn("h-[var(--btn-h-sm)] rounded-[var(--btn-radius-sm)] px-3 text-xs font-medium transition-colors duration-150", period === p ? "bg-background text-ink shadow-sm" : "text-muted-foreground hover:text-ink")}>{p === "custom" ? "Custom" : `${p} days`}</button>)}
         </div>
         {period === "custom" ? <span className="flex items-center gap-1"><input type="date" aria-label="From" value={from} onChange={(e) => setFrom(e.target.value)} className={cn(inputClass, "h-8 w-auto")} /><span className="text-xs text-muted-foreground">–</span><input type="date" aria-label="To" value={to} onChange={(e) => setTo(e.target.value)} className={cn(inputClass, "h-8 w-auto")} /></span> : null}
         <label className="flex items-center gap-2 text-xs text-muted-foreground"><input type="checkbox" checked={compare} onChange={(e) => setCompare(e.target.checked)} className="h-3.5 w-3.5 accent-primary" />Compare to previous period</label>
