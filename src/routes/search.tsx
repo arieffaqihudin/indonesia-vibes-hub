@@ -12,8 +12,10 @@ const TYPES: SearchRecord["type"][] = [
   "Essentials",
   "Deep Dive",
   "Perspectives",
-  "Topics",
-  "People & Organisations",
+  "Heritage",
+  "People",
+  "Communities",
+  "Institutions & Organisations",
   "Places",
   "Events",
   "Collaborations",
@@ -238,7 +240,7 @@ function SearchPage() {
           <ul className="mt-8 grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-4">
             {[
               { to: "/understand-indonesia" as const, label: "Understand Indonesia", note: "Essentials, deep dives and perspectives" },
-              { to: "/people-organisations" as const, label: "People & Organisations", note: "Makers, communities, museums and universities" },
+              { to: "/understand-indonesia/people-organisations" as const, label: "People & Organisations", note: "Makers, communities, museums and universities" },
               { to: "/events-places" as const, label: "Events & Places", note: "What is on, and where" },
               { to: "/collaborate" as const, label: "Collaborate with Indonesia", note: "Examples and a way to begin" },
               { to: "/around-the-world" as const, label: "Around the World", note: "The global map" },

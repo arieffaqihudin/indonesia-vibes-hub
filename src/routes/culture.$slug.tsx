@@ -1,4 +1,4 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound, redirect } from "@tanstack/react-router";
 
 import { InstitutionCard, PersonCard, PlaceCard } from "@/components/editorial/EntityCards";
 import { DetailSection, FactList, Pill } from "@/components/editorial/ui";
@@ -10,6 +10,7 @@ export const Route = createFileRoute("/culture/$slug")({
   loader: ({ params }) => {
     const form = forms.find((f) => f.slug === params.slug);
     if (!form) throw notFound();
+    if (form.pillar === "heritage") throw redirect({ to: "/understand-indonesia/heritage/$slug", params: { slug: form.slug }, statusCode: 301 });
     return { form };
   },
   head: ({ loaderData }) => {

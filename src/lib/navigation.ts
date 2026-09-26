@@ -22,8 +22,9 @@ export const navigation: NavGroup[] = [
     intro: "Browse Articles, choose a subject, follow a reading journey, or discover who carries the culture.",
     items: [
       { label: "Topics", to: "/understand-indonesia/topics", description: "Enter through music, textiles, history, film and more." },
+      { label: "Heritage", to: "/understand-indonesia/heritage", description: "Gamelan, Wayang, Phinisi and more — one page for each cultural heritage." },
       { label: "Collections", to: "/understand-indonesia/collections", description: "Follow a deliberate sequence of stories selected to be read together." },
-      { label: "People & Organisations", to: "/people-organisations", description: "The people, communities and organisations who carry culture." },
+      { label: "People & Organisations", to: "/understand-indonesia/people-organisations", description: "The people, communities and organisations who carry culture." },
     ],
   },
   {

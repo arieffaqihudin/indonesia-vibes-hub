@@ -49,7 +49,7 @@ function AboutPage() {
           </p>
           <p>
             Directories of{" "}
-            <Link to="/people-organisations">people and organisations</Link>,{" "}
+            <Link to="/understand-indonesia/people-organisations">people and organisations</Link>,{" "}
             <Link to="/events-places">events and places</Link> and{" "}
             <Link to="/collaborate">collaborations</Link> are maintained as
             connective infrastructure for curators, researchers, funders and festival programmers.

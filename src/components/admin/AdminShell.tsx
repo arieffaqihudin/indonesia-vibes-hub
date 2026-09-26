@@ -5,7 +5,7 @@ import {
   BookOpen, ChevronDown, ChevronLeft, ChevronRight, CircleHelp, FileText,
   Handshake, Home, Layers, LayoutDashboard, Library, MapPin, Menu, Settings,
   Star, Tags, Users, X, CalendarDays, MessageSquare,
-  type LucideIcon,
+  Landmark, type LucideIcon,
 } from "lucide-react";
 
 import { useAdmin } from "@/lib/admin/store";
@@ -24,6 +24,7 @@ const NAVIGATION: NavGroup[] = [
   { label: "Understand Indonesia", items: [
     { to: "/admin/articles", label: "Articles", icon: FileText },
     { to: "/admin/topics", label: "Topics", icon: Tags },
+    { to: "/admin/heritage", label: "Heritage", icon: Landmark },
     { to: "/admin/collections", label: "Collections", icon: Library },
     { to: "/admin/people-organisations", label: "People & Organisations", icon: Users },
   ] },

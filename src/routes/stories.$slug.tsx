@@ -150,22 +150,29 @@ function StoryPage() {
 
         {(story.topics?.length || forms.length || relatedPeople.length || placesIn.length) ? <aside aria-labelledby="related-heading" className="border-t border-border pt-8 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-10">
           <h2 id="related-heading" className="eyebrow text-ink">Related to this Article</h2>
-          {(story.topics?.length || forms.length) ? (
+          {story.topics?.length ? (
             <section className="mt-7">
               <h3 className="eyebrow text-muted-foreground">Topics</h3>
               <ul className="mt-3 space-y-2">
-                {story.topics?.map((topic) => {
+                {story.topics.map((topic) => {
                   const definition = topicById(topic);
                   return <li key={topic}>{definition ? <Link to="/understand-indonesia/topics/$slug" params={{ slug: definition.slug }} className="text-sm font-medium text-ink hover:text-primary">{topic}</Link> : <span className="text-sm font-medium text-ink">{topic}</span>}</li>;
                 })}
+              </ul>
+            </section>
+          ) : null}
+
+          {forms.length ? (
+            <section className="mt-8 border-t border-border pt-7">
+              <h3 className="eyebrow text-muted-foreground">Heritage</h3>
+              <ul className="mt-3 space-y-2">
                 {forms.map((f) => (
                   <li key={f.id}>
-                    <Link
-                      to={f.pillar === "heritage" ? "/heritage" : f.pillar === "contemporary" ? "/contemporary" : "/research"}
-                      className="text-sm text-ink hover:text-primary"
-                    >
-                      {f.name} <span className="text-muted-foreground">· {f.discipline}</span>
-                    </Link>
+                    {f.pillar === "heritage" ? (
+                      <Link to="/understand-indonesia/heritage/$slug" params={{ slug: f.slug }} className="text-sm font-medium text-ink hover:text-primary">{f.name} <span className="font-normal text-muted-foreground">· {f.discipline}</span></Link>
+                    ) : (
+                      <Link to="/culture/$slug" params={{ slug: f.slug }} className="text-sm font-medium text-ink hover:text-primary">{f.name} <span className="font-normal text-muted-foreground">· {f.discipline}</span></Link>
+                    )}
                   </li>
                 ))}
               </ul>

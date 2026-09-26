@@ -229,9 +229,9 @@ const storyRecord = (s: Story): SearchRecord => ({
 export const searchRecords: SearchRecord[] = [
   ...stories.map(storyRecord),
 
-  ...forms.map((f) => ({
+  ...forms.filter((f) => f.pillar === "heritage").map((f) => ({
     id: f.id,
-    type: "Topics" as const,
+    type: "Heritage" as const,
     title: f.name,
     context: f.summary,
     location: getPlaceById(f.originPlaceId)?.name,
@@ -245,7 +245,7 @@ export const searchRecords: SearchRecord[] = [
 
   ...people.map((p) => ({
     id: p.id,
-    type: "People & Organisations" as const,
+    type: (p.entity === "community" ? "Communities" : "People") as "Communities" | "People",
     title: p.name,
     context: p.intro ?? p.bio,
     location: p.based,
@@ -269,7 +269,7 @@ export const searchRecords: SearchRecord[] = [
 
   ...institutions.map((i) => ({
     id: i.id,
-    type: "People & Organisations" as const,
+    type: "Institutions & Organisations" as const,
     title: i.name,
     context: i.profile,
     location: `${i.city}, ${i.country}`,

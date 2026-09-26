@@ -48,6 +48,7 @@ import { Route as AdminEventsRouteImport } from './routes/admin.events'
 import { Route as AdminEventsPlacesRouteImport } from './routes/admin.events-places'
 import { Route as AdminFollowUpsRouteImport } from './routes/admin.follow-ups'
 import { Route as AdminForgotPasswordRouteImport } from './routes/admin.forgot-password'
+import { Route as AdminHeritageRouteImport } from './routes/admin.heritage'
 import { Route as AdminInstitutionsRouteImport } from './routes/admin.institutions'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AdminMediaRouteImport } from './routes/admin.media'
@@ -93,6 +94,7 @@ import { Route as PlacesIndexRouteImport } from './routes/places.index'
 import { Route as PlacesSlugRouteImport } from './routes/places.$slug'
 import { Route as StoriesIndexRouteImport } from './routes/stories.index'
 import { Route as StoriesSlugRouteImport } from './routes/stories.$slug'
+import { Route as UnderstandIndonesiaPeopleOrganisationsRouteImport } from './routes/understand-indonesia.people-organisations'
 import { Route as AdminCollaborationsIndexRouteImport } from './routes/admin.collaborations.index'
 import { Route as AdminCollaborationsIdRouteImport } from './routes/admin.collaborations.$id'
 import { Route as AdminCollectionsIndexRouteImport } from './routes/admin.collections.index'
@@ -119,6 +121,8 @@ import { Route as ExploreTopicsIndexRouteImport } from './routes/explore.topics.
 import { Route as ExploreTopicsSlugRouteImport } from './routes/explore.topics.$slug'
 import { Route as UnderstandIndonesiaCollectionsIndexRouteImport } from './routes/understand-indonesia.collections.index'
 import { Route as UnderstandIndonesiaCollectionsSlugRouteImport } from './routes/understand-indonesia.collections.$slug'
+import { Route as UnderstandIndonesiaHeritageIndexRouteImport } from './routes/understand-indonesia.heritage.index'
+import { Route as UnderstandIndonesiaHeritageSlugRouteImport } from './routes/understand-indonesia.heritage.$slug'
 import { Route as UnderstandIndonesiaTopicsIndexRouteImport } from './routes/understand-indonesia.topics.index'
 import { Route as UnderstandIndonesiaTopicsSlugRouteImport } from './routes/understand-indonesia.topics.$slug'
 import { Route as AdminContentIdPreviewRouteImport } from './routes/admin.content.$id.preview'
@@ -319,6 +323,11 @@ const AdminFollowUpsRoute = AdminFollowUpsRouteImport.update({
 const AdminForgotPasswordRoute = AdminForgotPasswordRouteImport.update({
   id: '/forgot-password',
   path: '/forgot-password',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminHeritageRoute = AdminHeritageRouteImport.update({
+  id: '/heritage',
+  path: '/heritage',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminInstitutionsRoute = AdminInstitutionsRouteImport.update({
@@ -549,6 +558,12 @@ const StoriesSlugRoute = StoriesSlugRouteImport.update({
   path: '/stories/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UnderstandIndonesiaPeopleOrganisationsRoute =
+  UnderstandIndonesiaPeopleOrganisationsRouteImport.update({
+    id: '/people-organisations',
+    path: '/people-organisations',
+    getParentRoute: () => UnderstandIndonesiaRoute,
+  } as any)
 const AdminCollaborationsIndexRoute =
   AdminCollaborationsIndexRouteImport.update({
     id: '/collaborations/',
@@ -683,6 +698,18 @@ const UnderstandIndonesiaCollectionsSlugRoute =
     path: '/collections/$slug',
     getParentRoute: () => UnderstandIndonesiaRoute,
   } as any)
+const UnderstandIndonesiaHeritageIndexRoute =
+  UnderstandIndonesiaHeritageIndexRouteImport.update({
+    id: '/heritage/',
+    path: '/heritage/',
+    getParentRoute: () => UnderstandIndonesiaRoute,
+  } as any)
+const UnderstandIndonesiaHeritageSlugRoute =
+  UnderstandIndonesiaHeritageSlugRouteImport.update({
+    id: '/heritage/$slug',
+    path: '/heritage/$slug',
+    getParentRoute: () => UnderstandIndonesiaRoute,
+  } as any)
 const UnderstandIndonesiaTopicsIndexRoute =
   UnderstandIndonesiaTopicsIndexRouteImport.update({
     id: '/topics/',
@@ -758,6 +785,7 @@ export interface FileRoutesByFullPath {
   '/admin/events-places': typeof AdminEventsPlacesRoute
   '/admin/follow-ups': typeof AdminFollowUpsRoute
   '/admin/forgot-password': typeof AdminForgotPasswordRoute
+  '/admin/heritage': typeof AdminHeritageRoute
   '/admin/institutions': typeof AdminInstitutionsRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/media': typeof AdminMediaRoute
@@ -794,6 +822,7 @@ export interface FileRoutesByFullPath {
   '/people/$slug': typeof PeopleSlugRoute
   '/places/$slug': typeof PlacesSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
+  '/understand-indonesia/people-organisations': typeof UnderstandIndonesiaPeopleOrganisationsRoute
   '/admin/': typeof AdminIndexRoute
   '/collaborations/': typeof CollaborationsIndexRoute
   '/collections/': typeof CollectionsIndexRoute
@@ -818,6 +847,7 @@ export interface FileRoutesByFullPath {
   '/admin/topics/$slug': typeof AdminTopicsSlugRoute
   '/explore/topics/$slug': typeof ExploreTopicsSlugRoute
   '/understand-indonesia/collections/$slug': typeof UnderstandIndonesiaCollectionsSlugRoute
+  '/understand-indonesia/heritage/$slug': typeof UnderstandIndonesiaHeritageSlugRoute
   '/understand-indonesia/topics/$slug': typeof UnderstandIndonesiaTopicsSlugRoute
   '/admin/collaborations/': typeof AdminCollaborationsIndexRoute
   '/admin/collections/': typeof AdminCollectionsIndexRoute
@@ -831,6 +861,7 @@ export interface FileRoutesByFullPath {
   '/contributor/submissions/': typeof ContributorSubmissionsIndexRoute
   '/explore/topics/': typeof ExploreTopicsIndexRoute
   '/understand-indonesia/collections/': typeof UnderstandIndonesiaCollectionsIndexRoute
+  '/understand-indonesia/heritage/': typeof UnderstandIndonesiaHeritageIndexRoute
   '/understand-indonesia/topics/': typeof UnderstandIndonesiaTopicsIndexRoute
   '/admin/content/$id/preview': typeof AdminContentIdPreviewRoute
   '/contributor/submissions/$id/revise': typeof ContributorSubmissionsIdReviseRoute
@@ -875,6 +906,7 @@ export interface FileRoutesByTo {
   '/admin/events-places': typeof AdminEventsPlacesRoute
   '/admin/follow-ups': typeof AdminFollowUpsRoute
   '/admin/forgot-password': typeof AdminForgotPasswordRoute
+  '/admin/heritage': typeof AdminHeritageRoute
   '/admin/institutions': typeof AdminInstitutionsRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/media': typeof AdminMediaRoute
@@ -911,6 +943,7 @@ export interface FileRoutesByTo {
   '/people/$slug': typeof PeopleSlugRoute
   '/places/$slug': typeof PlacesSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
+  '/understand-indonesia/people-organisations': typeof UnderstandIndonesiaPeopleOrganisationsRoute
   '/admin': typeof AdminIndexRoute
   '/collaborations': typeof CollaborationsIndexRoute
   '/collections': typeof CollectionsIndexRoute
@@ -935,6 +968,7 @@ export interface FileRoutesByTo {
   '/admin/topics/$slug': typeof AdminTopicsSlugRoute
   '/explore/topics/$slug': typeof ExploreTopicsSlugRoute
   '/understand-indonesia/collections/$slug': typeof UnderstandIndonesiaCollectionsSlugRoute
+  '/understand-indonesia/heritage/$slug': typeof UnderstandIndonesiaHeritageSlugRoute
   '/understand-indonesia/topics/$slug': typeof UnderstandIndonesiaTopicsSlugRoute
   '/admin/collaborations': typeof AdminCollaborationsIndexRoute
   '/admin/collections': typeof AdminCollectionsIndexRoute
@@ -948,6 +982,7 @@ export interface FileRoutesByTo {
   '/contributor/submissions': typeof ContributorSubmissionsIndexRoute
   '/explore/topics': typeof ExploreTopicsIndexRoute
   '/understand-indonesia/collections': typeof UnderstandIndonesiaCollectionsIndexRoute
+  '/understand-indonesia/heritage': typeof UnderstandIndonesiaHeritageIndexRoute
   '/understand-indonesia/topics': typeof UnderstandIndonesiaTopicsIndexRoute
   '/admin/content/$id/preview': typeof AdminContentIdPreviewRoute
   '/contributor/submissions/$id/revise': typeof ContributorSubmissionsIdReviseRoute
@@ -994,6 +1029,7 @@ export interface FileRoutesById {
   '/admin/events-places': typeof AdminEventsPlacesRoute
   '/admin/follow-ups': typeof AdminFollowUpsRoute
   '/admin/forgot-password': typeof AdminForgotPasswordRoute
+  '/admin/heritage': typeof AdminHeritageRoute
   '/admin/institutions': typeof AdminInstitutionsRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/media': typeof AdminMediaRoute
@@ -1030,6 +1066,7 @@ export interface FileRoutesById {
   '/people/$slug': typeof PeopleSlugRoute
   '/places/$slug': typeof PlacesSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
+  '/understand-indonesia/people-organisations': typeof UnderstandIndonesiaPeopleOrganisationsRoute
   '/admin/': typeof AdminIndexRoute
   '/collaborations/': typeof CollaborationsIndexRoute
   '/collections/': typeof CollectionsIndexRoute
@@ -1054,6 +1091,7 @@ export interface FileRoutesById {
   '/admin/topics/$slug': typeof AdminTopicsSlugRoute
   '/explore/topics/$slug': typeof ExploreTopicsSlugRoute
   '/understand-indonesia/collections/$slug': typeof UnderstandIndonesiaCollectionsSlugRoute
+  '/understand-indonesia/heritage/$slug': typeof UnderstandIndonesiaHeritageSlugRoute
   '/understand-indonesia/topics/$slug': typeof UnderstandIndonesiaTopicsSlugRoute
   '/admin/collaborations/': typeof AdminCollaborationsIndexRoute
   '/admin/collections/': typeof AdminCollectionsIndexRoute
@@ -1067,6 +1105,7 @@ export interface FileRoutesById {
   '/contributor/submissions/': typeof ContributorSubmissionsIndexRoute
   '/explore/topics/': typeof ExploreTopicsIndexRoute
   '/understand-indonesia/collections/': typeof UnderstandIndonesiaCollectionsIndexRoute
+  '/understand-indonesia/heritage/': typeof UnderstandIndonesiaHeritageIndexRoute
   '/understand-indonesia/topics/': typeof UnderstandIndonesiaTopicsIndexRoute
   '/admin/content/$id/preview': typeof AdminContentIdPreviewRoute
   '/contributor/submissions/$id/revise': typeof ContributorSubmissionsIdReviseRoute
@@ -1114,6 +1153,7 @@ export interface FileRouteTypes {
     | '/admin/events-places'
     | '/admin/follow-ups'
     | '/admin/forgot-password'
+    | '/admin/heritage'
     | '/admin/institutions'
     | '/admin/login'
     | '/admin/media'
@@ -1150,6 +1190,7 @@ export interface FileRouteTypes {
     | '/people/$slug'
     | '/places/$slug'
     | '/stories/$slug'
+    | '/understand-indonesia/people-organisations'
     | '/admin/'
     | '/collaborations/'
     | '/collections/'
@@ -1174,6 +1215,7 @@ export interface FileRouteTypes {
     | '/admin/topics/$slug'
     | '/explore/topics/$slug'
     | '/understand-indonesia/collections/$slug'
+    | '/understand-indonesia/heritage/$slug'
     | '/understand-indonesia/topics/$slug'
     | '/admin/collaborations/'
     | '/admin/collections/'
@@ -1187,6 +1229,7 @@ export interface FileRouteTypes {
     | '/contributor/submissions/'
     | '/explore/topics/'
     | '/understand-indonesia/collections/'
+    | '/understand-indonesia/heritage/'
     | '/understand-indonesia/topics/'
     | '/admin/content/$id/preview'
     | '/contributor/submissions/$id/revise'
@@ -1231,6 +1274,7 @@ export interface FileRouteTypes {
     | '/admin/events-places'
     | '/admin/follow-ups'
     | '/admin/forgot-password'
+    | '/admin/heritage'
     | '/admin/institutions'
     | '/admin/login'
     | '/admin/media'
@@ -1267,6 +1311,7 @@ export interface FileRouteTypes {
     | '/people/$slug'
     | '/places/$slug'
     | '/stories/$slug'
+    | '/understand-indonesia/people-organisations'
     | '/admin'
     | '/collaborations'
     | '/collections'
@@ -1291,6 +1336,7 @@ export interface FileRouteTypes {
     | '/admin/topics/$slug'
     | '/explore/topics/$slug'
     | '/understand-indonesia/collections/$slug'
+    | '/understand-indonesia/heritage/$slug'
     | '/understand-indonesia/topics/$slug'
     | '/admin/collaborations'
     | '/admin/collections'
@@ -1304,6 +1350,7 @@ export interface FileRouteTypes {
     | '/contributor/submissions'
     | '/explore/topics'
     | '/understand-indonesia/collections'
+    | '/understand-indonesia/heritage'
     | '/understand-indonesia/topics'
     | '/admin/content/$id/preview'
     | '/contributor/submissions/$id/revise'
@@ -1349,6 +1396,7 @@ export interface FileRouteTypes {
     | '/admin/events-places'
     | '/admin/follow-ups'
     | '/admin/forgot-password'
+    | '/admin/heritage'
     | '/admin/institutions'
     | '/admin/login'
     | '/admin/media'
@@ -1385,6 +1433,7 @@ export interface FileRouteTypes {
     | '/people/$slug'
     | '/places/$slug'
     | '/stories/$slug'
+    | '/understand-indonesia/people-organisations'
     | '/admin/'
     | '/collaborations/'
     | '/collections/'
@@ -1409,6 +1458,7 @@ export interface FileRouteTypes {
     | '/admin/topics/$slug'
     | '/explore/topics/$slug'
     | '/understand-indonesia/collections/$slug'
+    | '/understand-indonesia/heritage/$slug'
     | '/understand-indonesia/topics/$slug'
     | '/admin/collaborations/'
     | '/admin/collections/'
@@ -1422,6 +1472,7 @@ export interface FileRouteTypes {
     | '/contributor/submissions/'
     | '/explore/topics/'
     | '/understand-indonesia/collections/'
+    | '/understand-indonesia/heritage/'
     | '/understand-indonesia/topics/'
     | '/admin/content/$id/preview'
     | '/contributor/submissions/$id/revise'
@@ -1766,6 +1817,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminForgotPasswordRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/heritage': {
+      id: '/admin/heritage'
+      path: '/heritage'
+      fullPath: '/admin/heritage'
+      preLoaderRoute: typeof AdminHeritageRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/institutions': {
       id: '/admin/institutions'
       path: '/institutions'
@@ -2081,6 +2139,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StoriesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/understand-indonesia/people-organisations': {
+      id: '/understand-indonesia/people-organisations'
+      path: '/people-organisations'
+      fullPath: '/understand-indonesia/people-organisations'
+      preLoaderRoute: typeof UnderstandIndonesiaPeopleOrganisationsRouteImport
+      parentRoute: typeof UnderstandIndonesiaRoute
+    }
     '/admin/collaborations/': {
       id: '/admin/collaborations/'
       path: '/collaborations'
@@ -2263,6 +2328,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UnderstandIndonesiaCollectionsSlugRouteImport
       parentRoute: typeof UnderstandIndonesiaRoute
     }
+    '/understand-indonesia/heritage/': {
+      id: '/understand-indonesia/heritage/'
+      path: '/heritage'
+      fullPath: '/understand-indonesia/heritage/'
+      preLoaderRoute: typeof UnderstandIndonesiaHeritageIndexRouteImport
+      parentRoute: typeof UnderstandIndonesiaRoute
+    }
+    '/understand-indonesia/heritage/$slug': {
+      id: '/understand-indonesia/heritage/$slug'
+      path: '/heritage/$slug'
+      fullPath: '/understand-indonesia/heritage/$slug'
+      preLoaderRoute: typeof UnderstandIndonesiaHeritageSlugRouteImport
+      parentRoute: typeof UnderstandIndonesiaRoute
+    }
     '/understand-indonesia/topics/': {
       id: '/understand-indonesia/topics/'
       path: '/topics'
@@ -2336,6 +2415,7 @@ interface AdminRouteChildren {
   AdminEventsPlacesRoute: typeof AdminEventsPlacesRoute
   AdminFollowUpsRoute: typeof AdminFollowUpsRoute
   AdminForgotPasswordRoute: typeof AdminForgotPasswordRoute
+  AdminHeritageRoute: typeof AdminHeritageRoute
   AdminInstitutionsRoute: typeof AdminInstitutionsRoute
   AdminLoginRoute: typeof AdminLoginRoute
   AdminMediaRoute: typeof AdminMediaRoute
@@ -2390,6 +2470,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminEventsPlacesRoute: AdminEventsPlacesRoute,
   AdminFollowUpsRoute: AdminFollowUpsRoute,
   AdminForgotPasswordRoute: AdminForgotPasswordRoute,
+  AdminHeritageRoute: AdminHeritageRoute,
   AdminInstitutionsRoute: AdminInstitutionsRoute,
   AdminLoginRoute: AdminLoginRoute,
   AdminMediaRoute: AdminMediaRoute,
@@ -2443,18 +2524,25 @@ const CollaborateRouteWithChildren = CollaborateRoute._addFileChildren(
 )
 
 interface UnderstandIndonesiaRouteChildren {
+  UnderstandIndonesiaPeopleOrganisationsRoute: typeof UnderstandIndonesiaPeopleOrganisationsRoute
   UnderstandIndonesiaCollectionsSlugRoute: typeof UnderstandIndonesiaCollectionsSlugRoute
+  UnderstandIndonesiaHeritageSlugRoute: typeof UnderstandIndonesiaHeritageSlugRoute
   UnderstandIndonesiaTopicsSlugRoute: typeof UnderstandIndonesiaTopicsSlugRoute
   UnderstandIndonesiaCollectionsIndexRoute: typeof UnderstandIndonesiaCollectionsIndexRoute
+  UnderstandIndonesiaHeritageIndexRoute: typeof UnderstandIndonesiaHeritageIndexRoute
   UnderstandIndonesiaTopicsIndexRoute: typeof UnderstandIndonesiaTopicsIndexRoute
 }
 
 const UnderstandIndonesiaRouteChildren: UnderstandIndonesiaRouteChildren = {
+  UnderstandIndonesiaPeopleOrganisationsRoute:
+    UnderstandIndonesiaPeopleOrganisationsRoute,
   UnderstandIndonesiaCollectionsSlugRoute:
     UnderstandIndonesiaCollectionsSlugRoute,
+  UnderstandIndonesiaHeritageSlugRoute: UnderstandIndonesiaHeritageSlugRoute,
   UnderstandIndonesiaTopicsSlugRoute: UnderstandIndonesiaTopicsSlugRoute,
   UnderstandIndonesiaCollectionsIndexRoute:
     UnderstandIndonesiaCollectionsIndexRoute,
+  UnderstandIndonesiaHeritageIndexRoute: UnderstandIndonesiaHeritageIndexRoute,
   UnderstandIndonesiaTopicsIndexRoute: UnderstandIndonesiaTopicsIndexRoute,
 }
 

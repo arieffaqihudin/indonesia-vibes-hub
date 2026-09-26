@@ -478,7 +478,10 @@ export interface SearchRecord {
     | "Deep Dive"
     | "Perspectives"
     | "Topics"
-    | "People & Organisations"
+    | "Heritage"
+    | "People"
+    | "Communities"
+    | "Institutions & Organisations"
     | "Places"
     | "Events"
     | "Collaborations";

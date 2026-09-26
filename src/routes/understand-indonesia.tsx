@@ -8,6 +8,7 @@ import { formatDate, stories } from "@/data/content";
 import { attribution } from "@/lib/attribution";
 import { publicFormat, PUBLIC_FORMATS, type PublicFormat } from "@/lib/editorial";
 import { TOPICS } from "@/lib/topics";
+import { heritageRecords, heritageType } from "@/lib/heritage";
 
 export const Route = createFileRoute("/understand-indonesia")({
   head: () => ({ meta: [
@@ -42,6 +43,12 @@ function UnderstandIndonesia() {
       { id: "topic", label: "Topic", options: TOPICS.map((item) => item.id), value: topic || null, onChange: (value) => setTopic(value ?? ""), allLabel: "All topics" },
       { id: "format", label: "Format", options: PUBLIC_FORMATS, value: format, onChange: (value) => setFormat(value as PublicFormat | null), allLabel: "All formats" },
     ]} sort={{ options: ["Latest", "Oldest"], value: sort, onChange: (value) => setSort(value === "Oldest" ? "Oldest" : "Latest") }} resultCount={visible.length} resultNoun={visible.length === 1 ? "article" : "articles"} />
+    <section aria-labelledby="explore-heritage" className="border-b border-border bg-sand">
+      <div className="container-editorial py-10">
+        <div className="flex items-end justify-between gap-4"><div><p className="eyebrow text-primary">Explore Heritage</p><h2 id="explore-heritage" className="mt-2 text-2xl font-medium text-ink">Cultural heritage, one page each</h2></div><Link to="/understand-indonesia/heritage" className="inline-flex min-h-11 shrink-0 items-center gap-1 text-sm font-medium text-primary">View All Heritage <ArrowRight className="h-4 w-4" /></Link></div>
+        <ul className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-4">{heritageRecords.slice(0, 4).map((item) => <li key={item.id}><Link to="/understand-indonesia/heritage/$slug" params={{ slug: item.slug }} className="group block"><img src={item.image} alt="" loading="lazy" className="aspect-[4/3] w-full object-cover" /><span className="mt-2 block text-xs text-muted-foreground">{heritageType(item)}</span><span className="block font-medium text-ink group-hover:text-primary">{item.name}</span></Link></li>)}</ul>
+      </div>
+    </section>
     <main className="container-editorial py-12 md:py-16">
       <div className="flex items-end justify-between gap-4 border-b border-border pb-5"><div><p className="eyebrow text-primary">Browse Articles</p><h2 className="mt-2 text-3xl font-medium text-ink">All Articles</h2></div><p className="text-sm text-muted-foreground">{visible.length} published</p></div>
       {visible.length ? <div className="divide-y divide-border">{visible.map((article) => {
