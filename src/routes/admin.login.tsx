@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
 import { Eye, EyeOff } from "lucide-react";
 
-import { AdminAuthLayout } from "@/components/admin/AdminAuthLayout";
+import { AdminAuthLayout } from "@/components/cms/AuthLayout";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 
