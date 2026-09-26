@@ -1,44 +1,59 @@
+import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
 import { supabase } from "@/integrations/supabase/client";
-import { clearAccountCache } from "@/lib/cms/role";
-import { inputClass } from "./ui";
+import { refreshAccount } from "@/lib/cms/role";
+import { cn } from "@/lib/utils";
+import { btn, inputClass } from "./ui";
 
-/** Signed-in password change through the real auth backend. */
-export function ChangePasswordDialog({ onClose }: { onClose: () => void }) {
+const RULES: [string, (p: string) => boolean][] = [
+  ["At least 8 characters", (p) => p.length >= 8],
+  ["An uppercase letter", (p) => /[A-Z]/.test(p)],
+  ["A lowercase letter", (p) => /[a-z]/.test(p)],
+  ["A number", (p) => /\d/.test(p)],
+  ["A special character", (p) => /[^A-Za-z0-9]/.test(p)],
+];
+
+function PasswordInput({ id, label, value, onChange, autoComplete }: { id: string; label: string; value: string; onChange: (v: string) => void; autoComplete: string }) {
+  const [show, setShow] = useState(false);
+  return <div><label htmlFor={id} className="mb-1.5 block text-xs font-medium text-ink">{label}</label>
+    <div className="relative"><input id={id} type={show ? "text" : "password"} autoComplete={autoComplete} value={value} onChange={(e) => onChange(e.target.value)} className={cn(inputClass, "h-11 pr-11")} />
+      <button type="button" onClick={() => setShow(!show)} aria-label={show ? "Hide password" : "Show password"} className="absolute inset-y-0 right-0 flex w-11 items-center justify-center text-muted-foreground hover:text-ink">{show ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}</button></div>
+  </div>;
+}
+
+/** Signed-in password change through the real auth backend; the current password is verified first. */
+export function ChangePasswordForm({ email }: { email: string }) {
   const [current, setCurrent] = useState("");
   const [next, setNext] = useState("");
   const [confirm, setConfirm] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
+  const ok = RULES.every(([, t]) => t(next));
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
-    if (next.length < 8) return setError("Use at least 8 characters.");
+    if (!current) return setError("Enter your current password.");
+    if (!ok) return setError("Your new password doesn't meet all the requirements.");
     if (next !== confirm) return setError("Passwords do not match.");
     setBusy(true); setError("");
-    const { error: err } = await supabase.auth.updateUser({ password: next, current_password: current, data: { must_change_password: false } } as Parameters<typeof supabase.auth.updateUser>[0]);
+    const check = await supabase.auth.signInWithPassword({ email, password: current });
+    if (check.error) { setBusy(false); return setError("Your current password is incorrect."); }
+    const { error: err } = await supabase.auth.updateUser({ password: next, data: { must_change_password: false } });
     setBusy(false);
-    if (err) return setError(err.message.toLowerCase().includes("current") ? "Your current password is incorrect." : err.message);
-    clearAccountCache();
-    toast.success("Password updated");
-    onClose();
-    window.location.reload();
+    if (err) return setError(/same|different/i.test(err.message) ? "Choose a password you haven't used before." : err.message);
+    setCurrent(""); setNext(""); setConfirm("");
+    void refreshAccount();
+    toast.success("Password updated successfully.");
   }
 
-  return <div className="fixed inset-0 z-[60] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="Change password">
-    <button type="button" aria-label="Close" className="absolute inset-0 bg-ink/40" onClick={onClose} />
-    <form onSubmit={(e) => void submit(e)} className="relative w-full max-w-sm rounded-md border border-border bg-background p-5 shadow-xl">
-      <h2 className="text-base font-semibold text-ink">Set a new password</h2>
-      <label className="mt-4 block text-xs font-medium text-ink">Current password<input type="password" autoComplete="current-password" value={current} onChange={(e) => setCurrent(e.target.value)} className={`${inputClass} mt-1`} required /></label>
-      <label className="mt-3 block text-xs font-medium text-ink">New password<input type="password" autoComplete="new-password" value={next} onChange={(e) => setNext(e.target.value)} className={`${inputClass} mt-1`} required /></label>
-      <label className="mt-3 block text-xs font-medium text-ink">Confirm new password<input type="password" autoComplete="new-password" value={confirm} onChange={(e) => setConfirm(e.target.value)} className={`${inputClass} mt-1`} required /></label>
-      {error ? <p role="alert" className="mt-3 text-xs text-destructive">{error}</p> : null}
-      <div className="mt-5 flex justify-end gap-2">
-        <button type="button" onClick={onClose} className="h-9 rounded-md border border-border px-3 text-sm">Cancel</button>
-        <button type="submit" disabled={busy} className="h-9 rounded-md bg-primary px-3 text-sm font-medium text-primary-foreground disabled:opacity-60">{busy ? "Saving…" : "Update password"}</button>
-      </div>
-    </form>
-  </div>;
+  return <form onSubmit={(e) => void submit(e)} className="max-w-sm space-y-4" noValidate>
+    <PasswordInput id="pw-current" label="Current Password" value={current} onChange={setCurrent} autoComplete="current-password" />
+    <PasswordInput id="pw-new" label="New Password" value={next} onChange={setNext} autoComplete="new-password" />
+    <ul className="grid gap-1 text-xs sm:grid-cols-2">{RULES.map(([label, test]) => <li key={label} className={test(next) ? "text-primary" : "text-muted-foreground"}>{test(next) ? "✓" : "·"} {label}</li>)}</ul>
+    <PasswordInput id="pw-confirm" label="Confirm New Password" value={confirm} onChange={setConfirm} autoComplete="new-password" />
+    {error ? <p role="alert" className="text-xs text-deep-red">{error}</p> : null}
+    <button type="submit" disabled={busy} className={btn.primary}>{busy ? "Saving…" : "Change Password"}</button>
+  </form>;
 }
