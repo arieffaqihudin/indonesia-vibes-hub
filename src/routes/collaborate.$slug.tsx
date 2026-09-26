@@ -11,16 +11,17 @@ import {
   resolve,
 } from "@/data/graph";
 import { events, formatEventDates, getForm, stories } from "@/data/content";
+import { pageIdentity, breadcrumbSchema } from "@/lib/public-seo";
 
 export const Route = createFileRoute("/collaborate/$slug")({
   loader: ({ params }) => {
     const collaboration = getCollaborationBySlug(params.slug);
     if (!collaboration) throw notFound();
     // Only Collaboration Stories have a public page; showcase records live on /collaborate.
-    if (!collaboration.publicStory) throw redirect({ to: "/collaborate", statusCode: 301 });
+    if (!collaboration.publicStory || !collaboration.intro?.trim() || !collaboration.objectives?.length) throw redirect({ to: "/collaborate", statusCode: 301 });
     return { collaboration };
   },
-  head: ({ loaderData }) => {
+  head: ({ loaderData, params }) => {
     if (!loaderData) {
       return {
         meta: [
@@ -30,6 +31,7 @@ export const Route = createFileRoute("/collaborate/$slug")({
       };
     }
     const { collaboration } = loaderData;
+    const path = `/collaborate/${params.slug}`;
     return {
       meta: [
         { title: `${collaboration.title} — Indonesia Vibes` },
@@ -38,7 +40,10 @@ export const Route = createFileRoute("/collaborate/$slug")({
         { property: "og:description", content: collaboration.intro },
         { property: "og:type", content: "article" },
         { name: "twitter:card", content: "summary_large_image" },
+        ...pageIdentity(path).meta,
       ],
+      links: pageIdentity(path).links,
+      scripts: [breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Collaborate", path: "/collaborate" }, { name: collaboration.title, path }])],
     };
   },
   component: CollaborationPage,

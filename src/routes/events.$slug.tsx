@@ -2,6 +2,8 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 
 import { eventLocationLabel, eventStatus, formatDate, formatEventDates, getEvent, getForm, getPerson, getPlace } from "@/data/content";
 import type { CulturalEvent, CulturalForm, Person } from "@/types/content";
+import { pageIdentity, publicUrl, breadcrumbSchema } from "@/lib/public-seo";
+import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 
 export const Route = createFileRoute("/events/$slug")({
   loader: ({ params }): { event: CulturalEvent } => {
@@ -14,16 +16,21 @@ export const Route = createFileRoute("/events/$slug")({
       return { meta: [{ title: "Event not found — Indonesia Vibes" }, { name: "robots", content: "noindex" }] };
     }
     const { event } = loaderData;
+    const path = `/events/${params.slug}`;
+    const description = event.summary ?? event.sourceNote ?? `${event.title} — a cultural event in Indonesia Vibes' events and places directory.`;
+    const place = event.placeId ? getPlace(event.placeId) : undefined;
     return {
       meta: [
-        { title: `${event.title} — Indonesia Vibes` },
-        { name: "description", content: event.summary ?? event.sourceNote ?? `${event.title} — an Indonesian cultural activity listed on Indonesia Vibes.` },
+        { title: `${event.title} | Indonesia Vibes` },
+        { name: "description", content: description },
         { property: "og:title", content: event.title },
-        { property: "og:description", content: event.summary ?? event.sourceNote ?? `${event.title} — an Indonesian cultural activity listed on Indonesia Vibes.` },
-        { property: "og:type", content: "article" },
-        { property: "og:url", content: `/events/${params.slug}` },
+        { property: "og:description", content: description },
+        { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary_large_image" },
+        ...pageIdentity(path).meta,
       ],
-      links: [{ rel: "canonical", href: `/events/${params.slug}` }],
+      links: pageIdentity(path).links,
+      scripts: [breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Experience", path: "/experience" }, { name: "Events & Places", path: "/events-places" }, { name: event.title, path }]), ...(event.datePrecision !== "month" && /^\d{4}-\d{2}-\d{2}$/.test(event.startDate) ? [{ type: "application/ld+json", children: JSON.stringify({ "@context": "https://schema.org", "@type": "Event", name: event.title, description, url: publicUrl(path), startDate: event.startDate, ...(event.endDate && /^\d{4}-\d{2}-\d{2}$/.test(event.endDate) ? { endDate: event.endDate } : {}), ...(event.organiser ? { organizer: { "@type": "Organization", name: event.organiser } } : {}), ...(place || event.location ? { location: { "@type": "Place", name: event.venue ?? place?.name ?? event.location?.city ?? event.location?.country, ...(place ? { address: { "@type": "PostalAddress", addressLocality: place.city, addressCountry: place.country } } : {}) } } : {}) }) }] : [])],
     };
   },
   notFoundComponent: () => (
@@ -48,6 +55,7 @@ function EventPage() {
   return (
     <article>
       <header className="container-editorial pt-14 pb-10">
+        <Breadcrumbs className="mb-6" items={[{ label: "Experience", to: "/experience" }, { label: "Events & Places", to: "/events-places" }, { label: event.title }]} />
         <p className="eyebrow text-primary">{[event.type, locationLabel].filter(Boolean).join(" · ")}</p>
         <h1 className="display-1 mt-5 max-w-4xl text-ink">{event.title}</h1>
         {event.summary || event.sourceNote ? (
