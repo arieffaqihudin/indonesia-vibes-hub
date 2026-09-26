@@ -39,7 +39,6 @@ import { Route as AdminForgotPasswordRouteImport } from './routes/admin.forgot-p
 import { Route as AdminHomepageRouteImport } from './routes/admin.homepage'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AdminResetPasswordRouteImport } from './routes/admin.reset-password'
-import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as CollaborateSlugRouteImport } from './routes/collaborate.$slug'
 import { Route as CollaborationsIndexRouteImport } from './routes/collaborations.index'
 import { Route as CollaborationsSlugRouteImport } from './routes/collaborations.$slug'
@@ -253,11 +252,6 @@ const AdminLoginRoute = AdminLoginRouteImport.update({
 const AdminResetPasswordRoute = AdminResetPasswordRouteImport.update({
   id: '/reset-password',
   path: '/reset-password',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminSettingsRoute = AdminSettingsRouteImport.update({
-  id: '/settings',
-  path: '/settings',
   getParentRoute: () => AdminRoute,
 } as any)
 const CollaborateSlugRoute = CollaborateSlugRouteImport.update({
@@ -628,7 +622,6 @@ export interface FileRoutesByFullPath {
   '/admin/homepage': typeof AdminHomepageRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/reset-password': typeof AdminResetPasswordRoute
-  '/admin/settings': typeof AdminSettingsRoute
   '/collaborate/$slug': typeof CollaborateSlugRoute
   '/collaborations/$slug': typeof CollaborationsSlugRoute
   '/collections/$slug': typeof CollectionsSlugRoute
@@ -724,7 +717,6 @@ export interface FileRoutesByTo {
   '/admin/homepage': typeof AdminHomepageRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/reset-password': typeof AdminResetPasswordRoute
-  '/admin/settings': typeof AdminSettingsRoute
   '/collaborate/$slug': typeof CollaborateSlugRoute
   '/collaborations/$slug': typeof CollaborationsSlugRoute
   '/collections/$slug': typeof CollectionsSlugRoute
@@ -822,7 +814,6 @@ export interface FileRoutesById {
   '/admin/homepage': typeof AdminHomepageRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/reset-password': typeof AdminResetPasswordRoute
-  '/admin/settings': typeof AdminSettingsRoute
   '/collaborate/$slug': typeof CollaborateSlugRoute
   '/collaborations/$slug': typeof CollaborationsSlugRoute
   '/collections/$slug': typeof CollectionsSlugRoute
@@ -921,7 +912,6 @@ export interface FileRouteTypes {
     | '/admin/homepage'
     | '/admin/login'
     | '/admin/reset-password'
-    | '/admin/settings'
     | '/collaborate/$slug'
     | '/collaborations/$slug'
     | '/collections/$slug'
@@ -1017,7 +1007,6 @@ export interface FileRouteTypes {
     | '/admin/homepage'
     | '/admin/login'
     | '/admin/reset-password'
-    | '/admin/settings'
     | '/collaborate/$slug'
     | '/collaborations/$slug'
     | '/collections/$slug'
@@ -1114,7 +1103,6 @@ export interface FileRouteTypes {
     | '/admin/homepage'
     | '/admin/login'
     | '/admin/reset-password'
-    | '/admin/settings'
     | '/collaborate/$slug'
     | '/collaborations/$slug'
     | '/collections/$slug'
@@ -1454,13 +1442,6 @@ declare module '@tanstack/react-router' {
       path: '/reset-password'
       fullPath: '/admin/reset-password'
       preLoaderRoute: typeof AdminResetPasswordRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/settings': {
-      id: '/admin/settings'
-      path: '/settings'
-      fullPath: '/admin/settings'
-      preLoaderRoute: typeof AdminSettingsRouteImport
       parentRoute: typeof AdminRoute
     }
     '/collaborate/$slug': {
@@ -1921,7 +1902,6 @@ interface AdminRouteChildren {
   AdminHomepageRoute: typeof AdminHomepageRoute
   AdminLoginRoute: typeof AdminLoginRoute
   AdminResetPasswordRoute: typeof AdminResetPasswordRoute
-  AdminSettingsRoute: typeof AdminSettingsRoute
   AdminIndexRoute: typeof AdminIndexRoute
   AdminArticlesIdRoute: typeof AdminArticlesIdRoute
   AdminCollaborationsIdRoute: typeof AdminCollaborationsIdRoute
@@ -1952,7 +1932,6 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminHomepageRoute: AdminHomepageRoute,
   AdminLoginRoute: AdminLoginRoute,
   AdminResetPasswordRoute: AdminResetPasswordRoute,
-  AdminSettingsRoute: AdminSettingsRoute,
   AdminIndexRoute: AdminIndexRoute,
   AdminArticlesIdRoute: AdminArticlesIdRoute,
   AdminCollaborationsIdRoute: AdminCollaborationsIdRoute,

@@ -1,7 +1,7 @@
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import {
-  CalendarDays, ExternalLink, FileText, Handshake, Home, Landmark, LayoutDashboard, Library, KeyRound, LogOut, Menu, UserRound, Search, Settings, Tags, Users, X, Files, type LucideIcon,
+  CalendarDays, ExternalLink, FileText, Handshake, History, Home, Landmark, LayoutDashboard, Library, KeyRound, LogOut, Menu, UserRound, Search, ShieldCheck, Tags, UserCog, Users, X, Files, type LucideIcon,
 } from "lucide-react";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 
@@ -9,35 +9,21 @@ import markRed from "@/assets/mark-red.png";
 import { supabase } from "@/integrations/supabase/client";
 import { useCollections } from "@/lib/collections";
 import { useCms } from "@/lib/cms/store";
+import { ALL_MENUS, MENU_GROUPS, type MenuKey } from "@/lib/cms/access";
+import { logActivity } from "@/lib/cms/activity";
 import { clearAccountCache, useCmsAccount } from "@/lib/cms/role";
 import { TYPE_LABEL, editPath } from "@/lib/cms/types";
 import { useTopics } from "@/lib/topics";
 import { cn } from "@/lib/utils";
 import { inputClass } from "./ui";
-import { ChangePasswordDialog } from "./ChangePassword";
 
-type NavItem = { to: string; label: string; icon: LucideIcon };
-const NAV: { label?: string; items: NavItem[] }[] = [
-  { items: [{ to: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard }] },
-  { label: "Content", items: [
-    { to: "/admin/articles", label: "Articles", icon: FileText },
-    { to: "/admin/heritage", label: "Heritage", icon: Landmark },
-    { to: "/admin/topics", label: "Topics", icon: Tags },
-    { to: "/admin/collections", label: "Collections", icon: Library },
-  ] },
-  { label: "Directory", items: [
-    { to: "/admin/people-organisations", label: "People & Organisations", icon: Users },
-    { to: "/admin/experience", label: "Experience", icon: CalendarDays },
-  ] },
-  { label: "Engagement", items: [{ to: "/admin/collaborations", label: "Collaborations", icon: Handshake }] },
-  { label: "Website", items: [
-    { to: "/admin/homepage", label: "Homepage", icon: Home },
-    { to: "/admin/pages", label: "Pages", icon: Files },
-  ] },
-  { label: "System", items: [{ to: "/admin/settings", label: "Settings", icon: Settings }] },
-];
+const ICONS: Record<MenuKey, LucideIcon> = {
+  dashboard: LayoutDashboard, articles: FileText, heritage: Landmark, topics: Tags, collections: Library,
+  people: Users, experience: CalendarDays, collaborations: Handshake, homepage: Home, pages: Files,
+  access: ShieldCheck, users: UserCog, activity: History, profile: UserRound,
+};
 
-const TITLES: [string, string][] = NAV.flatMap((g) => g.items.map((i) => [i.to, i.label] as [string, string]));
+const TITLES: [string, string][] = ALL_MENUS.map((i) => [i.to, i.label === "User" ? "Users" : i.label] as [string, string]);
 
 /** Thin bar while the next page's code loads; the current page stays visible meanwhile. */
 function RouteProgress() {
@@ -47,12 +33,15 @@ function RouteProgress() {
 
 function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const account = useCmsAccount();
+  const allowed = account?.menus ?? [];
+  const groups = MENU_GROUPS.map((g) => ({ ...g, items: g.items.filter((i) => allowed.includes(i.key)) })).filter((g) => g.items.length);
   return <nav aria-label="CMS" className="flex-1 space-y-5 overflow-y-auto px-3 py-4">
-    {NAV.map((group, i) => <div key={group.label ?? i}>
+    {groups.map((group, i) => <div key={group.label ?? i}>
       {group.label ? <p className="mb-1 px-2.5 text-[0.625rem] font-semibold uppercase tracking-[0.08em] text-muted-foreground/70">{group.label}</p> : null}
       <ul className="space-y-0.5">{group.items.map((item) => {
         const active = pathname === item.to || pathname.startsWith(`${item.to}/`);
-        const Icon = item.icon;
+        const Icon = ICONS[item.key];
         return <li key={item.to}>
           {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
           <Link to={item.to as any} onClick={onNavigate} aria-current={active ? "page" : undefined} className={cn("flex h-9 items-center gap-2.5 rounded-md px-2.5 text-sm text-ink/75 transition-colors duration-150 hover:bg-background/80 hover:text-ink active:bg-blush/70", active && "bg-blush font-medium text-primary hover:bg-blush hover:text-primary")}>
