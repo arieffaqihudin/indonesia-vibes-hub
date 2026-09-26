@@ -172,7 +172,7 @@ export function CmsShell({ children }: { children: ReactNode }) {
 
   return <div className="min-h-dvh bg-sand/70 text-ink lg:flex lg:h-dvh lg:overflow-hidden">
      <aside className={cn("relative z-40 hidden h-dvh shrink-0 flex-col border-r border-border/50 bg-sand transition-[width] duration-200 ease-out motion-reduce:transition-none lg:flex", collapsed ? "w-[68px]" : "w-60")}><Brand collapsed={collapsed} /><Sidebar collapsed={collapsed} /></aside>
-       <button type="button" onClick={toggleSidebar} aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"} title={collapsed ? "Expand sidebar" : "Collapse sidebar"} aria-expanded={!collapsed} className={cn(btn.iconSm, "fixed top-1/2 z-50 hidden h-8 w-8 -translate-x-1/2 -translate-y-1/2 border border-border bg-background shadow-sm transition-[left,background-color] duration-200 ease-out hover:bg-sand motion-reduce:transition-none lg:inline-flex", collapsed ? "left-[68px]" : "left-60")}>
+       <button type="button" onClick={toggleSidebar} aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"} title={collapsed ? "Expand sidebar" : "Collapse sidebar"} aria-expanded={!collapsed} className={cn(btn.iconSm, "fixed top-[calc(50%-16px)] z-50 hidden h-8 w-8 -translate-x-1/2 border border-border bg-background shadow-sm transition-[left,background-color] duration-200 ease-out hover:bg-sand motion-reduce:transition-none lg:inline-flex", collapsed ? "left-[68px]" : "left-60")}>
          {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
        </button>
     {mobile ? <div className="fixed inset-0 z-50 lg:hidden" role="dialog" aria-modal="true" aria-label="Navigation">
