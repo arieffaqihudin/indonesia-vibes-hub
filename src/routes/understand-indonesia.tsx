@@ -12,15 +12,15 @@ import { heritageRecords, heritageType } from "@/lib/heritage";
 import { pageIdentity } from "@/lib/public-seo";
 
 export const Route = createFileRoute("/understand-indonesia")({
-  head: () => ({ meta: [
+  head: ({ matches }) => ({ meta: [
     { title: "Understand Indonesia — Indonesia Vibes" },
     { name: "description", content: "Articles, topics, collections, people and organisations that connect Indonesian cultural knowledge." },
     { property: "og:title", content: "Understand Indonesia — Indonesia Vibes" },
     { property: "og:description", content: "Explore connected Indonesian cultural knowledge through articles, topics, collections, people and organisations." },
     { property: "og:type", content: "website" },
     { name: "twitter:card", content: "summary_large_image" },
-    ...pageIdentity("/understand-indonesia").meta,
-  ], links: pageIdentity("/understand-indonesia").links }),
+    ...(matches.at(-1)?.routeId === "/understand-indonesia" ? pageIdentity("/understand-indonesia").meta : []),
+  ], links: matches.at(-1)?.routeId === "/understand-indonesia" ? pageIdentity("/understand-indonesia").links : [] }),
   component: UnderstandIndonesia,
 });
 
