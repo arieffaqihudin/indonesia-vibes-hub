@@ -3,6 +3,7 @@ import { Search, ArrowUpRight } from "lucide-react";
 import { useMemo, useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import { TopicIcon } from "@/components/editorial/TopicIcon";
 import { stories } from "@/data/content";
 import { TOPIC_CATEGORIES, useTopics, type TopicCategory } from "@/lib/topics";
 import { cn } from "@/lib/utils";
@@ -64,20 +65,17 @@ function Topics() {
 
         {visible.length ? (
           <ul className="grid border-l border-border sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {visible.map((topic, index) => {
+            {visible.map((topic) => {
               const count = stories.filter((story) => story.topics?.includes(topic.id)).length;
               return (
                 <li key={topic.id} className="border-r border-b border-border">
-                  <Link to="/understand-indonesia/topics/$slug" params={{ slug: topic.slug }} className="group flex h-full min-h-52 flex-col p-5 transition-colors hover:bg-blush/45 md:p-6">
-                    <span className="flex items-start justify-between gap-4">
-                      <span className="text-[0.65rem] font-semibold text-muted-foreground tabular-nums">{String(index + 1).padStart(2, "0")}</span>
-                      <span className="max-w-32 text-right text-[0.62rem] font-semibold text-clay uppercase">{topic.category}</span>
-                    </span>
-                    <h2 className="mt-5 text-xl leading-tight font-semibold text-ink group-hover:text-primary">{topic.id}</h2>
+                  <Link to="/understand-indonesia/topics/$slug" params={{ slug: topic.slug }} className="group flex h-full min-h-52 flex-col p-5 transition-colors duration-200 hover:bg-blush/45 md:p-6">
+                    <TopicIcon topic={topic} size={28} className="text-ink transition-colors duration-200 group-hover:text-primary" />
+                    <h2 className="mt-5 text-xl leading-tight font-semibold text-ink transition-colors duration-200 group-hover:text-primary">{topic.id}</h2>
                     <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-muted-foreground">{topic.intro}</p>
                     <span className="mt-auto flex items-center justify-between pt-6 text-xs font-medium text-ink">
                       <span>{count} article{count === 1 ? "" : "s"}</span>
-                      <ArrowUpRight aria-hidden className="h-4 w-4 text-primary transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                      <ArrowUpRight aria-hidden className="h-4 w-4 text-primary transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                     </span>
                   </Link>
                 </li>

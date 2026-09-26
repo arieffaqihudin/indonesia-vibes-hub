@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import type { ThemeId } from "@/types/content";
+import type { TopicIconName } from "@/components/editorial/TopicIcon";
 
 export const TOPIC_CATEGORIES = [
   "Arts & Expression",
@@ -21,10 +22,26 @@ export interface TopicDefinition {
   status: TopicStatus;
   featured?: boolean;
   image?: string;
+  icon?: TopicIconName;
   updatedAt: string;
 }
 
-export const TOPICS: TopicDefinition[] = [
+const DEFAULT_ICONS: Partial<Record<ThemeId, TopicIconName>> = {
+  "History & Civilization": "Landmark", "Heritage & Traditions": "ScrollText",
+  Heritage: "ScrollText", Music: "AudioLines", "Performing Arts": "Drama",
+  Film: "Clapperboard", Literature: "BookOpen", "Visual Arts": "Palette",
+  "Craft & Design": "Hammer", Textiles: "Layers3", "Culinary Culture": "UtensilsCrossed",
+  Architecture: "Building2", "Maritime Culture": "Waves",
+  "Indigenous & Local Knowledge": "Leaf", "Indigenous Knowledge": "Leaf",
+  "Contemporary Culture": "Shapes", "Religion & Cultural Expression": "Sparkles",
+  Language: "Languages", "Cultural Exchange": "Globe2",
+};
+
+const withDefaultIcon = (topic: TopicDefinition): TopicDefinition => ({
+  ...topic, icon: topic.icon ?? DEFAULT_ICONS[topic.id] ?? "Tags",
+});
+
+const SEED_TOPICS: TopicDefinition[] = [
   { id: "History & Civilization", slug: "history-and-civilization", intro: "Kingdoms, archaeology, trade networks and the long histories that shaped the archipelago.", category: "History & Society", aliases: ["history", "kingdoms", "archaeology", "civilisation"], status: "Published", updatedAt: "2026-09-18" },
   { id: "Heritage & Traditions", slug: "heritage-and-traditions", intro: "Living practices carried through communities, ritual, memory and skilled work.", category: "Heritage & Traditions", aliases: ["heritage", "tradition", "ritual"], status: "Published", featured: true, updatedAt: "2026-09-16" },
   { id: "Music", slug: "music", intro: "Traditional and contemporary music, instruments, performance and sound cultures.", category: "Arts & Expression", aliases: ["gamelan", "sound", "instruments"], status: "Published", updatedAt: "2026-09-20" },
@@ -44,6 +61,8 @@ export const TOPICS: TopicDefinition[] = [
   { id: "Cultural Exchange", slug: "cultural-exchange", intro: "How Indonesian culture travels, changes and creates lasting global relationships.", category: "Contemporary Culture", aliases: ["diplomacy", "exchange", "international"], status: "Published", updatedAt: "2026-09-13" },
 ];
 
+export const TOPICS: TopicDefinition[] = SEED_TOPICS.map(withDefaultIcon);
+
 const TOPIC_STORAGE_KEY = "iv-topics-v1";
 const TOPIC_EVENT = "iv-topics-change";
 
@@ -51,7 +70,7 @@ export function readTopics(): TopicDefinition[] {
   if (typeof window === "undefined") return TOPICS;
   try {
     const raw = window.localStorage.getItem(TOPIC_STORAGE_KEY);
-    return raw ? (JSON.parse(raw) as TopicDefinition[]) : TOPICS;
+    return raw ? (JSON.parse(raw) as TopicDefinition[]).map(withDefaultIcon) : TOPICS;
   } catch { return TOPICS; }
 }
 
