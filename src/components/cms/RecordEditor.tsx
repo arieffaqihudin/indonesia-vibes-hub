@@ -136,7 +136,7 @@ export function RecordEditor({ id, type: newType }: { id: string; type?: CmsType
       side = <>
         {statusPanel}
         <Panel title="Article">
-          <Field label="Author" htmlFor="author" hint="Who wrote this article."><Select id="author" value={d.author ?? ""} onChange={(v) => change({ author: v || undefined })} options={AUTHOR_OPTIONS} placeholder="Choose author" /></Field>
+          <Field label="Author" htmlFor="author" hint="Who wrote this article."><Select id="author" value={d.author ?? ""} onChange={(v) => change({ author: v || undefined })} options={d.author && !AUTHOR_OPTIONS.some((o) => o.value === d.author) ? [{ value: d.author, label: d.author }, ...AUTHOR_OPTIONS] : AUTHOR_OPTIONS} placeholder="Choose author" /></Field>
           <MultiPicker label="Topic" options={options.topics} value={rel("topics")} onChange={(ids) => setRel("topics", ids)} placeholder="Add topic…" />
           <Field label="Format" htmlFor="format" hint={FORMAT_OPTIONS.find((o) => o.value === f("format"))?.hint}><Select id="format" value={f("format")} onChange={(v) => setField("format", v)} options={FORMAT_OPTIONS} /></Field>
           <MultiPicker label="Heritage" options={options.heritage} value={rel("heritage")} onChange={(ids) => setRel("heritage", ids)} placeholder="Add heritage…" />

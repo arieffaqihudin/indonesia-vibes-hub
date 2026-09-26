@@ -49,10 +49,10 @@ export function DataList<T extends { id: string }>({ rows, columns, onOpen, sear
         <Search className="pointer-events-none absolute top-1/2 left-2.5 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
         <input value={search} onChange={(e) => onSearch(e.target.value)} placeholder={searchPlaceholder} className={cn(inputClass, "pl-8")} />
       </label>
-      {filters.map((f) => <select key={f.label} aria-label={f.label} value={f.value} onChange={(e) => f.onChange(e.target.value)} className={cn(inputClass, "w-auto min-w-[8rem] flex-none pr-8", f.value && "border-primary/50 text-primary")}>
+      {filters.length ? <div className="-mx-3 flex w-[calc(100%+1.5rem)] gap-2 overflow-x-auto px-3 sm:mx-0 sm:w-auto sm:flex-wrap sm:overflow-visible sm:px-0">{filters.map((f) => <select key={f.label} aria-label={f.label} value={f.value} onChange={(e) => f.onChange(e.target.value)} className={cn(inputClass, "w-auto min-w-[8rem] flex-none pr-8", f.value && "border-primary/50 text-primary")}>
         <option value="">{f.label}: All</option>
         {f.options.map((o) => <option key={o} value={o}>{o}</option>)}
-      </select>)}
+      </select>)}</div> : null}
     </div>
 
     {rows.length === 0 ? empty : <>
