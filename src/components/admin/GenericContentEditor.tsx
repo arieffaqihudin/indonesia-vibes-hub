@@ -3,6 +3,7 @@ import { ArrowLeft, Eye, Save } from "lucide-react";
 import { useState } from "react";
 
 import { abtn, EmptyState, field, SettingsSection } from "@/components/admin/primitives";
+import { RelationPicker } from "@/components/admin/RelationPicker";
 import { useAdmin } from "@/lib/admin/store";
 import { CONTENT_FIELDS, CONTENT_STATUS, kindLabel, type ContentStatus } from "@/lib/admin/types";
 import { TOPICS } from "@/lib/topics";
@@ -16,6 +17,7 @@ const statusOptions: { label: string; value: ContentStatus }[] = [
 ];
 
 function backPath(kind: string) {
+  if (kind === "culture") return "/admin/heritage";
   if (["person", "community", "institution"].includes(kind)) return "/admin/people-organisations";
   if (["event", "place"].includes(kind)) return "/admin/events-places";
   if (kind === "collaboration") return "/admin/collaborations";
@@ -79,9 +81,23 @@ export function GenericContentEditor({ id }: { id: string }) {
             <label className="block text-xs text-muted-foreground">Related topic<select className={`${field} mt-1`} value={item.topics?.[0] ?? ""} onChange={(event) => admin.updateContent(id, { topics: event.target.value ? [event.target.value] : [] })}><option value="">No topic selected</option>{TOPICS.map((topic) => <option key={topic.id} value={topic.id}>{topic.id}</option>)}</select></label>
             <label className="block text-xs text-muted-foreground">Location<input className={`${field} mt-1`} value={item.location ?? ""} onChange={(event) => admin.updateContent(id, { location: event.target.value })} /></label>
           </SettingsSection>
-          <SettingsSection title="Connected content">
+          {item.kind === "culture" ? <SettingsSection title="Heritage connections" open>
+            <div className="space-y-4">
+              <RelationPicker id={id} group="people" label="Related People" placeholder="Search people…" />
+              <RelationPicker id={id} group="communities" label="Related Communities" placeholder="Search communities…" />
+              <RelationPicker id={id} group="institutions" label="Related Organisations" placeholder="Search organisations…" />
+              <RelationPicker id={id} group="places" label="Related Places" placeholder="Search places…" />
+              <RelationPicker id={id} group="events" label="Related Events" placeholder="Search events…" />
+            </div>
+          </SettingsSection> : ["person", "community", "institution"].includes(item.kind) ? <SettingsSection title="Profile connections" open>
+            <div className="space-y-4">
+              <RelationPicker id={id} group="culture" label="Related Heritage" placeholder="Search heritage, e.g. Batik…" filter={(detail) => detail === "heritage"} />
+              {item.kind !== "institution" ? <RelationPicker id={id} group="institutions" label="Related Organisations" placeholder="Search organisations…" /> : <RelationPicker id={id} group="people" label="Related People" placeholder="Search people…" />}
+              <RelationPicker id={id} group="places" label="Related Places" placeholder="Search places…" />
+            </div>
+          </SettingsSection> : <SettingsSection title="Connected content">
             <p className="text-xs text-muted-foreground">{Object.values(item.relationships).reduce((sum, values) => sum + values.length, 0)} connected records. Existing relationships remain attached.</p>
-          </SettingsSection>
+          </SettingsSection>}
           <p className="pt-4 text-xs text-muted-foreground">{CONTENT_STATUS[item.status].label} · Last updated automatically</p>
         </div>
       </aside>
