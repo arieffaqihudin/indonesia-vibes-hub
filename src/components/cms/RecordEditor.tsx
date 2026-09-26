@@ -22,14 +22,14 @@ const PLACE_TYPES = ["Museum", "Cultural Site", "Archaeological Site", "Gallery"
 const REGIONS = ["Sumatra", "Java", "Bali & Nusa Tenggara", "Kalimantan", "Sulawesi", "Maluku", "Papua"];
 
 const BACK: Record<CmsType, { to: string; label: string }> = {
-  article: { to: "/admin/articles", label: "Articles" },
-  heritage: { to: "/admin/heritage", label: "Heritage" },
-  person: { to: "/admin/people-organisations", label: "People & Organisations" },
-  community: { to: "/admin/people-organisations", label: "People & Organisations" },
-  organisation: { to: "/admin/people-organisations", label: "People & Organisations" },
-  event: { to: "/admin/experience", label: "Experience" },
-  place: { to: "/admin/experience", label: "Experience" },
-  collaboration: { to: "/admin/collaborations", label: "Collaborations" },
+  article: { to: "/studio/articles", label: "Articles" },
+  heritage: { to: "/studio/heritage", label: "Heritage" },
+  person: { to: "/studio/people-organisations", label: "People & Organisations" },
+  community: { to: "/studio/people-organisations", label: "People & Organisations" },
+  organisation: { to: "/studio/people-organisations", label: "People & Organisations" },
+  event: { to: "/studio/experience", label: "Experience" },
+  place: { to: "/studio/experience", label: "Experience" },
+  collaboration: { to: "/studio/collaborations", label: "Collaborations" },
 };
 
 const blank = (type: CmsType, editor: string): CmsRecord => ({
@@ -116,7 +116,7 @@ export function RecordEditor({ id, type: newType }: { id: string; type?: CmsType
   const preview = () => {
     const saved = flush();
     const win = window.open("about:blank", "_blank");
-    setTimeout(() => { if (win) win.location.href = `/admin/preview/${saved.id}`; }, 200);
+    setTimeout(() => { if (win) win.location.href = `/studio/preview/${saved.id}`; }, 200);
   };
   const remove = () => {
     if (!window.confirm(`Delete “${d.title || "Untitled"}”? This cannot be undone.`)) return;

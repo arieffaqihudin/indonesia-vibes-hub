@@ -65,7 +65,7 @@ export function useScrollLock(locked: boolean) {
 }
 
 function Brand({ collapsed = false }: { collapsed?: boolean }) {
-  return <Link to="/admin/dashboard" aria-label="Indonesia Vibes CMS dashboard" title={collapsed ? "Indonesia Vibes CMS" : undefined} className={cn("flex h-14 shrink-0 items-center gap-2.5", collapsed ? "justify-center px-2" : "px-5")}>
+  return <Link to="/studio/dashboard" aria-label="Indonesia Vibes CMS dashboard" title={collapsed ? "Indonesia Vibes CMS" : undefined} className={cn("flex h-14 shrink-0 items-center gap-2.5", collapsed ? "justify-center px-2" : "px-5")}>
     <img src={markRed} alt="" className="h-6 w-6 object-contain" />
     {!collapsed && <span className="text-sm font-semibold text-ink">Indonesia Vibes <span className="font-normal text-muted-foreground">CMS</span></span>}
   </Link>;
@@ -89,10 +89,10 @@ function GlobalSearch() {
     if (term.length < 2) return [];
     const hits: { key: string; label: string; kind: string; go: () => void }[] = [];
     records.filter((r) => r.title.toLowerCase().includes(term)).slice(0, 10).forEach((r) => hits.push({ key: r.id, label: r.title, kind: TYPE_LABEL[r.type].one, go: () => void navigate({ to: editPath(r.type), params: { id: r.id } } as never) }));
-    topics.filter((t) => t.id.toLowerCase().includes(term)).slice(0, 4).forEach((t) => hits.push({ key: t.slug, label: t.id, kind: "Topic", go: () => void navigate({ to: "/admin/topics/$id", params: { id: t.slug } }) }));
-    collections.filter((c) => c.title.toLowerCase().includes(term)).slice(0, 4).forEach((c) => hits.push({ key: c.id, label: c.title, kind: "Collection", go: () => void navigate({ to: "/admin/collections/$id", params: { id: c.id } }) }));
-    [["about", "About Indonesia Vibes"], ["editorial-standards", "Editorial Standards"], ["contact", "Contact"]].filter(([, l]) => l!.toLowerCase().includes(term)).forEach(([id, l]) => hits.push({ key: id!, label: l!, kind: "Page", go: () => void navigate({ to: "/admin/pages/$page", params: { page: id! } }) }));
-    if ("faq".includes(term) || "frequently asked".includes(term)) hits.push({ key: "faq", label: "FAQ", kind: "Page", go: () => void navigate({ to: "/admin/pages/faq" }) });
+    topics.filter((t) => t.id.toLowerCase().includes(term)).slice(0, 4).forEach((t) => hits.push({ key: t.slug, label: t.id, kind: "Topic", go: () => void navigate({ to: "/studio/topics/$id", params: { id: t.slug } }) }));
+    collections.filter((c) => c.title.toLowerCase().includes(term)).slice(0, 4).forEach((c) => hits.push({ key: c.id, label: c.title, kind: "Collection", go: () => void navigate({ to: "/studio/collections/$id", params: { id: c.id } }) }));
+    [["about", "About Indonesia Vibes"], ["editorial-standards", "Editorial Standards"], ["contact", "Contact"]].filter(([, l]) => l!.toLowerCase().includes(term)).forEach(([id, l]) => hits.push({ key: id!, label: l!, kind: "Page", go: () => void navigate({ to: "/studio/pages/$page", params: { page: id! } }) }));
+    if ("faq".includes(term) || "frequently asked".includes(term)) hits.push({ key: "faq", label: "FAQ", kind: "Page", go: () => void navigate({ to: "/studio/pages/faq" }) });
     return hits.slice(0, 14);
   }, [q, records, topics, collections, navigate]);
 
@@ -119,7 +119,7 @@ function Account() {
     Object.keys(window.sessionStorage).filter((k) => k.startsWith("iv-cms-login:")).forEach((k) => window.sessionStorage.removeItem(k));
     await supabase.auth.signOut();
     window.sessionStorage.removeItem("iv-cms-session-active");
-    void navigate({ to: "/admin/login", replace: true });
+    void navigate({ to: "/studio/login", replace: true });
   };
   return <div className="relative">
     <button type="button" onClick={() => setOpen(!open)} aria-expanded={open} aria-label="Account" className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-ink text-xs font-semibold text-primary-foreground">{account?.avatar ? <img src={account.avatar} alt="" className="h-full w-full object-cover" /> : initials}</button>
@@ -127,8 +127,8 @@ function Account() {
       <button type="button" aria-label="Close menu" className="fixed inset-0 z-40 cursor-default" onClick={() => setOpen(false)} />
       <div className="absolute top-full right-0 z-50 mt-2 w-60 rounded-md border border-border bg-background p-1 shadow-lg">
         <div className="border-b border-border px-3 py-2.5"><p className="truncate text-sm font-medium text-ink">{account?.name}</p><p className="text-xs text-primary">{account?.role}</p><p className="mt-1 truncate text-xs text-muted-foreground">{account?.email}</p></div>
-        <Link to="/admin/profile" onClick={() => setOpen(false)} className="flex h-10 items-center gap-2 rounded-[var(--btn-radius-sm)] px-3 text-sm text-ink hover:bg-muted"><UserRound className="h-4 w-4" />Profile</Link>
-        <Link to="/admin/profile" hash="password" onClick={() => setOpen(false)} className="flex h-10 items-center gap-2 rounded-[var(--btn-radius-sm)] px-3 text-sm text-ink hover:bg-muted"><KeyRound className="h-4 w-4" />Change Password</Link>
+        <Link to="/studio/profile" onClick={() => setOpen(false)} className="flex h-10 items-center gap-2 rounded-[var(--btn-radius-sm)] px-3 text-sm text-ink hover:bg-muted"><UserRound className="h-4 w-4" />Profile</Link>
+        <Link to="/studio/profile" hash="password" onClick={() => setOpen(false)} className="flex h-10 items-center gap-2 rounded-[var(--btn-radius-sm)] px-3 text-sm text-ink hover:bg-muted"><KeyRound className="h-4 w-4" />Change Password</Link>
         <button type="button" onClick={() => void signOut()} className="flex h-10 w-full items-center gap-2 rounded-[var(--btn-radius-sm)] px-3 text-sm text-ink hover:bg-muted"><LogOut className="h-4 w-4" />Sign Out</button>
       </div>
     </> : null}
@@ -141,7 +141,7 @@ function PasswordNotice() {
   if (!account?.mustChangePassword || hidden) return null;
   return <div className="flex flex-wrap items-center gap-3 border-b border-border bg-blush px-4 py-2 text-sm text-ink sm:px-6 lg:px-8">
     <span className="flex-1">You're using a temporary password. Set a new one to keep your account secure.</span>
-    <Link to="/admin/profile" hash="password" className={`${btn.primary} ${btn.small}`}>Set a New Password</Link>
+    <Link to="/studio/profile" hash="password" className={`${btn.primary} ${btn.small}`}>Set a New Password</Link>
     <button type="button" onClick={() => setHidden(true)} className="h-8 px-2 text-xs text-muted-foreground hover:text-ink">Later</button>
   </div>;
 }

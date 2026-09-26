@@ -146,8 +146,8 @@ function RootComponent() {
   const isWorkspace =
     pathname === "/contributor" ||
     pathname.startsWith("/contributor/") ||
-    pathname === "/admin" ||
-    pathname.startsWith("/admin/");
+    pathname === "/studio" ||
+    pathname.startsWith("/studio/");
 
   return (
     <QueryClientProvider client={queryClient}>

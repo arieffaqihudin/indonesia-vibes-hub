@@ -120,14 +120,14 @@ export const TYPE_LABEL: Record<CmsType, { one: string; many: string }> = {
 /** Where each record type is edited. */
 export function editPath(type: CmsType): string {
   switch (type) {
-    case "article": return "/admin/articles/$id";
-    case "heritage": return "/admin/heritage/$id";
+    case "article": return "/studio/articles/$id";
+    case "heritage": return "/studio/heritage/$id";
     case "person":
     case "community":
-    case "organisation": return "/admin/people-organisations/$id";
+    case "organisation": return "/studio/people-organisations/$id";
     case "event":
-    case "place": return "/admin/experience/$id";
-    case "collaboration": return "/admin/collaborations/$id";
+    case "place": return "/studio/experience/$id";
+    case "collaboration": return "/studio/collaborations/$id";
   }
 }
 

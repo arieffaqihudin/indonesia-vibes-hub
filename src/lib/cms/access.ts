@@ -2,28 +2,28 @@
 export type MenuKey = "dashboard" | "articles" | "heritage" | "topics" | "collections" | "people" | "experience" | "collaborations" | "homepage" | "pages" | "access" | "users" | "activity" | "profile";
 
 export const MENU_GROUPS: { label?: string; items: { key: MenuKey; label: string; to: string }[] }[] = [
-  { items: [{ key: "dashboard", label: "Dashboard", to: "/admin/dashboard" }] },
+  { items: [{ key: "dashboard", label: "Dashboard", to: "/studio/dashboard" }] },
   { label: "Content", items: [
-    { key: "articles", label: "Articles", to: "/admin/articles" },
-    { key: "heritage", label: "Heritage", to: "/admin/heritage" },
-    { key: "topics", label: "Topics", to: "/admin/topics" },
-    { key: "collections", label: "Collections", to: "/admin/collections" },
+    { key: "articles", label: "Articles", to: "/studio/articles" },
+    { key: "heritage", label: "Heritage", to: "/studio/heritage" },
+    { key: "topics", label: "Topics", to: "/studio/topics" },
+    { key: "collections", label: "Collections", to: "/studio/collections" },
   ] },
   { label: "Directory", items: [
-    { key: "people", label: "People & Organisations", to: "/admin/people-organisations" },
-    { key: "experience", label: "Experience", to: "/admin/experience" },
+    { key: "people", label: "People & Organisations", to: "/studio/people-organisations" },
+    { key: "experience", label: "Experience", to: "/studio/experience" },
   ] },
-  { label: "Engagement", items: [{ key: "collaborations", label: "Collaborations", to: "/admin/collaborations" }] },
+  { label: "Engagement", items: [{ key: "collaborations", label: "Collaborations", to: "/studio/collaborations" }] },
   { label: "Website", items: [
-    { key: "homepage", label: "Homepage", to: "/admin/homepage" },
-    { key: "pages", label: "Pages", to: "/admin/pages" },
+    { key: "homepage", label: "Homepage", to: "/studio/homepage" },
+    { key: "pages", label: "Pages", to: "/studio/pages" },
   ] },
   { label: "User Management", items: [
-    { key: "access", label: "Access", to: "/admin/access" },
-    { key: "users", label: "User", to: "/admin/users" },
+    { key: "access", label: "Access", to: "/studio/access" },
+    { key: "users", label: "User", to: "/studio/users" },
   ] },
-  { label: "Log Activity", items: [{ key: "activity", label: "Activity", to: "/admin/activity" }] },
-  { label: "Setting", items: [{ key: "profile", label: "Profile", to: "/admin/profile" }] },
+  { label: "Log Activity", items: [{ key: "activity", label: "Activity", to: "/studio/activity" }] },
+  { label: "Setting", items: [{ key: "profile", label: "Profile", to: "/studio/profile" }] },
 ];
 
 export const ALL_MENUS = MENU_GROUPS.flatMap((g) => g.items);

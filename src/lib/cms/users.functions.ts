@@ -20,7 +20,7 @@ export const inviteCmsUser = createServerFn({ method: "POST" })
     const { data: user, error } = await supabaseAdmin.from("cms_users").select("id,name,email,auth_user_id,first_login_at,deleted_at").eq("id", data.id).single();
     if (error || !user || user.deleted_at) throw new Error("User not found.");
     if (user.first_login_at) throw new Error("This user has already connected.");
-    const redirectTo = `${new URL(data.origin).origin}/admin/reset-password`;
+    const redirectTo = `${new URL(data.origin).origin}/studio/reset-password`;
     const res = await supabaseAdmin.auth.admin.inviteUserByEmail(user.email, { redirectTo, data: { display_name: user.name } });
     if (res.error) {
       // Account already exists but was never confirmed/used: send a password setup link instead.
