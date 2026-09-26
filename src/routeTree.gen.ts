@@ -48,6 +48,7 @@ import { Route as AdminEventsRouteImport } from './routes/admin.events'
 import { Route as AdminEventsPlacesRouteImport } from './routes/admin.events-places'
 import { Route as AdminFollowUpsRouteImport } from './routes/admin.follow-ups'
 import { Route as AdminForgotPasswordRouteImport } from './routes/admin.forgot-password'
+import { Route as AdminHeritageRouteImport } from './routes/admin.heritage'
 import { Route as AdminInstitutionsRouteImport } from './routes/admin.institutions'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AdminMediaRouteImport } from './routes/admin.media'
@@ -322,6 +323,11 @@ const AdminFollowUpsRoute = AdminFollowUpsRouteImport.update({
 const AdminForgotPasswordRoute = AdminForgotPasswordRouteImport.update({
   id: '/forgot-password',
   path: '/forgot-password',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminHeritageRoute = AdminHeritageRouteImport.update({
+  id: '/heritage',
+  path: '/heritage',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminInstitutionsRoute = AdminInstitutionsRouteImport.update({
@@ -779,6 +785,7 @@ export interface FileRoutesByFullPath {
   '/admin/events-places': typeof AdminEventsPlacesRoute
   '/admin/follow-ups': typeof AdminFollowUpsRoute
   '/admin/forgot-password': typeof AdminForgotPasswordRoute
+  '/admin/heritage': typeof AdminHeritageRoute
   '/admin/institutions': typeof AdminInstitutionsRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/media': typeof AdminMediaRoute
@@ -899,6 +906,7 @@ export interface FileRoutesByTo {
   '/admin/events-places': typeof AdminEventsPlacesRoute
   '/admin/follow-ups': typeof AdminFollowUpsRoute
   '/admin/forgot-password': typeof AdminForgotPasswordRoute
+  '/admin/heritage': typeof AdminHeritageRoute
   '/admin/institutions': typeof AdminInstitutionsRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/media': typeof AdminMediaRoute
@@ -1021,6 +1029,7 @@ export interface FileRoutesById {
   '/admin/events-places': typeof AdminEventsPlacesRoute
   '/admin/follow-ups': typeof AdminFollowUpsRoute
   '/admin/forgot-password': typeof AdminForgotPasswordRoute
+  '/admin/heritage': typeof AdminHeritageRoute
   '/admin/institutions': typeof AdminInstitutionsRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/media': typeof AdminMediaRoute
@@ -1144,6 +1153,7 @@ export interface FileRouteTypes {
     | '/admin/events-places'
     | '/admin/follow-ups'
     | '/admin/forgot-password'
+    | '/admin/heritage'
     | '/admin/institutions'
     | '/admin/login'
     | '/admin/media'
@@ -1264,6 +1274,7 @@ export interface FileRouteTypes {
     | '/admin/events-places'
     | '/admin/follow-ups'
     | '/admin/forgot-password'
+    | '/admin/heritage'
     | '/admin/institutions'
     | '/admin/login'
     | '/admin/media'
@@ -1385,6 +1396,7 @@ export interface FileRouteTypes {
     | '/admin/events-places'
     | '/admin/follow-ups'
     | '/admin/forgot-password'
+    | '/admin/heritage'
     | '/admin/institutions'
     | '/admin/login'
     | '/admin/media'
@@ -1803,6 +1815,13 @@ declare module '@tanstack/react-router' {
       path: '/forgot-password'
       fullPath: '/admin/forgot-password'
       preLoaderRoute: typeof AdminForgotPasswordRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/heritage': {
+      id: '/admin/heritage'
+      path: '/heritage'
+      fullPath: '/admin/heritage'
+      preLoaderRoute: typeof AdminHeritageRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/institutions': {
@@ -2396,6 +2415,7 @@ interface AdminRouteChildren {
   AdminEventsPlacesRoute: typeof AdminEventsPlacesRoute
   AdminFollowUpsRoute: typeof AdminFollowUpsRoute
   AdminForgotPasswordRoute: typeof AdminForgotPasswordRoute
+  AdminHeritageRoute: typeof AdminHeritageRoute
   AdminInstitutionsRoute: typeof AdminInstitutionsRoute
   AdminLoginRoute: typeof AdminLoginRoute
   AdminMediaRoute: typeof AdminMediaRoute
@@ -2450,6 +2470,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminEventsPlacesRoute: AdminEventsPlacesRoute,
   AdminFollowUpsRoute: AdminFollowUpsRoute,
   AdminForgotPasswordRoute: AdminForgotPasswordRoute,
+  AdminHeritageRoute: AdminHeritageRoute,
   AdminInstitutionsRoute: AdminInstitutionsRoute,
   AdminLoginRoute: AdminLoginRoute,
   AdminMediaRoute: AdminMediaRoute,
