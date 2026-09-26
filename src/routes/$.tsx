@@ -1,8 +1,9 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 
 import { popularSearches } from "@/data/graph";
 
 export const Route = createFileRoute("/$")({
+  loader: () => { throw notFound(); },
   head: () => ({
     meta: [
       { title: "Page not found — Indonesia Vibes" },
@@ -12,7 +13,7 @@ export const Route = createFileRoute("/$")({
       { property: "og:description", content: "This page does not exist." },
     ],
   }),
-  component: NotFoundPage,
+  notFoundComponent: NotFoundPage,
 });
 
 const ROUTES = [
