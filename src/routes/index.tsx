@@ -13,7 +13,6 @@ import { WorldMap } from "@/components/map/WorldMap";
 import { collaborations } from "@/data/collaborations";
 import { institutions } from "@/data/institutions";
 import { eventLocationLabel, formatEventDates, people, places, stories, worldNodes } from "@/data/content";
-import { brand } from "@/lib/brand";
 import { useCollections } from "@/lib/collections";
 import { publishedFor, useFaqs } from "@/lib/faq";
 import { comingUpEvents, recentlyPublishedStories } from "@/lib/freshness";
@@ -57,7 +56,7 @@ function Home() {
   const latest = (homepage.excludeHeroFromLatest && withoutHero.length >= homepage.latestArticleLimit ? withoutHero : latestPool).slice(0, homepage.latestArticleLimit);
   const topicPreview = (homepage.featuredTopicIds.length ? homepage.featuredTopicIds.map((id) => topics.find((topic) => topic.id === id)) : topics.filter((topic) => topic.featured)).filter((topic) => topic?.status === "Published").slice(0, 8);
   const featuredCollection = collectionRecords.find((item) => item.id === homepage.featuredCollectionId && item.status === "Published") ?? collectionRecords.find((item) => item.featured && item.status === "Published") ?? collectionRecords.find((item) => item.status === "Published");
-  const heritagePreview = ["gamelan", "batik", "wayang-kulit", "keris", "phinisi"].map((slug) => heritageRecords.find((item) => item.slug === slug || item.slug.startsWith(slug.split("-")[0]))).filter((item, i, all): item is NonNullable<typeof item> => Boolean(item) && all.indexOf(item) === i);
+  const heritagePreview = ["gamelan", "batik", "wayang", "keris", "phinisi"].map((slug) => heritageRecords.find((item) => item.slug === slug || item.slug.startsWith(slug.split("-")[0]))).filter((item, i, all): item is NonNullable<typeof item> => Boolean(item) && all.indexOf(item) === i);
   const allProfiles = [...people, ...institutions];
   const profilePreview = (homepage.featuredProfileIds.length ? homepage.featuredProfileIds.map((id) => allProfiles.find((item) => item.id === id)) : allProfiles.filter((item) => item.featured)).filter(Boolean).slice(0, 6);
   const upcoming = comingUpEvents().slice(0, 5);
