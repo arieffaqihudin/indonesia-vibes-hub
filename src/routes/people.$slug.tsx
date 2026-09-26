@@ -1,6 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 
 import { DetailSection, FactList, InquiryButton, Pill } from "@/components/editorial/ui";
+import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { CollaborationCard, InstitutionCard, PersonCard } from "@/components/editorial/EntityCards";
 import {
   collaborationsForPerson,
