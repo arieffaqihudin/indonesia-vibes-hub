@@ -33,6 +33,7 @@ import { Route as ResearchRouteImport } from './routes/research'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as UnderstandIndonesiaRouteImport } from './routes/understand-indonesia'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminSplatRouteImport } from './routes/admin.$'
 import { Route as AdminForgotPasswordRouteImport } from './routes/admin.forgot-password'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AdminResetPasswordRouteImport } from './routes/admin.reset-password'
@@ -199,6 +200,11 @@ const UnderstandIndonesiaRoute = UnderstandIndonesiaRouteImport.update({
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSplatRoute = AdminSplatRouteImport.update({
+  id: '/$',
+  path: '/$',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminForgotPasswordRoute = AdminForgotPasswordRouteImport.update({
@@ -474,6 +480,7 @@ export interface FileRoutesByFullPath {
   '/research': typeof ResearchRoute
   '/search': typeof SearchRoute
   '/understand-indonesia': typeof UnderstandIndonesiaRouteWithChildren
+  '/admin/$': typeof AdminSplatRoute
   '/admin/forgot-password': typeof AdminForgotPasswordRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/reset-password': typeof AdminResetPasswordRoute
@@ -546,6 +553,7 @@ export interface FileRoutesByTo {
   '/research': typeof ResearchRoute
   '/search': typeof SearchRoute
   '/understand-indonesia': typeof UnderstandIndonesiaRouteWithChildren
+  '/admin/$': typeof AdminSplatRoute
   '/admin/forgot-password': typeof AdminForgotPasswordRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/reset-password': typeof AdminResetPasswordRoute
@@ -620,6 +628,7 @@ export interface FileRoutesById {
   '/research': typeof ResearchRoute
   '/search': typeof SearchRoute
   '/understand-indonesia': typeof UnderstandIndonesiaRouteWithChildren
+  '/admin/$': typeof AdminSplatRoute
   '/admin/forgot-password': typeof AdminForgotPasswordRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/reset-password': typeof AdminResetPasswordRoute
@@ -695,6 +704,7 @@ export interface FileRouteTypes {
     | '/research'
     | '/search'
     | '/understand-indonesia'
+    | '/admin/$'
     | '/admin/forgot-password'
     | '/admin/login'
     | '/admin/reset-password'
@@ -767,6 +777,7 @@ export interface FileRouteTypes {
     | '/research'
     | '/search'
     | '/understand-indonesia'
+    | '/admin/$'
     | '/admin/forgot-password'
     | '/admin/login'
     | '/admin/reset-password'
@@ -840,6 +851,7 @@ export interface FileRouteTypes {
     | '/research'
     | '/search'
     | '/understand-indonesia'
+    | '/admin/$'
     | '/admin/forgot-password'
     | '/admin/login'
     | '/admin/reset-password'
@@ -1120,6 +1132,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/admin/'
       preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/$': {
+      id: '/admin/$'
+      path: '/$'
+      fullPath: '/admin/$'
+      preLoaderRoute: typeof AdminSplatRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/forgot-password': {
@@ -1455,6 +1474,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AdminRouteChildren {
+  AdminSplatRoute: typeof AdminSplatRoute
   AdminForgotPasswordRoute: typeof AdminForgotPasswordRoute
   AdminLoginRoute: typeof AdminLoginRoute
   AdminResetPasswordRoute: typeof AdminResetPasswordRoute
@@ -1462,6 +1482,7 @@ interface AdminRouteChildren {
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminSplatRoute: AdminSplatRoute,
   AdminForgotPasswordRoute: AdminForgotPasswordRoute,
   AdminLoginRoute: AdminLoginRoute,
   AdminResetPasswordRoute: AdminResetPasswordRoute,
