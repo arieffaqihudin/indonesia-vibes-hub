@@ -40,6 +40,7 @@ export const Route = createFileRoute("/collaborate/$slug")({
         { property: "og:description", content: collaboration.intro },
         { property: "og:type", content: "article" },
         { name: "twitter:card", content: "summary_large_image" },
+        ...(collaboration.image?.startsWith("https://") ? [{ property: "og:image", content: collaboration.image }, { name: "twitter:image", content: collaboration.image }] : []),
         ...pageIdentity(path).meta,
       ],
       links: pageIdentity(path).links,

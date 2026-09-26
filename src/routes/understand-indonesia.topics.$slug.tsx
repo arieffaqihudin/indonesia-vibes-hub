@@ -21,6 +21,7 @@ export const Route = createFileRoute("/understand-indonesia/topics/$slug")({
       { property: "og:title", content: title }, { property: "og:description", content: loaderData.intro },
       { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" },
       ...pageIdentity(path).meta,
+      ...(loaderData.status !== "Published" || loaderData.intro.trim().length < 50 ? [{ name: "robots", content: "noindex, follow" }] : []),
     ], links: pageIdentity(path).links, scripts: [breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Understand Indonesia", path: "/understand-indonesia" }, { name: "Topics", path: "/understand-indonesia/topics" }, { name: loaderData.id, path }])] };
   }, component: Topic,
 });

@@ -47,6 +47,7 @@ export const Route = createFileRoute("/institutions/$slug")({
         { property: "og:description", content: institution.profile },
         { property: "og:type", content: "website" },
         { name: "twitter:card", content: "summary_large_image" },
+        ...(institution.image?.startsWith("https://") ? [{ property: "og:image", content: institution.image }, { name: "twitter:image", content: institution.image }] : []),
         ...pageIdentity(path).meta,
         ...(!institution.profile || institution.profile.trim().length < 100 ? [{ name: "robots", content: "noindex, follow" }] : []),
       ],

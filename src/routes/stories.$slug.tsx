@@ -40,6 +40,7 @@ export const Route = createFileRoute("/stories/$slug")({
         { property: "og:description", content: story.dek },
         { property: "og:type", content: "article" },
         { name: "twitter:card", content: "summary_large_image" },
+        ...(story.image?.startsWith("https://") ? [{ property: "og:image", content: story.image }, { name: "twitter:image", content: story.image }] : []),
         ...pageIdentity(path).meta,
       ],
       links: pageIdentity(path).links,

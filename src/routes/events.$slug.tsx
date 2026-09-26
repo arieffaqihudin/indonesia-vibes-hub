@@ -27,6 +27,7 @@ export const Route = createFileRoute("/events/$slug")({
         { property: "og:description", content: description },
         { property: "og:type", content: "website" },
         { name: "twitter:card", content: "summary_large_image" },
+        ...(event.image?.startsWith("https://") ? [{ property: "og:image", content: event.image }, { name: "twitter:image", content: event.image }] : []),
         ...pageIdentity(path).meta,
       ],
       links: pageIdentity(path).links,

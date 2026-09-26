@@ -41,6 +41,7 @@ export const Route = createFileRoute("/people/$slug")({
         { property: "og:description", content: description },
         { property: "og:type", content: "profile" },
         { name: "twitter:card", content: "summary_large_image" },
+        ...(person.image?.startsWith("https://") ? [{ property: "og:image", content: person.image }, { name: "twitter:image", content: person.image }] : []),
         ...pageIdentity(path).meta,
         ...(!meaningful ? [{ name: "robots", content: "noindex, follow" }] : []),
       ],

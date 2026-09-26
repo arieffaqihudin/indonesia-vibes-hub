@@ -13,11 +13,12 @@ export const Route = createFileRoute("/understand-indonesia/collections/$slug")(
   head: ({ loaderData, params }) => {
     if (!loaderData) return { meta: [{ title: "Collection not found — Indonesia Vibes" }, { name: "robots", content: "noindex" }] };
     const path = `/understand-indonesia/collections/${params.slug}`;
-    const meaningful = loaderData.status === "Published" && loaderData.storyIds.length >= 2 && Boolean(loaderData.longIntroduction?.trim());
+    const meaningful = loaderData.status === "Published" && loaderData.storyIds.filter((id) => Boolean(getStoryById(id))).length >= 2 && Boolean(loaderData.longIntroduction?.trim());
     return { meta: [
       { title: `${loaderData.title} | Indonesia Vibes` }, { name: "description", content: loaderData.introduction },
       { property: "og:title", content: `${loaderData.title} — Indonesia Vibes` }, { property: "og:description", content: loaderData.introduction },
       { property: "og:type", content: "article" }, { name: "twitter:card", content: "summary_large_image" },
+      ...(loaderData.image?.startsWith("https://") ? [{ property: "og:image", content: loaderData.image }, { name: "twitter:image", content: loaderData.image }] : []),
       ...pageIdentity(path).meta, ...(!meaningful ? [{ name: "robots", content: "noindex, follow" }] : []),
     ], links: pageIdentity(path).links, scripts: [breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Understand Indonesia", path: "/understand-indonesia" }, { name: "Collections", path: "/understand-indonesia/collections" }, { name: loaderData.title, path }])] };
   },
@@ -40,7 +41,7 @@ function CollectionPage() {
              <p className="mt-7 text-xs text-primary-foreground/60">{collectionStoryLabel(collection)}{minutes ? ` · ${minutes} min reading` : ""} · Read in sequence</p>
              {stories[0] ? <Link to="/stories/$slug" params={{ slug: stories[0].slug }} search={{ collection: collection.slug }} className="mt-7 inline-flex min-h-11 items-center gap-2 border-b border-primary-foreground pb-1 text-sm font-semibold">Start Reading <ArrowDown className="h-4 w-4" /></Link> : null}
           </div>
-          <img src={collection.image} alt="" className="aspect-[16/10] w-full object-cover" />
+          <img src={collection.image} alt="" width={960} height={600} className="aspect-[16/10] w-full object-cover" />
         </div>
       </header>
       <div className="container-editorial py-14 md:py-20">
