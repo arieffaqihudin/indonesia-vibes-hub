@@ -4,9 +4,11 @@ import { createPortal } from "react-dom";
 
 import { cn } from "@/lib/utils";
 import { btn } from "./ui";
+import { useScrollLock } from "./CmsShell";
 
 /** Near-full-screen on phones, centred dialog on larger screens. */
 export function Modal({ title, onClose, children, footer, wide = false }: { title: string; onClose: () => void; children: ReactNode; footer?: ReactNode; wide?: boolean }) {
+  useScrollLock(true);
   return createPortal(<div className="fixed inset-0 z-[60] flex items-end justify-center sm:items-center sm:p-4" role="dialog" aria-modal="true" aria-label={title}>
     <button type="button" aria-label="Close" className="absolute inset-0 bg-ink/40" onClick={onClose} />
     <div className={cn("relative flex max-h-[100dvh] w-full flex-col bg-background shadow-xl sm:max-h-[90dvh] sm:rounded-md", wide ? "sm:max-w-2xl" : "sm:max-w-md", "h-[100dvh] sm:h-auto")}>
