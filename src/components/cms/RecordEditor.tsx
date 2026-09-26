@@ -53,6 +53,7 @@ export function RecordEditor({ id, type: newType }: { id: string; type?: CmsType
   const [saveState, setSaveState] = useState<SaveState>("idle");
   const created = useRef(Boolean(existing));
   const timer = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const pending = useRef(false);
   const latest = useRef(draft);
   latest.current = draft;
 
@@ -60,8 +61,8 @@ export function RecordEditor({ id, type: newType }: { id: string; type?: CmsType
   useEffect(() => { if (existing && draft?.id !== existing.id) { setDraft(existing); created.current = true; } }, [existing, draft?.id]);
 
   const persist = useCallback((record: CmsRecord) => {
+    pending.current = false;
     if (!created.current) {
-      console.error("CREATE", record.title);
       cms.createRecord(record.type, record);
       created.current = true;
       void navigate({ to: BACK[record.type].to + "/$id", params: { id: record.id }, replace: true } as never);
@@ -74,10 +75,17 @@ export function RecordEditor({ id, type: newType }: { id: string; type?: CmsType
   const change = (patch: Partial<CmsRecord>) => {
     setDraft((d) => (d ? { ...d, ...patch } : d));
     setSaveState("saving");
+    pending.current = true;
     clearTimeout(timer.current);
     timer.current = setTimeout(() => { if (latest.current) persist(latest.current); }, 700);
   };
-  useEffect(() => () => clearTimeout(timer.current), []);
+  // Leaving the editor mid-edit still saves the latest change.
+  useEffect(() => () => {
+    if (!pending.current || !latest.current) return;
+    clearTimeout(timer.current);
+    if (created.current) cms.updateRecord(latest.current.id, latest.current);
+    else cms.createRecord(latest.current.type, latest.current);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!draft) return <div className="py-20 text-center text-sm text-muted-foreground">This item could not be found. It may have been deleted.</div>;
 
