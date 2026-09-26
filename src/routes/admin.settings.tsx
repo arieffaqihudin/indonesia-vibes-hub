@@ -26,13 +26,15 @@ function Settings() {
   const [tab, setTab] = useState<Tab>(search.tab ?? "general");
   const { settings, updateSettings } = useCms();
   const account = useCmsAccount();
+  const isAdmin = account?.role === "Administrator";
   const [provider, setProvider] = useState(settings.analyticsProvider ?? "");
 
   return <div className="mx-auto max-w-3xl">
     <PageHeader title="Settings" />
     <Tabs<Tab> value={tab} onChange={setTab} tabs={[{ id: "general", label: "General" }, { id: "users", label: "Users & Roles" }, { id: "analytics", label: "Analytics" }, { id: "seo", label: "SEO" }, { id: "integrations", label: "Integrations" }]} />
     <div className="rounded-lg border border-border bg-background p-5">
-      {tab === "general" ? <div className="space-y-4">
+      {account && account.role !== "Administrator" && tab !== "users" ? <p className="text-sm text-muted-foreground">Only administrators can change these settings.</p> : null}
+      {account?.role !== "Administrator" && tab !== "users" ? null : tab === "general" ? <div className="space-y-4">
         <Field label="Site name" htmlFor="sn"><TextInput id="sn" value={settings.siteName} onChange={(v) => updateSettings({ siteName: v })} /></Field>
         <Field label="Tagline" htmlFor="tg"><TextInput id="tg" value={settings.tagline} onChange={(v) => updateSettings({ tagline: v })} /></Field>
         <Field label="Public contact email" htmlFor="ce"><TextInput id="ce" value={settings.contactEmail} onChange={(v) => updateSettings({ contactEmail: v })} /></Field>
@@ -41,13 +43,13 @@ function Settings() {
 
       {tab === "users" ? <div>
         <h2 className="text-sm font-semibold text-ink">Your account</h2>
-        <dl className="mt-2"><Row label="Name">{account?.name ?? "…"}</Row><Row label="Email">{account?.email ?? "…"}</Row><Row label="Role">{account?.role ?? "…"}{account && !account.assigned ? <span className="ml-2 text-xs text-muted-foreground">(no role assigned yet — acting as Editor)</span> : null}</Row></dl>
+        <dl className="mt-2"><Row label="Name">{account?.name ?? "…"}</Row><Row label="Email">{account?.email ?? "…"}</Row><Row label="Role">{account?.role ?? "…"}{account && !account.assigned ? <span className="ml-2 text-xs text-muted-foreground">(no role assigned yet — acting as Contributor)</span> : null}</Row></dl>
         <h2 className="mt-6 text-sm font-semibold text-ink">Roles</h2>
         <ul className="mt-2 divide-y divide-border rounded-md border border-border">{ROLE_INFO.map((r) => <li key={r.role} className="px-4 py-3"><p className="text-sm font-medium text-ink">{r.role}</p><p className="text-xs text-muted-foreground">{r.text}</p></li>)}</ul>
         <p className="mt-4 text-xs text-muted-foreground">New CMS accounts are created by an administrator. Public registration is turned off.</p>
       </div> : null}
 
-      {tab === "analytics" ? <div>
+      {tab === "analytics" && isAdmin ? <div>
         <div className="flex items-start gap-3 rounded-md bg-sand p-4"><PlugZap className="mt-0.5 h-5 w-5 text-muted-foreground" /><div><p className="text-sm font-medium text-ink">Analytics not connected</p><p className="text-xs text-muted-foreground">The dashboard shows no traffic numbers until a real analytics source is connected. Nothing is estimated.</p></div></div>
         <dl className="mt-4"><Row label="Status">Not connected</Row><Row label="Provider">{settings.analyticsProvider || "—"}</Row><Row label="Property / project">{settings.analyticsProperty || "—"}</Row><Row label="Last sync">Never</Row></dl>
         <div className="mt-4 space-y-4 border-t border-border pt-4">
@@ -60,12 +62,12 @@ function Settings() {
         </div>
       </div> : null}
 
-      {tab === "seo" ? <div className="space-y-4">
+      {tab === "seo" && isAdmin ? <div className="space-y-4">
         <Field label="Default search title" htmlFor="st"><TextInput id="st" value={settings.seoTitle} onChange={(v) => updateSettings({ seoTitle: v })} /></Field>
         <Field label="Default search description" htmlFor="sd" hint={`${settings.seoDescription.length} / 160 characters`}><TextArea id="sd" value={settings.seoDescription} onChange={(v) => updateSettings({ seoDescription: v })} /></Field>
       </div> : null}
 
-      {tab === "integrations" ? <ul className="divide-y divide-border">
+      {tab === "integrations" && isAdmin ? <ul className="divide-y divide-border">
         {[["Sign-in", "Email and password sign-in for the CMS", "Connected"], ["Analytics", "Website traffic for the dashboard", "Not connected"], ["Email", "Sending replies and notifications", "Not connected"]].map(([n, d, s]) => <li key={n} className="flex items-center justify-between gap-4 py-3"><div><p className="text-sm font-medium text-ink">{n}</p><p className="text-xs text-muted-foreground">{d}</p></div><span className={s === "Connected" ? "text-xs font-medium text-primary" : "text-xs text-muted-foreground"}>{s}</span></li>)}
       </ul> : null}
     </div>
