@@ -1,7 +1,7 @@
 import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Plus } from "lucide-react";
-import { useState } from "react";
 
+import { useKept } from "@/lib/cms/kept";
 import { adminHead } from "@/lib/admin/head";
 import { formatWhen, useCms } from "@/lib/cms/store";
 import { matches, stringSearch, uniq } from "@/lib/cms/search";
@@ -20,7 +20,7 @@ type Tab = "collaborations" | "requests";
 function Collaborations() {
   const cms = useCms();
   const search = Route.useSearch();
-  const [tab, setTab] = useState<Tab>(search["tab"] === "requests" ? "requests" : "collaborations");
+  const [tab, setTab] = useKept<Tab>("admin.collaborations.index:22", search["tab"] === "requests" ? "requests" : "collaborations");
   const unread = cms.requests.filter((r) => r.status === "New").length;
   return <>
     <PageHeader title="Collaborations" actions={tab === "collaborations" ? <Link to="/admin/collaborations/$id" params={{ id: "new" }} className={btn.primary}><Plus className="h-4 w-4" />New Collaboration</Link> : null} />
@@ -32,9 +32,9 @@ function Collaborations() {
 function List() {
   const cms = useCms();
   const navigate = useNavigate();
-  const [q, setQ] = useState("");
-  const [status, setStatus] = useState("");
-  const [story, setStory] = useState("");
+  const [q, setQ] = useKept("admin.collaborations.index:34", "");
+  const [status, setStatus] = useKept("admin.collaborations.index:35", "");
+  const [story, setStory] = useKept("admin.collaborations.index:36", "");
   const all = cms.byType("collaboration");
   const rows = all.filter((r) => (!q || matches(`${r.title} ${r.fields["partners"] ?? ""}`, q)) && (!status || r.status === status) && (!story || (story === "On") === (r.fields["publicStory"] === "on"))).sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
   const columns: Column<CmsRecord>[] = [
@@ -54,9 +54,9 @@ function List() {
 function Requests() {
   const cms = useCms();
   const navigate = useNavigate();
-  const [q, setQ] = useState("");
-  const [status, setStatus] = useState("");
-  const [intent, setIntent] = useState("");
+  const [q, setQ] = useKept("admin.collaborations.index:56", "");
+  const [status, setStatus] = useKept("admin.collaborations.index:57", "");
+  const [intent, setIntent] = useKept("admin.collaborations.index:58", "");
   const rows = cms.requests.filter((r) => (!q || matches(`${r.name} ${r.organisation} ${r.subject}`, q)) && (!status || r.status === status) && (!intent || r.intent === intent)).sort((a, b) => b.receivedAt.localeCompare(a.receivedAt));
   const columns: Column<CmsRequest>[] = [
     { key: "name", label: "Name", render: (r) => <span className={r.status === "New" ? "font-semibold" : ""}>{r.name}</span> },

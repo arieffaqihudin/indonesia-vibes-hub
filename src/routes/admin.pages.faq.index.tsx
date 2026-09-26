@@ -1,7 +1,7 @@
 import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
 import { ArrowLeft, Plus } from "lucide-react";
-import { useState } from "react";
 
+import { useKept } from "@/lib/cms/kept";
 import { adminHead } from "@/lib/admin/head";
 import { FAQ_CATEGORIES, FAQ_PLACEMENTS, FAQ_STATUSES, sortFaqs, useFaqs, type Faq } from "@/lib/faq";
 import { formatWhen } from "@/lib/cms/store";
@@ -19,9 +19,9 @@ const placementLabel = (id: string) => FAQ_PLACEMENTS.find((p) => p.id === id)?.
 function FaqList() {
   const [faqs] = useFaqs();
   const navigate = useNavigate();
-  const [q, setQ] = useState("");
-  const [category, setCategory] = useState("");
-  const [status, setStatus] = useState("");
+  const [q, setQ] = useKept("admin.pages.faq.index:21", "");
+  const [category, setCategory] = useKept("admin.pages.faq.index:22", "");
+  const [status, setStatus] = useKept("admin.pages.faq.index:23", "");
   const rows = sortFaqs(faqs).filter((f) => (!q || matches(f.question, q)) && (!category || f.category === category) && (!status || f.status === status));
   const columns: Column<Faq>[] = [
     { key: "q", label: "Question", render: (f) => f.question || "Untitled question" },

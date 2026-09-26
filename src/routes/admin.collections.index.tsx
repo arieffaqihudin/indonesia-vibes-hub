@@ -1,7 +1,7 @@
 import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Plus } from "lucide-react";
-import { useState } from "react";
 
+import { useKept } from "@/lib/cms/kept";
 import { adminHead } from "@/lib/admin/head";
 import { useCollections, type EditorialCollection } from "@/lib/collections";
 import { formatWhen } from "@/lib/cms/store";
@@ -17,8 +17,8 @@ export const Route = createFileRoute("/admin/collections/")({
 function Collections() {
   const [items] = useCollections();
   const navigate = useNavigate();
-  const [q, setQ] = useState("");
-  const [status, setStatus] = useState("");
+  const [q, setQ] = useKept("admin.collections.index:19", "");
+  const [status, setStatus] = useKept("admin.collections.index:20", "");
   const rows = items.filter((c) => (!q || matches(c.title, q)) && (!status || c.status === status));
   const columns: Column<EditorialCollection>[] = [
     { key: "title", label: "Collection", render: (c) => <span className="flex items-center gap-2.5">{c.image ? <img src={c.image} alt="" className="h-8 w-11 rounded object-cover" /> : null}{c.title || "Untitled"}</span> },

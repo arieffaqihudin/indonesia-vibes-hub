@@ -1,7 +1,7 @@
 import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Plus } from "lucide-react";
-import { useState } from "react";
 
+import { useKept } from "@/lib/cms/kept";
 import { adminHead } from "@/lib/admin/head";
 import { formatWhen, useCms } from "@/lib/cms/store";
 import { matches, stringSearch, uniq } from "@/lib/cms/search";
@@ -19,12 +19,12 @@ function Articles() {
   const cms = useCms();
   const navigate = useNavigate();
   const search = Route.useSearch();
-  const [q, setQ] = useState("");
-  const [status, setStatus] = useState(search["status"] ?? "");
-  const [topic, setTopic] = useState("");
-  const [format, setFormat] = useState("");
-  const [author, setAuthor] = useState("");
-  const [source, setSource] = useState("");
+  const [q, setQ] = useKept("admin.articles.index:21", "");
+  const [status, setStatus] = useKept("admin.articles.index:22", search["status"] ?? "");
+  const [topic, setTopic] = useKept("admin.articles.index:23", "");
+  const [format, setFormat] = useKept("admin.articles.index:24", "");
+  const [author, setAuthor] = useKept("admin.articles.index:25", "");
+  const [source, setSource] = useKept("admin.articles.index:26", "");
   const all = cms.byType("article");
   const rows = all
     .filter((r) => (!q || matches(r.title, q)) && (!status || r.status === status) && (!topic || (r.relations.topics ?? []).includes(topic)) && (!format || r.fields["format"] === format) && (!author || r.author === author) && (!source || r.fields["source"] === source))

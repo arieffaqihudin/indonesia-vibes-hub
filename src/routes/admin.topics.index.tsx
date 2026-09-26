@@ -1,7 +1,7 @@
 import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Plus } from "lucide-react";
-import { useState } from "react";
 
+import { useKept } from "@/lib/cms/kept";
 import { adminHead } from "@/lib/admin/head";
 import { useTopics, type TopicDefinition } from "@/lib/topics";
 import { formatWhen, useCms } from "@/lib/cms/store";
@@ -18,8 +18,8 @@ function Topics() {
   const [topics] = useTopics();
   const cms = useCms();
   const navigate = useNavigate();
-  const [q, setQ] = useState("");
-  const [status, setStatus] = useState("");
+  const [q, setQ] = useKept("admin.topics.index:20", "");
+  const [status, setStatus] = useKept("admin.topics.index:21", "");
   const count = (topic: string, type: "article" | "heritage") => cms.records.filter((r) => r.type === type && (r.relations.topics ?? []).includes(topic)).length;
   const rows = topics.map((t) => ({ ...t, key: t.id })).map((t) => ({ ...t, id: t.slug, name: t.key })).filter((t) => (!q || matches(t.name, q)) && (!status || t.status === status));
   type Row = (typeof rows)[number];

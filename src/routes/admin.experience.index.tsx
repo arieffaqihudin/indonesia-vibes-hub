@@ -1,7 +1,7 @@
 import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Plus } from "lucide-react";
-import { useState } from "react";
 
+import { useKept } from "@/lib/cms/kept";
 import { adminHead } from "@/lib/admin/head";
 import { formatWhen, useCms } from "@/lib/cms/store";
 import { useOptions } from "@/lib/cms/options";
@@ -21,7 +21,7 @@ type Tab = "events" | "places" | "world";
 
 function Experience() {
   const search = Route.useSearch();
-  const [tab, setTab] = useState<Tab>((search["tab"] as Tab) ?? "events");
+  const [tab, setTab] = useKept<Tab>("admin.experience.index:23", (search["tab"] as Tab) ?? "events");
   const cta = tab === "places"
     ? <Link to="/admin/experience/$id" params={{ id: "new" }} search={{ type: "place" }} className={btn.primary}><Plus className="h-4 w-4" />New Place</Link>
     : tab === "events" ? <Link to="/admin/experience/$id" params={{ id: "new" }} search={{ type: "event" }} className={btn.primary}><Plus className="h-4 w-4" />New Event</Link> : null;
@@ -35,10 +35,10 @@ function Experience() {
 function Events({ missingOnly }: { missingOnly: boolean }) {
   const cms = useCms();
   const navigate = useNavigate();
-  const [q, setQ] = useState("");
-  const [type, setType] = useState("");
-  const [status, setStatus] = useState("");
-  const [when, setWhen] = useState(missingOnly ? "Missing information" : "");
+  const [q, setQ] = useKept("admin.experience.index:37", "");
+  const [type, setType] = useKept("admin.experience.index:38", "");
+  const [status, setStatus] = useKept("admin.experience.index:39", "");
+  const [when, setWhen] = useKept("admin.experience.index:40", missingOnly ? "Missing information" : "");
   const today = new Date().toISOString().slice(0, 10);
   const all = cms.byType("event");
   const missing = (r: CmsRecord) => Boolean(r.fields["missing"] || !r.image || !r.summary);
@@ -68,9 +68,9 @@ function Places() {
   const cms = useCms();
   const options = useOptions();
   const navigate = useNavigate();
-  const [q, setQ] = useState("");
-  const [type, setType] = useState("");
-  const [country, setCountry] = useState("");
+  const [q, setQ] = useKept("admin.experience.index:70", "");
+  const [type, setType] = useKept("admin.experience.index:71", "");
+  const [country, setCountry] = useKept("admin.experience.index:72", "");
   const all = cms.byType("place");
   const rows = all.filter((r) => (!q || matches(r.title, q)) && (!type || r.fields["placeType"] === type) && (!country || r.fields["country"] === country)).sort((a, b) => a.title.localeCompare(b.title));
   const columns: Column<CmsRecord>[] = [
@@ -91,8 +91,8 @@ function Places() {
 function World() {
   const cms = useCms();
   const navigate = useNavigate();
-  const [country, setCountry] = useState("");
-  const [type, setType] = useState("");
+  const [country, setCountry] = useKept("admin.experience.index:93", "");
+  const [type, setType] = useKept("admin.experience.index:94", "");
   const items = cms.byType("event", "place", "organisation", "collaboration").filter((r) => {
     const countries = (r.fields["countries"] ?? r.fields["country"] ?? "").split(",").map((c) => c.trim()).filter(Boolean);
     return countries.some((c) => c !== "Indonesia");
