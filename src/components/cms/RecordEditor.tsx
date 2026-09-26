@@ -12,7 +12,7 @@ import { useCmsAccount } from "@/lib/cms/role";
 import { CMS_STATUSES, FORMAT_OPTIONS, TYPE_LABEL, type CmsRecord, type CmsType, type RelationKey } from "@/lib/cms/types";
 import { INSTITUTION_TYPES, COLLABORATION_TYPES } from "@/types/content";
 import { EditorFrame, type SaveState } from "./EditorFrame";
-import { RichText } from "./RichText";
+import { RichText } from "./LazyRichText";
 import { ImageField, MultiPicker } from "./pickers";
 import { Field, Panel, Select, TextArea, TextInput, Toggle, btn, inputClass, NO_DATA } from "./ui";
 import { cn } from "@/lib/utils";

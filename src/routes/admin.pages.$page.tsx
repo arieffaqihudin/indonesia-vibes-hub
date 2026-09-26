@@ -8,7 +8,7 @@ import { newId, useCms } from "@/lib/cms/store";
 import { useOptions } from "@/lib/cms/options";
 import { CMS_STATUSES, type CmsPage, type CmsTeamMember, type PageId } from "@/lib/cms/types";
 import { EditorFrame, type SaveState } from "@/components/cms/EditorFrame";
-import { RichText } from "@/components/cms/RichText";
+import { RichText } from "@/components/cms/LazyRichText";
 import { ImageField, OrderedList } from "@/components/cms/pickers";
 import { Field, Panel, Select, TextArea, TextInput, btn } from "@/components/cms/ui";
 
