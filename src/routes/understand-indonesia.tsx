@@ -38,7 +38,7 @@ function UnderstandIndonesia() {
   }).sort((a, b) => (sort === "Oldest" ? 1 : -1) * (new Date(a.publishedAt).getTime() - new Date(b.publishedAt).getTime())), [query, format, sort, topic]);
 
   return <>
-    <PageHeader eyebrow="Understand Indonesia" title="Understand Indonesia" intro="Stories, ideas and perspectives to help you discover and understand Indonesia." />
+    <PageHeader eyebrow="Understand Indonesia" title="Indonesia, Told Through Culture" intro="Discover the culture, ideas and people that shape Indonesia — and the stories Indonesia brings to the world." />
     <FilterBar search={{ value: query, onChange: setQuery, placeholder: "Search Articles" }} primary={[
       { id: "topic", label: "Topic", options: TOPICS.map((item) => item.id), value: topic || null, onChange: (value) => setTopic(value ?? ""), allLabel: "All topics" },
       { id: "format", label: "Format", options: PUBLIC_FORMATS, value: format, onChange: (value) => setFormat(value as PublicFormat | null), allLabel: "All formats" },
