@@ -11,6 +11,7 @@ export interface FilterDef {
   value: string;
   options: (string | { value: string; label: string })[];
   onChange: (value: string) => void;
+  emptyLabel?: string;
 }
 
 const control = "h-10 rounded-[var(--btn-radius)] border border-btn-border bg-background text-sm text-ink outline-none transition-[background-color,border-color,box-shadow] duration-150 hover:border-muted-foreground/40 hover:bg-sand focus-visible:ring-2 focus-visible:ring-primary/35 focus-visible:ring-offset-2 focus-visible:ring-offset-background max-sm:h-11";
@@ -25,11 +26,11 @@ export function FilterSearch({ value, onChange, placeholder, label }: { value: s
 
 export function FilterSelect({ label, value, options, onChange, className, emptyLabel, allowEmpty = true }: FilterDef & { className?: string; emptyLabel?: string; allowEmpty?: boolean }) {
   return <div className={cn("relative min-w-0", className)}>
-    <select aria-label={label} value={value} onChange={(e) => onChange(e.target.value)} className={cn(control, "w-full cursor-pointer appearance-none truncate py-0 pr-9 pl-3", value && "border-primary/35 bg-blush text-deep-red hover:border-primary/50 hover:bg-blush")}>
+    <select aria-label={label} value={value} onChange={(e) => onChange(e.target.value)} className={cn(control, "w-full cursor-pointer appearance-none truncate py-0 pr-9 pl-3", allowEmpty && value && "border-primary/35 bg-blush text-deep-red hover:border-primary/50 hover:bg-blush")}>
       {allowEmpty ? <option value="">{emptyLabel ?? `${label}: All`}</option> : null}
       {options.map((o) => typeof o === "string" ? <option key={o} value={o}>{o}</option> : <option key={o.value} value={o.value}>{o.label}</option>)}
     </select>
-    <ChevronDown aria-hidden className={cn("pointer-events-none absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 text-muted-foreground", value && "text-deep-red")} />
+    <ChevronDown aria-hidden className={cn("pointer-events-none absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 text-muted-foreground", allowEmpty && value && "text-deep-red")} />
   </div>;
 }
 
