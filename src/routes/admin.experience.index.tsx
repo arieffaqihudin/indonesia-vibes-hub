@@ -10,7 +10,8 @@ import { matches, stringSearch, uniq } from "@/lib/cms/search";
 import { CMS_STATUSES, TYPE_LABEL, editPath, type CmsRecord } from "@/lib/cms/types";
 import { DataList, type Column } from "@/components/cms/DataList";
 import { Pagination, useListPagination } from "@/components/cms/Pagination";
-import { EmptyState, NO_DATA, PageHeader, StatusBadge, Tabs, Toggle, btn, inputClass } from "@/components/cms/ui";
+import { EmptyState, NO_DATA, PageHeader, StatusBadge, Tabs, Toggle, btn } from "@/components/cms/ui";
+import { FilterBar } from "@/components/cms/FilterBar";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/admin/experience/")({
@@ -115,10 +116,7 @@ function World() {
         {onMap.map((r) => { const x = ((Number(r.fields["lng"]) + 180) / 360) * 1000; const y = ((90 - Number(r.fields["lat"])) / 180) * 480; return <g key={r.id} className="cursor-pointer" onClick={() => void navigate({ to: editPath(r.type), params: { id: r.id } } as never)}><title>{r.title}</title><circle cx={x} cy={y} r={7} className={cn(visible(r) ? "fill-primary" : "fill-muted-foreground/40")} opacity={0.85} /></g>; })}
       </svg>
     </div>
-    <div className="flex flex-wrap gap-2">
-      <select aria-label="Country" value={country} onChange={(e) => setCountry(e.target.value)} className={cn(inputClass, "w-auto")}><option value="">Country: All</option>{uniq(items.flatMap(countriesOf)).map((c) => <option key={c}>{c}</option>)}</select>
-      <select aria-label="Type" value={type} onChange={(e) => setType(e.target.value)} className={cn(inputClass, "w-auto")}><option value="">Type: All</option>{["Event", "Place", "Organisation", "Collaboration"].map((c) => <option key={c}>{c}</option>)}</select>
-    </div>
+    <FilterBar className="!mb-0" filters={[{ label: "Country", value: country, onChange: setCountry, options: uniq(items.flatMap(countriesOf)) }, { label: "Type", value: type, onChange: setType, options: ["Event", "Place", "Organisation", "Collaboration"] }]} />
     <div ref={pagination.anchor} className="scroll-mt-5 rounded-lg border border-border bg-background">
     <ul className="divide-y divide-border">
       {visibleRows.map((r) => <li key={r.id} className="flex flex-wrap items-center gap-3 px-4 py-2.5">

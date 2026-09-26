@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { Plus, Search } from "lucide-react";
+import { Plus } from "lucide-react";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -13,7 +13,8 @@ import { inviteCmsUser } from "@/lib/cms/users.functions";
 import { rolesListQuery, usersQuery } from "@/lib/cms/users";
 import { Confirm, Modal, fmtDateTime } from "@/components/cms/Modal";
 import { ActiveLabel, ConnectionLabel } from "@/components/cms/UserBadges";
-import { EmptyState, Field, PageHeader, Select, TextInput, Toggle, btn, inputClass } from "@/components/cms/ui";
+import { FilterSearch } from "@/components/cms/FilterBar";
+import { EmptyState, Field, PageHeader, Select, TextInput, Toggle, btn } from "@/components/cms/ui";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/admin/users/")({
@@ -30,7 +31,7 @@ function UsersPage() {
   const cols = "md:grid-cols-[minmax(0,1.6fr)_8rem_8rem_6rem_7rem_9rem_3rem]";
   return <div>
     <PageHeader title="Users" description="People who can sign in to the CMS." actions={<button type="button" className={btn.primary} onClick={() => setAdding(true)}><Plus className="h-4 w-4" />Add User</button>} />
-    <div className="relative mb-4 max-w-sm"><Search className="pointer-events-none absolute top-1/2 left-2.5 h-4 w-4 -translate-y-1/2 text-muted-foreground" /><input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search users…" aria-label="Search users" className={cn(inputClass, "pl-8")} /></div>
+    <div className="mb-4 max-w-sm"><FilterSearch value={q} onChange={setQ} placeholder="Search users…" label="Search users" /></div>
     {isLoading ? <p className="py-8 text-sm text-muted-foreground">Loading…</p> : !rows.length ? <EmptyState title={q ? "No users match your search" : "No users yet"} action={!q ? <button type="button" className={btn.primary} onClick={() => setAdding(true)}>Add User</button> : undefined} /> :
       <div className="divide-y divide-border border-y border-border">
         <div className={cn("hidden gap-4 px-2 py-2 text-xs font-medium text-muted-foreground md:grid", cols)}><span>User</span><span>Phone Number</span><span>Access</span><span>Account</span><span>Login Status</span><span>Last Login</span><span className="text-right">Action</span></div>

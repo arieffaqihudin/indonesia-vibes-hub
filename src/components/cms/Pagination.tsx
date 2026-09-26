@@ -4,6 +4,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useKept } from "@/lib/cms/kept";
 import { cn } from "@/lib/utils";
 import { btn } from "./ui";
+import { FilterSelect } from "./FilterBar";
 
 const SIZES = [10, 20, 50, 100] as const;
 
@@ -55,9 +56,7 @@ export function Pagination({ total, current, pages, size, go, changeSize }: {
   return <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-t border-border px-3 py-2.5 text-xs text-muted-foreground sm:px-4">
     <div className="flex flex-wrap items-center gap-3">
       <label className="flex items-center gap-2">Rows per page
-        <select aria-label="Rows per page" value={size} onChange={(e) => changeSize(Number(e.target.value))} className="h-9 rounded-[var(--btn-radius-sm)] border border-border bg-background px-2 text-xs text-ink focus-visible:ring-2 focus-visible:ring-primary/30">
-          {SIZES.map((n) => <option key={n} value={n}>{n}</option>)}
-        </select>
+        <FilterSelect label="Rows per page" value={String(size)} onChange={(v) => changeSize(Number(v))} options={SIZES.map(String)} allowEmpty={false} className="w-20" />
       </label>
       <span aria-live="polite">{total ? current * size + 1 : 0}–{Math.min(total, (current + 1) * size)} of {total}</span>
     </div>
