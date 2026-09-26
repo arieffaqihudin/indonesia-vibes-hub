@@ -35,10 +35,12 @@ import { Route as UnderstandIndonesiaRouteImport } from './routes/understand-ind
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminSplatRouteImport } from './routes/admin.$'
 import { Route as AdminAccessRouteImport } from './routes/admin.access'
+import { Route as AdminActivityRouteImport } from './routes/admin.activity'
 import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
 import { Route as AdminForgotPasswordRouteImport } from './routes/admin.forgot-password'
 import { Route as AdminHomepageRouteImport } from './routes/admin.homepage'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
+import { Route as AdminProfileRouteImport } from './routes/admin.profile'
 import { Route as AdminResetPasswordRouteImport } from './routes/admin.reset-password'
 import { Route as CollaborateSlugRouteImport } from './routes/collaborate.$slug'
 import { Route as CollaborationsIndexRouteImport } from './routes/collaborations.index'
@@ -90,6 +92,7 @@ import { Route as AdminPreviewIdRouteImport } from './routes/admin.preview.$id'
 import { Route as AdminTopicsIndexRouteImport } from './routes/admin.topics.index'
 import { Route as AdminTopicsIdRouteImport } from './routes/admin.topics.$id'
 import { Route as AdminUsersIndexRouteImport } from './routes/admin.users.index'
+import { Route as AdminUsersIdRouteImport } from './routes/admin.users.$id'
 import { Route as ContributorSubmissionsIndexRouteImport } from './routes/contributor.submissions.index'
 import { Route as ExploreTopicsIndexRouteImport } from './routes/explore.topics.index'
 import { Route as ExploreTopicsSlugRouteImport } from './routes/explore.topics.$slug'
@@ -236,6 +239,11 @@ const AdminAccessRoute = AdminAccessRouteImport.update({
   path: '/access',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminActivityRoute = AdminActivityRouteImport.update({
+  id: '/activity',
+  path: '/activity',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminDashboardRoute = AdminDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -254,6 +262,11 @@ const AdminHomepageRoute = AdminHomepageRouteImport.update({
 const AdminLoginRoute = AdminLoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminProfileRoute = AdminProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminResetPasswordRoute = AdminResetPasswordRouteImport.update({
@@ -517,6 +530,11 @@ const AdminUsersIndexRoute = AdminUsersIndexRouteImport.update({
   path: '/users/',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminUsersIdRoute = AdminUsersIdRouteImport.update({
+  id: '/users/$id',
+  path: '/users/$id',
+  getParentRoute: () => AdminRoute,
+} as any)
 const ContributorSubmissionsIndexRoute =
   ContributorSubmissionsIndexRouteImport.update({
     id: '/contributor/submissions/',
@@ -630,10 +648,12 @@ export interface FileRoutesByFullPath {
   '/understand-indonesia': typeof UnderstandIndonesiaRouteWithChildren
   '/admin/$': typeof AdminSplatRoute
   '/admin/access': typeof AdminAccessRoute
+  '/admin/activity': typeof AdminActivityRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/forgot-password': typeof AdminForgotPasswordRoute
   '/admin/homepage': typeof AdminHomepageRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/profile': typeof AdminProfileRoute
   '/admin/reset-password': typeof AdminResetPasswordRoute
   '/collaborate/$slug': typeof CollaborateSlugRoute
   '/collaborations/$slug': typeof CollaborationsSlugRoute
@@ -677,6 +697,7 @@ export interface FileRoutesByFullPath {
   '/admin/people-organisations/$id': typeof AdminPeopleOrganisationsIdRoute
   '/admin/preview/$id': typeof AdminPreviewIdRoute
   '/admin/topics/$id': typeof AdminTopicsIdRoute
+  '/admin/users/$id': typeof AdminUsersIdRoute
   '/explore/topics/$slug': typeof ExploreTopicsSlugRoute
   '/understand-indonesia/collections/$slug': typeof UnderstandIndonesiaCollectionsSlugRoute
   '/understand-indonesia/heritage/$slug': typeof UnderstandIndonesiaHeritageSlugRoute
@@ -727,10 +748,12 @@ export interface FileRoutesByTo {
   '/understand-indonesia': typeof UnderstandIndonesiaRouteWithChildren
   '/admin/$': typeof AdminSplatRoute
   '/admin/access': typeof AdminAccessRoute
+  '/admin/activity': typeof AdminActivityRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/forgot-password': typeof AdminForgotPasswordRoute
   '/admin/homepage': typeof AdminHomepageRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/profile': typeof AdminProfileRoute
   '/admin/reset-password': typeof AdminResetPasswordRoute
   '/collaborate/$slug': typeof CollaborateSlugRoute
   '/collaborations/$slug': typeof CollaborationsSlugRoute
@@ -774,6 +797,7 @@ export interface FileRoutesByTo {
   '/admin/people-organisations/$id': typeof AdminPeopleOrganisationsIdRoute
   '/admin/preview/$id': typeof AdminPreviewIdRoute
   '/admin/topics/$id': typeof AdminTopicsIdRoute
+  '/admin/users/$id': typeof AdminUsersIdRoute
   '/explore/topics/$slug': typeof ExploreTopicsSlugRoute
   '/understand-indonesia/collections/$slug': typeof UnderstandIndonesiaCollectionsSlugRoute
   '/understand-indonesia/heritage/$slug': typeof UnderstandIndonesiaHeritageSlugRoute
@@ -826,10 +850,12 @@ export interface FileRoutesById {
   '/understand-indonesia': typeof UnderstandIndonesiaRouteWithChildren
   '/admin/$': typeof AdminSplatRoute
   '/admin/access': typeof AdminAccessRoute
+  '/admin/activity': typeof AdminActivityRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/forgot-password': typeof AdminForgotPasswordRoute
   '/admin/homepage': typeof AdminHomepageRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/profile': typeof AdminProfileRoute
   '/admin/reset-password': typeof AdminResetPasswordRoute
   '/collaborate/$slug': typeof CollaborateSlugRoute
   '/collaborations/$slug': typeof CollaborationsSlugRoute
@@ -873,6 +899,7 @@ export interface FileRoutesById {
   '/admin/people-organisations/$id': typeof AdminPeopleOrganisationsIdRoute
   '/admin/preview/$id': typeof AdminPreviewIdRoute
   '/admin/topics/$id': typeof AdminTopicsIdRoute
+  '/admin/users/$id': typeof AdminUsersIdRoute
   '/explore/topics/$slug': typeof ExploreTopicsSlugRoute
   '/understand-indonesia/collections/$slug': typeof UnderstandIndonesiaCollectionsSlugRoute
   '/understand-indonesia/heritage/$slug': typeof UnderstandIndonesiaHeritageSlugRoute
@@ -926,10 +953,12 @@ export interface FileRouteTypes {
     | '/understand-indonesia'
     | '/admin/$'
     | '/admin/access'
+    | '/admin/activity'
     | '/admin/dashboard'
     | '/admin/forgot-password'
     | '/admin/homepage'
     | '/admin/login'
+    | '/admin/profile'
     | '/admin/reset-password'
     | '/collaborate/$slug'
     | '/collaborations/$slug'
@@ -973,6 +1002,7 @@ export interface FileRouteTypes {
     | '/admin/people-organisations/$id'
     | '/admin/preview/$id'
     | '/admin/topics/$id'
+    | '/admin/users/$id'
     | '/explore/topics/$slug'
     | '/understand-indonesia/collections/$slug'
     | '/understand-indonesia/heritage/$slug'
@@ -1023,10 +1053,12 @@ export interface FileRouteTypes {
     | '/understand-indonesia'
     | '/admin/$'
     | '/admin/access'
+    | '/admin/activity'
     | '/admin/dashboard'
     | '/admin/forgot-password'
     | '/admin/homepage'
     | '/admin/login'
+    | '/admin/profile'
     | '/admin/reset-password'
     | '/collaborate/$slug'
     | '/collaborations/$slug'
@@ -1070,6 +1102,7 @@ export interface FileRouteTypes {
     | '/admin/people-organisations/$id'
     | '/admin/preview/$id'
     | '/admin/topics/$id'
+    | '/admin/users/$id'
     | '/explore/topics/$slug'
     | '/understand-indonesia/collections/$slug'
     | '/understand-indonesia/heritage/$slug'
@@ -1121,10 +1154,12 @@ export interface FileRouteTypes {
     | '/understand-indonesia'
     | '/admin/$'
     | '/admin/access'
+    | '/admin/activity'
     | '/admin/dashboard'
     | '/admin/forgot-password'
     | '/admin/homepage'
     | '/admin/login'
+    | '/admin/profile'
     | '/admin/reset-password'
     | '/collaborate/$slug'
     | '/collaborations/$slug'
@@ -1168,6 +1203,7 @@ export interface FileRouteTypes {
     | '/admin/people-organisations/$id'
     | '/admin/preview/$id'
     | '/admin/topics/$id'
+    | '/admin/users/$id'
     | '/explore/topics/$slug'
     | '/understand-indonesia/collections/$slug'
     | '/understand-indonesia/heritage/$slug'
@@ -1440,6 +1476,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAccessRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/activity': {
+      id: '/admin/activity'
+      path: '/activity'
+      fullPath: '/admin/activity'
+      preLoaderRoute: typeof AdminActivityRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/dashboard': {
       id: '/admin/dashboard'
       path: '/dashboard'
@@ -1466,6 +1509,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/admin/login'
       preLoaderRoute: typeof AdminLoginRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/profile': {
+      id: '/admin/profile'
+      path: '/profile'
+      fullPath: '/admin/profile'
+      preLoaderRoute: typeof AdminProfileRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/reset-password': {
@@ -1825,6 +1875,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminUsersIndexRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/users/$id': {
+      id: '/admin/users/$id'
+      path: '/users/$id'
+      fullPath: '/admin/users/$id'
+      preLoaderRoute: typeof AdminUsersIdRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/contributor/submissions/': {
       id: '/contributor/submissions/'
       path: '/contributor/submissions'
@@ -1936,10 +1993,12 @@ declare module '@tanstack/react-router' {
 interface AdminRouteChildren {
   AdminSplatRoute: typeof AdminSplatRoute
   AdminAccessRoute: typeof AdminAccessRoute
+  AdminActivityRoute: typeof AdminActivityRoute
   AdminDashboardRoute: typeof AdminDashboardRoute
   AdminForgotPasswordRoute: typeof AdminForgotPasswordRoute
   AdminHomepageRoute: typeof AdminHomepageRoute
   AdminLoginRoute: typeof AdminLoginRoute
+  AdminProfileRoute: typeof AdminProfileRoute
   AdminResetPasswordRoute: typeof AdminResetPasswordRoute
   AdminIndexRoute: typeof AdminIndexRoute
   AdminArticlesIdRoute: typeof AdminArticlesIdRoute
@@ -1951,6 +2010,7 @@ interface AdminRouteChildren {
   AdminPeopleOrganisationsIdRoute: typeof AdminPeopleOrganisationsIdRoute
   AdminPreviewIdRoute: typeof AdminPreviewIdRoute
   AdminTopicsIdRoute: typeof AdminTopicsIdRoute
+  AdminUsersIdRoute: typeof AdminUsersIdRoute
   AdminArticlesIndexRoute: typeof AdminArticlesIndexRoute
   AdminCollaborationsIndexRoute: typeof AdminCollaborationsIndexRoute
   AdminCollectionsIndexRoute: typeof AdminCollectionsIndexRoute
@@ -1968,10 +2028,12 @@ interface AdminRouteChildren {
 const AdminRouteChildren: AdminRouteChildren = {
   AdminSplatRoute: AdminSplatRoute,
   AdminAccessRoute: AdminAccessRoute,
+  AdminActivityRoute: AdminActivityRoute,
   AdminDashboardRoute: AdminDashboardRoute,
   AdminForgotPasswordRoute: AdminForgotPasswordRoute,
   AdminHomepageRoute: AdminHomepageRoute,
   AdminLoginRoute: AdminLoginRoute,
+  AdminProfileRoute: AdminProfileRoute,
   AdminResetPasswordRoute: AdminResetPasswordRoute,
   AdminIndexRoute: AdminIndexRoute,
   AdminArticlesIdRoute: AdminArticlesIdRoute,
@@ -1983,6 +2045,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminPeopleOrganisationsIdRoute: AdminPeopleOrganisationsIdRoute,
   AdminPreviewIdRoute: AdminPreviewIdRoute,
   AdminTopicsIdRoute: AdminTopicsIdRoute,
+  AdminUsersIdRoute: AdminUsersIdRoute,
   AdminArticlesIndexRoute: AdminArticlesIndexRoute,
   AdminCollaborationsIndexRoute: AdminCollaborationsIndexRoute,
   AdminCollectionsIndexRoute: AdminCollectionsIndexRoute,

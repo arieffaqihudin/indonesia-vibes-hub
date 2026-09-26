@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { Search } from "lucide-react";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 
 import { supabase } from "@/integrations/supabase/client";
 import { adminHead } from "@/lib/admin/head";
@@ -82,7 +82,7 @@ function ActivityPage() {
         <dt className="text-muted-foreground">Date & Time</dt><dd className="text-ink">{fmtDateTime(open.created_at)}</dd>
         <dt className="text-muted-foreground">Module</dt><dd className="text-ink">{open.module}</dd>
         <dt className="text-muted-foreground">Item</dt><dd className="text-ink">{open.item || "—"}</dd>
-        {Object.entries((open.detail ?? {}) as Record<string, string>).map(([k, v]) => <><dt key={k} className="text-muted-foreground">{k}</dt><dd key={`${k}v`} className="text-ink">{String(v)}</dd></>)}
+        {Object.entries((open.detail ?? {}) as Record<string, string>).map(([k, v]) => <Fragment key={k}><dt className="text-muted-foreground">{k}</dt><dd className="text-ink">{String(v)}</dd></Fragment>)}
         <dt className="text-muted-foreground">Device</dt><dd className="text-ink">{deviceLabel(open.device)}</dd>
       </dl>
       <p className="mt-4 text-xs text-muted-foreground">Activity records can't be edited or deleted.</p>
