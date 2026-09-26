@@ -14,8 +14,9 @@ const LEGACY: [RegExp, string, Record<string, string>?][] = [
   [/^editorial-standards/, "/admin/pages/editorial-standards"],
   [/^contact/, "/admin/pages/contact"],
   [/^faq/, "/admin/pages/faq"],
-  [/^(users)/, "/admin/settings", { tab: "users" }],
-  [/^(media|sources|settings)/, "/admin/settings"],
+  [/^(roles|permissions)/, "/admin/access"],
+  [/^(account|password)/, "/admin/profile"],
+  [/^(media|sources|settings)/, "/admin/profile"],
 ];
 
 export const Route = createFileRoute("/admin/$")({

@@ -3,6 +3,8 @@ import { Outlet, createFileRoute, redirect, useRouterState } from "@tanstack/rea
 import { CmsProvider } from "@/lib/cms/store";
 import { CmsShell } from "@/components/cms/CmsShell";
 import { supabase } from "@/integrations/supabase/client";
+import { ALL_MENUS, menuForPath } from "@/lib/cms/access";
+import { clearAccountCache, loadAccount } from "@/lib/cms/role";
 
 /** Server-verified once per session; later CMS page changes only read the local session. */
 let verifiedUserId: string | null = null;
@@ -22,10 +24,31 @@ export const Route = createFileRoute("/admin")({
     }
     const { data: { session } } = await supabase.auth.getSession();
     if (!session) { verifiedUserId = null; throw redirect({ to: "/admin/login", search: { redirect: location.href } }); }
-    if (verifiedUserId === session.user.id) return;
-    const { data, error } = await supabase.auth.getUser();
-    if (error || !data.user) throw redirect({ to: "/admin/login", search: { redirect: location.href } });
-    verifiedUserId = data.user.id;
+    if (verifiedUserId !== session.user.id) {
+      const { data, error } = await supabase.auth.getUser();
+      if (error || !data.user) throw redirect({ to: "/admin/login", search: { redirect: location.href } });
+      const key = `iv-cms-login:${data.user.id}`;
+      if (!window.sessionStorage.getItem(key)) {
+        const { data: allowed } = await supabase.rpc("cms_record_login", { _device: navigator.userAgent });
+        if (!allowed) {
+          await supabase.auth.signOut(); clearAccountCache();
+          throw redirect({ to: "/admin/login", search: { denied: "1" } as never });
+        }
+        window.sessionStorage.setItem(key, "1");
+        clearAccountCache();
+      }
+      verifiedUserId = data.user.id;
+    }
+    // Permission check per module (the database enforces the same rules for users, access and activity).
+    if (location.pathname.startsWith("/admin/preview/")) return;
+    const menu = menuForPath(location.pathname);
+    if (!menu) return;
+    const account = await loadAccount();
+    const menus = account?.menus ?? [];
+    if (!menus.includes(menu)) {
+      const first = ALL_MENUS.find((m) => menus.includes(m.key));
+      throw redirect({ to: (first?.to ?? "/admin/profile") as never, replace: true });
+    }
   },
   component: AdminLayout,
 });

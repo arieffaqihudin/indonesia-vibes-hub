@@ -32,7 +32,7 @@ function TextLink({ children, ...props }: { children: ReactNode } & Record<strin
 function NotConnected({ compact = false }: { compact?: boolean }) {
   return <div className={cn("flex flex-col items-start gap-1.5", compact ? "py-6" : "py-10")}>
     <p className="flex items-center gap-2 text-sm text-ink"><PlugZap className="h-4 w-4 text-muted-foreground" aria-hidden />Analytics not connected</p>
-    <Link to="/admin/settings" search={{ tab: "analytics" }} className="text-[0.8125rem] font-medium text-primary transition-colors duration-200 hover:text-deep-red">Connect Analytics →</Link>
+    <span className="text-[0.8125rem] text-muted-foreground">Ask your developer to connect a visitor-tracking service.</span>
   </div>;
 }
 

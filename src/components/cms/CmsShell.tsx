@@ -1,7 +1,7 @@
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import {
-  CalendarDays, ExternalLink, FileText, Handshake, Home, Landmark, LayoutDashboard, Library, KeyRound, LogOut, Menu, UserRound, Search, Settings, Tags, Users, X, Files, type LucideIcon,
+  CalendarDays, ExternalLink, FileText, Handshake, History, Home, Landmark, LayoutDashboard, Library, KeyRound, LogOut, Menu, UserRound, Search, ShieldCheck, Tags, UserCog, Users, X, Files, type LucideIcon,
 } from "lucide-react";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 
@@ -9,35 +9,21 @@ import markRed from "@/assets/mark-red.png";
 import { supabase } from "@/integrations/supabase/client";
 import { useCollections } from "@/lib/collections";
 import { useCms } from "@/lib/cms/store";
+import { ALL_MENUS, MENU_GROUPS, type MenuKey } from "@/lib/cms/access";
+import { logActivity } from "@/lib/cms/activity";
 import { clearAccountCache, useCmsAccount } from "@/lib/cms/role";
 import { TYPE_LABEL, editPath } from "@/lib/cms/types";
 import { useTopics } from "@/lib/topics";
 import { cn } from "@/lib/utils";
 import { inputClass } from "./ui";
-import { ChangePasswordDialog } from "./ChangePassword";
 
-type NavItem = { to: string; label: string; icon: LucideIcon };
-const NAV: { label?: string; items: NavItem[] }[] = [
-  { items: [{ to: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard }] },
-  { label: "Content", items: [
-    { to: "/admin/articles", label: "Articles", icon: FileText },
-    { to: "/admin/heritage", label: "Heritage", icon: Landmark },
-    { to: "/admin/topics", label: "Topics", icon: Tags },
-    { to: "/admin/collections", label: "Collections", icon: Library },
-  ] },
-  { label: "Directory", items: [
-    { to: "/admin/people-organisations", label: "People & Organisations", icon: Users },
-    { to: "/admin/experience", label: "Experience", icon: CalendarDays },
-  ] },
-  { label: "Engagement", items: [{ to: "/admin/collaborations", label: "Collaborations", icon: Handshake }] },
-  { label: "Website", items: [
-    { to: "/admin/homepage", label: "Homepage", icon: Home },
-    { to: "/admin/pages", label: "Pages", icon: Files },
-  ] },
-  { label: "System", items: [{ to: "/admin/settings", label: "Settings", icon: Settings }] },
-];
+const ICONS: Record<MenuKey, LucideIcon> = {
+  dashboard: LayoutDashboard, articles: FileText, heritage: Landmark, topics: Tags, collections: Library,
+  people: Users, experience: CalendarDays, collaborations: Handshake, homepage: Home, pages: Files,
+  access: ShieldCheck, users: UserCog, activity: History, profile: UserRound,
+};
 
-const TITLES: [string, string][] = NAV.flatMap((g) => g.items.map((i) => [i.to, i.label] as [string, string]));
+const TITLES: [string, string][] = ALL_MENUS.map((i) => [i.to, i.label === "User" ? "Users" : i.label] as [string, string]);
 
 /** Thin bar while the next page's code loads; the current page stays visible meanwhile. */
 function RouteProgress() {
@@ -47,12 +33,15 @@ function RouteProgress() {
 
 function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const account = useCmsAccount();
+  const allowed = account?.menus ?? [];
+  const groups = MENU_GROUPS.map((g) => ({ ...g, items: g.items.filter((i) => allowed.includes(i.key)) })).filter((g) => g.items.length);
   return <nav aria-label="CMS" className="flex-1 space-y-5 overflow-y-auto px-3 py-4">
-    {NAV.map((group, i) => <div key={group.label ?? i}>
+    {groups.map((group, i) => <div key={group.label ?? i}>
       {group.label ? <p className="mb-1 px-2.5 text-[0.625rem] font-semibold uppercase tracking-[0.08em] text-muted-foreground/70">{group.label}</p> : null}
       <ul className="space-y-0.5">{group.items.map((item) => {
         const active = pathname === item.to || pathname.startsWith(`${item.to}/`);
-        const Icon = item.icon;
+        const Icon = ICONS[item.key];
         return <li key={item.to}>
           {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
           <Link to={item.to as any} onClick={onNavigate} aria-current={active ? "page" : undefined} className={cn("flex h-9 items-center gap-2.5 rounded-md px-2.5 text-sm text-ink/75 transition-colors duration-150 hover:bg-background/80 hover:text-ink active:bg-blush/70", active && "bg-blush font-medium text-primary hover:bg-blush hover:text-primary")}>
@@ -112,39 +101,37 @@ function Account() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
-  const [pw, setPw] = useState(false);
   const initials = (account?.name ?? "?").split(/\s+/).map((p) => p[0]).join("").slice(0, 2).toUpperCase();
   const signOut = async () => {
+    await logActivity("Logout", "Account", account?.name ?? "");
     await queryClient.cancelQueries(); queryClient.clear(); clearAccountCache();
+    Object.keys(window.sessionStorage).filter((k) => k.startsWith("iv-cms-login:")).forEach((k) => window.sessionStorage.removeItem(k));
     await supabase.auth.signOut();
     window.sessionStorage.removeItem("iv-cms-session-active");
     void navigate({ to: "/admin/login", replace: true });
   };
   return <div className="relative">
-    <button type="button" onClick={() => setOpen(!open)} aria-expanded={open} aria-label="Account" className="flex h-8 w-8 items-center justify-center rounded-full bg-ink text-xs font-semibold text-primary-foreground">{initials}</button>
+    <button type="button" onClick={() => setOpen(!open)} aria-expanded={open} aria-label="Account" className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-ink text-xs font-semibold text-primary-foreground">{account?.avatar ? <img src={account.avatar} alt="" className="h-full w-full object-cover" /> : initials}</button>
     {open ? <>
       <button type="button" aria-label="Close menu" className="fixed inset-0 z-40 cursor-default" onClick={() => setOpen(false)} />
       <div className="absolute top-full right-0 z-50 mt-2 w-60 rounded-md border border-border bg-background p-1 shadow-lg">
         <div className="border-b border-border px-3 py-2.5"><p className="truncate text-sm font-medium text-ink">{account?.name}</p><p className="text-xs text-primary">{account?.role}</p><p className="mt-1 truncate text-xs text-muted-foreground">{account?.email}</p></div>
-        <Link to="/admin/settings" search={{ tab: "users" }} onClick={() => setOpen(false)} className="flex h-9 items-center gap-2 rounded px-3 text-sm text-ink hover:bg-muted"><UserRound className="h-4 w-4" />Account</Link>
-        <button type="button" onClick={() => { setOpen(false); setPw(true); }} className="flex h-9 w-full items-center gap-2 rounded px-3 text-sm text-ink hover:bg-muted"><KeyRound className="h-4 w-4" />Change Password</button>
+        <Link to="/admin/profile" onClick={() => setOpen(false)} className="flex h-9 items-center gap-2 rounded px-3 text-sm text-ink hover:bg-muted"><UserRound className="h-4 w-4" />Profile</Link>
+        <Link to="/admin/profile" hash="password" onClick={() => setOpen(false)} className="flex h-9 items-center gap-2 rounded px-3 text-sm text-ink hover:bg-muted"><KeyRound className="h-4 w-4" />Change Password</Link>
         <button type="button" onClick={() => void signOut()} className="flex h-9 w-full items-center gap-2 rounded px-3 text-sm text-ink hover:bg-muted"><LogOut className="h-4 w-4" />Sign Out</button>
       </div>
     </> : null}
-    {pw ? <ChangePasswordDialog onClose={() => setPw(false)} /> : null}
   </div>;
 }
 
 function PasswordNotice() {
   const account = useCmsAccount();
-  const [open, setOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
   if (!account?.mustChangePassword || hidden) return null;
   return <div className="flex flex-wrap items-center gap-3 border-b border-border bg-blush px-4 py-2 text-sm text-ink sm:px-6 lg:px-8">
     <span className="flex-1">You're using a temporary password. Set a new one to keep your account secure.</span>
-    <button type="button" onClick={() => setOpen(true)} className="h-8 rounded-md bg-primary px-3 text-xs font-medium text-primary-foreground">Set a New Password</button>
+    <Link to="/admin/profile" hash="password" className="inline-flex h-8 items-center rounded-md bg-primary px-3 text-xs font-medium text-primary-foreground">Set a New Password</Link>
     <button type="button" onClick={() => setHidden(true)} className="h-8 px-2 text-xs text-muted-foreground hover:text-ink">Later</button>
-    {open ? <ChangePasswordDialog onClose={() => setOpen(false)} /> : null}
   </div>;
 }
 

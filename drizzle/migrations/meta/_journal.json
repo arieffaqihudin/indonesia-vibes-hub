@@ -15,6 +15,13 @@
       "when": 1790236500194,
       "tag": "0001_remove_auth_schema_profile_trigger",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1790416614706,
+      "tag": "0002_cms_user_management",
+      "breakpoints": true
     }
   ]
 }

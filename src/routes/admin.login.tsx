@@ -6,13 +6,13 @@ import { AdminAuthLayout } from "@/components/cms/AuthLayout";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 
-type LoginSearch = { redirect?: string };
+type LoginSearch = { redirect?: string; denied?: string };
 function safeDestination(value: string | undefined) { return value?.startsWith("/admin/") && !value.startsWith("//") ? value : "/admin/dashboard"; }
 
 export const Route = createFileRoute("/admin/login")({
   validateSearch: (search: Record<string, unknown>): LoginSearch => {
     const redirectTo = search["redirect"];
-    return typeof redirectTo === "string" ? { redirect: redirectTo } : {};
+    return { ...(typeof redirectTo === "string" ? { redirect: redirectTo } : {}), ...(search["denied"] ? { denied: "1" } : {}) };
   },
   beforeLoad: async ({ search }) => { const { data } = await supabase.auth.getUser(); if (data.user) throw redirect({ to: safeDestination(search.redirect) }); },
   head: () => ({ meta: [
@@ -26,7 +26,7 @@ function AdminLogin() {
   const navigate = useNavigate(); const search = Route.useSearch();
   const [email, setEmail] = useState(""); const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(true); const [showPassword, setShowPassword] = useState(false);
-  const [submitting, setSubmitting] = useState(false); const [errors, setErrors] = useState<{ email?: string; password?: string; form?: string }>({});
+  const [submitting, setSubmitting] = useState(false); const [errors, setErrors] = useState<{ email?: string; password?: string; form?: string }>(search.denied ? { form: "This account doesn't have CMS access, or it has been deactivated. Please contact an administrator." } : {});
   useEffect(() => { const { data } = supabase.auth.onAuthStateChange((event) => { if (event === "SIGNED_IN") void navigate({ to: safeDestination(search.redirect), replace: true }); }); return () => data.subscription.unsubscribe(); }, [navigate, search.redirect]);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -35,7 +35,7 @@ function AdminLogin() {
     if (Object.keys(nextErrors).length) { setErrors(nextErrors); return; }
     setSubmitting(true); setErrors({});
     const { data, error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
-    if (error) { setErrors({ form: "Incorrect email or password." }); setSubmitting(false); return; }
+    if (error) { setErrors({ form: /banned/i.test(error.message) ? "This account has been deactivated. Please contact an administrator." : "Incorrect email or password." }); setSubmitting(false); return; }
     window.localStorage.setItem("iv-cms-remember", remember ? "true" : "false");
     window.sessionStorage.setItem("iv-cms-session-active", "true");
     if (data.user) {
