@@ -19,7 +19,7 @@ export function Breadcrumbs({ items, tone = "dark", className = "" }: { items: C
               {last || !item.to ? (
                 <span aria-current={last ? "page" : undefined} className={last ? currentCls : linkCls}>{item.label}</span>
               ) : (
-                <Link to={item.to} params={item.params} className={`inline-flex min-h-6 items-center ${linkCls}`}>{item.label}</Link>
+                <Link to={item.to} {...(item.params ? { params: item.params } : {})} className={`inline-flex min-h-6 items-center ${linkCls}`}>{item.label}</Link>
               )}
             </li>
           );
