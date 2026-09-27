@@ -31,7 +31,10 @@ export function WorldMap({
   selectedId,
   onSelect,
   focus = false,
+  fill = false,
 }: {
+  /** Fill the parent's height (split-view explorer); hides the selection preview. */
+  fill?: boolean;
   nodes?: WorldNode[];
   selectedId?: string | null;
   onSelect?: (id: string) => void;
@@ -42,7 +45,7 @@ export function WorldMap({
   const [arrived, setArrived] = useState(false);
   const wrapRef = useRef<HTMLDivElement | null>(null);
   const active = hovered ?? selectedId ?? null;
-  const activeNode = nodes.find((n) => n.id === active) ?? null;
+  const activeNode = nodes.find((n) => n.id === (fill ? hovered : active)) ?? null;
 
   // One radial wave out of Indonesia, the first time the map is seen.
   useEffect(() => {
@@ -71,12 +74,12 @@ export function WorldMap({
   const cy = focusPoint ? (focusPoint.y + JAKARTA.y) / 2 : VIEW.y + VIEW.h / 2;
 
   return (
-    <div ref={wrapRef} className="relative overflow-hidden border border-border bg-sand">
+    <div ref={wrapRef} className={cn("relative overflow-hidden bg-sand", fill ? "h-full" : "border border-border")}>
       <svg
         viewBox={`${VIEW.x} ${VIEW.y} ${VIEW.w} ${VIEW.h}`}
         role="group"
         aria-label="Map of Indonesia Vibes programmes around the world. The same programmes are listed as text below."
-        className="block w-full"
+        className={cn("block w-full", fill && "h-full")}
       >
         <defs>
           <radialGradient id="iv-glow" cx="50%" cy="50%">
