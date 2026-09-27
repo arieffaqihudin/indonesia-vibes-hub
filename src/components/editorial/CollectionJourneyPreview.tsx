@@ -9,11 +9,13 @@ export function CollectionJourneyPreview({
   collection,
   featured = false,
   compact = false,
+  stacked = false,
   className,
 }: {
   collection: EditorialCollection;
   featured?: boolean;
   compact?: boolean;
+  stacked?: boolean;
   className?: string;
 }) {
   const journey = collection.storyIds.map(getStoryById).filter((story) => story !== undefined);
@@ -23,13 +25,13 @@ export function CollectionJourneyPreview({
 
   return (
     <article className={cn(featured ? "bg-ink text-primary-foreground" : "border-y border-border", className)}>
-      <div className={cn("grid", featured ? "lg:grid-cols-[minmax(0,1.35fr)_minmax(22rem,0.85fr)]" : "md:grid-cols-[minmax(16rem,0.8fr)_minmax(0,1.2fr)]")}>
+      <div className={cn("grid", !stacked && (featured ? "lg:grid-cols-[minmax(0,1.35fr)_minmax(22rem,0.85fr)]" : "md:grid-cols-[minmax(16rem,0.8fr)_minmax(0,1.2fr)]"))}>
         <Link to="/understand-indonesia/collections/$slug" params={{ slug: collection.slug }} className="group overflow-hidden bg-muted">
           <img
             src={collection.image}
             alt=""
             loading={featured ? "eager" : "lazy"}
-            className={cn("h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.02]", featured ? "min-h-72 aspect-[16/10] lg:aspect-auto" : "aspect-[4/3]")}
+            className={cn("h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.02]", stacked ? "aspect-[16/9] max-h-80" : featured ? "min-h-72 aspect-[16/10] lg:aspect-auto" : "aspect-[4/3]")}
           />
         </Link>
         <div className={cn("flex flex-col", compact ? "p-5 md:p-6" : "p-6 md:p-9 lg:p-11")}>

@@ -1,4 +1,5 @@
 # Public SEO audit
+- [ ] Recompose homepage Understand Indonesia as full-width Topics and balanced Collection, Heritage, and People previews; check desktop, tablet, and mobile
 - [x] Add canonical and share metadata to indexable pages and improve structured article/entity data
 - [x] Publish a filtered public sitemap and crawler rules without exposing internal pages
 - [x] Verify key pages, redirects, 404, and mobile crawlable content
